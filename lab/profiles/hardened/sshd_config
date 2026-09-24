@@ -1,0 +1,12 @@
+# Hardened: public-key authentication only, no root login, verbose auth logging.
+Port 22
+PermitRootLogin no
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+PubkeyAuthentication yes
+AuthenticationMethods publickey
+MaxAuthTries 3
+LogLevel VERBOSE
+X11Forwarding no
+UsePAM yes
+Subsystem sftp /usr/lib/openssh/sftp-server

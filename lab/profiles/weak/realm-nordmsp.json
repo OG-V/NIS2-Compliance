@@ -1,0 +1,58 @@
+{
+  "realm": "nordmsp",
+  "displayName": "NordMSP staff",
+  "enabled": true,
+  "sslRequired": "external",
+  "bruteForceProtected": false,
+  "failureFactor": 30,
+  "passwordPolicy": "",
+  "otpPolicyType": "totp",
+  "otpPolicyAlgorithm": "HmacSHA1",
+  "otpPolicyDigits": 6,
+  "otpPolicyPeriod": 30,
+  "requiredActions": [
+    {
+      "alias": "CONFIGURE_TOTP",
+      "name": "Configure OTP",
+      "providerId": "CONFIGURE_TOTP",
+      "enabled": true,
+      "defaultAction": false,
+      "priority": 10,
+      "config": {}
+    }
+  ],
+  "users": [
+    {
+      "username": "kari.admin",
+      "firstName": "Kari",
+      "lastName": "Lab",
+      "email": "kari.admin@nordmsp.lab",
+      "emailVerified": true,
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Lab-only-Passw0rd!",
+          "temporary": false
+        }
+      ],
+      "requiredActions": []
+    },
+    {
+      "username": "ola.tech",
+      "firstName": "Ola",
+      "lastName": "Lab",
+      "email": "ola.tech@nordmsp.lab",
+      "emailVerified": true,
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Lab-only-Passw0rd!",
+          "temporary": false
+        }
+      ],
+      "requiredActions": []
+    }
+  ]
+}

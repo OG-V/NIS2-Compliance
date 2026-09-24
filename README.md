@@ -4,7 +4,7 @@ Checks a real system against technical requirements derived from the EU NIS2 Dir
 (2022/2555) and Commission Implementing Regulation (EU) 2024/2690, with every verdict
 traceable to a specific legal provision.
 
-> **Status:** skeleton (milestone 1 of 6). See [docs/design.md](docs/design.md).
+> **Status:** milestone 2 of 6: schema and demo lab done, checks next. See [docs/design.md](docs/design.md).
 
 ## Design in one paragraph
 
@@ -36,7 +36,7 @@ most of it is organisational, so automated evidence can't settle compliance.
 | `src/nis2scan/collectors/` | Gather raw evidence from the target |
 | `src/nis2scan/checks/` | Deterministic checks → findings |
 | `src/nis2scan/report/` | Deterministic report + LLM narration |
-| `lab/` | Demo target: Docker Compose stack for a fictional small MSP (`weak` / `hardened`) |
+| `lab/` | Demo target: Docker Compose stack for a fictional small MSP (`weak` / `hardened`). See [lab/README.md](lab/README.md) |
 
 ## Development
 

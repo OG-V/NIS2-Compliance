@@ -1,0 +1,88 @@
+# Demo target for nis2scan: a fictional small managed service provider ("NordMSP").
+# The weak profile is deliberately insecure. Every port binds to 127.0.0.1 only;
+# do not change that. Start via ./lab.sh, which selects profiles/<name>/lab.env.
+name: nis2lab
+
+services:
+  certgen:
+    build: ./certgen
+    command: ["/bin/sh", "/scripts/certgen.sh"]
+    environment:
+      CERT_MODE: ${CERT_MODE:-valid}
+    volumes:
+      - ./scripts:/scripts:ro
+      - certs:/certs
+
+  web:
+    image: ${WEB_IMAGE:-nginx:1.29-alpine}
+    depends_on:
+      certgen:
+        condition: service_completed_successfully
+    volumes:
+      - ./profiles/${LAB_PROFILE:-hardened}/nginx.conf:/etc/nginx/nginx.conf:ro
+      - certs:/certs:ro
+    ports:
+      - "127.0.0.1:18080:80"
+      - "127.0.0.1:18443:443"
+
+  host:
+    build: ./host
+    volumes:
+      - ./profiles/${LAB_PROFILE:-hardened}/sshd_config:/etc/ssh/sshd_config:ro
+    ports:
+      - "127.0.0.1:12222:22"
+
+  idp:
+    image: quay.io/keycloak/keycloak:26.3
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_ADMIN_PASSWORD:?set in lab.env}
+      KC_HEALTH_ENABLED: "true"
+    volumes:
+      - ./profiles/${LAB_PROFILE:-hardened}/realm-nordmsp.json:/opt/keycloak/data/import/realm-nordmsp.json:ro
+    ports:
+      - "127.0.0.1:18081:8080"
+    healthcheck:
+      # The Keycloak image ships without curl, so use bash's /dev/tcp.
+      test:
+        - CMD-SHELL
+        - >-
+          exec 3<>/dev/tcp/127.0.0.1/9000 &&
+          printf 'GET /health/ready HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' >&3 &&
+          grep -q UP <&3
+      interval: 5s
+      timeout: 5s
+      retries: 40
+      start_period: 20s
+
+  logs:
+    image: grafana/loki:3.5.1
+    command: ["-config.file=/etc/loki/loki.yaml"]
+    volumes:
+      - ./profiles/${LAB_PROFILE:-hardened}/loki.yaml:/etc/loki/loki.yaml:ro
+    ports:
+      - "127.0.0.1:13100:3100"
+
+  backup:
+    image: restic/restic:0.18.0
+    entrypoint: ["/bin/sh", "/scripts/backup.sh"]
+    environment:
+      RESTIC_REPOSITORY: /repo
+      RESTIC_PASSWORD: ${RESTIC_PASSWORD:?set in lab.env}
+      BACKUP_TIME: ${BACKUP_TIME:-}
+      BACKUP_INTERVAL: ${BACKUP_INTERVAL:-}
+    volumes:
+      - ./scripts:/scripts:ro
+      - ./profiles/${LAB_PROFILE:-hardened}/org:/data/org:ro
+      - backup-repo:/repo
+
+  # A forgotten service that is not in the asset inventory (weak profile only).
+  legacy-web:
+    image: busybox:1.37
+    profiles: [weak]
+    command: ["httpd", "-f", "-p", "8000", "-h", "/tmp"]
+
+volumes:
+  certs:
+  backup-repo:

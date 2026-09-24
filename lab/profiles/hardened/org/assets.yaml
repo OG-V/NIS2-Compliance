@@ -1,0 +1,23 @@
+# Asset inventory: every service NordMSP runs, with an owner and a criticality rating.
+# Services are matched to running containers by their compose service name.
+assets:
+  - service: web
+    description: Customer portal (TLS-terminating reverse proxy)
+    owner: Platform team
+    criticality: high
+  - service: host
+    description: Admin jump host
+    owner: Platform team
+    criticality: high
+  - service: idp
+    description: Staff identity provider
+    owner: Security team
+    criticality: critical
+  - service: logs
+    description: Central log store
+    owner: Security team
+    criticality: high
+  - service: backup
+    description: Backup agent and repository
+    owner: Platform team
+    criticality: high
