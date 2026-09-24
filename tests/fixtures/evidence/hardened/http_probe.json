@@ -1,0 +1,12 @@
+{
+  "_collected_at": "2026-09-24T22:51:28.840816+00:00",
+  "http": {
+    "location": "https://127.0.0.1/",
+    "status": 301
+  },
+  "https": {
+    "server": "nginx",
+    "status": 200,
+    "strict_transport_security": "max-age=31536000"
+  }
+}
