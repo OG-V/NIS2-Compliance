@@ -4,8 +4,9 @@ Checks a real system against technical requirements derived from the EU NIS2 Dir
 (2022/2555) and Commission Implementing Regulation (EU) 2024/2690, with every verdict
 traceable to a specific legal provision.
 
-> **Status:** milestone 3 of 6: 16 deterministic checks running against the demo lab.
-> LLM extraction (milestone 4) and the report (milestone 5) are next. See [docs/design.md](docs/design.md).
+> **Status:** milestone 4 of 6: the scanner (16 deterministic checks) is done, and the LLM
+> extraction pipeline is built and tested. Its first real run and the gold-set results
+> are pending. The report (milestone 5) is next. See [docs/design.md](docs/design.md).
 
 ## Design in one paragraph
 
@@ -31,7 +32,8 @@ most of it is organisational, so automated evidence can't settle compliance.
 | Path | Contents |
 |---|---|
 | `docs/` | Design doc and architecture decision records |
-| `sources/` | Legal source texts, hashed (input to extraction) |
+| `eval/` | Gold set for evaluating extraction |
+| `sources/` | Legal texts from EUR-Lex as normalised plain text, with hashes |
 | `catalog/` | Requirement YAML and `profile.yaml` (the organisation's thresholds) |
 | `src/nis2scan/extract/` | Offline LLM extraction + quote verifier + evaluation |
 | `src/nis2scan/collectors/` | Gather raw evidence from the target |
@@ -61,6 +63,23 @@ was judged on, with SHA-256 hashes recorded in `scan.json`).
 
 Even the hardened lab is only *partially evidenced*. Automated checks cover part of each
 obligation, and the organisational measures (Art. 21(2)(a), (d), (f), (g)) need an audit.
+
+## Extracting requirements with an LLM
+
+Requires an Anthropic API key, and costs API credits (one request per provision):
+
+```bash
+pip install -e '.[llm]'
+export ANTHROPIC_API_KEY=...
+
+nis2scan extract --gold                    # the 20 gold-set provisions
+nis2scan evaluate                          # score them (deterministic, no LLM)
+nis2scan extract --provision 11.7.1        # or a single provision; --all for all 159
+```
+
+Drafts go to `catalog/requirements/cir-2024-2690/`. Scans ignore them until a human
+reviews them ([catalog/README.md](catalog/README.md)). `nis2scan verify-quotes` checks
+every quote in the catalog against the stored legal text.
 
 ## Development
 
