@@ -69,15 +69,22 @@ Requirement verdict roll-up (deterministic, `nis2scan.models.rollup`):
                                              └──────────────────────────────────────────┘
 ```
 
-1. **Extraction (offline).** LLM turns provisions into draft `Requirement` records with
-   structured output. Guard rails:
-   - Every record must carry a verbatim `quote`; a **deterministic verifier** checks it is
-     a substring of the hashed source text. Records that fail are rejected.
+1. **Extraction (offline).** `nis2scan extract` sends one Annex provision per request to
+   Claude Opus 5 and gets back schema-validated JSON (structured outputs, parsed into
+   Pydantic models). Guard rails:
+   - Every record must carry a verbatim `quote`; a **deterministic verifier** checks it
+     appears in the *cited* provision of the hash-pinned source text. A parameter value
+     the model claims is "stated in the text" must also appear there. Records that fail
+     either check are stored as `rejected`, not dropped, so the failure rate is visible.
+   - Re-running never overwrites a provision that already has reviewed requirements.
    - Only `review.status: reviewed` requirements are loaded by the scanner.
-   - Extraction metadata (model, prompt version, source hash) is stored per record.
-   - **Evaluation:** a hand-labelled gold set (~25 provisions) measures extraction
-     precision/recall and "invented specificity" rate. This is what makes the AI use
-     defensible rather than decorative.
+   - Extraction metadata (serving model, prompt version, source hash) is stored per
+     record. Server-side refusal fallbacks are enabled, so the serving model is recorded
+     rather than assumed.
+   - **Evaluation** (`nis2scan evaluate`, [ADR 0005](adr/0005-deterministic-evaluation.md)):
+     a gold set of 20 provisions / 55 obligations, scored with deterministic metrics:
+     quote validity, obligation recall, granularity, testability accuracy and
+     invented-specificity rate. No LLM grades the LLM.
 2. **Verdicts (runtime): no LLM.** Checks are plain Python, each with known-good/known-bad
    fixture tests.
 3. **Report narration (runtime).** The LLM receives *only* `verdicts.json`, findings, and the
@@ -96,9 +103,13 @@ Requirement verdict roll-up (deterministic, `nis2scan.models.rollup`):
 - **Severity is not in the text.** The law doesn't rank obligations. Severity is assigned by
   a human on the *Check*, with a written rationale — not extracted.
 - **Granularity is arbitrary and nondeterministic.** One sentence may become one rule or five,
-  differently on each run. Mitigations: fixed segmentation (one call per numbered point),
-  temperature 0, stable IDs derived from provision numbers, and diffing re-extractions
-  against the reviewed catalog instead of overwriting it.
+  differently on each run, and current Claude models don't accept `temperature`, so
+  sampling can't be pinned. Mitigations: fixed segmentation (one call per numbered point),
+  stable IDs derived from provision numbers, a schema-constrained output, reviewed
+  provisions being immune to re-extraction, and granularity measured against the gold set.
+- **The source structure is irregular.** Sections 7 and 9 of the Annex have no
+  subsections, so their `x.y` points are provisions rather than headings. The parser
+  handles this, and a test checks that every numbered line is accounted for.
 - **Cross-references and qualifiers** ("where appropriate", "in accordance with the
   classification of the asset", "taking into account the state of the art") carry legal
   meaning and get lost in paraphrase — hence the mandatory verbatim quote.
@@ -137,8 +148,8 @@ about national transposition law.
 - Python 3.12+, Pydantic v2 (schemas), Typer (CLI), PyYAML, pytest
 - Collectors: `docker` SDK, `paramiko`/`ssh -G`-style probing, `ssl`/`sslyze`, Keycloak admin
   REST API, Trivy JSON output
-- LLM layer (extraction + narration): Anthropic SDK behind a small interface, structured
-  outputs; optional dependency so the scanner runs without an API key
+- LLM layer (extraction + narration): Anthropic Python SDK (`claude-opus-5`, structured
+  outputs); optional `llm` extra, so the scanner runs without an API key
 - Report: Jinja2 → static HTML + JSON (findings, verdicts)
 
 ## 8. Milestones
@@ -146,6 +157,6 @@ about national transposition law.
 1. **Schema + catalog** — models, validator, hand-written requirements. *(done)*
 2. **Lab** — compose stack with `weak`/`hardened` profiles. *(done)*
 3. **Checks** — 12 collectors, 16 checks with recorded-evidence tests; `nis2scan scan` → JSON. *(done)*
-4. **Extraction** — ingest 2024/2690 Annex, LLM extraction, quote verifier, gold-set eval.
+4. **Extraction** — ingest 2024/2690 Annex, LLM extraction, quote verifier, gold-set eval. *(pipeline done; first real run pending)*
 5. **Report** — deterministic HTML report, then LLM narration with citation verification.
 6. *(stretch)* Q&A over scan results.

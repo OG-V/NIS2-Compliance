@@ -1,0 +1,156 @@
+# Gold set for evaluating requirement extraction from the CIR (EU) 2024/2690 Annex.
+#
+# For each provision:
+#   testability  labels a reviewer would accept for requirements from this provision
+#   count        inclusive range of how many requirements a reasonable extraction yields
+#   obligations  what must be captured; an obligation counts as found when ALL its
+#                keywords appear (case-insensitive) in the obligation or quote of one
+#                accepted requirement. Keywords are taken from the legal text, so a
+#                verbatim quote covering the obligation always matches.
+#
+# The provisions were chosen to cover the lab's check areas (logging, backups,
+# patching, vulnerabilities, cryptography, access control, MFA, asset inventory)
+# and the classic traps: explicit values that must be kept ("at least annually")
+# and open values that must not be invented ("predefined number", "reasonable time").
+#
+# Labels were DRAFTED BY CLAUDE. An LLM-drafted gold set evaluating an LLM is
+# circular, so a human must verify every label before results are quoted.
+labelled_by: Claude (draft)
+status: draft
+
+provisions:
+  "1.1.2":
+    testability: [documentary, organisational]
+    count: [1, 2]
+    obligations:
+      - keywords: [reviewed, at least annually]
+      - keywords: [result of the reviews, documented]
+  "3.2.1":
+    testability: [technical, documentary]
+    count: [1, 2]
+    obligations:
+      - keywords: [monitor, log, activities]
+  "3.2.3":
+    testability: [technical, documentary]
+    count: [2, 15]
+    obligations:
+      - keywords: [maintain, logs]
+      - keywords: [list of assets, logging]
+      - keywords: [authentication-related events]
+      - keywords: [privileged access]
+      - keywords: [critical configuration and backup files]
+  "3.2.4":
+    testability: [technical, documentary, organisational]
+    count: [2, 5]
+    obligations:
+      - keywords: [regularly reviewed]
+      - keywords: [alarm threshold]
+      - keywords: [alarm shall be triggered]
+      - keywords: [qualified and appropriate response]
+  "3.2.5":
+    testability: [technical]
+    count: [1, 2]
+    obligations:
+      - keywords: [predefined period]
+      - keywords: [unauthorised access or changes]
+  "4.2.1":
+    testability: [technical, documentary]
+    count: [1, 2]
+    obligations:
+      - keywords: [backup copies]
+      - keywords: [redundancy]
+  "4.2.2":
+    testability: [documentary]
+    count: [1, 7]
+    obligations:
+      - keywords: [recovery times]
+      - keywords: [not in the same network]
+      - keywords: [restoring data]
+      - keywords: [retention periods]
+  "4.2.3":
+    testability: [technical]
+    count: [1, 1]
+    obligations:
+      - keywords: [integrity checks, backup copies]
+  "6.6.1":
+    testability: [documentary, technical]
+    count: [1, 5]
+    obligations:
+      - keywords: [reasonable time]
+      - keywords: [tested before]
+      - keywords: [trusted sources]
+      - keywords: [residual risks are accepted]
+  "6.6.2":
+    testability: [documentary]
+    count: [1, 2]
+    obligations:
+      - keywords: [document and substantiate]
+  "6.10.1":
+    testability: [technical, documentary, organisational]
+    count: [1, 3]
+    obligations:
+      - keywords: [technical vulnerabilities]
+      - keywords: [exposure]
+      - keywords: [manage the vulnerabilities]
+  "6.10.2":
+    testability: [technical, documentary, organisational]
+    count: [3, 6]
+    obligations:
+      - keywords: [monitor information about vulnerabilities]
+      - keywords: [vulnerability scans]
+      - keywords: [without undue delay]
+      - keywords: [disclosing vulnerabilities]
+  "7.3":
+    testability: [documentary, organisational]
+    count: [1, 1]
+    obligations:
+      - keywords: [planned intervals]
+  "9.2":
+    testability: [documentary]
+    count: [1, 16]
+    obligations:
+      - keywords: [type, strength and quality]
+      - keywords: [cryptographic algorithms]
+      - keywords: [key management]
+  "11.2.2":
+    testability: [technical, documentary, organisational]
+    count: [3, 7]
+    obligations:
+      - keywords: [least privilege]
+      - keywords: [termination or change of employment]
+      - keywords: [third-party access]
+      - keywords: [register of access rights]
+      - keywords: [logging, access rights]
+  "11.3.2":
+    testability: [technical, documentary]
+    count: [2, 5]
+    obligations:
+      - keywords: [multi-factor authentication]
+      - keywords: [system administration operations exclusively]
+      - keywords: [administration privileges]
+      - keywords: [system administration systems]
+  "11.6.2":
+    testability: [technical, documentary]
+    count: [3, 7]
+    obligations:
+      - keywords: [strength of authentication]
+      - keywords: [predefined intervals]
+      - keywords: [unsuccessful log-in attempts]
+      - keywords: [inactive sessions]
+      - keywords: [separate credentials]
+  "11.7.1":
+    testability: [technical]
+    count: [1, 1]
+    obligations:
+      - keywords: [multiple authentication factors, continuous authentication]
+  "11.7.2":
+    testability: [technical, documentary]
+    count: [1, 1]
+    obligations:
+      - keywords: [strength of authentication, classification]
+  "12.4.1":
+    testability: [documentary, technical]
+    count: [1, 2]
+    obligations:
+      - keywords: [inventory of their assets]
+      - keywords: [traceable manner]
