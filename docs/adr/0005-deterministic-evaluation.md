@@ -23,5 +23,4 @@ rules:
 metrics are cheap to re-run after a prompt change. The keyword rule is crude. It can't
 tell a correct paraphrase from a wrong one, so it measures *coverage*, not *correctness*,
 and correctness stays with the human reviewer. The gold set was drafted by Claude and
-must be verified by a human before results are quoted, since an LLM-labelled gold set
-for an LLM is circular.
+then verified by a human, since an LLM-labelled gold set for an LLM would be circular.

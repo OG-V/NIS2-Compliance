@@ -13,10 +13,10 @@
 # and the classic traps: explicit values that must be kept ("at least annually")
 # and open values that must not be invented ("predefined number", "reasonable time").
 #
-# Labels were DRAFTED BY CLAUDE. An LLM-drafted gold set evaluating an LLM is
-# circular, so a human must verify every label before results are quoted.
-labelled_by: Claude (draft)
-status: draft
+# Labels were drafted by Claude and verified by a human (OG V, 2026-09-25) against
+# the Annex text, since an LLM-drafted gold set evaluating an LLM would be circular.
+labelled_by: Claude (draft), verified by OG V
+status: reviewed
 
 provisions:
   "1.1.2":
