@@ -1,0 +1,24 @@
+# Hand-authored example to pin down the schema. Extracted requirements from
+# CIR (EU) 2024/2690 will live alongside this file once the pipeline exists.
+id: REQ-NIS2-21.2.J
+title: Multi-factor or continuous authentication
+obligation: >
+  The entity shall use multi-factor authentication or continuous authentication
+  solutions within the entity, where appropriate.
+source:
+  instrument: Directive (EU) 2022/2555
+  provision: Art. 21(2)(j)
+  nis2_article: 21(2)(j)
+  quote: >-
+    the use of multi-factor authentication or continuous authentication solutions,
+    secured voice, video and text communications and secured emergency communication
+    systems within the entity, where appropriate.
+testability: technical
+evidence:
+  - identity provider configuration requiring a second factor
+  - authentication logs showing second-factor use
+parameters:
+  scope_of_mfa: entity_defined  # "where appropriate" — the law leaves this open
+review:
+  status: draft
+  notes: Covers only the MFA part of (j); secured communications are out of v1 scope.

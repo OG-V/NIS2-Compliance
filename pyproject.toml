@@ -1,0 +1,28 @@
+[project]
+name = "nis2scan"
+version = "0.1.0"
+description = "Policy-as-code evidence scanner for NIS2"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.7",
+    "pyyaml>=6.0",
+    "typer>=0.12",
+]
+
+[project.optional-dependencies]
+llm = ["anthropic"]
+dev = ["pytest>=8", "ruff"]
+
+[project.scripts]
+nis2scan = "nis2scan.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
