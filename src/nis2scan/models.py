@@ -110,6 +110,17 @@ class Verdict(StrEnum):
     NOT_ASSESSED = "not_assessed"
 
 
+class RequirementVerdict(BaseModel):
+    requirement_id: str
+    title: str
+    provision: str
+    testability: Testability
+    review_status: ReviewStatus
+    verdict: Verdict
+    check_ids: list[str]
+    reason: str
+
+
 def rollup(checks: list[CheckMeta], findings: list[Finding]) -> Verdict:
     """Deterministically roll the findings of one requirement's checks into a verdict."""
     by_check = {c.id: c for c in checks}
