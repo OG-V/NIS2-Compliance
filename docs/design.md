@@ -157,6 +157,6 @@ about national transposition law.
 1. **Schema + catalog** — models, validator, hand-written requirements. *(done)*
 2. **Lab** — compose stack with `weak`/`hardened` profiles. *(done)*
 3. **Checks** — 12 collectors, 16 checks with recorded-evidence tests; `nis2scan scan` → JSON. *(done)*
-4. **Extraction** — ingest 2024/2690 Annex, LLM extraction, quote verifier, gold-set eval. *(pipeline done; first real run pending)*
+4. **Extraction** — ingest 2024/2690 Annex, LLM extraction, quote verifier, gold-set eval. *(done; first run on the gold set: [results](../eval/results/2026-09-25-gold.md))*
 5. **Report** — deterministic HTML report, then LLM narration with citation verification.
 6. *(stretch)* Q&A over scan results.

@@ -1,0 +1,35 @@
+id: REQ-CIR2690-9.2-03
+title: Establish key management approach
+obligation: The entity shall establish its approach to key management, including, where appropriate, methods
+  for generating keys, issuing and obtaining public key certificates, distributing keys, storing keys,
+  changing or updating keys, dealing with compromised keys, revoking keys, recovering lost or corrupted
+  keys, backing up or archiving keys, destroying keys, logging and auditing key management-related activities,
+  and setting activation and deactivation dates for keys.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 9.2
+  nis2_article: 21(2)(h)
+  quote: 'the relevant entities’ approach to key management, including, where appropriate, methods for
+    the following:'
+testability: documentary
+evidence:
+- key management policy or procedures
+- key generation and distribution procedures
+- certificate issuance records
+- key storage and access control documentation
+- key rotation, revocation and destruction records
+- key management activity logs and audit trails
+- records of key activation and deactivation dates
+parameters:
+  key_management_methods_condition: where appropriate
+  key_change_rules: entity_defined
+  key_activation_deactivation_dates: entity_defined
+  key_usage_period: the specified period of time according to the organization's rules on key management
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.1
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-24T23:57:58.359943Z'
+review:
+  status: draft
+  notes: ''

@@ -4,9 +4,11 @@ Checks a real system against technical requirements derived from the EU NIS2 Dir
 (2022/2555) and Commission Implementing Regulation (EU) 2024/2690, with every verdict
 traceable to a specific legal provision.
 
-> **Status:** milestone 4 of 6: the scanner (16 deterministic checks) is done, and the LLM
-> extraction pipeline is built and tested. Its first real run and the gold-set results
-> are pending. The report (milestone 5) is next. See [docs/design.md](docs/design.md).
+> **Status:** milestone 4 of 6: the scanner (16 deterministic checks) and the LLM extraction
+> pipeline are done. The first extraction run covered the 20 gold-set provisions:
+> 74 requirements, every quote verbatim, and no invented values
+> ([results](eval/results/2026-09-25-gold.md)). The drafts are awaiting human review.
+> The report (milestone 5) is next. See [docs/design.md](docs/design.md).
 
 ## Design in one paragraph
 

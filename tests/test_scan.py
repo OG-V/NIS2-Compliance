@@ -8,12 +8,19 @@ from conftest import ROOT, FixtureContext, collected_at, load_evidence
 
 from nis2scan.catalog import load_requirements
 from nis2scan.config import load_profile, load_target
+from nis2scan.extract.sources import NIS2
 from nis2scan.models import CheckStatus, Verdict
 from nis2scan.models import Testability as Kind
 from nis2scan.scan import run_scan, write_results
 
 PROFILE_PATH = ROOT / "catalog" / "profile.yaml"
-REQUIREMENTS = load_requirements(ROOT / "catalog" / "requirements", include_drafts=True)
+# The scanner tests cover the hand-authored NIS2 requirements that the checks map to;
+# extracted CIR 2024/2690 requirements have no checks yet.
+REQUIREMENTS = [
+    r
+    for r in load_requirements(ROOT / "catalog" / "requirements", include_drafts=True)
+    if r.source.instrument == NIS2.instrument
+]
 
 
 def scan(lab_profile: str, target_path: Path = ROOT / "lab" / "target.yaml"):

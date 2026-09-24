@@ -1,0 +1,22 @@
+id: REQ-CIR2690-3.2.3-05
+title: Log system and application access
+obligation: The entity shall, where appropriate, include access to systems and applications in its logs.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 3.2.3
+  nis2_article: 21(2)(b)
+  quote: access to systems and applications
+testability: technical
+evidence:
+- system and application access logs
+- logging configuration
+parameters:
+  where_appropriate: Where appropriate
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.1
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-24T23:57:33.989407Z'
+review:
+  status: draft
+  notes: ''

@@ -1,0 +1,25 @@
+id: REQ-CIR2690-3.2.5-01
+title: Maintain and back up logs
+obligation: The entity shall maintain and back up logs for a predefined period.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 3.2.5
+  nis2_article: 21(2)(b)
+  quote: The relevant entities shall maintain and back up logs for a predefined period
+testability: technical
+evidence:
+- log retention configuration
+- log backup job configuration and records
+- logging and retention policy
+- backup restoration test records
+parameters:
+  log_retention_period: entity_defined
+  log_backup_frequency: entity_defined
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.1
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-24T23:57:25.464453Z'
+review:
+  status: draft
+  notes: ''

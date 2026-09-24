@@ -1,0 +1,22 @@
+id: REQ-CIR2690-4.2.2-02
+title: Recovery times in backup plans
+obligation: The entity shall include recovery times in its backup plans.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 4.2.2
+  nis2_article: 21(2)(c)
+  quote: (a) recovery times;
+testability: documentary
+evidence:
+- backup plan section on recovery times
+- recovery time objectives documentation
+parameters:
+  recovery_times: entity_defined
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.1
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-24T23:57:41.285563Z'
+review:
+  status: draft
+  notes: ''
