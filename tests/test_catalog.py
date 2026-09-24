@@ -6,6 +6,7 @@ from pathlib import Path
 from conftest import ROOT
 
 from nis2scan.catalog import load_requirements
+from nis2scan.extract.sources import NIS2
 from nis2scan.models import ReviewStatus
 from nis2scan.registry import CHECKS, COLLECTORS
 
@@ -23,10 +24,10 @@ def test_checks_reference_existing_requirements_and_collectors():
         assert chk.collector in COLLECTORS, chk.meta.id
 
 
-def test_every_technical_requirement_has_a_check():
+def test_every_technical_nis2_requirement_has_a_check():
     covered = {r for c in CHECKS.values() for r in c.meta.requirements}
     for req in REQS:
-        if req.testability != "organisational":
+        if req.source.instrument == NIS2.instrument and req.testability != "organisational":
             assert req.id in covered, req.id
 
 

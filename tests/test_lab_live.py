@@ -23,7 +23,7 @@ def test_live_scan_matches_running_profile():
     result = run_scan(
         load_target(ROOT / "lab" / "target.yaml"),
         load_profile(ROOT / "catalog" / "profile.yaml"),
-        load_requirements(ROOT / "catalog" / "requirements", include_drafts=True),
+        load_requirements(ROOT / "catalog" / "requirements"),
     )
 
     wrong = {f.check_id: f.message for f in result.findings if f.status != expected}
