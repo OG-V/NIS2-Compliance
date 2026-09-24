@@ -7,4 +7,4 @@ dist/
 *.egg-info/
 .env
 out/
-lab/.current-profile
+lab/.current
