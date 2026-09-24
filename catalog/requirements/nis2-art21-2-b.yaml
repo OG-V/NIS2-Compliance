@@ -1,0 +1,15 @@
+id: REQ-NIS2-21.2.B
+title: Incident handling
+obligation: The entity shall have the capability to handle incidents.
+source:
+  instrument: Directive (EU) 2022/2555
+  provision: Art. 21(2)(b)
+  nis2_article: 21(2)(b)
+  quote: incident handling
+testability: technical
+evidence:
+- central log collection with sufficient retention
+- maintained incident response plan
+review:
+  status: draft
+  notes: Hand-authored. Quote to be verified against the EUR-Lex text (milestone 4).

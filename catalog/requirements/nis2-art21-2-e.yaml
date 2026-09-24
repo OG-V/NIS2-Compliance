@@ -1,0 +1,18 @@
+id: REQ-NIS2-21.2.E
+title: Secure acquisition, development and maintenance; vulnerability handling
+obligation: The entity shall maintain its network and information systems securely, including handling
+  vulnerabilities.
+source:
+  instrument: Directive (EU) 2022/2555
+  provision: Art. 21(2)(e)
+  nis2_article: 21(2)(e)
+  quote: security in network and information systems acquisition, development and maintenance, including
+    vulnerability handling and disclosure
+testability: technical
+evidence:
+- vulnerability scan results
+- patch records
+- vulnerability disclosure policy
+review:
+  status: draft
+  notes: Hand-authored. Quote to be verified against the EUR-Lex text (milestone 4).

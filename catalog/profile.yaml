@@ -1,0 +1,41 @@
+# Organisational profile: the concrete thresholds this organisation has chosen.
+#
+# NIS2 says "appropriate and proportionate"; it does not set these numbers. Each
+# value here is a documented choice by the entity, and the checks read their
+# thresholds from this file, never from the legal text. Every value has a
+# rationale so an auditor can challenge it.
+
+tls:
+  min_version: TLSv1.2
+  rationale: TLS 1.0/1.1 are deprecated by RFC 8996.
+  cert_min_days_remaining: 14
+  cert_rationale: Leaves two weeks to renew before users see certificate errors.
+
+ssh:
+  max_auth_tries: 4
+  rationale: Limits online password/key guessing per connection.
+
+identity:
+  min_password_length: 12
+  rationale: Organisational choice for staff accounts, which also require MFA.
+
+logging:
+  min_retention_days: 90
+  rationale: >-
+    Long enough to investigate an incident reported up to one month after the
+    incident notification (NIS2 Art. 23(4)(d)), with margin.
+
+backup:
+  max_age_hours: 26
+  rationale: Daily backups, plus a two-hour grace period.
+
+vulnerabilities:
+  fail_on_severity: [CRITICAL]
+  only_with_fix: true
+  rationale: >-
+    Any critical vulnerability that has a fix available should be patched.
+    Unfixable ones are tracked but do not fail the check.
+
+incident_response:
+  max_review_age_days: 365
+  rationale: The plan must be reviewed at least once a year.

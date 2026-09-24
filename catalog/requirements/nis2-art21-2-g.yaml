@@ -1,0 +1,15 @@
+id: REQ-NIS2-21.2.G
+title: Cyber hygiene and training
+obligation: The entity shall apply basic cyber hygiene practices and provide cybersecurity training.
+source:
+  instrument: Directive (EU) 2022/2555
+  provision: Art. 21(2)(g)
+  nis2_article: 21(2)(g)
+  quote: basic cyber hygiene practices and cybersecurity training
+testability: organisational
+evidence:
+- training records
+- hygiene baseline
+review:
+  status: draft
+  notes: Hand-authored. Quote to be verified against the EUR-Lex text (milestone 4).
