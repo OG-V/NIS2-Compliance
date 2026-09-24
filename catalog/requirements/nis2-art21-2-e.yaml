@@ -14,5 +14,7 @@ evidence:
 - patch records
 - vulnerability disclosure policy
 review:
-  status: draft
-  notes: Hand-authored. Quote to be verified against the EUR-Lex text (milestone 4).
+  status: reviewed
+  reviewer: OG V
+  reviewed_at: 2026-09-25
+  notes: Quote checked against EUR-Lex (OJ L 333, 27.12.2022).

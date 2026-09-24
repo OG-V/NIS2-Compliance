@@ -46,7 +46,7 @@ python -m venv .venv && . .venv/bin/activate
 pip install -e '.[dev]'
 
 lab/lab.sh up weak                 # or: hardened
-nis2scan scan --include-drafts     # --include-drafts: the catalog is not human-reviewed yet
+nis2scan scan
 nis2scan checks                    # every check and the requirement it maps to
 ```
 
