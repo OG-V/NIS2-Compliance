@@ -9,7 +9,7 @@ from nis2scan.models import CheckMeta, CheckStatus, Finding, Requirement, Verdic
 CATALOG = Path(__file__).parent.parent / "catalog" / "requirements"
 
 
-@pytest.mark.parametrize("file", sorted(CATALOG.glob("*.yaml")), ids=lambda p: p.name)
+@pytest.mark.parametrize("file", sorted(CATALOG.rglob("*.yaml")), ids=lambda p: p.name)
 def test_catalog_files_validate(file):
     Requirement.model_validate(yaml.safe_load(file.read_text()))
 
