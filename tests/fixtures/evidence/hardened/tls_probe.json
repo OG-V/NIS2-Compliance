@@ -1,0 +1,17 @@
+{
+  "_collected_at": "2026-09-24T22:51:28.837692+00:00",
+  "certificate": {
+    "issuer": "CN=portal.nordmsp.lab,O=NordMSP (lab)",
+    "not_after": "2027-09-24T22:51:07+00:00",
+    "not_before": "2026-09-24T22:51:07+00:00",
+    "sha256": "184d08eb2cfdee0ddba33f6055b40f5b66a376ebfee006ded8ba0242b824326d",
+    "subject": "CN=portal.nordmsp.lab,O=NordMSP (lab)"
+  },
+  "endpoint": "127.0.0.1:18443",
+  "protocols_accepted": {
+    "TLSv1": false,
+    "TLSv1.1": false,
+    "TLSv1.2": true,
+    "TLSv1.3": true
+  }
+}

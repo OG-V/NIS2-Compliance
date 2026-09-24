@@ -1,0 +1,16 @@
+id: REQ-NIS2-21.2.F
+title: Assessing the effectiveness of risk-management measures
+obligation: The entity shall have policies and procedures to assess the effectiveness of its cybersecurity
+  risk-management measures.
+source:
+  instrument: Directive (EU) 2022/2555
+  provision: Art. 21(2)(f)
+  nis2_article: 21(2)(f)
+  quote: policies and procedures to assess the effectiveness of cybersecurity risk-management measures
+testability: organisational
+evidence:
+- internal audit reports
+- security metrics reviewed by management
+review:
+  status: draft
+  notes: Hand-authored. Quote to be verified against the EUR-Lex text (milestone 4).

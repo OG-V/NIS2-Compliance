@@ -1,0 +1,17 @@
+id: REQ-NIS2-21.2.C
+title: Business continuity and backup management
+obligation: The entity shall ensure business continuity, including backup management, disaster recovery
+  and crisis management.
+source:
+  instrument: Directive (EU) 2022/2555
+  provision: Art. 21(2)(c)
+  nis2_article: 21(2)(c)
+  quote: business continuity, such as backup management and disaster recovery, and crisis management
+testability: technical
+evidence:
+- recent successful backups
+- tested restore procedure
+- disaster recovery plan
+review:
+  status: draft
+  notes: Hand-authored. Quote to be verified against the EUR-Lex text (milestone 4).

@@ -12,15 +12,15 @@ case "${1:-}" in
     [[ -f "profiles/$profile/lab.env" ]] || { echo "usage: $0 up <weak|hardened>" >&2; exit 2; }
     compose weak down -v --remove-orphans
     compose "$profile" up -d --build --wait
-    echo "$profile" > .current-profile
+    ln -sfn "profiles/$profile" .current  # read by target.yaml
     echo "lab is up with the '$profile' profile"
     ;;
   down)
     compose weak down -v --remove-orphans
-    rm -f .current-profile
+    rm -f .current
     ;;
   status)
-    echo "profile: $(cat .current-profile 2>/dev/null || echo none)"
+    echo "profile: $(readlink .current || echo none)"
     compose weak ps
     ;;
   *) echo "usage: $0 up <weak|hardened> | down | status" >&2; exit 2 ;;

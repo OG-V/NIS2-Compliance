@@ -1,0 +1,19 @@
+id: REQ-NIS2-23.4
+title: Staged reporting of significant incidents to the CSIRT
+obligation: The entity shall submit an early warning within 24 hours, an incident notification within
+  72 hours and a final report within one month of the notification.
+source:
+  instrument: Directive (EU) 2022/2555
+  provision: Art. 23(4)(a), (b) and (d)
+  nis2_article: 23(4)
+  quote: without undue delay and in any event within 24 hours of becoming aware of the significant incident,
+    an early warning
+testability: documentary
+evidence:
+- incident response plan describing the 24h / 72h / one-month reporting steps
+- named CSIRT contact
+parameters:
+  csirt: determined by national transposition
+review:
+  status: draft
+  notes: Hand-authored. Quote to be verified against the EUR-Lex text (milestone 4).

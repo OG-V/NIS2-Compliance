@@ -1,0 +1,42 @@
+{
+  "_collected_at": "2026-09-24T22:50:45.799740+00:00",
+  "compose_project": "nis2lab",
+  "services": [
+    {
+      "container": "nis2lab-backup-1",
+      "image": "nis2lab-backup",
+      "image_id": "sha256:b548c791aa316bc57c31058f7a9d0657c84e711bd58de529deded98c84392d6e",
+      "service": "backup"
+    },
+    {
+      "container": "nis2lab-host-1",
+      "image": "nis2lab-host",
+      "image_id": "sha256:5b40efcfda8d36875acb121f2d7d0aa2bad5bc3b9c4d61b19fa7ea2bb0ff8d97",
+      "service": "host"
+    },
+    {
+      "container": "nis2lab-idp-1",
+      "image": "quay.io/keycloak/keycloak:26.3",
+      "image_id": "sha256:357829ec7c4693397533035092ad13b0644bcc95ded311f33a3738c4d9e9bdba",
+      "service": "idp"
+    },
+    {
+      "container": "nis2lab-legacy-web-1",
+      "image": "busybox:1.37",
+      "image_id": "sha256:bdf57e528e45e4433820e045b29b4597825a1c9e38353532d90a01445013f82e",
+      "service": "legacy-web"
+    },
+    {
+      "container": "nis2lab-logs-1",
+      "image": "grafana/loki:3.5.1",
+      "image_id": "sha256:a74594532eec4cc313401beedc4dd2708c43674c032084b1aeb87c14a5be1745",
+      "service": "logs"
+    },
+    {
+      "container": "nis2lab-web-1",
+      "image": "nginx:1.20",
+      "image_id": "sha256:38f8c1d9613f3f42e7969c3b1dd5c3277e635d4576713e6453c6193e66270a6d",
+      "service": "web"
+    }
+  ]
+}

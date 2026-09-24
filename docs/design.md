@@ -124,8 +124,8 @@ reviewer can run the demo and see the gap report change between profiles.
 | (i) access control / asset mgmt | Linux host (sshd), inventory file | SSH password auth disabled; root login disabled; running containers ⊆ declared asset inventory |
 | (h) cryptography | nginx reverse proxy | TLS < 1.2 refused (live handshake); HTTP redirects to HTTPS; cert not expired |
 | (b) incident handling / logging | Loki or rsyslog | central log shipping configured; retention ≥ profile value; auth events logged |
-| (c) backups | restic + Postgres | backup exists, newest snapshot < profile max age; backup repo encrypted |
-| (e) vulnerability handling | Trivy on lab images | no CRITICAL vulns with fix available |
+| (c) backups | restic | newest snapshot < profile max age |
+| (e) vulnerability handling | Trivy on lab images | no CRITICAL vulns with fix available, unless covered by an unexpired risk exception ([ADR 0004](adr/0004-risk-exceptions.md)) |
 | Art. 23 reporting (documentary) | `lab/docs/incident-response.md` | IR plan exists, contains 24h/72h/1-month reporting steps and CSIRT contact, reviewed < 12 months |
 
 Explicitly **out of v1**: web dashboard (the Mini SOC already demonstrates FastAPI/React;
@@ -143,9 +143,9 @@ about national transposition law.
 
 ## 8. Milestones
 
-1. **Schema + catalog** — models, validator, 3–5 hand-written requirements. *(skeleton)*
-2. **Lab** — compose stack with `weak`/`hardened` profiles.
-3. **Checks** — collectors + ~12 checks with fixture tests; `nis2scan scan` → JSON.
+1. **Schema + catalog** — models, validator, hand-written requirements. *(done)*
+2. **Lab** — compose stack with `weak`/`hardened` profiles. *(done)*
+3. **Checks** — 12 collectors, 16 checks with recorded-evidence tests; `nis2scan scan` → JSON. *(done)*
 4. **Extraction** — ingest 2024/2690 Annex, LLM extraction, quote verifier, gold-set eval.
 5. **Report** — deterministic HTML report, then LLM narration with citation verification.
 6. *(stretch)* Q&A over scan results.

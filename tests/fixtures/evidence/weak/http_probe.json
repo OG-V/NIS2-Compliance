@@ -1,0 +1,12 @@
+{
+  "_collected_at": "2026-09-24T22:50:47.294506+00:00",
+  "http": {
+    "location": null,
+    "status": 200
+  },
+  "https": {
+    "server": "nginx/1.20.2",
+    "status": 200,
+    "strict_transport_security": null
+  }
+}

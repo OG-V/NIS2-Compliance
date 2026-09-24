@@ -1,0 +1,16 @@
+id: REQ-NIS2-21.2.D
+title: Supply chain security
+obligation: The entity shall address security in its relationships with direct suppliers and service providers.
+source:
+  instrument: Directive (EU) 2022/2555
+  provision: Art. 21(2)(d)
+  nis2_article: 21(2)(d)
+  quote: supply chain security, including security-related aspects concerning the relationships between
+    each entity and its direct suppliers or service providers
+testability: organisational
+evidence:
+- supplier security requirements
+- supplier risk assessments
+review:
+  status: draft
+  notes: Hand-authored. Quote to be verified against the EUR-Lex text (milestone 4).

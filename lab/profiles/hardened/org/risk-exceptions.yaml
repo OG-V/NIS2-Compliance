@@ -1,0 +1,24 @@
+# Accepted vulnerability risks. Each entry is a time-limited management decision,
+# not a fix: it must name an owner, a reason and compensating measures, and it
+# lapses on its expiry date.
+exceptions:
+  - vulnerability: CVE-2026-75595
+    image: quay.io/keycloak/keycloak
+    package: io.netty:netty-handler
+    reason: >-
+      Bundled in the vendor image; no Keycloak release ships the fixed netty
+      version yet (latest checked: 26.7.4 on 2026-09-25).
+    compensating_measures: Admin console reachable only from the management network.
+    owner: Security team
+    approved_by: CISO
+    expires: 2026-10-31
+  - vulnerability: CVE-2026-8763
+    image: quay.io/keycloak/keycloak
+    package: org.bouncycastle:bcprov-jdk18on
+    reason: >-
+      Bundled in the vendor image; no Keycloak release ships BouncyCastle 1.85
+      yet (latest checked: 26.7.4 on 2026-09-25).
+    compensating_measures: Admin console reachable only from the management network.
+    owner: Security team
+    approved_by: CISO
+    expires: 2026-10-31

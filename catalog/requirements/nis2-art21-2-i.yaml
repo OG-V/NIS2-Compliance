@@ -1,0 +1,16 @@
+id: REQ-NIS2-21.2.I
+title: HR security, access control and asset management
+obligation: The entity shall apply human resources security, access control policies and asset management.
+source:
+  instrument: Directive (EU) 2022/2555
+  provision: Art. 21(2)(i)
+  nis2_article: 21(2)(i)
+  quote: human resources security, access control policies and asset management
+testability: technical
+evidence:
+- authentication configuration
+- absence of default credentials
+- asset inventory matching deployed services
+review:
+  status: draft
+  notes: Hand-authored. Quote to be verified against the EUR-Lex text (milestone 4).
