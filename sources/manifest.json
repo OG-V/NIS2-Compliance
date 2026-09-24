@@ -1,0 +1,18 @@
+{
+  "cir2690": {
+    "celex": "32024R2690",
+    "file": "cir-2024-2690-annex.txt",
+    "instrument": "Commission Implementing Regulation (EU) 2024/2690",
+    "retrieved": "2026-09-24",
+    "sha256": "65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6",
+    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R2690"
+  },
+  "nis2": {
+    "celex": "32022L2555",
+    "file": "nis2-2022-2555.txt",
+    "instrument": "Directive (EU) 2022/2555",
+    "retrieved": "2026-09-24",
+    "sha256": "8c20bd32b981f2149165380f6f36cfde8a610be45c5589016fafec2b5acd34f3",
+    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022L2555"
+  }
+}
