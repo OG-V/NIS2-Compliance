@@ -1,0 +1,30 @@
+id: REQ-CIR2690-9.2-01
+title: Define cryptographic measures per asset classification
+obligation: The entity shall establish, in its cryptography policy and procedures referred to in point
+  9.1 and in accordance with its classification of assets, the type, strength and quality of the cryptographic
+  measures required to protect its assets, including data at rest and data in transit.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 9.2
+  nis2_article: 21(2)(h)
+  quote: in accordance with the relevant entities’ classification of assets, the type, strength and quality
+    of the cryptographic measures required to protect the relevant entities’ assets, including data at
+    rest and data in transit
+testability: documentary
+evidence:
+- cryptography policy and procedures
+- asset classification scheme
+- mapping of asset classes to cryptographic measures
+- encryption standards for data at rest and data in transit
+parameters:
+  asset_classification_basis: in accordance with the relevant entities’ classification of assets
+  cryptographic_measure_type_strength_quality: entity_defined
+  data_states_covered: data at rest and data in transit
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.1
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-24T23:57:58.359943Z'
+review:
+  status: draft
+  notes: ''

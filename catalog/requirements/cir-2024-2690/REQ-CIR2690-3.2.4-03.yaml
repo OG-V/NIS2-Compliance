@@ -1,0 +1,25 @@
+id: REQ-CIR2690-3.2.4-03
+title: Alarm triggered on threshold exceedance
+obligation: The entity shall ensure that an alarm is triggered, where appropriate automatically, if the
+  laid down values for alarm threshold are exceeded.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 3.2.4
+  nis2_article: 21(2)(b)
+  quote: If the laid down values for alarm threshold are exceeded, an alarm shall be triggered, where
+    appropriate, automatically.
+testability: technical
+evidence:
+- alerting system configuration
+- alarm test results
+- alarm logs
+parameters:
+  automatic_triggering_condition: where appropriate
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.1
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-24T23:57:18.598115Z'
+review:
+  status: draft
+  notes: ''

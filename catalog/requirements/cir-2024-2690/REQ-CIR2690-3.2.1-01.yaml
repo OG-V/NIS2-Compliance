@@ -1,0 +1,30 @@
+id: REQ-CIR2690-3.2.1-01
+title: Monitoring and logging procedures and tools
+obligation: The entity shall lay down procedures and use tools to monitor and log activities on its network
+  and information systems in order to detect events that could be considered as incidents.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 3.2.1
+  nis2_article: 21(2)(b)
+  quote: The relevant entities shall lay down procedures and use tools to monitor and log activities on
+    their network and information systems to detect events that could be considered as incidents
+testability: technical
+evidence:
+- documented monitoring and logging procedures
+- configuration of monitoring and logging tools
+- log repositories and sample log records
+- alerting/detection rule sets
+- records of detected events
+parameters:
+  monitoring_and_logging_scope: activities on their network and information systems
+  monitoring_and_logging_tools: entity_defined
+  logged_activity_types: entity_defined
+  detection_criteria_for_events: entity_defined
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.1
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-24T23:57:21.460942Z'
+review:
+  status: draft
+  notes: ''

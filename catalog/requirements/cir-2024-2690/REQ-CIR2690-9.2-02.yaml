@@ -1,0 +1,33 @@
+id: REQ-CIR2690-9.2-02
+title: Approve protocols, algorithms and usage practices
+obligation: The entity shall establish, based on point (a), the protocols or families of protocols to
+  be adopted, as well as cryptographic algorithms, cipher strength, cryptographic solutions and usage
+  practices to be approved and required for use in the entity, following, where appropriate, a cryptographic
+  agility approach.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 9.2
+  nis2_article: 21(2)(h)
+  quote: based on point (a), the protocols or families of protocols to be adopted, as well as cryptographic
+    algorithms, cipher strength, cryptographic solutions and usage practices to be approved and required
+    for use in the relevant entities, following, where appropriate, a cryptographic agility approach
+testability: documentary
+evidence:
+- approved list of cryptographic protocols and algorithms
+- cipher strength specifications
+- cryptographic usage practice guidelines
+- documentation of cryptographic agility approach
+- system configuration showing approved protocols in use
+parameters:
+  approved_protocols: entity_defined
+  approved_algorithms: entity_defined
+  cipher_strength: entity_defined
+  cryptographic_agility_approach_condition: where appropriate
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.1
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-24T23:57:58.359943Z'
+review:
+  status: draft
+  notes: ''
