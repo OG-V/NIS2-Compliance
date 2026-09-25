@@ -71,7 +71,11 @@ def test_reviewed_catalog_quotes_are_verbatim():
 
 
 def _nis2_req(provision: str, quote: str):
-    req = load_requirements(ROOT / "catalog" / "requirements")[0]
+    req = next(
+        r
+        for r in load_requirements(ROOT / "catalog" / "requirements")
+        if r.source.instrument == NIS2.instrument
+    )
     source = req.source.model_copy(update={"provision": provision, "quote": quote})
     return req.model_copy(update={"source": source})
 
