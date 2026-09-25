@@ -28,7 +28,10 @@ def parse_duration(text: str) -> timedelta:
 @check(
     id="CHK-LOG-001",
     title="Central logs are kept at least as long as the profile requires",
-    requirements=["REQ-NIS2-21.2.B"],
+    requirements=[
+        "REQ-NIS2-21.2.B",
+        "REQ-CIR2690-3.2.5-01",  # logs kept for a predefined period
+    ],
     coverage="partial",
     severity="medium",
     severity_rationale="Logs deleted too early make an incident impossible to investigate or report.",
@@ -55,7 +58,10 @@ def log_retention(ev: dict, profile: Profile, now: datetime):
 @check(
     id="CHK-BAK-001",
     title="A recent backup snapshot exists",
-    requirements=["REQ-NIS2-21.2.C"],
+    requirements=[
+        "REQ-NIS2-21.2.C",
+        "REQ-CIR2690-4.2.1-01",  # backup copies maintained
+    ],
     coverage="partial",
     severity="high",
     severity_rationale="Without recent backups, ransomware or failure causes permanent data loss.",
@@ -82,7 +88,10 @@ def recent_backup(ev: dict, profile: Profile, now: datetime):
 @check(
     id="CHK-AST-001",
     title="Every running service is in the asset inventory",
-    requirements=["REQ-NIS2-21.2.I"],
+    requirements=[
+        "REQ-NIS2-21.2.I",
+        "REQ-CIR2690-12.4.1-01",  # complete, accurate inventory
+    ],
     coverage="partial",
     severity="medium",
     severity_rationale="Unknown services go unpatched and unmonitored.",
@@ -101,7 +110,12 @@ def services_inventoried(ev: dict, profile: Profile, now: datetime):
 @check(
     id="CHK-VUL-001",
     title="No unaccepted, fixable vulnerability at the failing severity in running images",
-    requirements=["REQ-NIS2-21.2.E"],
+    requirements=[
+        "REQ-NIS2-21.2.E",
+        "REQ-CIR2690-6.10.1-03",  # vulnerabilities managed
+        "REQ-CIR2690-6.10.2-03",  # critical ones addressed without undue delay
+        "REQ-CIR2690-6.6.1-02",  # patches applied in reasonable time
+    ],
     coverage="partial",
     severity="high",
     severity_rationale="Known, fixable critical vulnerabilities are the most common way in.",

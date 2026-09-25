@@ -11,7 +11,11 @@ ACCESS = ["REQ-NIS2-21.2.I"]
 @check(
     id="CHK-SSH-001",
     title="SSH does not offer password authentication",
-    requirements=ACCESS,
+    requirements=[
+        *ACCESS,
+        "REQ-CIR2690-11.6.2-01",  # strength of authentication
+        "REQ-CIR2690-11.7.2-01",  # strength of authentication
+    ],
     coverage="partial",
     severity="high",
     severity_rationale="Password logins on an admin host can be brute-forced or phished.",
@@ -31,7 +35,10 @@ def ssh_no_password_auth(ev: dict, profile: Profile, now: datetime):
 @check(
     id="CHK-SSH-002",
     title="Direct root login over SSH is disabled",
-    requirements=ACCESS,
+    requirements=[
+        *ACCESS,
+        "REQ-CIR2690-11.3.2-03",  # individualised admin privileges
+    ],
     coverage="partial",
     severity="high",
     severity_rationale=(
