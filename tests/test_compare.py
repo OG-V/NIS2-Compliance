@@ -23,11 +23,11 @@ def edit(run, name, change):
 def test_weak_to_hardened_fixes_everything(runs):
     weak, hardened = runs
     c = compare(load_run(weak), load_run(hardened))
-    # Per check and asset: 16 checks, the log retention check on two log stores.
-    assert (len(c.fixed), len(c.still_open), len(c.new), len(c.unresolved)) == (17, 0, 0, 0)
+    # Per check and asset: 16 checks, log retention and backups on two assets each.
+    assert (len(c.fixed), len(c.still_open), len(c.new), len(c.unresolved)) == (18, 0, 0, 0)
     assert c.warnings == []
     assert c.fixed[0].check_id == "CHK-IDP-004"  # most severe first
-    backup = next(ch for ch in c.fixed if ch.check_id == "CHK-BAK-001")
+    backup = next(ch for ch in c.fixed if (ch.check_id, ch.asset) == ("CHK-BAK-001", "restic"))
     assert backup.before_text.startswith("The newest backup was taken on 1 June 2025")
     assert backup.after_text == "Newest backup is within the allowed age"
     assert backup.topic == "Business continuity and backups"
@@ -39,14 +39,14 @@ def test_weak_to_hardened_fixes_everything(runs):
 def test_reversed_order_shows_regressions_and_warns(runs):
     weak, hardened = runs
     c = compare(load_run(hardened), load_run(weak))
-    assert len(c.new) == 17 and not c.fixed
+    assert len(c.new) == 18 and not c.fixed
     assert c.warnings == ["The 'after' scan is older than the 'before' scan."]
 
 
 def test_same_scan_twice_is_all_still_open(runs):
     weak, _ = runs
     c = compare(load_run(weak), load_run(weak))
-    assert len(c.still_open) == 17 and not c.fixed and not c.new
+    assert len(c.still_open) == 18 and not c.fixed and not c.new
 
 
 def test_mixed_progress(runs, tmp_path):
@@ -55,24 +55,26 @@ def test_mixed_progress(runs, tmp_path):
     after.mkdir()
     for f in ("scan.json", "verdicts.json", "findings.json"):
         (after / f).write_text((hardened / f).read_text())
-    weak_findings = {f["check_id"]: f for f in json.loads((weak / "findings.json").read_text())}
+    weak_findings = {
+        (f["check_id"], f["asset"]): f for f in json.loads((weak / "findings.json").read_text())
+    }
 
     def partly_fixed(findings):
         for f in findings:
-            if f["check_id"] == "CHK-BAK-001":
-                f.update(weak_findings["CHK-BAK-001"])
+            if (f["check_id"], f["asset"]) == ("CHK-BAK-001", "restic"):
+                f.update(weak_findings["CHK-BAK-001", "restic"])
             if f["check_id"] == "CHK-SSH-003":
                 f["status"] = "error"
         return findings
 
     edit(after, "findings.json", partly_fixed)
     c = compare(load_run(weak), load_run(after))
-    assert (len(c.fixed), len(c.still_open), len(c.unresolved)) == (15, 1, 1)
+    assert (len(c.fixed), len(c.still_open), len(c.unresolved)) == (16, 1, 1)
     assert c.still_open[0].check_id == "CHK-BAK-001"
     assert c.unresolved[0].check_id == "CHK-SSH-003"
 
     html = render_comparison(weak, after, tmp_path / "diff.html")[0].read_text()
-    assert "15 of 17 problems fixed." in html and "1 still open." in html
+    assert "16 of 18 problems fixed." in html and "1 still open." in html
     assert "Could not compare (1)" in html
 
 
@@ -93,7 +95,7 @@ def test_render_comparison(runs, tmp_path):
     weak, hardened = runs
     html_path, json_path, _ = render_comparison(weak, hardened, tmp_path / "out" / "diff.html")
     html = html_path.read_text()
-    assert "All 17 problems fixed." in html and "No new problems." in html
+    assert "All 18 problems fixed." in html and "No new problems." in html
     assert "Default admin credentials are rejected" in html  # fixed items show the goal
     assert "<script" not in html and "<link" not in html and 'src="' not in html
-    assert len(json.loads(json_path.read_text())["fixed"]) == 17
+    assert len(json.loads(json_path.read_text())["fixed"]) == 18

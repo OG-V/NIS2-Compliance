@@ -171,7 +171,7 @@ profile differences are listed as an answer key in [lab/README.md](../lab/README
 | (i) access control | sshd host | password authentication not offered (live probe); root login disabled; auth attempts limited (`sshd -T`) |
 | (i), (j) identity | Keycloak (also Okta, Entra ID) | MFA enrolled or enforced for all staff, and no sign-in by password alone; lockout after failed logins; password length; default admin credentials rejected |
 | (b) incident handling | Loki, Elasticsearch | log retention at least the profile minimum, judged on the shortest-kept logs |
-| (c) backups | restic | recent snapshot exists |
+| (c) backups | restic, BorgBackup | recent snapshot exists |
 | (i) asset management | Docker, `assets.yaml` | every running service is inventoried |
 | (e) vulnerabilities | Trivy on running images | no fixable CRITICAL CVE unless covered by an unexpired risk exception ([ADR 0004](adr/0004-risk-exceptions.md)) |
 | Art. 23(4), (b) | `incident-response.md` | IR plan names the 24h / 72h / one-month reporting stages and the CSIRT; reviewed within 12 months |
@@ -207,7 +207,11 @@ lists every system with its product and how it was identified. Log stores follow
 pattern: Grafana Loki and Elasticsearch, both verified on the lab, which runs one of each.
 Each adapter lists every retention scope (Loki's global period and per-stream overrides;
 Elasticsearch's indices under ILM policies and data streams under their own lifecycle
-or ILM), and the check judges the shortest. Backups still speak one product (restic).
+or ILM), and the check judges the shortest. Backups too: restic and BorgBackup, both
+verified on the lab. Their tools are run either inside the client's backup container,
+already configured with its repository, or on the scanning host with the repository and
+a password from the secrets (passed in the environment, never on the command line). The
+model also records whether a repository is encrypted, for a future check.
 
 **Planned but not built:** checks that logs are actually shipped centrally and that
 authentication events are logged. The lab's Loki instance receives no logs, so only

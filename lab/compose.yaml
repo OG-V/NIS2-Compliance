@@ -116,6 +116,23 @@ services:
       - ./profiles/${LAB_PROFILE:-hardened}/org:/data/org:ro
       - backup-repo:/repo
 
+  # A second backup tool: BorgBackup, with its own repository.
+  backup-borg:
+    build:
+      context: ./backup-borg
+    entrypoint: ["/bin/sh", "/scripts/borg-backup.sh"]
+    environment:
+      BORG_REPO: /repo
+      BORG_PASSPHRASE: ${BORG_PASSPHRASE:-}
+      BORG_ENCRYPTION: ${BORG_ENCRYPTION:?set in lab.env}
+      BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK: "yes"
+      BORG_TIME: ${BORG_TIME:-}
+      BORG_INTERVAL: ${BORG_INTERVAL:-}
+    volumes:
+      - ./scripts:/scripts:ro
+      - ./profiles/${LAB_PROFILE:-hardened}/org:/data/org:ro
+      - borg-repo:/repo
+
   # A forgotten service that is not in the asset inventory (weak profile only).
   legacy-web:
     image: busybox:1.37
@@ -125,3 +142,4 @@ services:
 volumes:
   certs:
   backup-repo:
+  borg-repo:

@@ -1,4 +1,4 @@
-"""Docker-based evidence: running services, backups, image vulnerabilities."""
+"""Docker-based evidence: running services and image vulnerabilities."""
 
 import json
 from pathlib import Path
@@ -6,7 +6,7 @@ from pathlib import Path
 import yaml
 
 from nis2scan.collectors._docker import docker
-from nis2scan.config import BackupTarget, DockerTarget
+from nis2scan.config import DockerTarget
 from nis2scan.registry import CollectorError, Context, collector
 
 # Pinned by digest: a security scanner should not silently pull a changed image.
@@ -32,18 +32,6 @@ def docker_services(ctx: Context, asset: DockerTarget) -> dict:
                 }
             )
     return {"compose_project": project, "services": sorted(services, key=lambda s: s["service"])}
-
-
-@collector("restic_snapshots", requires="backup")
-def restic_snapshots(ctx: Context, asset: BackupTarget) -> dict:
-    container = asset.container
-    snapshots = json.loads(docker("exec", container, "restic", "snapshots", "--json"))
-    return {
-        "source": f"docker exec {container} restic snapshots",
-        "snapshots": [
-            {k: s.get(k) for k in ("short_id", "time", "hostname", "paths")} for s in snapshots
-        ],
-    }
 
 
 def _trivy(image: str) -> dict:

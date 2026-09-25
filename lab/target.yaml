@@ -43,7 +43,9 @@ logs:
     password_env: ES_SCAN_PASSWORD
 backup:
   - name: restic
-    container: nis2lab-backup-1
+    container: nis2lab-backup-1    # the tool runs inside it, configured with its repository
+  - name: borg
+    container: nis2lab-backup-borg-1
 docker:
   - name: nis2lab
     compose_project: nis2lab

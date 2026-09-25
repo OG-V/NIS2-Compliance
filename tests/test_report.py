@@ -94,7 +94,8 @@ def test_every_weak_gap_is_explained_in_plain_language(weak):
         assert "{" not in g.found + g.should, g.finding_id  # no raw values leak through
     by_id = {g.finding_id: g for g in data.gaps}
     backup = by_id["CHK-BAK-001"]
-    assert backup.found == "The newest backup was taken on 1 June 2025, 480 days ago."
+    restic = next(a for a in backup.assets if a.asset == "restic")
+    assert restic.found == "The newest backup was taken on 1 June 2025, 480 days ago."
     assert backup.should == "A backup no older than 26 hours."
     assert backup.action == "Restart automatic backups" and backup.effort == "change"
     assert "password alone: kari.admin and ola.tech." in by_id["CHK-IDP-001"].found
@@ -177,7 +178,7 @@ def test_report_lists_the_systems_scanned(weak):
         "OpenID configuration",
     )
     html = render(data, run)[0].read_text()
-    assert "Systems scanned (8)" in html and "issuer http://127.0.0.1:18081/realms/nordmsp" in html
+    assert "Systems scanned (9)" in html and "issuer http://127.0.0.1:18081/realms/nordmsp" in html
 
 
 def test_render_is_self_contained(weak):
