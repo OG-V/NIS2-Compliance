@@ -13,6 +13,7 @@ from pathlib import Path
 
 from nis2scan.models import CheckStatus, Finding, RequirementVerdict, Verdict
 from nis2scan.registry import CHECKS, load_all
+from nis2scan.report.plain import explain
 
 SEVERITY_ORDER = ["critical", "high", "medium", "low"]
 NIS2_POINTS = [f"21(2)({p})" for p in "abcdefghij"] + ["23(4)"]
@@ -56,6 +57,10 @@ class Gap:
     expected: dict
     evidence_ref: str | None
     evidence_sha256: str | None
+    action: str  # what to do, in plain words (from the check's metadata)
+    effort: str
+    found: str | None = None  # plain-language restatement of observed/expected
+    should: str | None = None
     breaches: list[Breach] = field(default_factory=list)
 
 
@@ -67,6 +72,11 @@ class ArticleRow:
     detailed: int = 0  # CIR requirements under this point in the catalog
     detailed_not_satisfied: int = 0
     detailed_assessed: int = 0
+
+
+# Evidence paths are not useful to the model, and the presentation fields are
+# written by hand: the narrative is validated against the scan's own values only.
+_NOT_FOR_NARRATIVE = ("evidence_ref", "evidence_sha256", "action", "effort", "found", "should")
 
 
 @dataclass
@@ -91,7 +101,7 @@ class ReportData:
             "requirement_verdicts": self.verdict_counts,
             "checks": self.check_counts,
             "gaps": [
-                {k: v for k, v in asdict(g).items() if k not in ("evidence_ref", "evidence_sha256")}
+                {k: v for k, v in asdict(g).items() if k not in _NOT_FOR_NARRATIVE}
                 for g in self.gaps
             ],
         }
@@ -112,6 +122,9 @@ def load_run(run_dir: Path) -> ReportData:
     def gap(f: Finding) -> Gap:
         meta = CHECKS[f.check_id].meta if f.check_id in CHECKS else None
         collector = Path(f.evidence_ref).stem if f.evidence_ref else None
+        plain = (
+            explain(f.check_id, f.observed, f.expected) if f.status == CheckStatus.FAIL else None
+        )
         return Gap(
             finding_id=f.check_id,
             title=meta.title if meta else f.check_id,
@@ -121,6 +134,10 @@ def load_run(run_dir: Path) -> ReportData:
             expected=f.expected,
             evidence_ref=f.evidence_ref,
             evidence_sha256=evidence_sha.get(collector) if collector else None,
+            action=meta.action if meta else f.message,
+            effort=meta.effort.value if meta else "change",
+            found=plain.found if plain else None,
+            should=plain.should if plain else None,
         )
 
     gaps = {f.check_id: gap(f) for f in findings if f.status == CheckStatus.FAIL}
