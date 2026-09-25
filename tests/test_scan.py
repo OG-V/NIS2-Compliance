@@ -64,7 +64,7 @@ def test_collector_failure_becomes_error_finding():
 
     class Broken(FixtureContext):
         def _run(self, name, asset):
-            if name == "keycloak_realm":
+            if name == "idp_config":
                 raise ConnectionRefusedError("idp down")
             return super()._run(name, asset)
 

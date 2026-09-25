@@ -1,8 +1,12 @@
-"""Identity provider: MFA (Art. 21(2)(j)) and access control (Art. 21(2)(i))."""
+"""Identity provider: MFA (Art. 21(2)(j)) and access control (Art. 21(2)(i)).
 
-import re
+These checks read the product-neutral IdentityEvidence, so they apply to every
+identity provider with an adapter (see nis2scan.adapters.identity).
+"""
+
 from datetime import datetime
 
+from nis2scan.adapters.identity import IdentityEvidence
 from nis2scan.config import Profile
 from nis2scan.registry import check, failed, passed
 
@@ -23,33 +27,29 @@ ACCESS = ["REQ-NIS2-21.2.I"]
     action="Turn on two-factor login for every account",
     effort="change",
     target_type="identity_provider",
-    collector="keycloak_realm",
+    collector="idp_config",
 )
 def mfa_enforced(ev: dict, profile: Profile, now: datetime):
-    totp = next((a for a in ev["required_actions"] if a["alias"] == "CONFIGURE_TOTP"), None)
-    new_users_forced = bool(totp and totp["enabled"] and totp["defaultAction"])
-    without_mfa = [
-        u["username"]
-        for u in ev["users"]
-        if u["enabled"]
-        and "otp" not in u["credential_types"]
-        and "CONFIGURE_TOTP" not in u["required_actions"]
-    ]
-    observed = {"new_users_must_enrol_otp": new_users_forced, "users_without_mfa": without_mfa}
-    expected = {"new_users_must_enrol_otp": True, "users_without_mfa": []}
+    idp = IdentityEvidence.model_validate(ev["identity"])
+    without_mfa = idp.users_without_mfa
+    observed = {
+        "new_users_must_enrol_mfa": idp.new_users_must_enrol_mfa,
+        "users_without_mfa": without_mfa,
+    }
+    expected = {"new_users_must_enrol_mfa": True, "users_without_mfa": []}
     problems = []
     if without_mfa:
         problems.append(f"{len(without_mfa)} account(s) without MFA: {', '.join(without_mfa)}")
-    if not new_users_forced:
-        problems.append("new accounts are not required to enrol OTP")
+    if not idp.new_users_must_enrol_mfa:
+        problems.append("new accounts are not required to enrol a second factor")
     if problems:
         return failed("; ".join(problems), observed, expected)
-    return passed(f"All {len(ev['users'])} accounts have or must enrol OTP", observed, expected)
+    return passed(f"All {len(idp.users)} accounts have or must enrol MFA", observed, expected)
 
 
 @check(
     id="CHK-IDP-002",
-    title="Brute-force protection is enabled on the staff realm",
+    title="Accounts are locked after repeated failed logins",
     requirements=[
         *ACCESS,
         "REQ-CIR2690-11.6.2-04",  # blocking after failed log-ins
@@ -60,23 +60,17 @@ def mfa_enforced(ev: dict, profile: Profile, now: datetime):
     action="Turn on protection against password guessing",
     effort="quick",
     target_type="identity_provider",
-    collector="keycloak_realm",
+    collector="idp_config",
 )
 def brute_force_protection(ev: dict, profile: Profile, now: datetime):
-    enabled = bool(ev["settings"]["bruteForceProtected"])
-    observed = {
-        "bruteForceProtected": enabled,
-        "failureFactor": ev["settings"]["failureFactor"],
-    }
-    if not enabled:
-        return failed("Brute-force protection is off", observed, {"bruteForceProtected": True})
-    return passed("Brute-force protection is on", observed, {"bruteForceProtected": True})
-
-
-def min_password_length(policy: str | None) -> int:
-    """Extract N from a Keycloak policy string like 'length(12) and notUsername'."""
-    match = re.search(r"\blength\((\d+)\)", policy or "")
-    return int(match.group(1)) if match else 0
+    idp = IdentityEvidence.model_validate(ev["identity"])
+    observed = {"lockout_enabled": idp.lockout_enabled, "max_attempts": idp.lockout_max_attempts}
+    expected = {"lockout_enabled": True}
+    if not idp.lockout_enabled:
+        return failed("Accounts are never locked after failed logins", observed, expected)
+    return passed(
+        f"Accounts lock after {idp.lockout_max_attempts} failed logins", observed, expected
+    )
 
 
 @check(
@@ -93,13 +87,13 @@ def min_password_length(policy: str | None) -> int:
     action="Set a minimum password length",
     effort="quick",
     target_type="identity_provider",
-    collector="keycloak_realm",
+    collector="idp_config",
 )
 def password_length(ev: dict, profile: Profile, now: datetime):
-    policy = ev["settings"]["passwordPolicy"]
-    length = min_password_length(policy)
+    idp = IdentityEvidence.model_validate(ev["identity"])
+    length = idp.password_min_length
     required = profile.identity.min_password_length
-    observed = {"passwordPolicy": policy, "min_length": length}
+    observed = {"password_policy": idp.password_policy, "min_length": length}
     expected = {"min_length_at_least": required}
     if length < required:
         what = f"minimum length is {length}" if length else "no minimum length is set"
@@ -120,10 +114,10 @@ def password_length(ev: dict, profile: Profile, now: datetime):
     action="Change the default admin password",
     effort="quick",
     target_type="identity_provider",
-    collector="keycloak_default_admin",
+    collector="idp_default_admin",
 )
 def no_default_admin(ev: dict, profile: Profile, now: datetime):
-    observed = {"username_tried": ev["username_tried"], "http_status": ev["http_status"]}
+    observed = {"username_tried": ev["username_tried"], "result": ev["detail"]}
     if ev["accepted"]:
         return failed("Admin console accepts admin/admin", observed, {"accepted": False})
     return passed("Default admin credentials are rejected", observed, {"accepted": False})

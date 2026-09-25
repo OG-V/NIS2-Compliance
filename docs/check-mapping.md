@@ -61,7 +61,7 @@ Severity **high** (Staff accounts reach customer systems; a stolen password alon
 | `REQ-CIR2690-11.7.1-01` | CIR 2024/2690, Annex, point 11.7.1 | “The relevant entities shall ensure that users are authenticated by multiple authentication factors or continu…” |
 | `REQ-CIR2690-11.3.2-01` | CIR 2024/2690, Annex, point 11.3.2 | “establish strong identification, authentication such as multi-factor authentication, and authorisation proced…” |
 
-## CHK-IDP-002: Brute-force protection is enabled on the staff realm
+## CHK-IDP-002: Accounts are locked after repeated failed logins
 
 Severity **medium** (Limits online password guessing against staff accounts.) · coverage partial
 

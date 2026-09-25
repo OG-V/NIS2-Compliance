@@ -1,0 +1,65 @@
+{
+  "_collected_at": "2026-09-24T22:50:47.002469+00:00",
+  "identity": {
+    "lockout_enabled": false,
+    "lockout_max_attempts": null,
+    "new_users_must_enrol_mfa": false,
+    "password_min_length": 0,
+    "password_policy": "no password policy",
+    "tenant": "nordmsp",
+    "users": [
+      {
+        "enabled": true,
+        "mfa_enrolled": false,
+        "mfa_pending": false,
+        "username": "kari.admin"
+      },
+      {
+        "enabled": true,
+        "mfa_enrolled": false,
+        "mfa_pending": false,
+        "username": "ola.tech"
+      }
+    ]
+  },
+  "product": "keycloak",
+  "raw": {
+    "realm": "nordmsp",
+    "required_actions": [
+      {
+        "alias": "CONFIGURE_TOTP",
+        "defaultAction": false,
+        "enabled": true
+      },
+      {
+        "alias": "delete_account",
+        "defaultAction": false,
+        "enabled": false
+      }
+    ],
+    "settings": {
+      "bruteForceProtected": false,
+      "failureFactor": 30,
+      "otpPolicyType": "totp",
+      "passwordPolicy": null
+    },
+    "users": [
+      {
+        "credential_types": [
+          "password"
+        ],
+        "enabled": true,
+        "required_actions": [],
+        "username": "kari.admin"
+      },
+      {
+        "credential_types": [
+          "password"
+        ],
+        "enabled": true,
+        "required_actions": [],
+        "username": "ola.tech"
+      }
+    ]
+  }
+}

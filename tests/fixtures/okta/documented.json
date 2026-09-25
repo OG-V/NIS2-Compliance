@@ -1,0 +1,92 @@
+{
+  "_source": "Built from the response shapes in Okta's Management API documentation (Users, Factors, Policies). Not recorded from a live org; see live-*.json for recorded responses.",
+  "org": "dev-00000000.okta.com",
+  "users": [
+    {
+      "login": "anna.admin@example.com",
+      "status": "ACTIVE",
+      "factors": [
+        {"factorType": "push", "provider": "OKTA", "status": "ACTIVE"},
+        {"factorType": "email", "provider": "OKTA", "status": "ACTIVE"}
+      ]
+    },
+    {
+      "login": "bo.ops@example.com",
+      "status": "ACTIVE",
+      "factors": [
+        {"factorType": "email", "provider": "OKTA", "status": "ACTIVE"},
+        {"factorType": "question", "provider": "OKTA", "status": "ACTIVE"}
+      ]
+    },
+    {
+      "login": "cai.dev@example.com",
+      "status": "PASSWORD_EXPIRED",
+      "factors": [
+        {"factorType": "token:software:totp", "provider": "GOOGLE", "status": "PENDING_ACTIVATION"}
+      ]
+    },
+    {
+      "login": "dana.former@example.com",
+      "status": "SUSPENDED",
+      "factors": []
+    },
+    {
+      "login": "eli.new@example.com",
+      "status": "STAGED",
+      "factors": []
+    }
+  ],
+  "password_policies": [
+    {
+      "id": "00p1",
+      "name": "Default Policy",
+      "status": "ACTIVE",
+      "priority": 2,
+      "system": true,
+      "settings": {
+        "password": {
+          "complexity": {"minLength": 8, "minLowerCase": 1, "minUpperCase": 1, "minNumber": 1},
+          "lockout": {"maxAttempts": 10, "autoUnlockMinutes": 0}
+        }
+      }
+    },
+    {
+      "id": "00p2",
+      "name": "Admins",
+      "status": "ACTIVE",
+      "priority": 1,
+      "system": false,
+      "settings": {
+        "password": {
+          "complexity": {"minLength": 14},
+          "lockout": {"maxAttempts": 5}
+        }
+      }
+    },
+    {
+      "id": "00p3",
+      "name": "Old contractors",
+      "status": "INACTIVE",
+      "priority": 3,
+      "system": false,
+      "settings": {"password": {"complexity": {"minLength": 4}, "lockout": {"maxAttempts": 0}}}
+    }
+  ],
+  "mfa_enroll_policies": [
+    {
+      "id": "00p4",
+      "name": "Default Policy",
+      "status": "ACTIVE",
+      "priority": 1,
+      "system": true,
+      "settings": {
+        "type": "AUTHENTICATORS",
+        "authenticators": [
+          {"key": "okta_password", "enroll": {"self": "REQUIRED"}},
+          {"key": "okta_email", "enroll": {"self": "REQUIRED"}},
+          {"key": "okta_verify", "enroll": {"self": "OPTIONAL"}}
+        ]
+      }
+    }
+  ]
+}

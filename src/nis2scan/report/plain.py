@@ -74,7 +74,8 @@ def _mfa(o: dict, e: dict) -> Plain:
     if o["users_without_mfa"]:
         users = o["users_without_mfa"]
         problems.append(f"Accounts that log in with a password alone: {_list(users)}.")
-    if not o["new_users_must_enrol_otp"]:
+    # Runs made before identity adapters existed call this field new_users_must_enrol_otp.
+    if not o.get("new_users_must_enrol_mfa", o.get("new_users_must_enrol_otp")):
         problems.append("New accounts are not asked to set up two-factor login.")
     return Plain(
         " ".join(problems),

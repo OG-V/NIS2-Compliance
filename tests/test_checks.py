@@ -5,7 +5,7 @@ from datetime import timedelta
 import pytest
 from conftest import PROFILES, ROOT, collected_at, load_evidence
 
-from nis2scan.checks.identity import min_password_length
+from nis2scan.adapters.identity.keycloak import min_password_length
 from nis2scan.checks.operations import parse_duration
 from nis2scan.collectors.ssh import parse_sshd_t
 from nis2scan.config import load_profile

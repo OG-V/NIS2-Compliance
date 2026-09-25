@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import re
 from pathlib import Path
+from urllib.parse import urlparse
 
 import yaml
 from pydantic import BaseModel, PrivateAttr, field_validator, model_validator
@@ -54,13 +55,21 @@ class SshTarget(Asset):
 
 
 class IdpTarget(Asset):
+    """An identity provider. `product` is detected from `url` unless it is set.
+
+    The remaining fields are product-specific; each adapter lists the ones it needs.
+    Secrets are never written here, only the names of environment variables holding them.
+    """
+
     url: str
-    realm: str
-    admin_user: str
-    admin_password_env: str
+    product: str = "auto"  # or keycloak, okta
+    realm: str | None = None  # Keycloak
+    admin_user: str | None = None  # Keycloak
+    admin_password_env: str | None = None  # Keycloak
+    api_token_env: str | None = None  # Okta
 
     def _default_name(self) -> str:
-        return self.realm
+        return self.realm or urlparse(self.url).hostname or self.url
 
 
 class LogsTarget(Asset):
@@ -106,7 +115,8 @@ class Target(BaseModel):
     """
 
     name: str
-    env_file: Path | None = None
+    # Files of NAME=value lines holding secrets; one path or a list. Missing files are skipped.
+    env_file: list[Path] = []
     web: list[WebTarget] = []
     ssh: list[SshTarget] = []
     idp: list[IdpTarget] = []
@@ -116,6 +126,13 @@ class Target(BaseModel):
     documents: DocumentsTarget | None = None
 
     _env: dict[str, str] = PrivateAttr(default_factory=dict)
+
+    @field_validator("env_file", mode="before")
+    @classmethod
+    def _one_or_more_files(cls, value):
+        if value is None:
+            return []
+        return [value] if isinstance(value, (str, Path)) else value
 
     @field_validator(*ASSET_SECTIONS, mode="before")
     @classmethod
@@ -139,10 +156,11 @@ class Target(BaseModel):
         return list(getattr(self, section))
 
     def secret(self, name: str) -> str:
-        """Look up a secret in the process environment, then in env_file."""
+        """Look up a secret in the process environment, then in the env files."""
         value = os.environ.get(name) or self._env.get(name)
         if not value:
-            raise KeyError(f"secret {name} is not set in the environment or {self.env_file}")
+            files = ", ".join(str(f) for f in self.env_file) or "no env_file"
+            raise KeyError(f"secret {name} is not set in the environment or in {files}")
         return value
 
 
@@ -164,10 +182,10 @@ def load_target(path: Path) -> Target:
     """Load a target file; relative paths in it are resolved against its directory."""
     base = path.resolve().parent
     target = Target.model_validate(yaml.safe_load(path.read_text()))
-    if target.env_file:
-        target.env_file = base / target.env_file
-        if target.env_file.exists():
-            target._env = parse_env_file(target.env_file.read_text())
+    target.env_file = [base / f for f in target.env_file]
+    for env_file in target.env_file:
+        if env_file.exists():
+            target._env |= parse_env_file(env_file.read_text())
     if target.documents:
         target.documents.dir = base / target.documents.dir
     return target
