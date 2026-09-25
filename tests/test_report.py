@@ -215,6 +215,7 @@ def test_accepted_narrative_is_shown_next_to_its_gap(weak):
     (run / "narrative.json").write_text(json.dumps(asdict(result)))
     html = render(data, run)[0].read_text()
     assert "Executive summary" in html
+    assert f'<a href="#{data.gaps[0].finding_id}">' in html  # sources link to their gaps
     first = html.index(f'id="{data.gaps[0].finding_id}"')
     second = html.index(f'id="{data.gaps[1].finding_id}"')
     assert html.index(narrative.gaps[0].why_it_matters[:40], first) < second
@@ -299,6 +300,19 @@ def test_compliance_claims_are_forbidden(weak, claim):
     n = valid_narrative(data)
     n.executive_summary += " " + claim
     assert any("forbidden term" in p for p in nr.validate(n, data))
+
+
+def test_ids_in_the_prose_are_caught(weak):
+    _, data = weak
+    n = valid_narrative(data)
+    n.executive_summary += " The worst is CHK-IDP-004 (see also CHK-BAK-001, CHK-IDP-004)."
+    n.gaps[0].remediation.append("This addresses REQ-NIS2-21.2.I.")
+    problems = nr.validate(n, data)
+    assert any(
+        p.startswith("executive summary: writes IDs in the text (CHK-IDP-004, CHK-BAK-001)")
+        for p in problems
+    )
+    assert any(p.startswith(f"{n.gaps[0].finding_id}: writes IDs") for p in problems)
 
 
 # --- narrate() with a fake client -------------------------------------------------
