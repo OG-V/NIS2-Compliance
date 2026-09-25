@@ -148,6 +148,9 @@
       "found": "The admin console accepted the default username \u201cadmin\u201d with its default password.",
       "should": "The default login is refused.",
       "topic": "Access control and asset management",
+      "asset": null,
+      "asset_kind": "identity providers",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -186,6 +189,9 @@
       "found": "The newest backup was taken on 1 June 2025, 480 days ago.",
       "should": "A backup no older than 26 hours.",
       "topic": "Business continuity and backups",
+      "asset": null,
+      "asset_kind": "backup repositories",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.C",
@@ -227,6 +233,9 @@
       "found": "Accounts that log in with a password alone: kari.admin and ola.tech. New accounts are not asked to set up two-factor login.",
       "should": "Every account uses two-factor login, and new accounts must set it up.",
       "topic": "Multi-factor authentication",
+      "asset": null,
+      "asset_kind": "identity providers",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.J",
@@ -277,6 +286,9 @@
       "found": "The server accepts password logins, which can be guessed or bypassed.",
       "should": "Only key-based logins (public key) are accepted.",
       "topic": "Access control and asset management",
+      "asset": null,
+      "asset_kind": "SSH hosts",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -320,6 +332,9 @@
       "found": "Anyone with the root password can log straight in as administrator (PermitRootLogin yes).",
       "should": "Direct root login is switched off. Administrators log in as themselves first.",
       "topic": "Access control and asset management",
+      "asset": null,
+      "asset_kind": "SSH hosts",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -360,6 +375,9 @@
       "found": "The website still accepts TLSv1 and TLSv1.1, which are outdated and can be attacked.",
       "should": "Only TLSv1.2 or newer is accepted.",
       "topic": "Cryptography and encryption",
+      "asset": null,
+      "asset_kind": "web endpoints",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.H",
@@ -432,6 +450,9 @@
       "found": "26 known critical flaws with an available fix, in 4 components: grafana/loki:3.5.1 (2), nginx:1.20 (17), nis2lab-backup (3) and quay.io/keycloak/keycloak:26.3 (4). nginx:1.20 runs on an operating system that no longer gets updates.",
       "should": "No fixable critical flaws, unless a documented risk exception covers them.",
       "topic": "Secure development and vulnerability handling",
+      "asset": null,
+      "asset_kind": "Docker projects",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.E",
@@ -494,6 +515,9 @@
       "found": "Running but missing from the asset inventory: backup, legacy-web and logs.",
       "should": "Every running service is listed in the asset inventory.",
       "topic": "Access control and asset management",
+      "asset": null,
+      "asset_kind": "document sets",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -541,6 +565,9 @@
       "found": "The incident plan does not cover: 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
       "should": "The plan covers 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
       "topic": "Reporting incidents to the CSIRT",
+      "asset": null,
+      "asset_kind": "document sets",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-23.4",
@@ -571,6 +598,9 @@
       "found": "Nothing stops someone from guessing passwords over and over.",
       "should": "Accounts are locked for a while after repeated failed logins.",
       "topic": "Access control and asset management",
+      "asset": null,
+      "asset_kind": "identity providers",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -608,6 +638,9 @@
       "found": "No minimum password length is set.",
       "should": "Passwords have at least 12 characters.",
       "topic": "Access control and asset management",
+      "asset": null,
+      "asset_kind": "identity providers",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -652,6 +685,9 @@
       "found": "Logs are deleted after 7 days.",
       "should": "Logs are kept for at least 90 days.",
       "topic": "Incident handling",
+      "asset": null,
+      "asset_kind": "log stores",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.B",
@@ -690,6 +726,9 @@
       "found": "The website's certificate expired on 1 January 2025.",
       "should": "A valid certificate with at least 14 days left.",
       "topic": "Cryptography and encryption",
+      "asset": null,
+      "asset_kind": "web endpoints",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.H",
@@ -722,6 +761,9 @@
       "found": "Visitors who type http:// stay on the unencrypted site; browsers are not told to always use the encrypted site.",
       "should": "Visitors on http:// are sent to https://, and browsers are told to always use it.",
       "topic": "Cryptography and encryption",
+      "asset": null,
+      "asset_kind": "web endpoints",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.H",
@@ -753,6 +795,9 @@
       "found": "The incident plan was last reviewed on 14 February 2023, 1319 days ago.",
       "should": "The plan is reviewed at least every 365 days.",
       "topic": "Incident handling",
+      "asset": null,
+      "asset_kind": "document sets",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.B",
@@ -782,6 +827,9 @@
       "found": "Each connection allows 10 login attempts.",
       "should": "At most 4 attempts per connection.",
       "topic": "Access control and asset management",
+      "asset": null,
+      "asset_kind": "SSH hosts",
+      "assets": [],
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -797,6 +845,7 @@
     {
       "check_id": "CHK-AST-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "undeclared_services": [
@@ -829,11 +878,14 @@
       "found": "Running but missing from the asset inventory: backup, legacy-web and logs.",
       "should": "Every running service is listed in the asset inventory.",
       "topic": "Access control and asset management",
+      "asset_kind": "document sets",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-BAK-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "snapshots": 1,
@@ -856,11 +908,14 @@
       "found": "The newest backup was taken on 1 June 2025, 480 days ago.",
       "should": "A backup no older than 26 hours.",
       "topic": "Business continuity and backups",
+      "asset_kind": "backup repositories",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-DOC-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "document": "incident-response.md",
@@ -892,11 +947,14 @@
       "found": "The incident plan does not cover: 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
       "should": "The plan covers 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
       "topic": "Reporting incidents to the CSIRT",
+      "asset_kind": "document sets",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-DOC-002",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "document": "incident-response.md",
@@ -919,11 +977,14 @@
       "found": "The incident plan was last reviewed on 14 February 2023, 1319 days ago.",
       "should": "The plan is reviewed at least every 365 days.",
       "topic": "Incident handling",
+      "asset_kind": "document sets",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-IDP-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "new_users_must_enrol_otp": false,
@@ -949,11 +1010,14 @@
       "found": "Accounts that log in with a password alone: kari.admin and ola.tech. New accounts are not asked to set up two-factor login.",
       "should": "Every account uses two-factor login, and new accounts must set it up.",
       "topic": "Multi-factor authentication",
+      "asset_kind": "identity providers",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-IDP-002",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "bruteForceProtected": false,
@@ -975,11 +1039,14 @@
       "found": "Nothing stops someone from guessing passwords over and over.",
       "should": "Accounts are locked for a while after repeated failed logins.",
       "topic": "Access control and asset management",
+      "asset_kind": "identity providers",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-IDP-003",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "passwordPolicy": null,
@@ -1001,11 +1068,14 @@
       "found": "No minimum password length is set.",
       "should": "Passwords have at least 12 characters.",
       "topic": "Access control and asset management",
+      "asset_kind": "identity providers",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-IDP-004",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "username_tried": "admin",
@@ -1027,11 +1097,14 @@
       "found": "The admin console accepted the default username \u201cadmin\u201d with its default password.",
       "should": "The default login is refused.",
       "topic": "Access control and asset management",
+      "asset_kind": "identity providers",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-LOG-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "retention_period": "1w",
@@ -1053,11 +1126,14 @@
       "found": "Logs are deleted after 7 days.",
       "should": "Logs are kept for at least 90 days.",
       "topic": "Incident handling",
+      "asset_kind": "log stores",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-SSH-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "auth_methods_offered": [
@@ -1085,11 +1161,14 @@
       "found": "The server accepts password logins, which can be guessed or bypassed.",
       "should": "Only key-based logins (public key) are accepted.",
       "topic": "Access control and asset management",
+      "asset_kind": "SSH hosts",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-SSH-002",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "permitrootlogin": "yes"
@@ -1110,11 +1189,14 @@
       "found": "Anyone with the root password can log straight in as administrator (PermitRootLogin yes).",
       "should": "Direct root login is switched off. Administrators log in as themselves first.",
       "topic": "Access control and asset management",
+      "asset_kind": "SSH hosts",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-SSH-003",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "maxauthtries": 10
@@ -1135,11 +1217,14 @@
       "found": "Each connection allows 10 login attempts.",
       "should": "At most 4 attempts per connection.",
       "topic": "Access control and asset management",
+      "asset_kind": "SSH hosts",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-TLS-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "accepted_versions": [
@@ -1164,11 +1249,14 @@
       "found": "The website still accepts TLSv1 and TLSv1.1, which are outdated and can be attacked.",
       "should": "Only TLSv1.2 or newer is accepted.",
       "topic": "Cryptography and encryption",
+      "asset_kind": "web endpoints",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-TLS-002",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "not_before": "2024-01-01T00:00:00+00:00",
@@ -1191,11 +1279,14 @@
       "found": "The website's certificate expired on 1 January 2025.",
       "should": "A valid certificate with at least 14 days left.",
       "topic": "Cryptography and encryption",
+      "asset_kind": "web endpoints",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-TLS-003",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "http_status": 200,
@@ -1219,11 +1310,14 @@
       "found": "Visitors who type http:// stay on the unencrypted site; browsers are not told to always use the encrypted site.",
       "should": "Visitors on http:// are sent to https://, and browsers are told to always use it.",
       "topic": "Cryptography and encryption",
+      "asset_kind": "web endpoints",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-VUL-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "fail",
       "observed": {
         "images_scanned": 6,
@@ -1287,6 +1381,8 @@
       "found": "26 known critical flaws with an available fix, in 4 components: grafana/loki:3.5.1 (2), nginx:1.20 (17), nis2lab-backup (3) and quay.io/keycloak/keycloak:26.3 (4). nginx:1.20 runs on an operating system that no longer gets updates.",
       "should": "No fixable critical flaws, unless a documented risk exception covers them.",
       "topic": "Secure development and vulnerability handling",
+      "asset_kind": "Docker projects",
+      "assets": [],
       "breaches": []
     }
   ],
@@ -2365,6 +2461,7 @@
       "reason": "organisational requirement: needs audit, not automated checks"
     }
   ],
+  "multi_asset": false,
   "narrative": {
     "status": "accepted",
     "model": "claude-opus-5-5",

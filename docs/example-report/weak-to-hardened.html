@@ -124,6 +124,9 @@
   .cmp.should { background: var(--green-bg); }
   .cmp.should .k { color: var(--green); }
   .cmp p { font-weight: 500; overflow-wrap: anywhere; }
+  .per-asset { display: grid; grid-template-columns: max-content 1fr; gap: 4px 10px; margin: 2px 0 0; }
+  .per-asset dt { font-weight: 700; }
+  .per-asset dd { margin: 0; font-weight: 500; overflow-wrap: anywhere; }
   .why { max-width: 75ch; }
   .todo { display: grid; gap: 6px; }
   .todo .row { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
@@ -544,7 +547,7 @@
     <h2 id="method">Method</h2>
     <ul class="method">
       <li>Both scans are read from their own result files and compared check by check. No language model is involved.</li>
-      <li>A problem counts as fixed when its check failed in the first scan and passed in the second. 0 checks passed in both.</li>
+      <li>Results are compared per check and per asset. A problem counts as fixed when its check failed on an asset in the first scan and passed there in the second. 0 checks passed in both.</li>
       <li>Each scan's full report, with evidence and legal text, is in its own result directory.</li>
     </ul>
   </section>

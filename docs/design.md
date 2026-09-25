@@ -42,6 +42,12 @@ different kinds of objects**, created by different means:
   Finding     ── what we observed           (produced at scan time, with raw evidence)
 ```
 
+A check runs once per **asset**: each web endpoint, SSH host, identity provider, log
+store, backup repository and Docker project the target lists, so one check yields one
+finding per asset. The check itself stays a pure function of one asset's evidence. A
+requirement is not satisfied if any of its checks fails on any asset, and the report
+groups a failing check's assets into one gap ("fails on 2 of 40 web endpoints").
+
 The step from *Requirement → Check* is an **interpretation**, made and documented by a
 human (`coverage`, `severity_rationale`). The LLM never makes it silently.
 
@@ -172,6 +178,14 @@ profile differences are listed as an answer key in [lab/README.md](../lab/README
 
 Each check maps to its NIS2 article, and where the CIR point has been extracted and
 reviewed, to that point as well ([check mapping](check-mapping.md)).
+
+**Beyond the lab.** A target file lists any number of assets per section, so the
+network-based checks (TLS, certificate, HTTPS redirect, offered SSH login methods) work on
+any reachable host. A collector declares the asset fields it needs, e.g. `sshd -T`
+needs a container. An asset without them skips those checks as not applicable rather
+than failing them. The identity, logging and backup collectors still speak one product
+each (Keycloak, Loki, restic); supporting others means a normalised evidence model per
+area with one adapter per product.
 
 **Planned but not built:** checks that logs are actually shipped centrally and that
 authentication events are logged. The lab's Loki instance receives no logs, so only
