@@ -37,6 +37,13 @@ def lab(tmp_path, monkeypatch):
     )
     for adapter in ob.LOG_ADAPTERS.values():
         monkeypatch.setattr(adapter, "check_access", lambda logs, secret: None)
+    monkeypatch.setattr(
+        ob,
+        "backup_detect",
+        lambda backup, secret: {"product": backup.name, "method": "test", "detail": ""},
+    )
+    for adapter in ob.BACKUP_ADAPTERS.values():
+        monkeypatch.setattr(adapter, "fetch", lambda backup, secret: {})
     return load_target(path)
 
 
@@ -97,7 +104,13 @@ def test_without_probing_nothing_is_contacted(lab, monkeypatch):
     def fail(*args, **kwargs):
         raise AssertionError("probed")
 
-    for name in ("reachable", "container_exists", "compose_project_running", "detect"):
+    for name in (
+        "reachable",
+        "container_exists",
+        "compose_project_running",
+        "detect",
+        "backup_detect",
+    ):
         monkeypatch.setattr(ob, name, fail)
     systems = ob.plan(lab, probe=False)
     assert {a.status for s in systems for a in s.access} >= {ob.UNVERIFIED}

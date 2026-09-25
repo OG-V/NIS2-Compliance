@@ -22,6 +22,10 @@ assets:
     owner: Security team
     criticality: high
   - service: backup
-    description: Backup agent and repository
+    description: Backup agent and repository (restic)
+    owner: Platform team
+    criticality: high
+  - service: backup-borg
+    description: Backup agent and repository (BorgBackup)
     owner: Platform team
     criticality: high

@@ -2,6 +2,7 @@
 
 from datetime import date, datetime, timedelta
 
+from nis2scan.adapters.backup import BackupEvidence
 from nis2scan.adapters.logging import LogRetentionEvidence
 from nis2scan.config import Profile
 from nis2scan.registry import check, failed, passed
@@ -56,18 +57,19 @@ def log_retention(ev: dict, profile: Profile, now: datetime):
     action="Restart automatic backups",
     effort="change",
     target_type="backup_repository",
-    collector="restic_snapshots",
+    collector="backup_snapshots",
 )
 def recent_backup(ev: dict, profile: Profile, now: datetime):
+    repo = BackupEvidence.model_validate(ev["backup"])
     max_age = timedelta(hours=profile.backup.max_age_hours)
     expected = {"max_age_hours": profile.backup.max_age_hours}
-    if not ev["snapshots"]:
+    newest = repo.newest
+    if newest is None:
         return failed("No backup snapshots exist", {"snapshots": 0}, expected)
-    newest = max(datetime.fromisoformat(s["time"]) for s in ev["snapshots"])
-    age = now - newest
+    age = now - newest.time
     observed = {
-        "snapshots": len(ev["snapshots"]),
-        "newest": newest.isoformat(),
+        "snapshots": len(repo.snapshots),
+        "newest": newest.time.isoformat(),
         "age_hours": round(age.total_seconds() / 3600, 1),
     }
     if age > max_age:

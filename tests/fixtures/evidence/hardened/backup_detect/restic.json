@@ -1,0 +1,7 @@
+{
+  "_collected_at": "2026-09-25T23:36:03.993009+00:00",
+  "detail": "",
+  "label": "restic",
+  "method": "restic 0.19.1 found in container nis2lab-backup-1",
+  "product": "restic"
+}

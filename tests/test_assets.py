@@ -132,7 +132,13 @@ def test_report_groups_assets_per_check(tmp_path):
 
 
 def test_single_asset_report_has_no_asset_column(tmp_path):
-    single = {**MIXED, "web": MIXED["web"][:1], "ssh": MIXED["ssh"][:1], "logs": LAB["logs"][:1]}
+    single = {
+        **MIXED,
+        "web": MIXED["web"][:1],
+        "ssh": MIXED["ssh"][:1],
+        "logs": LAB["logs"][:1],
+        "backup": LAB["backup"][:1],
+    }
     path = tmp_path / "target.yaml"
     path.write_text(yaml.safe_dump(single))
     target = load_target(path)
@@ -172,7 +178,8 @@ def test_runs_from_before_assets_still_compare(tmp_path):
     new = load_run(scan_run(tmp_path, "hardened"))
     c = compare(old, new)
     # Checks with one result on each side pair up whatever the asset is called.
-    assert len(c.fixed) == 15
-    # The lab now has two log stores. The old run's one unnamed log store cannot be
-    # matched to either, so log retention is listed as not comparable, not as fixed.
-    assert {ch.check_id for ch in c.unresolved} == {"CHK-LOG-001"}
+    assert len(c.fixed) == 14
+    # The lab now has two log stores and two backup repositories. The old run's one
+    # unnamed asset of each cannot be matched to either, so those checks are listed as
+    # not comparable, not as fixed.
+    assert {ch.check_id for ch in c.unresolved} == {"CHK-LOG-001", "CHK-BAK-001"}

@@ -90,10 +90,26 @@ class LogsTarget(Asset):
 
 
 class BackupTarget(Asset):
-    container: str  # restic runs inside it, with the repository configured by env
+    """A backup repository. `product` is detected unless it is set.
+
+    Either `container` (the backup tool runs inside it, already configured with its
+    repository and password) or `repository` plus `password_env` (the tool runs on the
+    scanning host) must be given.
+    """
+
+    product: str = "auto"  # or restic, borg
+    container: str | None = None
+    repository: str | None = None  # e.g. s3:..., sftp:..., /srv/backups/repo
+    password_env: str | None = None  # the repository password or passphrase
+
+    @model_validator(mode="after")
+    def _one_way_in(self):
+        if not self.container and not self.repository:
+            raise ValueError("a backup asset needs either container or repository")
+        return self
 
     def _default_name(self) -> str:
-        return self.container
+        return self.container or self.repository
 
 
 class DockerTarget(Asset):

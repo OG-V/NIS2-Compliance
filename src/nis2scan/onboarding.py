@@ -14,10 +14,12 @@ from dataclasses import dataclass, field
 from datetime import date
 from urllib.parse import urlparse
 
+from nis2scan.adapters.backup import ADAPTERS as BACKUP_ADAPTERS
 from nis2scan.adapters.identity import ADAPTERS
 from nis2scan.adapters.identity.detect import LABELS, detect
 from nis2scan.adapters.logging import ADAPTERS as LOG_ADAPTERS
 from nis2scan.collectors._docker import docker
+from nis2scan.collectors.backup import detect as backup_detect
 from nis2scan.collectors.logging import detect as log_detect
 from nis2scan.config import Target
 from nis2scan.registry import CollectorError
@@ -179,6 +181,45 @@ def _log_store(system: System, logs, target: Target, probe: bool) -> None:
             credential.status, credential.note = MISSING, f"refused: {exc}"
 
 
+def _backup(system: System, backup, target: Target, probe: bool) -> None:
+    if backup.container:
+        system.access.append(
+            Access(
+                f"Docker access to container {backup.container}, where the backup tool runs "
+                "with its repository configured",
+                _status(probe and container_exists(backup.container), probe),
+            )
+        )
+    if backup.product != "auto":
+        product, system.identified_by = backup.product, "set in the target file"
+    elif probe:
+        try:
+            found = backup_detect(backup, target.secret)
+            product, system.identified_by = found["product"], f"identified: {found['method']}"
+        except CollectorError as exc:
+            product, system.identified_by = None, f"not identified: {str(exc).split(';')[0]}"
+    else:
+        product = None
+    if product not in BACKUP_ADAPTERS:
+        if probe or product:
+            system.access.append(
+                Access("A supported backup tool", MISSING, "set `product:` or check the container")
+            )
+        return
+    adapter = BACKUP_ADAPTERS[product]
+    system.product = adapter.label
+    credential = Access(adapter.access)
+    system.access.append(credential)
+    if probe:
+        try:
+            adapter.fetch(backup, target.secret)
+            credential.status, credential.note = OK, "tested by listing the snapshots (read-only)"
+        except KeyError as exc:
+            credential.status, credential.note = MISSING, str(exc).strip("'")
+        except CollectorError as exc:
+            credential.status, credential.note = MISSING, f"refused: {exc}"
+
+
 def plan(target: Target, probe: bool = True) -> list[System]:
     """Every system in the target, with the access it needs and whether that is in place."""
     systems = []
@@ -223,18 +264,8 @@ def plan(target: Target, probe: bool = True) -> list[System]:
         _log_store(s, logs, target, probe)
         systems.append(s)
     for backup in target.backup:
-        s = System(
-            "backup",
-            backup.name,
-            product="restic",
-            identified_by="assumed: the only backup tool supported so far",
-        )
-        s.access.append(
-            Access(
-                f"Docker access to container {backup.container}, where restic is configured with its repository",
-                _status(probe and container_exists(backup.container), probe),
-            )
-        )
+        s = System("backup", backup.name)
+        _backup(s, backup, target, probe)
         systems.append(s)
     for project in target.docker:
         s = System("docker", project.name, product="Docker Compose")
