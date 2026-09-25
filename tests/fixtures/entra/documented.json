@@ -1,0 +1,39 @@
+{
+  "_source": "Built from response shapes in the Microsoft Graph v1.0 documentation (user, authenticationMethod, identitySecurityDefaultsEnforcementPolicy, conditionalAccessPolicy). Not recorded from a live tenant.",
+  "tenant_id": "00000000-0000-0000-0000-000000000000",
+  "tenant_name": "Contoso",
+  "users": [
+    {"userPrincipalName": "admin@contoso.example", "accountEnabled": true, "userType": "Member",
+     "methods": ["microsoftAuthenticator", "password"]},
+    {"userPrincipalName": "sales@contoso.example", "accountEnabled": true, "userType": "Member",
+     "methods": ["email", "password"]},
+    {"userPrincipalName": "dev@contoso.example", "accountEnabled": true, "userType": "Member",
+     "methods": ["fido2", "password", "phone"]},
+    {"userPrincipalName": "former@contoso.example", "accountEnabled": false, "userType": "Member",
+     "methods": ["password"]},
+    {"userPrincipalName": "partner_fabrikam.example#EXT#@contoso.example", "accountEnabled": true, "userType": "Guest",
+     "methods": []}
+  ],
+  "security_defaults_enabled": false,
+  "conditional_access_policies": [
+    {
+      "displayName": "Require MFA for all users",
+      "state": "enabled",
+      "conditions": {
+        "users": {"includeUsers": ["All"], "excludeUsers": ["11111111-1111-1111-1111-111111111111"], "excludeGroups": [], "excludeRoles": []},
+        "applications": {"includeApplications": ["All"]}
+      },
+      "grantControls": {"operator": "OR", "builtInControls": ["mfa"], "authenticationStrength": null}
+    },
+    {
+      "displayName": "Block legacy authentication (report-only)",
+      "state": "enabledForReportingButNotEnforced",
+      "conditions": {
+        "users": {"includeUsers": ["All"]},
+        "applications": {"includeApplications": ["All"]}
+      },
+      "grantControls": {"operator": "OR", "builtInControls": ["block"]}
+    }
+  ],
+  "password_rule_settings": null
+}

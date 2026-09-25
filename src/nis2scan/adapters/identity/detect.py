@@ -49,6 +49,8 @@ def classify(config: dict) -> str | None:
 def discovery_urls(idp: IdpTarget) -> list[str]:
     base = idp.url.rstrip("/")
     urls = [f"{base}/.well-known/openid-configuration"]
+    if urlparse(base).hostname == "login.microsoftonline.com":  # Entra ID: per tenant, v2.0
+        urls.insert(0, f"{base}/v2.0/.well-known/openid-configuration")
     if idp.realm:  # Keycloak publishes per realm
         urls.insert(0, f"{base}/realms/{idp.realm}/.well-known/openid-configuration")
     return urls

@@ -8,7 +8,7 @@ import pytest
 from conftest import FIXTURES
 
 from nis2scan.adapters import _http
-from nis2scan.adapters.identity import ADAPTERS
+from nis2scan.adapters.identity import ADAPTERS, entra
 from nis2scan.adapters.identity.detect import classify, detect
 from nis2scan.adapters.identity.okta import requires_second_factor
 from nis2scan.collectors.identity import idp_config, idp_default_admin
@@ -143,10 +143,10 @@ def test_recognised_but_unsupported_product(monkeypatch):
     monkeypatch.setattr(
         detect_module,
         "get_json",
-        lambda url: {"issuer": "https://login.microsoftonline.com/t/v2.0"},
+        lambda url: {"issuer": "https://accounts.google.com"},
     )
-    with pytest.raises(CollectorError, match="Microsoft Entra ID detected .* not supported yet"):
-        detect(IdpTarget(url="https://login.microsoftonline.com/t"))
+    with pytest.raises(CollectorError, match="Google detected .* not supported yet"):
+        detect(IdpTarget(url="https://accounts.google.com"))
 
 
 # --- collectors --------------------------------------------------------------------
@@ -241,3 +241,138 @@ def test_mfa_check_names_password_only_apps():
         "a password alone signs in through Okta OIN Submission Tester"
     )
     assert result.observed["password_only_sign_in"] == ["Okta OIN Submission Tester"]
+
+
+# --- Microsoft Entra ID (documented response shapes) --------------------------------
+
+
+ENTRA = json.loads((Path(__file__).parent / "fixtures" / "entra" / "documented.json").read_text())
+
+
+def test_entra_users_and_methods():
+    idp = ADAPTERS["entra-id"].normalize(ENTRA)
+    assert idp.tenant == "Contoso"
+    external = [u.username for u in idp.users if u.external]
+    assert external == ["partner_fabrikam.example#EXT#@contoso.example"]  # signs in at home
+    # Email is not a second factor; a disabled account cannot sign in.
+    assert idp.users_without_mfa == ["sales@contoso.example"]
+
+
+def test_entra_fixed_password_rules_and_smart_lockout():
+    idp = ADAPTERS["entra-id"].normalize(ENTRA)
+    assert idp.password_min_length == 8
+    assert idp.lockout_enabled and idp.lockout_max_attempts == 10
+    assert "fixed by Microsoft" in idp.password_policy
+    custom = {**ENTRA, "password_rule_settings": {"LockoutThreshold": "5"}}
+    assert ADAPTERS["entra-id"].normalize(custom).lockout_max_attempts == 5
+
+
+def test_entra_conditional_access_exclusions_are_reported():
+    idp = ADAPTERS["entra-id"].normalize(ENTRA)
+    assert idp.password_only_sign_in == [
+        (
+            "Microsoft Entra ID sign-in for the 1 users, groups or roles excluded from "
+            "Conditional Access policy 'Require MFA for all users'"
+        )
+    ]
+    assert not idp.new_users_must_enrol_mfa
+
+
+def test_entra_policy_without_exclusions_enforces_mfa():
+    raw = copy.deepcopy(ENTRA)
+    raw["conditional_access_policies"][0]["conditions"]["users"]["excludeUsers"] = []
+    idp = ADAPTERS["entra-id"].normalize(raw)
+    assert idp.password_only_sign_in == [] and idp.new_users_must_enrol_mfa
+
+
+def test_entra_report_only_policies_do_not_count():
+    raw = copy.deepcopy(ENTRA)
+    raw["conditional_access_policies"][0]["state"] = "enabledForReportingButNotEnforced"
+    assert ADAPTERS["entra-id"].normalize(raw).password_only_sign_in == [
+        (
+            "Microsoft Entra ID sign-in (security defaults are off and no enabled Conditional "
+            "Access policy requires MFA for all users and apps)"
+        )
+    ]
+
+
+def test_entra_security_defaults_enforce_mfa():
+    raw = {**ENTRA, "security_defaults_enabled": True, "conditional_access_policies": None}
+    idp = ADAPTERS["entra-id"].normalize(raw)
+    assert idp.password_only_sign_in == [] and idp.new_users_must_enrol_mfa
+
+
+def test_entra_without_conditional_access_licence():
+    raw = {**ENTRA, "conditional_access_policies": None}
+    (only,) = ADAPTERS["entra-id"].normalize(raw).password_only_sign_in
+    assert "Conditional Access is not available in this tenant" in only
+
+
+def test_entra_authentication_strength_counts_as_mfa():
+    policy = copy.deepcopy(ENTRA["conditional_access_policies"][0])
+    policy["grantControls"] = {"builtInControls": [], "authenticationStrength": {"id": "x"}}
+    assert entra.enforces_mfa_for_everyone(policy)
+
+
+def test_entra_tenant_and_method_names():
+    assert entra.tenant_of(IdpTarget(url="https://login.microsoftonline.com/abc-123")) == "abc-123"
+    with pytest.raises(CollectorError, match="must include the tenant"):
+        entra.tenant_of(IdpTarget(url="https://login.microsoftonline.com/"))
+    assert (
+        entra.method_type({"@odata.type": "#microsoft.graph.fido2AuthenticationMethod"}) == "fido2"
+    )
+
+
+def test_entra_discovery_url_is_per_tenant():
+    from nis2scan.adapters.identity.detect import discovery_urls
+
+    urls = discovery_urls(IdpTarget(url="https://login.microsoftonline.com/abc-123"))
+    assert (
+        urls[0] == "https://login.microsoftonline.com/abc-123/v2.0/.well-known/openid-configuration"
+    )
+
+
+ENTRA_LIVE = json.loads(
+    (Path(__file__).parent / "fixtures" / "entra" / "live-free-tenant.json").read_text()
+)
+
+
+def test_entra_live_free_tenant():
+    idp = ADAPTERS["entra-id"].normalize(ENTRA_LIVE)
+    # The tenant's creator is a personal Microsoft account: external, MFA at home.
+    assert idp.users_without_mfa == [] and len(idp.external_accounts) == 1
+    # Security defaults are on; Graph lists no Conditional Access policies.
+    assert ENTRA_LIVE["conditional_access_policies"] == []
+    assert idp.password_only_sign_in == [] and idp.new_users_must_enrol_mfa
+    assert (idp.password_min_length, idp.lockout_max_attempts) == (8, 10)
+
+
+def test_mfa_check_names_external_accounts():
+    from nis2scan.checks.identity import mfa_enforced
+
+    result = mfa_enforced(
+        {"identity": ADAPTERS["entra-id"].normalize(ENTRA_LIVE).model_dump()}, None, None
+    )
+    assert result.status == "pass"
+    assert (
+        result.message
+        == "No internal accounts; 1 external account(s) use their home provider's MFA"
+    )
+    assert result.observed["external_accounts"] == [
+        "owner1_example.com#EXT#@example.onmicrosoft.com"
+    ]
+
+
+def test_fixed_password_minimum_is_explained():
+    from nis2scan.checks.identity import password_length
+    from nis2scan.config import load_profile
+    from nis2scan.report.plain import explain
+
+    ev = {"identity": ADAPTERS["entra-id"].normalize(ENTRA_LIVE).model_dump()}
+    result = password_length(
+        ev, load_profile(Path(__file__).parent.parent / "catalog" / "profile.yaml"), None
+    )
+    assert result.status == "fail" and result.observed["min_length_fixed_by_vendor"]
+    plain = explain("CHK-IDP-003", result.observed, result.expected)
+    assert "cannot be raised" in plain.found
+    assert plain.action.startswith("Compensate for the fixed minimum") and plain.effort == "change"

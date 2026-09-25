@@ -580,7 +580,7 @@
     },
     {
       "finding_id": "CHK-IDP-002",
-      "title": "Brute-force protection is enabled on the staff realm",
+      "title": "Accounts are locked after repeated failed logins",
       "severity": "medium",
       "message": "Brute-force protection is off",
       "observed": {
@@ -1030,7 +1030,7 @@
       "message": "Brute-force protection is off",
       "collected_at": "2026-09-25T00:36:24.516842Z",
       "finding_id": "CHK-IDP-002",
-      "title": "Brute-force protection is enabled on the staff realm",
+      "title": "Accounts are locked after repeated failed logins",
       "severity": "medium",
       "evidence_sha256": "e4ef41b65e6a68a307f4508f58ac00b3cdac29abbb7a5b671362c5122b31ea6c",
       "action": "Turn on protection against password guessing",
@@ -2462,6 +2462,8 @@
     }
   ],
   "multi_asset": false,
+  "assets": [],
+  "engagement": null,
   "narrative": {
     "status": "accepted",
     "model": "claude-opus-5-5",

@@ -149,7 +149,7 @@
     {
       "check_id": "CHK-IDP-002",
       "asset": null,
-      "title": "Brute-force protection is enabled on the staff realm",
+      "title": "Accounts are locked after repeated failed logins",
       "severity": "medium",
       "action": "Turn on protection against password guessing",
       "effort": "quick",

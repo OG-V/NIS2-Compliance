@@ -19,6 +19,9 @@ from nis2scan.checks.web import VERSION_ORDER
 class Plain:
     found: str
     should: str
+    # Replaces the check's usual action and effort when this finding shows it cannot apply.
+    action: str | None = None
+    effort: str | None = None
 
 
 def _list(items: list[str]) -> str:
@@ -100,7 +103,17 @@ def _password_length(o: dict, e: dict) -> Plain:
         if o["min_length"]
         else "No minimum password length is set."
     )
-    return Plain(found, f"Passwords have at least {e['min_length_at_least']} characters.")
+    should = f"Passwords have at least {e['min_length_at_least']} characters."
+    if o.get("min_length_fixed_by_vendor"):
+        found += " The vendor fixes this minimum, so it cannot be raised."
+        return Plain(
+            found,
+            should,
+            action="Compensate for the fixed minimum: enforce MFA for every account, or move "
+            "to passwordless sign-in, and record the decision as an accepted risk",
+            effort="change",
+        )
+    return Plain(found, should)
 
 
 def _default_admin(o: dict, e: dict) -> Plain:

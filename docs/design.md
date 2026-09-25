@@ -169,7 +169,7 @@ profile differences are listed as an answer key in [lab/README.md](../lab/README
 |---|---|---|
 | (h) cryptography | nginx | TLS versions below the profile minimum refused (live handshake); certificate valid; HTTP redirects to HTTPS with HSTS |
 | (i) access control | sshd host | password authentication not offered (live probe); root login disabled; auth attempts limited (`sshd -T`) |
-| (i), (j) identity | Keycloak (also Okta) | MFA enrolled or enforced for all staff, and no sign-in by password alone; lockout after failed logins; password length; default admin credentials rejected |
+| (i), (j) identity | Keycloak (also Okta, Entra ID) | MFA enrolled or enforced for all staff, and no sign-in by password alone; lockout after failed logins; password length; default admin credentials rejected |
 | (b) incident handling | Loki | log retention at least the profile minimum |
 | (c) backups | restic | recent snapshot exists |
 | (i) asset management | Docker, `assets.yaml` | every running service is inventoried |
@@ -196,8 +196,12 @@ ports, Docker containers, product detection, a single read-only request with eac
 credential, and documents on disk. It can write the list as a Markdown checklist to send.
 
 **Products.** Identity providers are read through product adapters behind a neutral
-evidence model ([ADR 0006](adr/0006-product-adapters.md)): Keycloak (verified on the lab)
-and Okta (verified on a live developer org). The product is detected from the
+evidence model ([ADR 0006](adr/0006-product-adapters.md)): Keycloak (verified on the lab),
+Okta (verified on a live developer org) and Microsoft Entra ID (verified on a live free
+tenant with security defaults; Conditional Access is tested on documented responses).
+Accounts that sign in at another provider, such as guests or the personal Microsoft
+account that created a tenant, are marked external: their MFA happens where the tested
+product cannot see it, so they are listed rather than counted as lacking MFA. The product is detected from the
 provider's OpenID configuration, or set with `product:` in the target, and the report
 lists every system with its product and how it was identified. Logging and backups
 still speak one product each (Loki, restic) and are next in line for the same pattern.

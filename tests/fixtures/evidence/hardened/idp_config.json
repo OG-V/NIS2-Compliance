@@ -5,18 +5,21 @@
     "lockout_max_attempts": 5,
     "new_users_must_enrol_mfa": true,
     "password_min_length": 12,
+    "password_min_length_fixed": false,
     "password_only_sign_in": null,
     "password_policy": "length(12) and notUsername and passwordHistory(5)",
     "tenant": "nordmsp",
     "users": [
       {
         "enabled": true,
+        "external": false,
         "mfa_enrolled": false,
         "mfa_pending": true,
         "username": "kari.admin"
       },
       {
         "enabled": true,
+        "external": false,
         "mfa_enrolled": false,
         "mfa_pending": true,
         "username": "ola.tech"
