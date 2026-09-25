@@ -1,0 +1,30 @@
+id: REQ-CIR2690-1.1.2-01
+title: Annual and event-driven policy review by management
+obligation: The entity shall have its network and information system security policy reviewed and, where
+  appropriate, updated by management bodies at least annually and when significant incidents or significant
+  changes to operations or risks occur.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 1.1.2
+  nis2_article: 21(2)(a)
+  quote: The network and information system security policy shall be reviewed and, where appropriate,
+    updated by management bodies at least annually and when significant incidents or significant changes
+    to operations or risks occur.
+testability: documentary
+evidence:
+- dated versions of the network and information system security policy
+- management body meeting minutes or approval records
+- policy review schedule
+- change log linking reviews to incidents or operational changes
+parameters:
+  review_frequency: at least annually
+  review_trigger_events: when significant incidents or significant changes to operations or risks occur
+  responsible_reviewer: management bodies
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.3
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:21:28.323555Z'
+review:
+  status: draft
+  notes: ''

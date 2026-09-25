@@ -1,0 +1,29 @@
+id: REQ-CIR2690-6.6.1-01
+title: Establish coherent security patch management procedures
+obligation: The entity shall specify and apply security patch management procedures that are coherent
+  with the change management procedures referred to in point 6.4.1 as well as with vulnerability management,
+  risk management and other relevant management procedures.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 6.6.1
+  nis2_article: 21(2)(e)
+  quote: The relevant entities shall specify and apply procedures, coherent with the change management
+    procedures referred to in point 6.4.1 as well as with vulnerability management, risk management and
+    other relevant management procedures
+testability: documentary
+evidence:
+- approved security patch management procedure
+- change management procedure
+- vulnerability management procedure
+- risk management procedure
+- records of procedure application
+parameters:
+  patch_procedure_review_frequency: entity_defined
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.3
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:21:48.823925Z'
+review:
+  status: draft
+  notes: ''

@@ -1,0 +1,26 @@
+id: REQ-CIR2690-12.4.1-01
+title: Maintain complete asset inventory
+obligation: The entity shall develop and maintain a complete, accurate, up-to-date and consistent inventory
+  of its assets.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 12.4.1
+  nis2_article: 21(2)(i)
+  quote: The relevant entities shall develop and maintain a complete, accurate, up-to-date and consistent
+    inventory of their assets.
+testability: documentary
+evidence:
+- asset inventory register
+- inventory management tool export
+- asset inventory review records
+parameters:
+  inventory_update_frequency: entity_defined
+  asset_scope: entity_defined
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.3
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:22:12.445353Z'
+review:
+  status: draft
+  notes: ''
