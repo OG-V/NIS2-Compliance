@@ -74,12 +74,17 @@ def _mfa(o: dict, e: dict) -> Plain:
     if o["users_without_mfa"]:
         users = o["users_without_mfa"]
         problems.append(f"Accounts that log in with a password alone: {_list(users)}.")
-    if not o["new_users_must_enrol_otp"]:
+    # Runs made before identity adapters existed call this field new_users_must_enrol_otp.
+    if not o.get("new_users_must_enrol_mfa", o.get("new_users_must_enrol_otp")):
         problems.append("New accounts are not asked to set up two-factor login.")
-    return Plain(
-        " ".join(problems),
-        "Every account uses two-factor login, and new accounts must set it up.",
-    )
+    if o.get("password_only_sign_in"):
+        problems.append(
+            f"A password alone is enough to sign in through: {_list(o['password_only_sign_in'])}."
+        )
+    should = "Every account uses two-factor login, and new accounts must set it up."
+    if "password_only_sign_in" in o:
+        should += " No sign-in accepts a password alone."
+    return Plain(" ".join(problems), should)
 
 
 def _brute_force(o: dict, e: dict) -> Plain:

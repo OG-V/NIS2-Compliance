@@ -235,6 +235,27 @@
     {% endfor %}
   </section>
 
+  {% if d.assets %}
+  {%- set KIND = {"web": "Web endpoint", "ssh": "SSH host", "idp": "Identity provider", "logs": "Log store", "backup": "Backup repository", "docker": "Docker project", "documents": "Documents"} %}
+  <section aria-labelledby="systems">
+    <div class="sec-head">
+      <h2 id="systems">Systems scanned ({{ d.assets|length }})</h2>
+      <p class="muted small">Every system in scope. Where the tool had to recognise the product, it says how.</p>
+    </div>
+    <div class="table-wrap"><table>
+      <tr><th>System</th><th>Kind</th><th>Product</th><th>How it was identified</th></tr>
+      {% for a in d.assets %}
+      <tr>
+        <td><b>{{ a.name }}</b></td>
+        <td>{{ KIND.get(a.section, a.section) }}</td>
+        <td>{{ a.get("label") or "–" }}</td>
+        <td>{% if a.get("error") %}<span class="pill error">not identified</span> {{ a.error }}{% elif a.get("method") %}{{ a.method }}{% if a.detail %} <span class="muted small">({{ a.detail }})</span>{% endif %}{% else %}<span class="muted">–</span>{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </table></div>
+  </section>
+  {% endif %}
+
   <section aria-labelledby="all-checks">
     <h2 id="all-checks">All checks</h2>
     <div class="table-wrap"><table>
