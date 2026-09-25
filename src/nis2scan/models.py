@@ -37,6 +37,9 @@ class SourceRef(BaseModel):
 
 class ExtractionMeta(BaseModel):
     model: str
+    effort: str | None = (
+        None  # None for runs made before effort was recorded (Opus 5 default: high)
+    )
     prompt_version: str
     source_sha256: str
     extracted_at: datetime

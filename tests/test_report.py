@@ -118,7 +118,7 @@ def test_accepted_narrative_is_shown_next_to_its_gap(weak):
     run, data = weak
     narrative = valid_narrative(data)
     result = nr.NarrativeResult(
-        "accepted", "claude-opus-5", "v", "t", 1, narrative=narrative.model_dump()
+        "accepted", "claude-opus-5", "high", "v", "t", 1, narrative=narrative.model_dump()
     )
     (run / "narrative.json").write_text(json.dumps(asdict(result)))
     html = render(data, run)[0].read_text()
@@ -130,7 +130,9 @@ def test_accepted_narrative_is_shown_next_to_its_gap(weak):
 
 def test_rejected_narrative_is_not_shown(weak):
     run, data = weak
-    result = nr.NarrativeResult("rejected", "m", "v", "t", 2, ["gap CHK-X is not explained"])
+    result = nr.NarrativeResult(
+        "rejected", "m", "high", "v", "t", 2, ["gap CHK-X is not explained"]
+    )
     (run / "narrative.json").write_text(json.dumps(asdict(result)))
     html = render(data, run)[0].read_text()
     assert "rejected</b> by the validator" in html and "Executive summary" not in html
@@ -237,6 +239,16 @@ def test_narrate_retries_once_with_the_validator_feedback(weak):
     assert f"failing finding {data.gaps[0].finding_id} is not explained" in retry_prompt
     assert client.calls[0]["fallbacks"] == "default"
     assert client.calls[0]["output_format"] is nr.Narrative
+    assert client.calls[0]["output_config"] == {"effort": nr.EFFORT}
+
+
+def test_narrate_uses_the_requested_model_and_effort(weak):
+    _, data = weak
+    client = FakeClient([valid_narrative(data)])
+    result = nr.narrate(client, data, model="claude-opus-5-5", effort="medium")
+    assert client.calls[0]["model"] == "claude-opus-5-5"
+    assert client.calls[0]["output_config"] == {"effort": "medium"}
+    assert (result.status, result.effort) == ("accepted", "medium")
 
 
 def test_narrate_gives_up_after_two_bad_drafts(weak):

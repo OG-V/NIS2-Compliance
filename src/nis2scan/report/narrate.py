@@ -24,6 +24,7 @@ from pydantic import BaseModel
 from nis2scan.report.data import ReportData
 
 MODEL = "claude-opus-5"
+EFFORT = "high"  # explicit: defaults differ per model
 PROMPT_VERSION = "2026-09-25.1"
 FALLBACK_BETA = "server-side-fallback-2026-07-01"
 MAX_ATTEMPTS = 2
@@ -128,6 +129,7 @@ def validate(narrative: Narrative, data: ReportData) -> list[str]:
 class NarrativeResult:
     status: str  # "accepted" | "rejected"
     model: str
+    effort: str
     prompt_version: str
     created_at: str
     attempts: int
@@ -135,7 +137,7 @@ class NarrativeResult:
     narrative: dict | None = None
 
 
-def _request(client, payload: str, feedback: list[str]):
+def _request(client, payload: str, feedback: list[str], model: str, effort: str):
     content = f"Scan results:\n```json\n{payload}\n```"
     if feedback:
         content += (
@@ -143,8 +145,9 @@ def _request(client, payload: str, feedback: list[str]):
         )
         content += "\n".join(f"- {p}" for p in feedback)
     response = client.beta.messages.parse(
-        model=MODEL,
+        model=model,
         max_tokens=16000,
+        output_config={"effort": effort},
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": content}],
         output_format=Narrative,
@@ -156,19 +159,29 @@ def _request(client, payload: str, feedback: list[str]):
     return response.parsed_output, response.model, None
 
 
-def narrate(client, data: ReportData) -> NarrativeResult:
+def narrate(client, data: ReportData, model: str = MODEL, effort: str = EFFORT) -> NarrativeResult:
     """Ask for a narrative; retry once with the validator's objections; never return an unvalidated one."""
     now = datetime.now(UTC).isoformat()
     if not data.gaps:
-        return NarrativeResult("rejected", MODEL, PROMPT_VERSION, now, 0, ["no gaps to explain"])
+        return NarrativeResult(
+            "rejected", model, effort, PROMPT_VERSION, now, 0, ["no gaps to explain"]
+        )
     payload = json.dumps(data.narrative_input(), indent=1, default=str)
     feedback: list[str] = []
-    model = MODEL
+    served_by = model
     for attempt in range(1, MAX_ATTEMPTS + 1):
-        narrative, model, error = _request(client, payload, feedback)
+        narrative, served_by, error = _request(client, payload, feedback, model, effort)
         feedback = [error] if error else validate(narrative, data)
         if not feedback:
             return NarrativeResult(
-                "accepted", model, PROMPT_VERSION, now, attempt, narrative=narrative.model_dump()
+                "accepted",
+                served_by,
+                effort,
+                PROMPT_VERSION,
+                now,
+                attempt,
+                narrative=narrative.model_dump(),
             )
-    return NarrativeResult("rejected", model, PROMPT_VERSION, now, MAX_ATTEMPTS, feedback)
+    return NarrativeResult(
+        "rejected", served_by, effort, PROMPT_VERSION, now, MAX_ATTEMPTS, feedback
+    )

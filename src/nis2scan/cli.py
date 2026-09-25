@@ -168,12 +168,14 @@ def extract(
         EXTRACTED_DIR
     ),
     workers: Annotated[int, typer.Option(help="Parallel API requests.")] = 4,
+    model: Annotated[str | None, typer.Option(help="Claude model ID.")] = None,
+    effort: Annotated[str | None, typer.Option(help="low, medium, high, xhigh or max.")] = None,
 ) -> None:
     """Extract draft requirements from the CIR 2024/2690 Annex with Claude (costs API credits)."""
     try:
         import anthropic
 
-        from nis2scan.extract.llm import MODEL, extract_all
+        from nis2scan.extract.llm import EFFORT, EFFORTS, MODEL, extract_all
     except ImportError:
         console.print("[red]The LLM extra is not installed:[/] pip install -e '.[llm]'")
         raise typer.Exit(code=2) from None
@@ -191,17 +193,23 @@ def extract(
         )
         raise typer.Exit(code=2)
 
+    model, effort = model or MODEL, effort or EFFORT
+    if effort not in EFFORTS:
+        console.print(f"[red]Unknown effort {effort!r}.[/] Choose from {', '.join(EFFORTS)}.")
+        raise typer.Exit(code=2)
     client = anthropic.Anthropic()
     try:  # free preflight: fails fast on missing credentials or model access
-        client.models.retrieve(MODEL)
+        client.models.retrieve(model)
     except (TypeError, anthropic.AnthropicError) as exc:
         console.print(
-            f"[red]Cannot reach {MODEL}:[/] {exc}\n"
+            f"[red]Cannot reach {model}:[/] {exc}\n"
             "Set ANTHROPIC_API_KEY (or log in with `ant auth login`) and try again."
         )
         raise typer.Exit(code=2) from None
 
-    console.print(f"Extracting {len(wanted)} provision(s) with {MODEL} into {out}")
+    console.print(
+        f"Extracting {len(wanted)} provision(s) with {model} (effort {effort}) into {out}"
+    )
     source_sha = legal_sources.sha256(SOURCES_DIR / legal_sources.CIR_2690.filename)
     with console.status("Calling the model..."):
         outcomes = extract_all(
@@ -211,6 +219,8 @@ def extract(
             SourceIndex(SOURCES_DIR),
             source_sha,
             workers,
+            model,
+            effort,
         )
     table = Table("Point", "Written", "Auto-rejected", "Note")
     for o in outcomes:
@@ -310,6 +320,8 @@ def report(
     narrate: Annotated[
         bool, typer.Option("--narrate", help="Add an AI-drafted narrative (costs API credits).")
     ] = False,
+    model: Annotated[str | None, typer.Option(help="Claude model ID for --narrate.")] = None,
+    effort: Annotated[str | None, typer.Option(help="Effort for --narrate.")] = None,
 ) -> None:
     """Render a scan as an HTML report, optionally with a validated AI narrative."""
     from dataclasses import asdict
@@ -322,19 +334,20 @@ def report(
         try:
             import anthropic
 
-            from nis2scan.report.narrate import MODEL
+            from nis2scan.report.narrate import EFFORT, MODEL
             from nis2scan.report.narrate import narrate as write_narrative
         except ImportError:
             console.print("[red]The LLM extra is not installed:[/] pip install -e '.[llm]'")
             raise typer.Exit(code=2) from None
+        model, effort = model or MODEL, effort or EFFORT
         client = anthropic.Anthropic()
         try:
-            client.models.retrieve(MODEL)
+            client.models.retrieve(model)
         except (TypeError, anthropic.AnthropicError) as exc:
-            console.print(f"[red]Cannot reach {MODEL}:[/] {exc}")
+            console.print(f"[red]Cannot reach {model}:[/] {exc}")
             raise typer.Exit(code=2) from None
-        with console.status("Drafting and validating the narrative..."):
-            result = write_narrative(client, data)
+        with console.status(f"Drafting and validating the narrative with {model}..."):
+            result = write_narrative(client, data, model, effort)
         (run_dir / "narrative.json").write_text(json.dumps(asdict(result), indent=2) + "\n")
         if result.status == "accepted":
             console.print(f"Narrative accepted on attempt {result.attempts}.")
