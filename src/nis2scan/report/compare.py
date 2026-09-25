@@ -14,12 +14,15 @@ from jinja2 import Environment, PackageLoader, StrictUndefined, select_autoescap
 
 from nis2scan.report.data import MEASURES, NIS2_POINTS, SEVERITY_ORDER, ReportData, load_run
 
-FAIL, PASS = "fail", "pass"
+FAIL, PASS, NOT_APPLICABLE = "fail", "pass", "not_applicable"
 
 
 @dataclass
 class CheckChange:
+    """One check on one asset, in both scans."""
+
     check_id: str
+    asset: str | None  # None when the check had no asset (e.g. runs from before assets)
     title: str
     severity: str
     action: str
@@ -51,7 +54,8 @@ class Comparison:
     after_verdicts: dict[str, int]
     before_severities: dict[str, int]
     after_severities: dict[str, int]
-    before_failing: int
+    before_failing: int  # failing results (check and asset) in the first scan
+    multi_asset: bool = False
     fixed: list[CheckChange] = field(default_factory=list)
     still_open: list[CheckChange] = field(default_factory=list)
     new: list[CheckChange] = field(default_factory=list)
@@ -62,7 +66,30 @@ class Comparison:
 
 
 def _severities(data: ReportData) -> dict[str, int]:
-    return {s: sum(g.severity == s for g in data.gaps) for s in SEVERITY_ORDER}
+    """Failing results by severity. A check failing on two assets counts twice."""
+    failing = [f for f in data.findings if f["status"] == FAIL]
+    return {s: sum(f["severity"] == s for f in failing) for s in SEVERITY_ORDER}
+
+
+def _pairs(before: ReportData, after: ReportData):
+    """(before, after) finding pairs for the same check and asset.
+
+    A check with a single result in both scans is paired whatever its asset is
+    called, so a run from before assets were named still compares with a newer one.
+    """
+    by_check: dict[str, tuple[list[dict], list[dict]]] = {}
+    for side, data in enumerate((before, after)):
+        for f in data.findings:
+            by_check.setdefault(f["check_id"], ([], []))[side].append(f)
+    for check_id in sorted(by_check):
+        old, new = by_check[check_id]
+        if len(old) == 1 and len(new) == 1:
+            yield old[0], new[0]
+            continue
+        old_by = {f.get("asset"): f for f in old}
+        new_by = {f.get("asset"): f for f in new}
+        for asset in sorted(old_by.keys() | new_by.keys(), key=lambda a: a or ""):
+            yield old_by.get(asset), new_by.get(asset)
 
 
 def _text(finding: dict | None) -> str:
@@ -104,16 +131,15 @@ def compare(before: ReportData, after: ReportData) -> Comparison:
         after_verdicts=after.verdict_counts,
         before_severities=_severities(before),
         after_severities=_severities(after),
-        before_failing=before.check_counts[FAIL],
+        before_failing=sum(f["status"] == FAIL for f in before.findings),
         warnings=_warnings(before, after),
+        multi_asset=before.multi_asset or after.multi_asset,
     )
-    old = {f["check_id"]: f for f in before.findings}
-    new = {f["check_id"]: f for f in after.findings}
-    for check_id in sorted(old.keys() | new.keys()):
-        b, a = old.get(check_id), new.get(check_id)
+    for b, a in _pairs(before, after):
         latest = a or b
         change = CheckChange(
-            check_id=check_id,
+            check_id=latest["check_id"],
+            asset=latest.get("asset"),
             title=latest["title"],
             severity=latest["severity"],
             action=latest["action"],
@@ -124,6 +150,8 @@ def compare(before: ReportData, after: ReportData) -> Comparison:
             before_text=_text(b),
             after_text=_text(a),
         )
+        if {change.before, change.after} <= {NOT_APPLICABLE, None}:
+            continue  # nothing to compare: the check did not apply in either scan
         if change.before == FAIL and change.after == PASS:
             result.fixed.append(change)
         elif change.before == FAIL and change.after == FAIL:
@@ -135,7 +163,7 @@ def compare(before: ReportData, after: ReportData) -> Comparison:
         else:
             result.unresolved.append(change)
     for changes in (result.fixed, result.still_open, result.new, result.unresolved):
-        changes.sort(key=lambda c: (SEVERITY_ORDER.index(c.severity), c.check_id))
+        changes.sort(key=lambda c: (SEVERITY_ORDER.index(c.severity), c.check_id, c.asset or ""))
 
     rows_before = {a.point: a for a in before.articles}
     rows_after = {a.point: a for a in after.articles}

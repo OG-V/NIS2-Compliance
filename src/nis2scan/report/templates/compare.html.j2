@@ -45,7 +45,7 @@
       <span class="pill cap {{ pill_class or ch.severity }}">{{ pill_text or ch.severity }}</span>
       <div class="what">
         <b>{{ ch.title if pill_text == "Fixed" else ch.action }}</b>
-        <span class="muted small">{% if ch.topic %}{{ ch.topic }} · {% endif %}<span class="mono">{{ ch.check_id }}</span>{% if pill_text %} · {{ ch.severity }} severity{% endif %}</span>
+        <span class="muted small">{% if ch.topic %}{{ ch.topic }} · {% endif %}<span class="mono">{{ ch.check_id }}</span>{% if c.multi_asset and ch.asset %} · on <b>{{ ch.asset }}</b>{% endif %}{% if pill_text %} · {{ ch.severity }} severity{% endif %}</span>
         <dl class="ba">
           <dt>Before</dt><dd>{{ ch.before_text }}</dd>
           <dt>Now</dt><dd>{{ ch.after_text }}</dd>
@@ -183,7 +183,7 @@
       <tr><th>Check</th><th>Before</th><th>Now</th></tr>
       {% for ch in c.unresolved %}
       <tr>
-        <td><span class="mono">{{ ch.check_id }}</span><br>{{ ch.title }}</td>
+        <td><span class="mono">{{ ch.check_id }}</span>{% if c.multi_asset and ch.asset %} · {{ ch.asset }}{% endif %}<br>{{ ch.title }}</td>
         <td>{{ (ch.before or "not in scan").replace("_", " ") }}</td>
         <td>{{ (ch.after or "not in scan").replace("_", " ") }}</td>
       </tr>
@@ -196,7 +196,7 @@
     <h2 id="method">Method</h2>
     <ul class="method">
       <li>Both scans are read from their own result files and compared check by check. No language model is involved.</li>
-      <li>A problem counts as fixed when its check failed in the first scan and passed in the second. {{ c.still_passing }} {{ "check" if c.still_passing == 1 else "checks" }} passed in both.</li>
+      <li>Results are compared per check and per asset. A problem counts as fixed when its check failed on an asset in the first scan and passed there in the second. {{ c.still_passing }} {{ "check" if c.still_passing == 1 else "checks" }} passed in both.</li>
       <li>Each scan's full report, with evidence and legal text, is in its own result directory.</li>
     </ul>
   </section>

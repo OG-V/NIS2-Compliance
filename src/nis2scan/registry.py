@@ -51,6 +51,7 @@ class Collector:
     name: str
     requires: str  # the Target section whose assets it runs against, e.g. "web"
     collect: Callable[[Context, Asset], dict[str, Any]]
+    needs: tuple[str, ...] = ()  # asset fields that must be set, e.g. ("container",)
 
 
 @dataclass(frozen=True)
@@ -64,11 +65,11 @@ COLLECTORS: dict[str, Collector] = {}
 CHECKS: dict[str, Check] = {}
 
 
-def collector(name: str, *, requires: str):
+def collector(name: str, *, requires: str, needs: tuple[str, ...] = ()):
     def register(fn):
         if name in COLLECTORS:
             raise ValueError(f"duplicate collector {name}")
-        COLLECTORS[name] = Collector(name, requires, fn)
+        COLLECTORS[name] = Collector(name, requires, fn, needs)
         return fn
 
     return register
@@ -103,6 +104,9 @@ class Context:
 
     def collect(self, name: str, asset: Asset) -> dict[str, Any]:
         key = (name, asset.name)
+        missing = [f for f in COLLECTORS[name].needs if not getattr(asset, f, None)]
+        if missing:  # checked here, so recorded-evidence contexts behave like live ones
+            raise NotApplicable(f"{asset.name} has no {', '.join(missing)} set")
         if key not in self._cache:
             try:
                 evidence = self._run(name, asset)

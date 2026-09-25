@@ -4,7 +4,7 @@ import paramiko
 
 from nis2scan.collectors._docker import docker
 from nis2scan.config import SshTarget
-from nis2scan.registry import Context, NotApplicable, collector
+from nis2scan.registry import Context, collector
 
 
 @collector("ssh_auth_methods", requires="ssh")
@@ -42,10 +42,8 @@ def parse_sshd_t(output: str) -> dict[str, str | list[str]]:
     return config
 
 
-@collector("sshd_effective_config", requires="ssh")
+@collector("sshd_effective_config", requires="ssh", needs=("container",))
 def sshd_effective_config(ctx: Context, ssh: SshTarget) -> dict:
-    if not ssh.container:
-        raise NotApplicable("no container given, so the effective sshd config cannot be read")
     output = docker("exec", ssh.container, "sshd", "-T")
     return {
         "source": f"docker exec {ssh.container} sshd -T",
