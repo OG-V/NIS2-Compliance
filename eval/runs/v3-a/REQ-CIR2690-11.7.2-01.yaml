@@ -1,0 +1,28 @@
+id: REQ-CIR2690-11.7.2-01
+title: Authentication strength matched to asset classification
+obligation: The entity shall ensure that the strength of authentication is appropriate for the classification
+  of the asset to be accessed.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 11.7.2
+  nis2_article: 21(2)(i), (j)
+  quote: The relevant entities shall ensure that the strength of authentication is appropriate for the
+    classification of the asset to be accessed.
+testability: technical
+evidence:
+- authentication configuration settings per system
+- asset classification register
+- access control policy
+- authentication mechanism mapping to asset classes
+- system test records of authentication enforcement
+parameters:
+  authentication_strength_level: entity_defined
+  asset_classification_scheme: entity_defined
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.3
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:22:07.586321Z'
+review:
+  status: draft
+  notes: ''

@@ -1,0 +1,150 @@
+{
+  "summary": {
+    "provisions_compared": 20,
+    "same_count_rate": 0.95,
+    "mean_clause_overlap": 0.983,
+    "testability_agreement": 0.945
+  },
+  "provisions": [
+    {
+      "number": "1.1.2",
+      "count_a": 2,
+      "count_b": 2,
+      "matched": 2,
+      "testability_agree": 2
+    },
+    {
+      "number": "3.2.1",
+      "count_a": 3,
+      "count_b": 2,
+      "matched": 2,
+      "testability_agree": 0
+    },
+    {
+      "number": "3.2.3",
+      "count_a": 14,
+      "count_b": 14,
+      "matched": 14,
+      "testability_agree": 13
+    },
+    {
+      "number": "3.2.4",
+      "count_a": 4,
+      "count_b": 4,
+      "matched": 4,
+      "testability_agree": 4
+    },
+    {
+      "number": "3.2.5",
+      "count_a": 2,
+      "count_b": 2,
+      "matched": 2,
+      "testability_agree": 2
+    },
+    {
+      "number": "4.2.1",
+      "count_a": 2,
+      "count_b": 2,
+      "matched": 2,
+      "testability_agree": 2
+    },
+    {
+      "number": "4.2.2",
+      "count_a": 7,
+      "count_b": 7,
+      "matched": 7,
+      "testability_agree": 7
+    },
+    {
+      "number": "4.2.3",
+      "count_a": 1,
+      "count_b": 1,
+      "matched": 1,
+      "testability_agree": 1
+    },
+    {
+      "number": "6.6.1",
+      "count_a": 5,
+      "count_b": 5,
+      "matched": 5,
+      "testability_agree": 5
+    },
+    {
+      "number": "6.6.2",
+      "count_a": 2,
+      "count_b": 2,
+      "matched": 2,
+      "testability_agree": 2
+    },
+    {
+      "number": "6.10.1",
+      "count_a": 3,
+      "count_b": 3,
+      "matched": 3,
+      "testability_agree": 3
+    },
+    {
+      "number": "6.10.2",
+      "count_a": 5,
+      "count_b": 5,
+      "matched": 5,
+      "testability_agree": 5
+    },
+    {
+      "number": "7.3",
+      "count_a": 1,
+      "count_b": 1,
+      "matched": 1,
+      "testability_agree": 1
+    },
+    {
+      "number": "9.2",
+      "count_a": 3,
+      "count_b": 3,
+      "matched": 3,
+      "testability_agree": 3
+    },
+    {
+      "number": "11.2.2",
+      "count_a": 6,
+      "count_b": 6,
+      "matched": 6,
+      "testability_agree": 5
+    },
+    {
+      "number": "11.3.2",
+      "count_a": 4,
+      "count_b": 4,
+      "matched": 4,
+      "testability_agree": 4
+    },
+    {
+      "number": "11.6.2",
+      "count_a": 6,
+      "count_b": 6,
+      "matched": 6,
+      "testability_agree": 6
+    },
+    {
+      "number": "11.7.1",
+      "count_a": 1,
+      "count_b": 1,
+      "matched": 1,
+      "testability_agree": 1
+    },
+    {
+      "number": "11.7.2",
+      "count_a": 1,
+      "count_b": 1,
+      "matched": 1,
+      "testability_agree": 1
+    },
+    {
+      "number": "12.4.1",
+      "count_a": 2,
+      "count_b": 2,
+      "matched": 2,
+      "testability_agree": 2
+    }
+  ]
+}

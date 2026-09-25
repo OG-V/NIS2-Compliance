@@ -1,0 +1,26 @@
+id: REQ-CIR2690-6.6.2-01
+title: Condition for not applying security patches
+obligation: The entity shall only choose not to apply security patches, by way of derogation from point
+  6.6.1(a), when the disadvantages of applying the security patches outweigh the cybersecurity benefits.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 6.6.2
+  nis2_article: 21(2)(e)
+  quote: the relevant entities may choose not to apply security patches when the disadvantages of applying
+    the security patches outweigh the cybersecurity benefits
+testability: organisational
+evidence:
+- patch management policy
+- risk or impact assessments comparing patch disadvantages and cybersecurity benefits
+- records of patch deployment decisions
+- change advisory board minutes
+parameters:
+  criteria_for_weighing_disadvantages_against_benefits: entity_defined
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.3
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:21:48.264209Z'
+review:
+  status: draft
+  notes: ''

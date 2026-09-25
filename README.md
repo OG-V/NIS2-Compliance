@@ -9,7 +9,8 @@ traceable to a specific legal provision.
 > 74 requirements, every quote verbatim, and no invented values
 > ([results](eval/results/2026-09-25-gold.md)), all reviewed and approved. Prompt v2 cut
 > vague stated values from 37% to 5–7%, and two repeat runs agree on 18/20 provisions
-> ([stability](eval/results/2026-09-25-prompt-v2.md)).
+> ([stability](eval/results/2026-09-25-prompt-v2.md)). Prompt v3 made the one nested-list
+> provision stable across runs ([v3](eval/results/2026-09-25-prompt-v3.md)).
 > The report (milestone 5) is next. See [docs/design.md](docs/design.md).
 
 ## Design in one paragraph
