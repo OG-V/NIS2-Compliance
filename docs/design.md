@@ -169,7 +169,7 @@ profile differences are listed as an answer key in [lab/README.md](../lab/README
 |---|---|---|
 | (h) cryptography | nginx | TLS versions below the profile minimum refused (live handshake); certificate valid; HTTP redirects to HTTPS with HSTS |
 | (i) access control | sshd host | password authentication not offered (live probe); root login disabled; auth attempts limited (`sshd -T`) |
-| (i), (j) identity | Keycloak | MFA enrolled or enforced for all staff; brute-force protection; password length; default admin credentials rejected |
+| (i), (j) identity | Keycloak (also Okta) | MFA enrolled or enforced for all staff, and no sign-in by password alone; lockout after failed logins; password length; default admin credentials rejected |
 | (b) incident handling | Loki | log retention at least the profile minimum |
 | (c) backups | restic | recent snapshot exists |
 | (i) asset management | Docker, `assets.yaml` | every running service is inventoried |
@@ -183,9 +183,14 @@ reviewed, to that point as well ([check mapping](check-mapping.md)).
 network-based checks (TLS, certificate, HTTPS redirect, offered SSH login methods) work on
 any reachable host. A collector declares the asset fields it needs, e.g. `sshd -T`
 needs a container. An asset without them skips those checks as not applicable rather
-than failing them. The identity, logging and backup collectors still speak one product
-each (Keycloak, Loki, restic); supporting others means a normalised evidence model per
-area with one adapter per product.
+than failing them.
+
+**Products.** Identity providers are read through product adapters behind a neutral
+evidence model ([ADR 0006](adr/0006-product-adapters.md)): Keycloak (verified on the lab)
+and Okta (verified on a live developer org). The product is detected from the
+provider's OpenID configuration, or set with `product:` in the target, and the report
+lists every system with its product and how it was identified. Logging and backups
+still speak one product each (Loki, restic) and are next in line for the same pattern.
 
 **Planned but not built:** checks that logs are actually shipped centrally and that
 authentication events are logged. The lab's Loki instance receives no logs, so only
