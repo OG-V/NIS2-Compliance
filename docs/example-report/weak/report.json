@@ -22,7 +22,9 @@
       "verdict": "not_assessed",
       "detailed": 2,
       "detailed_not_satisfied": 0,
-      "detailed_assessed": 0
+      "detailed_assessed": 0,
+      "short_title": "Risk analysis and security policies",
+      "icon": "policy"
     },
     {
       "point": "21(2)(b)",
@@ -30,7 +32,9 @@
       "verdict": "not_satisfied",
       "detailed": 22,
       "detailed_not_satisfied": 1,
-      "detailed_assessed": 1
+      "detailed_assessed": 1,
+      "short_title": "Incident handling",
+      "icon": "incident"
     },
     {
       "point": "21(2)(c)",
@@ -38,7 +42,9 @@
       "verdict": "not_satisfied",
       "detailed": 10,
       "detailed_not_satisfied": 1,
-      "detailed_assessed": 1
+      "detailed_assessed": 1,
+      "short_title": "Business continuity and backups",
+      "icon": "backup"
     },
     {
       "point": "21(2)(d)",
@@ -46,7 +52,9 @@
       "verdict": "not_assessed",
       "detailed": 0,
       "detailed_not_satisfied": 0,
-      "detailed_assessed": 0
+      "detailed_assessed": 0,
+      "short_title": "Supply chain security",
+      "icon": "supply"
     },
     {
       "point": "21(2)(e)",
@@ -54,7 +62,9 @@
       "verdict": "not_satisfied",
       "detailed": 15,
       "detailed_not_satisfied": 3,
-      "detailed_assessed": 3
+      "detailed_assessed": 3,
+      "short_title": "Secure development and vulnerability handling",
+      "icon": "code"
     },
     {
       "point": "21(2)(f)",
@@ -62,7 +72,9 @@
       "verdict": "not_assessed",
       "detailed": 2,
       "detailed_not_satisfied": 0,
-      "detailed_assessed": 0
+      "detailed_assessed": 0,
+      "short_title": "Checking that the measures work",
+      "icon": "gauge"
     },
     {
       "point": "21(2)(g)",
@@ -70,7 +82,9 @@
       "verdict": "not_assessed",
       "detailed": 0,
       "detailed_not_satisfied": 0,
-      "detailed_assessed": 0
+      "detailed_assessed": 0,
+      "short_title": "Cyber hygiene and training",
+      "icon": "training"
     },
     {
       "point": "21(2)(h)",
@@ -78,7 +92,9 @@
       "verdict": "not_satisfied",
       "detailed": 3,
       "detailed_not_satisfied": 0,
-      "detailed_assessed": 0
+      "detailed_assessed": 0,
+      "short_title": "Cryptography and encryption",
+      "icon": "lock"
     },
     {
       "point": "21(2)(i)",
@@ -86,7 +102,9 @@
       "verdict": "not_satisfied",
       "detailed": 20,
       "detailed_not_satisfied": 8,
-      "detailed_assessed": 8
+      "detailed_assessed": 8,
+      "short_title": "Access control and asset management",
+      "icon": "access"
     },
     {
       "point": "21(2)(j)",
@@ -94,7 +112,9 @@
       "verdict": "not_satisfied",
       "detailed": 18,
       "detailed_not_satisfied": 7,
-      "detailed_assessed": 7
+      "detailed_assessed": 7,
+      "short_title": "Multi-factor authentication",
+      "icon": "mfa"
     },
     {
       "point": "23(4)",
@@ -102,7 +122,9 @@
       "verdict": "not_satisfied",
       "detailed": 0,
       "detailed_not_satisfied": 0,
-      "detailed_assessed": 0
+      "detailed_assessed": 0,
+      "short_title": "Reporting incidents to the CSIRT",
+      "icon": "report"
     }
   ],
   "gaps": [
@@ -120,6 +142,12 @@
       },
       "evidence_ref": "evidence/keycloak_default_admin.json",
       "evidence_sha256": "0f9328a749bc5d34d42a44656f5678cf2431a37ffc5c55b6a3180a0fa0ca1741",
+      "action": "Change the default admin password",
+      "effort": "quick",
+      "why": "Default admin credentials give anyone full control of every staff identity.",
+      "found": "The admin console accepted the default username \u201cadmin\u201d with its default password.",
+      "should": "The default login is refused.",
+      "topic": "Access control and asset management",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -152,6 +180,12 @@
       },
       "evidence_ref": "evidence/restic_snapshots.json",
       "evidence_sha256": "afdf5b13c0d507cb01d5372a2b19451ece02205ab2597128e753292467a6fd1f",
+      "action": "Restart automatic backups",
+      "effort": "change",
+      "why": "Without recent backups, ransomware or failure causes permanent data loss.",
+      "found": "The newest backup was taken on 1 June 2025, 480 days ago.",
+      "should": "A backup no older than 26 hours.",
+      "topic": "Business continuity and backups",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.C",
@@ -187,6 +221,12 @@
       },
       "evidence_ref": "evidence/keycloak_realm.json",
       "evidence_sha256": "e4ef41b65e6a68a307f4508f58ac00b3cdac29abbb7a5b671362c5122b31ea6c",
+      "action": "Turn on two-factor login for every account",
+      "effort": "change",
+      "why": "Staff accounts reach customer systems; a stolen password alone must not be enough.",
+      "found": "Accounts that log in with a password alone: kari.admin and ola.tech. New accounts are not asked to set up two-factor login.",
+      "should": "Every account uses two-factor login, and new accounts must set it up.",
+      "topic": "Multi-factor authentication",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.J",
@@ -231,6 +271,12 @@
       },
       "evidence_ref": "evidence/ssh_auth_methods.json",
       "evidence_sha256": "165b573a555bfffdef8c469f0059c685474a0ed2231323285b58428a29318f6a",
+      "action": "Allow only key-based server logins, not passwords",
+      "effort": "quick",
+      "why": "Password logins on an admin host can be brute-forced or phished.",
+      "found": "The server accepts password logins, which can be guessed or bypassed.",
+      "should": "Only key-based logins (public key) are accepted.",
+      "topic": "Access control and asset management",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -268,6 +314,12 @@
       },
       "evidence_ref": "evidence/sshd_effective_config.json",
       "evidence_sha256": "0fd555bbf8c345d81a46bdfacb5356743e995cbd6d703fb4dc642d6614365c84",
+      "action": "Stop direct administrator (root) logins to the server",
+      "effort": "quick",
+      "why": "Shared root logins remove individual accountability and give an attacker full control.",
+      "found": "Anyone with the root password can log straight in as administrator (PermitRootLogin yes).",
+      "should": "Direct root login is switched off. Administrators log in as themselves first.",
+      "topic": "Access control and asset management",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -302,6 +354,12 @@
       },
       "evidence_ref": "evidence/tls_probe.json",
       "evidence_sha256": "89bc1a8cccc4e064fe27b3a9d3eb750d4594c6ea534ff340d4b7f41dfa58c9a9",
+      "action": "Switch off outdated encryption versions on the website",
+      "effort": "quick",
+      "why": "Legacy TLS allows downgrade attacks on traffic to a public service.",
+      "found": "The website still accepts TLSv1 and TLSv1.1, which are outdated and can be attacked.",
+      "should": "Only TLSv1.2 or newer is accepted.",
+      "topic": "Cryptography and encryption",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.H",
@@ -368,6 +426,12 @@
       },
       "evidence_ref": "evidence/image_vulnerabilities.json",
       "evidence_sha256": "56a30d01473510f9284a698048f4c094ca9b546ac6559fe526fe1e756af79c9f",
+      "action": "Update software that has known critical flaws",
+      "effort": "project",
+      "why": "Known, fixable critical vulnerabilities are the most common way in.",
+      "found": "26 known critical flaws with an available fix, in 4 components: grafana/loki:3.5.1 (2), nginx:1.20 (17), nis2lab-backup (3) and quay.io/keycloak/keycloak:26.3 (4). nginx:1.20 runs on an operating system that no longer gets updates.",
+      "should": "No fixable critical flaws, unless a documented risk exception covers them.",
+      "topic": "Secure development and vulnerability handling",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.E",
@@ -424,6 +488,12 @@
       },
       "evidence_ref": "evidence/asset_inventory.json",
       "evidence_sha256": "3d9fa29c260f20531fcfb2b4190b05d7fe73357ff30d877b4ef0558c61e87d03",
+      "action": "Add every running service to the asset inventory",
+      "effort": "quick",
+      "why": "Unknown services go unpatched and unmonitored.",
+      "found": "Running but missing from the asset inventory: backup, legacy-web and logs.",
+      "should": "Every running service is listed in the asset inventory.",
+      "topic": "Access control and asset management",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -465,6 +535,12 @@
       },
       "evidence_ref": "evidence/ir_plan.json",
       "evidence_sha256": "91f66d26e8a6fd305d69a35095d5a401cb41ed0b2317d033a418417a5bf65d90",
+      "action": "Add the NIS2 reporting deadlines and the CSIRT contact to the incident plan",
+      "effort": "change",
+      "why": "Missing a reporting deadline is itself a breach of Art. 23, separate from the incident.",
+      "found": "The incident plan does not cover: 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
+      "should": "The plan covers 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
+      "topic": "Reporting incidents to the CSIRT",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-23.4",
@@ -489,6 +565,12 @@
       },
       "evidence_ref": "evidence/keycloak_realm.json",
       "evidence_sha256": "e4ef41b65e6a68a307f4508f58ac00b3cdac29abbb7a5b671362c5122b31ea6c",
+      "action": "Turn on protection against password guessing",
+      "effort": "quick",
+      "why": "Limits online password guessing against staff accounts.",
+      "found": "Nothing stops someone from guessing passwords over and over.",
+      "should": "Accounts are locked for a while after repeated failed logins.",
+      "topic": "Access control and asset management",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -520,6 +602,12 @@
       },
       "evidence_ref": "evidence/keycloak_realm.json",
       "evidence_sha256": "e4ef41b65e6a68a307f4508f58ac00b3cdac29abbb7a5b671362c5122b31ea6c",
+      "action": "Set a minimum password length",
+      "effort": "quick",
+      "why": "Short passwords weaken the first factor even when MFA is in place.",
+      "found": "No minimum password length is set.",
+      "should": "Passwords have at least 12 characters.",
+      "topic": "Access control and asset management",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -558,6 +646,12 @@
       },
       "evidence_ref": "evidence/loki_config.json",
       "evidence_sha256": "d11b47d3d9fe44eff73456982e4985b745e69e7a40594b9c66dd60f1d15b4431",
+      "action": "Keep logs for as long as the policy requires",
+      "effort": "quick",
+      "why": "Logs deleted too early make an incident impossible to investigate or report.",
+      "found": "Logs are deleted after 7 days.",
+      "should": "Logs are kept for at least 90 days.",
+      "topic": "Incident handling",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.B",
@@ -590,6 +684,12 @@
       },
       "evidence_ref": "evidence/tls_probe.json",
       "evidence_sha256": "89bc1a8cccc4e064fe27b3a9d3eb750d4594c6ea534ff340d4b7f41dfa58c9a9",
+      "action": "Renew the website's certificate",
+      "effort": "quick",
+      "why": "An invalid certificate trains users to click through warnings, which makes interception easier.",
+      "found": "The website's certificate expired on 1 January 2025.",
+      "should": "A valid certificate with at least 14 days left.",
+      "topic": "Cryptography and encryption",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.H",
@@ -616,6 +716,12 @@
       },
       "evidence_ref": "evidence/http_probe.json",
       "evidence_sha256": "730960ddfbba96a3e29d5452c427d3a94a95bb4bfb06d5992353e1a324896d4d",
+      "action": "Send all website traffic over HTTPS",
+      "effort": "quick",
+      "why": "Without a redirect and HSTS, users can be kept on unencrypted HTTP.",
+      "found": "Visitors who type http:// stay on the unencrypted site; browsers are not told to always use the encrypted site.",
+      "should": "Visitors on http:// are sent to https://, and browsers are told to always use it.",
+      "topic": "Cryptography and encryption",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.H",
@@ -641,6 +747,12 @@
       },
       "evidence_ref": "evidence/ir_plan.json",
       "evidence_sha256": "91f66d26e8a6fd305d69a35095d5a401cb41ed0b2317d033a418417a5bf65d90",
+      "action": "Review the incident response plan and record the review date",
+      "effort": "change",
+      "why": "A stale plan lists wrong contacts and outdated systems when it is needed.",
+      "found": "The incident plan was last reviewed on 14 February 2023, 1319 days ago.",
+      "should": "The plan is reviewed at least every 365 days.",
+      "topic": "Incident handling",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.B",
@@ -664,6 +776,12 @@
       },
       "evidence_ref": "evidence/sshd_effective_config.json",
       "evidence_sha256": "0fd555bbf8c345d81a46bdfacb5356743e995cbd6d703fb4dc642d6614365c84",
+      "action": "Limit login attempts per connection to the server",
+      "effort": "quick",
+      "why": "Slows guessing, but is a minor control compared with key-only auth.",
+      "found": "Each connection allows 10 login attempts.",
+      "should": "At most 4 attempts per connection.",
+      "topic": "Access control and asset management",
       "breaches": [
         {
           "requirement_id": "REQ-NIS2-21.2.I",
@@ -705,6 +823,12 @@
       "title": "Every running service is in the asset inventory",
       "severity": "medium",
       "evidence_sha256": "3d9fa29c260f20531fcfb2b4190b05d7fe73357ff30d877b4ef0558c61e87d03",
+      "action": "Add every running service to the asset inventory",
+      "effort": "quick",
+      "why": "Unknown services go unpatched and unmonitored.",
+      "found": "Running but missing from the asset inventory: backup, legacy-web and logs.",
+      "should": "Every running service is listed in the asset inventory.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -726,6 +850,12 @@
       "title": "A recent backup snapshot exists",
       "severity": "high",
       "evidence_sha256": "afdf5b13c0d507cb01d5372a2b19451ece02205ab2597128e753292467a6fd1f",
+      "action": "Restart automatic backups",
+      "effort": "change",
+      "why": "Without recent backups, ransomware or failure causes permanent data loss.",
+      "found": "The newest backup was taken on 1 June 2025, 480 days ago.",
+      "should": "A backup no older than 26 hours.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -756,6 +886,12 @@
       "title": "Incident response plan covers the NIS2 reporting stages",
       "severity": "medium",
       "evidence_sha256": "91f66d26e8a6fd305d69a35095d5a401cb41ed0b2317d033a418417a5bf65d90",
+      "action": "Add the NIS2 reporting deadlines and the CSIRT contact to the incident plan",
+      "effort": "change",
+      "why": "Missing a reporting deadline is itself a breach of Art. 23, separate from the incident.",
+      "found": "The incident plan does not cover: 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
+      "should": "The plan covers 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -777,6 +913,12 @@
       "title": "Incident response plan has been reviewed recently",
       "severity": "low",
       "evidence_sha256": "91f66d26e8a6fd305d69a35095d5a401cb41ed0b2317d033a418417a5bf65d90",
+      "action": "Review the incident response plan and record the review date",
+      "effort": "change",
+      "why": "A stale plan lists wrong contacts and outdated systems when it is needed.",
+      "found": "The incident plan was last reviewed on 14 February 2023, 1319 days ago.",
+      "should": "The plan is reviewed at least every 365 days.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -801,6 +943,12 @@
       "title": "Every staff account has MFA enrolled or is forced to enrol",
       "severity": "high",
       "evidence_sha256": "e4ef41b65e6a68a307f4508f58ac00b3cdac29abbb7a5b671362c5122b31ea6c",
+      "action": "Turn on two-factor login for every account",
+      "effort": "change",
+      "why": "Staff accounts reach customer systems; a stolen password alone must not be enough.",
+      "found": "Accounts that log in with a password alone: kari.admin and ola.tech. New accounts are not asked to set up two-factor login.",
+      "should": "Every account uses two-factor login, and new accounts must set it up.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -821,6 +969,12 @@
       "title": "Brute-force protection is enabled on the staff realm",
       "severity": "medium",
       "evidence_sha256": "e4ef41b65e6a68a307f4508f58ac00b3cdac29abbb7a5b671362c5122b31ea6c",
+      "action": "Turn on protection against password guessing",
+      "effort": "quick",
+      "why": "Limits online password guessing against staff accounts.",
+      "found": "Nothing stops someone from guessing passwords over and over.",
+      "should": "Accounts are locked for a while after repeated failed logins.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -841,6 +995,12 @@
       "title": "Password policy enforces the profile's minimum length",
       "severity": "medium",
       "evidence_sha256": "e4ef41b65e6a68a307f4508f58ac00b3cdac29abbb7a5b671362c5122b31ea6c",
+      "action": "Set a minimum password length",
+      "effort": "quick",
+      "why": "Short passwords weaken the first factor even when MFA is in place.",
+      "found": "No minimum password length is set.",
+      "should": "Passwords have at least 12 characters.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -861,6 +1021,12 @@
       "title": "Default admin credentials are rejected",
       "severity": "critical",
       "evidence_sha256": "0f9328a749bc5d34d42a44656f5678cf2431a37ffc5c55b6a3180a0fa0ca1741",
+      "action": "Change the default admin password",
+      "effort": "quick",
+      "why": "Default admin credentials give anyone full control of every staff identity.",
+      "found": "The admin console accepted the default username \u201cadmin\u201d with its default password.",
+      "should": "The default login is refused.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -881,6 +1047,12 @@
       "title": "Central logs are kept at least as long as the profile requires",
       "severity": "medium",
       "evidence_sha256": "d11b47d3d9fe44eff73456982e4985b745e69e7a40594b9c66dd60f1d15b4431",
+      "action": "Keep logs for as long as the policy requires",
+      "effort": "quick",
+      "why": "Logs deleted too early make an incident impossible to investigate or report.",
+      "found": "Logs are deleted after 7 days.",
+      "should": "Logs are kept for at least 90 days.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -907,6 +1079,12 @@
       "title": "SSH does not offer password authentication",
       "severity": "high",
       "evidence_sha256": "165b573a555bfffdef8c469f0059c685474a0ed2231323285b58428a29318f6a",
+      "action": "Allow only key-based server logins, not passwords",
+      "effort": "quick",
+      "why": "Password logins on an admin host can be brute-forced or phished.",
+      "found": "The server accepts password logins, which can be guessed or bypassed.",
+      "should": "Only key-based logins (public key) are accepted.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -926,6 +1104,12 @@
       "title": "Direct root login over SSH is disabled",
       "severity": "high",
       "evidence_sha256": "0fd555bbf8c345d81a46bdfacb5356743e995cbd6d703fb4dc642d6614365c84",
+      "action": "Stop direct administrator (root) logins to the server",
+      "effort": "quick",
+      "why": "Shared root logins remove individual accountability and give an attacker full control.",
+      "found": "Anyone with the root password can log straight in as administrator (PermitRootLogin yes).",
+      "should": "Direct root login is switched off. Administrators log in as themselves first.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -945,6 +1129,12 @@
       "title": "SSH limits authentication attempts per connection",
       "severity": "low",
       "evidence_sha256": "0fd555bbf8c345d81a46bdfacb5356743e995cbd6d703fb4dc642d6614365c84",
+      "action": "Limit login attempts per connection to the server",
+      "effort": "quick",
+      "why": "Slows guessing, but is a minor control compared with key-only auth.",
+      "found": "Each connection allows 10 login attempts.",
+      "should": "At most 4 attempts per connection.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -968,6 +1158,12 @@
       "title": "TLS versions below the profile minimum are refused",
       "severity": "high",
       "evidence_sha256": "89bc1a8cccc4e064fe27b3a9d3eb750d4594c6ea534ff340d4b7f41dfa58c9a9",
+      "action": "Switch off outdated encryption versions on the website",
+      "effort": "quick",
+      "why": "Legacy TLS allows downgrade attacks on traffic to a public service.",
+      "found": "The website still accepts TLSv1 and TLSv1.1, which are outdated and can be attacked.",
+      "should": "Only TLSv1.2 or newer is accepted.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -989,6 +1185,12 @@
       "title": "Certificate is valid and not about to expire",
       "severity": "medium",
       "evidence_sha256": "89bc1a8cccc4e064fe27b3a9d3eb750d4594c6ea534ff340d4b7f41dfa58c9a9",
+      "action": "Renew the website's certificate",
+      "effort": "quick",
+      "why": "An invalid certificate trains users to click through warnings, which makes interception easier.",
+      "found": "The website's certificate expired on 1 January 2025.",
+      "should": "A valid certificate with at least 14 days left.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -1011,6 +1213,12 @@
       "title": "Plain HTTP redirects to HTTPS and HSTS is set",
       "severity": "medium",
       "evidence_sha256": "730960ddfbba96a3e29d5452c427d3a94a95bb4bfb06d5992353e1a324896d4d",
+      "action": "Send all website traffic over HTTPS",
+      "effort": "quick",
+      "why": "Without a redirect and HSTS, users can be kept on unencrypted HTTP.",
+      "found": "Visitors who type http:// stay on the unencrypted site; browsers are not told to always use the encrypted site.",
+      "should": "Visitors on http:// are sent to https://, and browsers are told to always use it.",
+      "topic": "",
       "breaches": []
     },
     {
@@ -1073,6 +1281,12 @@
       "title": "No unaccepted, fixable vulnerability at the failing severity in running images",
       "severity": "high",
       "evidence_sha256": "56a30d01473510f9284a698048f4c094ca9b546ac6559fe526fe1e756af79c9f",
+      "action": "Update software that has known critical flaws",
+      "effort": "project",
+      "why": "Known, fixable critical vulnerabilities are the most common way in.",
+      "found": "26 known critical flaws with an available fix, in 4 components: grafana/loki:3.5.1 (2), nginx:1.20 (17), nis2lab-backup (3) and quay.io/keycloak/keycloak:26.3 (4). nginx:1.20 runs on an operating system that no longer gets updates.",
+      "should": "No fixable critical flaws, unless a documented risk exception covers them.",
+      "topic": "",
       "breaches": []
     }
   ],

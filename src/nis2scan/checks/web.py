@@ -16,6 +16,8 @@ CRYPTO = ["REQ-NIS2-21.2.H"]
     coverage="partial",
     severity="high",
     severity_rationale="Legacy TLS allows downgrade attacks on traffic to a public service.",
+    action="Switch off outdated encryption versions on the website",
+    effort="quick",
     target_type="https_endpoint",
     collector="tls_probe",
 )
@@ -40,6 +42,8 @@ def legacy_tls_refused(ev: dict, profile: Profile, now: datetime):
         "An invalid certificate trains users to click through warnings, "
         "which makes interception easier."
     ),
+    action="Renew the website's certificate",
+    effort="quick",
     target_type="https_endpoint",
     collector="tls_probe",
 )
@@ -70,6 +74,8 @@ def certificate_valid(ev: dict, profile: Profile, now: datetime):
     coverage="partial",
     severity="medium",
     severity_rationale="Without a redirect and HSTS, users can be kept on unencrypted HTTP.",
+    action="Send all website traffic over HTTPS",
+    effort="quick",
     target_type="https_endpoint",
     collector="http_probe",
 )

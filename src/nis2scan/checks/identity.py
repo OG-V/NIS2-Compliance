@@ -20,6 +20,8 @@ ACCESS = ["REQ-NIS2-21.2.I"]
     coverage="partial",
     severity="high",
     severity_rationale="Staff accounts reach customer systems; a stolen password alone must not be enough.",
+    action="Turn on two-factor login for every account",
+    effort="change",
     target_type="identity_provider",
     collector="keycloak_realm",
 )
@@ -55,6 +57,8 @@ def mfa_enforced(ev: dict, profile: Profile, now: datetime):
     coverage="partial",
     severity="medium",
     severity_rationale="Limits online password guessing against staff accounts.",
+    action="Turn on protection against password guessing",
+    effort="quick",
     target_type="identity_provider",
     collector="keycloak_realm",
 )
@@ -86,6 +90,8 @@ def min_password_length(policy: str | None) -> int:
     coverage="partial",
     severity="medium",
     severity_rationale="Short passwords weaken the first factor even when MFA is in place.",
+    action="Set a minimum password length",
+    effort="quick",
     target_type="identity_provider",
     collector="keycloak_realm",
 )
@@ -111,6 +117,8 @@ def password_length(ev: dict, profile: Profile, now: datetime):
     coverage="partial",
     severity="critical",
     severity_rationale="Default admin credentials give anyone full control of every staff identity.",
+    action="Change the default admin password",
+    effort="quick",
     target_type="identity_provider",
     collector="keycloak_default_admin",
 )

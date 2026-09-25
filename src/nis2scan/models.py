@@ -78,6 +78,12 @@ class Coverage(StrEnum):
     PARTIAL = "partial"  # evidences only part of the requirement
 
 
+class Effort(StrEnum):
+    QUICK = "quick"  # a setting, a password or a line of configuration
+    CHANGE = "change"  # a configuration or process change that needs some testing
+    PROJECT = "project"  # planned work such as upgrading several systems
+
+
 class CheckMeta(BaseModel):
     id: str = Field(pattern=r"^CHK-[A-Z0-9\-]+$")
     title: str
@@ -85,6 +91,8 @@ class CheckMeta(BaseModel):
     coverage: Coverage
     severity: Severity
     severity_rationale: str  # severity is a human judgement, not extracted from law
+    action: str  # what to do if the check fails, in words a manager understands
+    effort: Effort  # a rough human estimate of the fix, like severity
     target_type: str
 
 

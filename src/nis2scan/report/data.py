@@ -13,9 +13,25 @@ from pathlib import Path
 
 from nis2scan.models import CheckStatus, Finding, RequirementVerdict, Verdict
 from nis2scan.registry import CHECKS, load_all
+from nis2scan.report.plain import explain
 
 SEVERITY_ORDER = ["critical", "high", "medium", "low"]
 NIS2_POINTS = [f"21(2)({p})" for p in "abcdefghij"] + ["23(4)"]
+
+# Short names and icons for the measure map. The legal titles stay in the tables.
+MEASURES = {
+    "21(2)(a)": ("Risk analysis and security policies", "policy"),
+    "21(2)(b)": ("Incident handling", "incident"),
+    "21(2)(c)": ("Business continuity and backups", "backup"),
+    "21(2)(d)": ("Supply chain security", "supply"),
+    "21(2)(e)": ("Secure development and vulnerability handling", "code"),
+    "21(2)(f)": ("Checking that the measures work", "gauge"),
+    "21(2)(g)": ("Cyber hygiene and training", "training"),
+    "21(2)(h)": ("Cryptography and encryption", "lock"),
+    "21(2)(i)": ("Access control and asset management", "access"),
+    "21(2)(j)": ("Multi-factor authentication", "mfa"),
+    "23(4)": ("Reporting incidents to the CSIRT", "report"),
+}
 
 
 def nis2_points(article: str) -> list[str]:
@@ -56,6 +72,12 @@ class Gap:
     expected: dict
     evidence_ref: str | None
     evidence_sha256: str | None
+    action: str  # what to do, in plain words (from the check's metadata)
+    effort: str
+    why: str  # the check's severity rationale, shown when there is no narrative
+    found: str | None = None  # plain-language restatement of observed/expected
+    should: str | None = None
+    topic: str = ""  # the NIS2 measure the gap falls under, e.g. "Incident handling"
     breaches: list[Breach] = field(default_factory=list)
 
 
@@ -67,6 +89,22 @@ class ArticleRow:
     detailed: int = 0  # CIR requirements under this point in the catalog
     detailed_not_satisfied: int = 0
     detailed_assessed: int = 0
+    short_title: str = ""
+    icon: str = ""
+
+
+# Evidence paths are not useful to the model, and the presentation fields are
+# written by hand: the narrative is validated against the scan's own values only.
+_NOT_FOR_NARRATIVE = (
+    "evidence_ref",
+    "evidence_sha256",
+    "action",
+    "effort",
+    "why",
+    "found",
+    "should",
+    "topic",
+)
 
 
 @dataclass
@@ -91,7 +129,7 @@ class ReportData:
             "requirement_verdicts": self.verdict_counts,
             "checks": self.check_counts,
             "gaps": [
-                {k: v for k, v in asdict(g).items() if k not in ("evidence_ref", "evidence_sha256")}
+                {k: v for k, v in asdict(g).items() if k not in _NOT_FOR_NARRATIVE}
                 for g in self.gaps
             ],
         }
@@ -112,6 +150,9 @@ def load_run(run_dir: Path) -> ReportData:
     def gap(f: Finding) -> Gap:
         meta = CHECKS[f.check_id].meta if f.check_id in CHECKS else None
         collector = Path(f.evidence_ref).stem if f.evidence_ref else None
+        plain = (
+            explain(f.check_id, f.observed, f.expected) if f.status == CheckStatus.FAIL else None
+        )
         return Gap(
             finding_id=f.check_id,
             title=meta.title if meta else f.check_id,
@@ -121,6 +162,11 @@ def load_run(run_dir: Path) -> ReportData:
             expected=f.expected,
             evidence_ref=f.evidence_ref,
             evidence_sha256=evidence_sha.get(collector) if collector else None,
+            action=meta.action if meta else f.message,
+            effort=meta.effort.value if meta else "change",
+            why=meta.severity_rationale if meta else "",
+            found=plain.found if plain else None,
+            should=plain.should if plain else None,
         )
 
     gaps = {f.check_id: gap(f) for f in findings if f.status == CheckStatus.FAIL}
@@ -136,13 +182,19 @@ def load_run(run_dir: Path) -> ReportData:
         g.breaches.sort(
             key=lambda b: (not b.requirement_id.startswith("REQ-NIS2-"), b.requirement_id)
         )
+        if g.breaches:
+            point = nis2_points(g.breaches[0].nis2_article)[0]
+            g.topic = MEASURES.get(point, ("", ""))[0]
     ordered = sorted(gaps.values(), key=lambda g: (SEVERITY_ORDER.index(g.severity), g.finding_id))
 
     articles = {}
     for v in verdicts:
         if v.requirement_id.startswith("REQ-NIS2-"):
             for point in nis2_points(v.nis2_article):
-                articles[point] = ArticleRow(point, v.title, v.verdict.value)
+                short, icon = MEASURES.get(point, (v.title, "policy"))
+                articles[point] = ArticleRow(
+                    point, v.title, v.verdict.value, short_title=short, icon=icon
+                )
     for v in verdicts:
         if v.requirement_id.startswith("REQ-NIS2-"):
             continue

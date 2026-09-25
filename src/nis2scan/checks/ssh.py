@@ -19,6 +19,8 @@ ACCESS = ["REQ-NIS2-21.2.I"]
     coverage="partial",
     severity="high",
     severity_rationale="Password logins on an admin host can be brute-forced or phished.",
+    action="Allow only key-based server logins, not passwords",
+    effort="quick",
     target_type="ssh_host",
     collector="ssh_auth_methods",
 )
@@ -44,6 +46,8 @@ def ssh_no_password_auth(ev: dict, profile: Profile, now: datetime):
     severity_rationale=(
         "Shared root logins remove individual accountability and give an attacker full control."
     ),
+    action="Stop direct administrator (root) logins to the server",
+    effort="quick",
     target_type="ssh_host",
     collector="sshd_effective_config",
 )
@@ -63,6 +67,8 @@ def ssh_no_root_login(ev: dict, profile: Profile, now: datetime):
     coverage="partial",
     severity="low",
     severity_rationale="Slows guessing, but is a minor control compared with key-only auth.",
+    action="Limit login attempts per connection to the server",
+    effort="quick",
     target_type="ssh_host",
     collector="sshd_effective_config",
 )

@@ -9,8 +9,10 @@ from conftest import ROOT, FixtureContext, collected_at, load_evidence
 
 from nis2scan.catalog import load_requirements
 from nis2scan.config import load_profile, load_target
+from nis2scan.registry import CHECKS
 from nis2scan.report import narrate as nr
 from nis2scan.report.data import load_run, nis2_points
+from nis2scan.report.plain import FORMATTERS, explain
 from nis2scan.report.render import render
 from nis2scan.scan import run_scan, write_results
 
@@ -92,6 +94,67 @@ def test_narrative_input_excludes_evidence_paths(weak):
     payload = json.dumps(data.narrative_input())
     assert "evidence_sha256" not in payload and "evidence/" not in payload
     assert "CHK-IDP-004" in payload and "multiple authentication factors" in payload
+    assert "Restart automatic backups" not in payload  # hand-written text is not data
+
+
+# --- plain language -------------------------------------------------------------
+
+
+def test_every_check_has_a_plain_language_formatter(weak):
+    assert set(FORMATTERS) == set(CHECKS)
+
+
+def test_every_weak_gap_is_explained_in_plain_language(weak):
+    _, data = weak
+    for g in data.gaps:
+        assert g.found and g.should, g.finding_id
+        assert "{" not in g.found + g.should, g.finding_id  # no raw values leak through
+    by_id = {g.finding_id: g for g in data.gaps}
+    backup = by_id["CHK-BAK-001"]
+    assert backup.found == "The newest backup was taken on 1 June 2025, 480 days ago."
+    assert backup.should == "A backup no older than 26 hours."
+    assert backup.action == "Restart automatic backups" and backup.effort == "change"
+    assert "password alone: kari.admin and ola.tech." in by_id["CHK-IDP-001"].found
+    assert "26 known critical flaws" in by_id["CHK-VUL-001"].found
+
+
+@pytest.mark.parametrize(
+    "check_id, observed, expected, found",
+    [
+        ("CHK-BAK-001", {"snapshots": 0}, {"max_age_hours": 26}, "There are no backups at all."),
+        (
+            "CHK-DOC-002",
+            {"document": "plan.md"},
+            {"max_review_age_days": 365},
+            "The incident plan does not record when it was last reviewed.",
+        ),
+        (
+            "CHK-IDP-003",
+            {"passwordPolicy": "length(8)", "min_length": 8},
+            {"min_length_at_least": 12},
+            "Passwords can be as short as 8 characters.",
+        ),
+        (
+            "CHK-TLS-002",
+            {"not_before": "2026-01-01T00:00:00+00:00", "not_after": "2026-10-01", "days_left": 5},
+            {"min_days_remaining": 14},
+            "The website's certificate expires in 5 days.",
+        ),
+        (
+            "CHK-TLS-003",
+            {"http_status": 301, "location": "https://example.org/", "hsts": None},
+            {"http_redirects_to_https": True, "hsts": True},
+            "Browsers are not told to always use the encrypted site.",
+        ),
+    ],
+)
+def test_plain_language_covers_other_failure_branches(check_id, observed, expected, found):
+    assert explain(check_id, observed, expected).found == found
+
+
+def test_unexpected_values_fall_back_to_the_check_message():
+    assert explain("CHK-BAK-001", {"unexpected": 1}, {}) is None
+    assert explain("CHK-UNKNOWN", {}, {}) is None
 
 
 # --- rendering ------------------------------------------------------------------
@@ -105,6 +168,35 @@ def test_render_without_narrative(weak):
     assert all(g.finding_id in html for g in data.gaps)
     assert "Executive summary" not in html
     assert json.loads(json_path.read_text())["narrative"] is None
+
+
+def test_render_leads_with_the_result_and_what_to_fix_first(weak):
+    run, data = weak
+    html = render(data, run)[0].read_text()
+    assert "All 16 checks failed." in html
+    assert "1 problem is critical and 6 are high severity." in html
+    assert html.count('<i class="u ns">') == 20 and html.count('<i class="u">') == 65
+    fix_first = html[html.index('id="fix-first"') : html.index('id="measures"')]
+    assert fix_first.count("<li>") == 7  # the critical and high-severity gaps
+    assert fix_first.index("Change the default admin password") < fix_first.index(
+        "Restart automatic backups"
+    )
+    assert "A backup no older than 26 hours." in html
+    assert "20 detailed requirements: <b>8 failing</b> · 12 not checked" in html
+
+
+def test_render_is_self_contained(weak):
+    run, data = weak
+    html = render(data, run)[0].read_text()
+    assert "<script" not in html and "<link" not in html and 'src="' not in html
+
+
+def test_render_passing_scan(tmp_path):
+    run = scan_run(tmp_path, "hardened")
+    html = render(load_run(run), run)[0].read_text()
+    assert "All 16 checks passed." in html and "No problems found." in html
+    assert "partial evidence for 20 of 85 legal requirements" in html
+    assert 'id="fix-first"' not in html
 
 
 def test_render_escapes_scan_data(weak):
