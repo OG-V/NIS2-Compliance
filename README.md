@@ -39,12 +39,13 @@ or `not_assessed`, and the report says how much it could and could not assess.
 | **Demo lab** | The `weak` profile fails 16 of 16 checks (20 requirements not satisfied). The `hardened` profile passes 16 of 16. Both are reproducible with one command. |
 | **Extraction quality** (gold set: 20 provisions, 55 obligations) | Quotes verbatim: 100%. Obligations found: 100%. Invented numbers or durations: 0. Open values mislabelled as stated: 0%. |
 | **Run-to-run stability** | Two runs agree on 19/20 provision structures, clause overlap 0.99. |
-| **Narrative grounding** | Every citation, every number and full gap coverage are checked by code. A draft that fails twice is not shown. |
+| **Narrative grounding** | Every citation, every number and full gap coverage are checked by code, and IDs are kept out of the prose. A draft that fails twice is not shown. |
 | **Catalog** | 85 requirements (11 from NIS2, 74 from CIR 2024/2690), all reviewed, with every quote verified against EUR-Lex. |
-| **Tests** | 204 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
+| **Tests** | 216 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
 
 Each figure has a write-up in [`eval/results/`](eval/results/), including what went
-wrong and what was changed: three prompt versions and a model comparison.
+wrong and what was changed: three extraction prompt versions, a narrative prompt revision
+and a model comparison.
 
 ## How the AI is kept in check
 
