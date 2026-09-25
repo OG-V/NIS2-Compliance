@@ -405,7 +405,7 @@ def onboard(
     scan_target = load_target(target)
     with console.status("Checking access..."):
         systems = plan(scan_target, probe=probe)
-    auth = authorisation(scan_target, datetime.now(UTC).date())
+    auth = authorisation(scan_target, datetime.now(UTC).astimezone().date())  # local date
     mark = {OK: "[green]✓[/]", MISSING: "[red]✗[/]", OPTIONAL: "[yellow]○[/]"}
 
     def line(a) -> str:

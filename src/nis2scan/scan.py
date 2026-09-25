@@ -46,11 +46,13 @@ def run_scan(
 ) -> ScanResult:
     load_all()
     now = now or datetime.now(UTC)
-    if target.engagement and not target.engagement.covers(now.date()):
+    # Engagement dates are calendar dates as agreed, so compare them in local time.
+    today = now.astimezone().date()
+    if target.engagement and not target.engagement.covers(today):
         e = target.engagement
         raise NotAuthorised(
             f"the engagement with {e.client} authorises scans from {e.authorised_on} "
-            f"to {e.valid_until}, not on {now.date()}"
+            f"to {e.valid_until}, not on {today}"
         )
     ctx = context or Context(target)
     findings = [
