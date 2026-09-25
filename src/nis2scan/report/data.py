@@ -183,6 +183,7 @@ class ReportData:
     verdicts: list[dict]
     not_assessed: list[dict] = field(default_factory=list)
     multi_asset: bool = False  # some check ran on more than one asset
+    assets: list[dict] = field(default_factory=list)  # from scan.json; empty in older runs
 
     def narrative_input(self) -> dict:
         """The only information the narrative model is given."""
@@ -323,4 +324,5 @@ def load_run(run_dir: Path) -> ReportData:
             v.model_dump(mode="json") for v in verdicts if v.verdict == Verdict.NOT_ASSESSED
         ],
         multi_asset=any(len(fs) > 1 for fs in by_check.values()),
+        assets=scan.get("assets", []),
     )

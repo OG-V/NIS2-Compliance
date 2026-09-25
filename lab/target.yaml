@@ -20,6 +20,7 @@ ssh:
 idp:
   - name: keycloak
     url: http://127.0.0.1:18081
+    # product: keycloak       # optional; left out, the product is detected from the URL
     realm: nordmsp
     admin_user: admin
     admin_password_env: KC_ADMIN_PASSWORD

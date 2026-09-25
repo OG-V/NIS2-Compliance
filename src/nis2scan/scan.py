@@ -4,12 +4,12 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
 
 from nis2scan import __version__
-from nis2scan.config import Asset, Profile, Target, slug
+from nis2scan.config import ASSET_SECTIONS, Asset, Profile, Target, slug
 from nis2scan.models import (
     CheckStatus,
     Finding,
@@ -29,6 +29,7 @@ class ScanResult:
     findings: list[Finding]
     verdicts: list[RequirementVerdict]
     evidence: dict[tuple[str, str], dict | Exception]  # keyed by (collector, asset name)
+    assets: list[dict] = field(default_factory=list)  # every asset, with its product if known
 
 
 def run_scan(
@@ -47,7 +48,29 @@ def run_scan(
         for finding in _run_check(check_id, target, profile, ctx, now)
     ]
     verdicts = [_verdict(req, findings) for req in requirements]
-    return ScanResult(target.name, now, findings, verdicts, ctx.evidence())
+    assets = inventory(target, ctx)
+    return ScanResult(target.name, now, findings, verdicts, ctx.evidence(), assets)
+
+
+def inventory(target: Target, ctx: Context) -> list[dict]:
+    """Every asset scanned, with the product its `<section>_detect` collector found, if any."""
+    rows = []
+    for section in (*ASSET_SECTIONS, "documents"):
+        detector = f"{section}_detect"
+        for asset in target.assets(section):
+            found = None
+            if detector in COLLECTORS:
+                try:
+                    found = ctx.collect(detector, asset)
+                except Exception as exc:  # noqa: BLE001 - shown as "not identified"
+                    found = exc
+            row = {"section": section, "name": asset.name, "product": None}
+            if isinstance(found, dict):
+                row |= {k: found[k] for k in ("product", "label", "method", "detail")}
+            elif isinstance(found, Exception):
+                row["error"] = str(found)
+            rows.append(row)
+    return rows
 
 
 def evidence_path(collector: str, asset: str) -> str:
@@ -186,6 +209,7 @@ def write_results(result: ScanResult, out_dir: Path, profile_path: Path) -> Path
             "started_at": result.started_at.isoformat(),
             "profile_sha256": hashlib.sha256(profile_path.read_bytes()).hexdigest(),
             "evidence_sha256": evidence_hashes,
+            "assets": result.assets,
         },
     )
     return run_dir

@@ -168,6 +168,18 @@ def test_render_leads_with_the_result_and_what_to_fix_first(weak):
     assert "20 detailed requirements: <b>8 failing</b> · 12 not checked" in html
 
 
+def test_report_lists_the_systems_scanned(weak):
+    run, data = weak
+    idp = next(a for a in data.assets if a["section"] == "idp")
+    assert (idp["name"], idp["product"], idp["method"]) == (
+        "keycloak",
+        "keycloak",
+        "OpenID configuration",
+    )
+    html = render(data, run)[0].read_text()
+    assert "Systems scanned (7)" in html and "issuer http://127.0.0.1:18081/realms/nordmsp" in html
+
+
 def test_render_is_self_contained(weak):
     run, data = weak
     html = render(data, run)[0].read_text()
