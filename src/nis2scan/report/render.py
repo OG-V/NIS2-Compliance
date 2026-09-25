@@ -25,7 +25,7 @@ def load_narrative(run_dir: Path) -> dict | None:
 def render(data: ReportData, run_dir: Path) -> tuple[Path, Path]:
     narrative = load_narrative(run_dir)
     explanations = (
-        {g["requirement_id"]: g for g in narrative["narrative"]["gaps"]}
+        {g["finding_id"]: g for g in narrative["narrative"]["gaps"]}
         if narrative and narrative["status"] == "accepted"
         else {}
     )

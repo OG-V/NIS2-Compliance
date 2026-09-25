@@ -114,6 +114,20 @@ def test_render_escapes_scan_data(weak):
     assert "<script>alert(1)</script>" not in html
 
 
+def test_accepted_narrative_is_shown_next_to_its_gap(weak):
+    run, data = weak
+    narrative = valid_narrative(data)
+    result = nr.NarrativeResult(
+        "accepted", "claude-opus-5", "v", "t", 1, narrative=narrative.model_dump()
+    )
+    (run / "narrative.json").write_text(json.dumps(asdict(result)))
+    html = render(data, run)[0].read_text()
+    assert "Executive summary" in html
+    first = html.index(f'id="{data.gaps[0].finding_id}"')
+    second = html.index(f'id="{data.gaps[1].finding_id}"')
+    assert html.index(narrative.gaps[0].why_it_matters[:40], first) < second
+
+
 def test_rejected_narrative_is_not_shown(weak):
     run, data = weak
     result = nr.NarrativeResult("rejected", "m", "v", "t", 2, ["gap CHK-X is not explained"])
