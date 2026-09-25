@@ -44,9 +44,14 @@ class Keycloak(IdentityAdapter):
     label = "Keycloak"
     needs = ("realm", "admin_user", "admin_password_env")
     access = (
-        "An admin account for the realm with the realm-management roles view-realm and "
-        "view-users, its password in the environment variable named by admin_password_env."
+        "A Keycloak admin account for the realm with the realm-management roles "
+        "view-realm and view-users"
     )
+
+    def check_access(self, idp: IdpTarget, secret) -> None:
+        status, token = _token(idp.url.rstrip("/"), idp.admin_user, secret(idp.admin_password_env))
+        if not token:
+            raise CollectorError(f"admin login failed with HTTP {status}")
 
     def fetch(self, idp: IdpTarget, secret) -> dict[str, Any]:
         base = idp.url.rstrip("/")

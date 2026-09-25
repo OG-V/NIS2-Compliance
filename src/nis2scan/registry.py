@@ -52,6 +52,7 @@ class Collector:
     requires: str  # the Target section whose assets it runs against, e.g. "web"
     collect: Callable[[Context, Asset], dict[str, Any]]
     needs: tuple[str, ...] = ()  # asset fields that must be set, e.g. ("container",)
+    active: bool = False  # interacts beyond reading (see config.Engagement)
 
 
 @dataclass(frozen=True)
@@ -65,11 +66,11 @@ COLLECTORS: dict[str, Collector] = {}
 CHECKS: dict[str, Check] = {}
 
 
-def collector(name: str, *, requires: str, needs: tuple[str, ...] = ()):
+def collector(name: str, *, requires: str, needs: tuple[str, ...] = (), active: bool = False):
     def register(fn):
         if name in COLLECTORS:
             raise ValueError(f"duplicate collector {name}")
-        COLLECTORS[name] = Collector(name, requires, fn, needs)
+        COLLECTORS[name] = Collector(name, requires, fn, needs, active)
         return fn
 
     return register
@@ -104,6 +105,8 @@ class Context:
 
     def collect(self, name: str, asset: Asset) -> dict[str, Any]:
         key = (name, asset.name)
+        if COLLECTORS[name].active and not self.target.active_tests_allowed:
+            raise NotApplicable("active test not authorised (engagement.active_tests is not true)")
         missing = [f for f in COLLECTORS[name].needs if not getattr(asset, f, None)]
         if missing:  # checked here, so recorded-evidence contexts behave like live ones
             raise NotApplicable(f"{asset.name} has no {', '.join(missing)} set")

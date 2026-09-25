@@ -22,6 +22,10 @@ from nis2scan.models import (
 from nis2scan.registry import CHECKS, COLLECTORS, Context, NotApplicable, load_all
 
 
+class NotAuthorised(Exception):
+    """The scan falls outside the engagement's authorisation window."""
+
+
 @dataclass
 class ScanResult:
     target: str
@@ -30,6 +34,7 @@ class ScanResult:
     verdicts: list[RequirementVerdict]
     evidence: dict[tuple[str, str], dict | Exception]  # keyed by (collector, asset name)
     assets: list[dict] = field(default_factory=list)  # every asset, with its product if known
+    engagement: dict | None = None
 
 
 def run_scan(
@@ -41,6 +46,12 @@ def run_scan(
 ) -> ScanResult:
     load_all()
     now = now or datetime.now(UTC)
+    if target.engagement and not target.engagement.covers(now.date()):
+        e = target.engagement
+        raise NotAuthorised(
+            f"the engagement with {e.client} authorises scans from {e.authorised_on} "
+            f"to {e.valid_until}, not on {now.date()}"
+        )
     ctx = context or Context(target)
     findings = [
         finding
@@ -49,7 +60,8 @@ def run_scan(
     ]
     verdicts = [_verdict(req, findings) for req in requirements]
     assets = inventory(target, ctx)
-    return ScanResult(target.name, now, findings, verdicts, ctx.evidence(), assets)
+    engagement = target.engagement.model_dump(mode="json") if target.engagement else None
+    return ScanResult(target.name, now, findings, verdicts, ctx.evidence(), assets, engagement)
 
 
 def inventory(target: Target, ctx: Context) -> list[dict]:
@@ -210,6 +222,7 @@ def write_results(result: ScanResult, out_dir: Path, profile_path: Path) -> Path
             "profile_sha256": hashlib.sha256(profile_path.read_bytes()).hexdigest(),
             "evidence_sha256": evidence_hashes,
             "assets": result.assets,
+            "engagement": result.engagement,
         },
     )
     return run_dir

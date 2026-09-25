@@ -20,7 +20,7 @@ from nis2scan.extract.evaluate import load_gold
 from nis2scan.extract.verify import SourceIndex, check_quote
 from nis2scan.models import CheckStatus, Requirement, Verdict
 from nis2scan.registry import CHECKS, load_all
-from nis2scan.scan import run_scan, write_results
+from nis2scan.scan import NotAuthorised, run_scan, write_results
 
 app = typer.Typer(no_args_is_help=True, help="NIS2 evidence scanner.")
 console = Console()
@@ -102,8 +102,18 @@ def scan(
         )
         raise typer.Exit(code=2)
 
-    with console.status("Collecting evidence and running checks..."):
-        result = run_scan(load_target(target), load_profile(profile), requirements)
+    scan_target = load_target(target)
+    if scan_target.engagement is None:
+        console.print(
+            "[yellow]No engagement recorded in the target:[/] active tests are skipped. "
+            "Add an engagement section with the client's authorisation (see lab/target.yaml)."
+        )
+    try:
+        with console.status("Collecting evidence and running checks..."):
+            result = run_scan(scan_target, load_profile(profile), requirements)
+    except NotAuthorised as exc:
+        console.print(f"[red]Scan refused:[/] {exc}")
+        raise typer.Exit(code=2) from None
     run_dir = write_results(result, out, profile)
 
     findings = Table("Check", "Status", "Result", title=f"Findings: {result.target}")
@@ -373,6 +383,53 @@ def report(
 
     html_path, json_path = render(data, run_dir)
     console.print(f"Report written to [bold]{html_path}[/] and {json_path.name}")
+
+
+@app.command()
+def onboard(
+    target: Annotated[Path, typer.Option(help="Target description file.")] = Path(
+        "lab/target.yaml"
+    ),
+    probe: Annotated[
+        bool, typer.Option(help="Check reachability, detect products and look for secrets.")
+    ] = True,
+    checklist: Annotated[
+        Path | None, typer.Option(help="Also write the checklist as Markdown for the client.")
+    ] = None,
+) -> None:
+    """List the access each system needs for a scan, and whether it is in place."""
+    from datetime import UTC, datetime
+
+    from nis2scan.onboarding import MISSING, OK, OPTIONAL, authorisation, checklist_markdown, plan
+
+    scan_target = load_target(target)
+    with console.status("Checking access..."):
+        systems = plan(scan_target, probe=probe)
+    auth = authorisation(scan_target, datetime.now(UTC).date())
+    mark = {OK: "[green]✓[/]", MISSING: "[red]✗[/]", OPTIONAL: "[yellow]○[/]"}
+
+    def line(a) -> str:
+        note = f" [dim]· {a.note}[/]" if a.note else ""
+        return f"  {mark.get(a.status, '[dim]?[/]')} {a.what}{note}"
+
+    console.print(f"[bold]Onboarding: {scan_target.name}[/]\n")
+    console.print("[bold]Authorisation[/]")
+    console.print(line(auth))
+    for s in systems:
+        product = f" · {s.product}" if s.product else ""
+        how = f"\n  [dim]{s.identified_by}[/]" if s.identified_by else ""
+        console.print(f"\n[bold]{s.name}[/] [dim]{s.kind}[/]{product}{how}")
+        for a in s.access:
+            console.print(line(a))
+    ready = sum(s.ready for s in systems)
+    console.print(
+        f"\n{ready} of {len(systems)} systems ready"
+        + ("" if auth.status == OK else "; [red]authorisation missing or not valid today[/]")
+        + ("" if probe else " [dim](not probed: ? means not checked)[/]")
+    )
+    if checklist:
+        checklist.write_text(checklist_markdown(scan_target, systems, auth))
+        console.print(f"Checklist written to [bold]{checklist}[/]")
 
 
 @app.command("diff")

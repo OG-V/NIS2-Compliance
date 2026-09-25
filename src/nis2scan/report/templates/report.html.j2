@@ -30,6 +30,13 @@
       <span>{{ d.tool }}</span>
       <span>Profile <span class="mono">{{ d.profile_sha256[:12] }}</span></span>
     </div>
+    {%- if d.engagement %}
+    <div class="meta">
+      <span>For <b>{{ d.engagement.client }}</b></span>
+      <span>Authorised by {{ d.engagement.authorised_by }} on {{ d.engagement.authorised_on }}, valid until {{ d.engagement.valid_until }}</span>
+      <span>Active tests {{ "allowed" if d.engagement.active_tests else "not allowed" }}</span>
+    </div>
+    {%- endif %}
     <p class="disclaimer">
       This report sets out technical evidence collected from the target and judged by
       automated, deterministic checks. It is <b>not</b> a statement of NIS2 compliance. Much of
