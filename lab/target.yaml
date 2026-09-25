@@ -5,6 +5,16 @@
 # estate lists every web endpoint, SSH host and so on, each with a name that the
 # report uses. A single mapping instead of a list is also accepted.
 name: nordmsp-lab
+
+# The agreed scope of the scan. For a client this records who authorised it and until
+# when; scans outside the window are refused. Active tests (such as trying a default
+# admin password once) run only if active_tests is true. The lab is our own system.
+engagement:
+  client: NordMSP AS (fictional lab)
+  authorised_by: Lab owner
+  authorised_on: 2026-09-01
+  valid_until: 2027-12-31
+  active_tests: true
 env_file: .current/lab.env   # provides KC_ADMIN_PASSWORD
 
 web:

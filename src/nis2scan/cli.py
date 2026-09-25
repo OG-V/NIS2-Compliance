@@ -20,7 +20,7 @@ from nis2scan.extract.evaluate import load_gold
 from nis2scan.extract.verify import SourceIndex, check_quote
 from nis2scan.models import CheckStatus, Requirement, Verdict
 from nis2scan.registry import CHECKS, load_all
-from nis2scan.scan import run_scan, write_results
+from nis2scan.scan import NotAuthorised, run_scan, write_results
 
 app = typer.Typer(no_args_is_help=True, help="NIS2 evidence scanner.")
 console = Console()
@@ -102,8 +102,18 @@ def scan(
         )
         raise typer.Exit(code=2)
 
-    with console.status("Collecting evidence and running checks..."):
-        result = run_scan(load_target(target), load_profile(profile), requirements)
+    scan_target = load_target(target)
+    if scan_target.engagement is None:
+        console.print(
+            "[yellow]No engagement recorded in the target:[/] active tests are skipped. "
+            "Add an engagement section with the client's authorisation (see lab/target.yaml)."
+        )
+    try:
+        with console.status("Collecting evidence and running checks..."):
+            result = run_scan(scan_target, load_profile(profile), requirements)
+    except NotAuthorised as exc:
+        console.print(f"[red]Scan refused:[/] {exc}")
+        raise typer.Exit(code=2) from None
     run_dir = write_results(result, out, profile)
 
     findings = Table("Check", "Status", "Result", title=f"Findings: {result.target}")

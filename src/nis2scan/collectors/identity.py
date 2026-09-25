@@ -41,7 +41,7 @@ def idp_config(ctx: Context, idp: IdpTarget) -> dict:
     }
 
 
-@collector("idp_default_admin", requires="idp")
+@collector("idp_default_admin", requires="idp", active=True)
 def idp_default_admin(ctx: Context, idp: IdpTarget) -> dict:
     adapter = ADAPTERS[ctx.collect("idp_detect", idp)["product"]]
     result = adapter.try_default_login(idp)

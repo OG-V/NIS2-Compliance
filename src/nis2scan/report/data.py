@@ -184,6 +184,7 @@ class ReportData:
     not_assessed: list[dict] = field(default_factory=list)
     multi_asset: bool = False  # some check ran on more than one asset
     assets: list[dict] = field(default_factory=list)  # from scan.json; empty in older runs
+    engagement: dict | None = None  # the agreed scope, from scan.json
 
     def narrative_input(self) -> dict:
         """The only information the narrative model is given."""
@@ -325,4 +326,5 @@ def load_run(run_dir: Path) -> ReportData:
         ],
         multi_asset=any(len(fs) > 1 for fs in by_check.values()),
         assets=scan.get("assets", []),
+        engagement=scan.get("engagement"),
     )

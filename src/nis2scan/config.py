@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import re
+from datetime import date
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -103,6 +104,25 @@ class DocumentsTarget(Asset):
         return "documents"
 
 
+class Engagement(BaseModel):
+    """The agreed scope of a scan: who authorised it, for how long, and what is allowed.
+
+    Active tests interact with a system beyond reading it (e.g. trying a default admin
+    password once). They can trigger the client's alerts or, repeated, lock accounts, so
+    they run only when the engagement allows them.
+    """
+
+    client: str
+    authorised_by: str  # name and role of the person who authorised the scan
+    authorised_on: date
+    valid_until: date
+    active_tests: bool = False
+    notes: str = ""
+
+    def covers(self, day: date) -> bool:
+        return self.authorised_on <= day <= self.valid_until
+
+
 # Sections that can list several assets. `documents` is organisation-wide, so it is single.
 ASSET_SECTIONS = ("web", "ssh", "idp", "logs", "backup", "docker")
 
@@ -124,8 +144,13 @@ class Target(BaseModel):
     backup: list[BackupTarget] = []
     docker: list[DockerTarget] = []
     documents: DocumentsTarget | None = None
+    engagement: Engagement | None = None
 
     _env: dict[str, str] = PrivateAttr(default_factory=dict)
+
+    @property
+    def active_tests_allowed(self) -> bool:
+        return self.engagement is not None and self.engagement.active_tests
 
     @field_validator("env_file", mode="before")
     @classmethod
