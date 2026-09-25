@@ -63,11 +63,13 @@ class IdpTarget(Asset):
     """
 
     url: str
-    product: str = "auto"  # or keycloak, okta
+    product: str = "auto"  # or keycloak, okta, entra-id
     realm: str | None = None  # Keycloak
     admin_user: str | None = None  # Keycloak
     admin_password_env: str | None = None  # Keycloak
     api_token_env: str | None = None  # Okta
+    client_id: str | None = None  # Entra ID app registration
+    client_secret_env: str | None = None  # Entra ID
 
     def _default_name(self) -> str:
         return self.realm or urlparse(self.url).hostname or self.url

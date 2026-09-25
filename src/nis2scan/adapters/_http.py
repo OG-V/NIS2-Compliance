@@ -55,3 +55,13 @@ def get_paged(url: str, headers: dict[str, str] | None = None, limit: int = 10_0
         match = re.search(r'<([^>]+)>;\s*rel="next"', link)
         url = match.group(1) if match else ""
     return items
+
+
+def get_odata(url: str, headers: dict[str, str] | None = None, limit: int = 10_000) -> list:
+    """Follow OData `@odata.nextLink` paging (as Microsoft Graph does) and join the pages."""
+    items: list = []
+    while url and len(items) < limit:
+        page = get_json(url, headers)
+        items.extend(page.get("value", []))
+        url = page.get("@odata.nextLink", "")
+    return items

@@ -79,9 +79,9 @@ def test_ssh_without_config_access_is_optional(lab):
 
 
 def test_unsupported_identity_product_is_named(lab, monkeypatch):
-    monkeypatch.setattr(ob, "detect", lambda idp: Detection("entra-id", "OpenID configuration", ""))
+    monkeypatch.setattr(ob, "detect", lambda idp: Detection("google", "OpenID configuration", ""))
     idp = by_name(ob.plan(lab))["keycloak"]
-    assert idp.product == "Microsoft Entra ID" and not idp.ready
+    assert idp.product == "Google" and not idp.ready
     assert idp.access[-1].note == "no adapter for this product yet"
 
 

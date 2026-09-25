@@ -92,4 +92,4 @@ class Detection:
 
 
 # Imported for their @adapter registrations.
-from nis2scan.adapters.identity import keycloak, okta  # noqa: F401
+from nis2scan.adapters.identity import entra, keycloak, okta  # noqa: F401
