@@ -1,0 +1,10 @@
+{
+  "_collected_at": "2026-09-25T01:04:50.560185+00:00",
+  "compactor": {
+    "retention_enabled": true
+  },
+  "limits_config": {
+    "retention_period": "180d"
+  },
+  "source": "http://127.0.0.1:13100/config"
+}

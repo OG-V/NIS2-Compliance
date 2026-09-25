@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NIS2 evidence report · {{ d.target }}</title>
+<style>
+  :root {
+    --bg: #fbfbf9; --fg: #1d1d1b; --muted: #6b6b66; --line: #dddcd6; --card: #ffffff;
+    --red: #b3261e; --red-bg: #fbe9e7; --amber: #8a5a00; --amber-bg: #fdf1d6;
+    --green: #1e6b3a; --green-bg: #e3f2e7; --grey-bg: #efefeb; --accent: #2f4b8a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161614; --fg: #ecece8; --muted: #a3a39c; --line: #34342f; --card: #1f1f1c;
+      --red: #ff8a80; --red-bg: #3a1c19; --amber: #ffcc66; --amber-bg: #3a2e12;
+      --green: #7fd69a; --green-bg: #173222; --grey-bg: #2a2a26; --accent: #9db4ff;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  h2 { font-size: 19px; margin: 40px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+  h3 { font-size: 16px; margin: 0 0 6px; }
+  .meta { color: var(--muted); font-size: 13px; }
+  .note { background: var(--grey-bg); border-radius: 8px; padding: 12px 16px; margin: 20px 0; font-size: 14px; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  .tile { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+  .tile b { display: block; font-size: 26px; line-height: 1.2; }
+  .tile span { color: var(--muted); font-size: 13px; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .not_satisfied, .fail, .critical, .high { background: var(--red-bg); color: var(--red); }
+  .partially_evidenced, .medium, .error { background: var(--amber-bg); color: var(--amber); }
+  .evidenced, .pass { background: var(--green-bg); color: var(--green); }
+  .not_assessed, .not_applicable, .low { background: var(--grey-bg); color: var(--muted); }
+  .gap { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; margin: 14px 0; }
+  .gap header { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; margin-bottom: 8px; }
+  blockquote { margin: 8px 0; padding: 6px 12px; border-left: 3px solid var(--accent); color: var(--muted); font-size: 14px; }
+  code, .mono { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 12.5px; }
+  .kv { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; font-size: 13px; margin: 6px 0; }
+  .kv dt { color: var(--muted); }
+  .kv dd { margin: 0; overflow-wrap: anywhere; }
+  .narrative { border-left: 3px solid var(--accent); padding-left: 16px; }
+  .ai-label { font-size: 12px; color: var(--muted); }
+  details summary { cursor: pointer; color: var(--accent); }
+  footer { margin-top: 48px; color: var(--muted); font-size: 12px; }
+  @media print {
+    body { background: #fff; color: #000; }
+    .gap, .tile { break-inside: avoid; }
+    details { display: block; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>NIS2 evidence report</h1>
+  <div class="meta">
+    Target <b>{{ d.target }}</b> · scanned {{ d.started_at[:19].replace("T", " ") }} UTC ·
+    {{ d.tool }} · profile <span class="mono">{{ d.profile_sha256[:12] }}</span>
+  </div>
+
+  <div class="note">
+    This report sets out <b>technical evidence</b> collected from the target and judged by
+    deterministic checks. It is <b>not</b> a statement of NIS2 compliance. NIS2 is
+    outcome-based, and many of its measures are organisational and need an audit.
+    Requirements the tool cannot assess are listed as <i>not assessed</i>, not as passed.
+  </div>
+
+  <h2>Summary</h2>
+  <div class="tiles">
+    <div class="tile"><b>{{ d.verdict_counts.not_satisfied }}</b><span>requirements not satisfied</span></div>
+    <div class="tile"><b>{{ d.verdict_counts.partially_evidenced + d.verdict_counts.evidenced }}</b><span>requirements (partially) evidenced</span></div>
+    <div class="tile"><b>{{ d.verdict_counts.not_assessed }}</b><span>requirements not assessed</span></div>
+    <div class="tile"><b>{{ d.check_counts.fail }} / {{ d.findings|length }}</b><span>checks failed</span></div>
+    {% if d.check_counts.error %}<div class="tile"><b>{{ d.check_counts.error }}</b><span>checks could not run</span></div>{% endif %}
+  </div>
+
+  {% if narrative and narrative.status == "accepted" %}
+  <h2>Executive summary</h2>
+  <div class="narrative">
+    <p>{{ narrative.narrative.executive_summary }}</p>
+    <div class="ai-label">
+      Drafted by {{ narrative.model }} from the findings in this report only. Every cited
+      finding, every number and full gap coverage were verified mechanically
+      (attempt {{ narrative.attempts }}). Sources: {{ narrative.narrative.executive_summary_finding_ids|join(", ") }}.
+    </div>
+  </div>
+  {% elif narrative %}
+  <div class="note">
+    An AI-drafted narrative was generated but <b>rejected</b> by the validator, so it is not
+    shown. Reasons: {{ narrative.violations|join("; ") }}
+  </div>
+  {% endif %}
+
+  <h2>NIS2 Article 21(2) and 23(4) overview</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Provision</th><th>Measure</th><th>Verdict</th><th>CIR 2024/2690 detail</th></tr>
+    {% for a in d.articles %}
+    <tr>
+      <td class="mono">Art. {{ a.point }}</td>
+      <td>{{ a.title }}</td>
+      <td><span class="pill {{ a.verdict }}">{{ a.verdict.replace("_", " ") }}</span></td>
+      <td>{% if a.detailed %}{{ a.detailed_assessed }} of {{ a.detailed }} assessed{% if a.detailed_not_satisfied %}, <b>{{ a.detailed_not_satisfied }} not satisfied</b>{% endif %}{% else %}<span class="meta">not extracted yet</span>{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </table></div>
+
+  <h2>Gaps to fix ({{ d.gaps|length }})</h2>
+  <p class="meta">One entry per failing check, most severe first, with every legal provision it shows is not satisfied.</p>
+  {% if not d.gaps %}<p>No check failed.</p>{% endif %}
+  {% for g in d.gaps %}
+  {% set story = explanations.get(g.finding_id) %}
+  <section class="gap" id="{{ g.finding_id }}">
+    <header>
+      <span class="pill {{ g.severity }}">{{ g.severity }}</span>
+      <h3>{{ g.message }}</h3>
+    </header>
+    <div class="meta">Failed check <span class="mono">{{ g.finding_id }}</span>: {{ g.title }}</div>
+    {% if story %}
+    <div class="narrative">
+      <p>{{ story.why_it_matters }}</p>
+      <b>Remediation</b>
+      <ul>{% for step in story.remediation %}<li>{{ step }}</li>{% endfor %}</ul>
+      <div class="ai-label">AI-drafted from this finding; cites {{ story.requirement_ids|join(", ") }}; verified mechanically.</div>
+    </div>
+    {% endif %}
+    <dl class="kv">
+      <dt>Observed</dt><dd class="mono">{{ g.observed|tojson }}</dd>
+      <dt>Expected</dt><dd class="mono">{{ g.expected|tojson }}</dd>
+      <dt>Evidence</dt><dd class="mono">{{ g.evidence_ref }}{% if g.evidence_sha256 %} (sha256 {{ g.evidence_sha256[:16] }}…){% endif %}</dd>
+    </dl>
+    <details {% if g.breaches|length <= 2 %}open{% endif %}>
+      <summary>Not satisfied: {{ g.breaches|length }} requirement{{ "s" if g.breaches|length != 1 }}</summary>
+      {% for b in g.breaches %}
+      <div style="margin-top:8px">
+        <span class="mono">{{ b.requirement_id }}</span> · {{ b.title }}
+        <div class="meta">{{ b.provision }} · NIS2 Art. {{ b.nis2_article }}</div>
+        <blockquote>“{{ b.quote }}”</blockquote>
+      </div>
+      {% endfor %}
+    </details>
+  </section>
+  {% endfor %}
+
+  <h2>All checks</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Check</th><th>Status</th><th>Severity</th><th>Result</th></tr>
+    {% for f in d.findings %}
+    <tr>
+      <td><span class="mono">{{ f.check_id }}</span><br>{{ f.title }}</td>
+      <td><span class="pill {{ f.status }}">{{ f.status.replace("_", " ") }}</span></td>
+      <td><span class="pill {{ f.severity }}">{{ f.severity }}</span></td>
+      <td>{{ f.message }}</td>
+    </tr>
+    {% endfor %}
+  </table></div>
+
+  <h2>Assessed requirements ({{ d.verdicts|length }})</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Requirement</th><th>Provision</th><th>Verdict</th><th>Reason</th></tr>
+    {% for v in d.verdicts %}
+    <tr>
+      <td><span class="mono">{{ v.requirement_id }}</span><br>{{ v.title }}</td>
+      <td>{{ v.provision }}</td>
+      <td><span class="pill {{ v.verdict }}">{{ v.verdict.replace("_", " ") }}</span></td>
+      <td>{{ v.reason }}</td>
+    </tr>
+    {% endfor %}
+  </table></div>
+
+  <details>
+    <summary>Not assessed ({{ d.not_assessed|length }} requirements)</summary>
+    <div class="table-wrap"><table>
+      <tr><th>Requirement</th><th>Provision</th><th>Reason</th></tr>
+      {% for v in d.not_assessed %}
+      <tr><td><span class="mono">{{ v.requirement_id }}</span><br>{{ v.title }}</td><td>{{ v.provision }}</td><td>{{ v.reason }}</td></tr>
+      {% endfor %}
+    </table></div>
+  </details>
+
+  <h2>Method and limits</h2>
+  <ul>
+    <li>Every verdict comes from deterministic, unit-tested checks. No language model is involved in any pass/fail decision.</li>
+    <li>Requirements are either hand-authored from NIS2 or extracted from CIR 2024/2690 by an LLM. Each one carries a verbatim quote that was verified against the official text and approved by a human reviewer.</li>
+    <li>Each check covers only part of the obligations it maps to, so the best possible verdict is <i>partially evidenced</i>.</li>
+    <li>Thresholds (log retention, backup age, password length and so on) come from the organisation's own profile, not from the law, which leaves them open.</li>
+    {% if narrative and narrative.status == "accepted" %}<li>Narrative text is AI-drafted from this report's findings. It was accepted only after a validator confirmed that every gap is covered, every citation refers to a real failing finding, and no number or standard appears that is not in the data.</li>{% endif %}
+  </ul>
+
+  <footer>Generated by nis2scan. Raw evidence is in the <code>evidence/</code> directory next to this report.</footer>
+</main>
+</body>
+</html>

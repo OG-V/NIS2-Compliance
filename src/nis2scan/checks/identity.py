@@ -12,7 +12,11 @@ ACCESS = ["REQ-NIS2-21.2.I"]
 @check(
     id="CHK-IDP-001",
     title="Every staff account has MFA enrolled or is forced to enrol",
-    requirements=["REQ-NIS2-21.2.J"],
+    requirements=[
+        "REQ-NIS2-21.2.J",
+        "REQ-CIR2690-11.7.1-01",  # MFA for users
+        "REQ-CIR2690-11.3.2-01",  # strong authentication for admin accounts
+    ],
     coverage="partial",
     severity="high",
     severity_rationale="Staff accounts reach customer systems; a stolen password alone must not be enough.",
@@ -44,7 +48,10 @@ def mfa_enforced(ev: dict, profile: Profile, now: datetime):
 @check(
     id="CHK-IDP-002",
     title="Brute-force protection is enabled on the staff realm",
-    requirements=ACCESS,
+    requirements=[
+        *ACCESS,
+        "REQ-CIR2690-11.6.2-04",  # blocking after failed log-ins
+    ],
     coverage="partial",
     severity="medium",
     severity_rationale="Limits online password guessing against staff accounts.",
@@ -71,7 +78,11 @@ def min_password_length(policy: str | None) -> int:
 @check(
     id="CHK-IDP-003",
     title="Password policy enforces the profile's minimum length",
-    requirements=ACCESS,
+    requirements=[
+        *ACCESS,
+        "REQ-CIR2690-11.6.2-01",  # strength of authentication
+        "REQ-CIR2690-11.7.2-01",  # strength of authentication
+    ],
     coverage="partial",
     severity="medium",
     severity_rationale="Short passwords weaken the first factor even when MFA is in place.",
@@ -93,7 +104,10 @@ def password_length(ev: dict, profile: Profile, now: datetime):
 @check(
     id="CHK-IDP-004",
     title="Default admin credentials are rejected",
-    requirements=ACCESS,
+    requirements=[
+        *ACCESS,
+        "REQ-CIR2690-11.6.2-03",  # credentials changed initially
+    ],
     coverage="partial",
     severity="critical",
     severity_rationale="Default admin credentials give anyone full control of every staff identity.",

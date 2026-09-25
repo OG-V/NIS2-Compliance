@@ -87,11 +87,19 @@ Requirement verdict roll-up (deterministic, `nis2scan.models.rollup`):
      invented-specificity rate. No LLM grades the LLM.
 2. **Verdicts (runtime): no LLM.** Checks are plain Python, each with known-good/known-bad
    fixture tests.
-3. **Report narration (runtime).** The LLM receives *only* `verdicts.json`, findings, and the
-   requirement quotes, and returns structured sections that cite finding IDs. A
-   deterministic post-check rejects output that cites unknown IDs or describes a status
-   that contradicts the verdict. All numbers/tables in the report are rendered by code,
-   not the LLM.
+3. **Report (runtime).** `nis2scan report <run>` renders a self-contained HTML report
+   and `report.json`. Every count, verdict, table and ordering comes from code. Gaps are
+   organised **by failing check**, not by requirement: one technical problem usually
+   breaches several provisions (the NIS2 article and the CIR points that detail it), and
+   remediation belongs to the problem. Each gap lists every provision it breaches, with
+   the verified quote and the hashed evidence file.
+4. **Narrative (optional, `--narrate`).** The model receives only the gaps: finding,
+   observed/expected values and legal text. It returns an executive summary plus one
+   explanation per gap. A deterministic validator rejects the draft if it skips or
+   invents a gap, cites a requirement the finding doesn't breach, uses a number or
+   standard absent from *that gap's own* data, or claims (non-)compliance or
+   certification. One retry gets the validator's objections. A draft that fails twice is
+   not shown, and the report says why.
 
 ## 5. Known hard parts (why "AI extracts rules from legal text" is messier than it sounds)
 
@@ -113,6 +121,10 @@ Requirement verdict roll-up (deterministic, `nis2scan.models.rollup`):
 - **Cross-references and qualifiers** ("where appropriate", "in accordance with the
   classification of the asset", "taking into account the state of the art") carry legal
   meaning and get lost in paraphrase — hence the mandatory verbatim quote.
+- **Grounding and readability pull in opposite directions.** The narrative validator only
+  accepts numbers and technical terms found in each gap's own data. That blocks invented
+  facts, but it nudges the model toward quoting field names ("retention_days 7") rather
+  than plain language. It's a prompt-level fix, not a reason to loosen the validator.
 - **Most of Art. 21 is organisational** (policies, training, supply chain). These get
   `testability: organisational` and are reported as `NOT_ASSESSED`. Showing that honestly
   is a feature: the report states coverage, not just pass rate.
@@ -158,5 +170,5 @@ about national transposition law.
 2. **Lab** — compose stack with `weak`/`hardened` profiles. *(done)*
 3. **Checks** — 12 collectors, 16 checks with recorded-evidence tests; `nis2scan scan` → JSON. *(done)*
 4. **Extraction** — ingest 2024/2690 Annex, LLM extraction, quote verifier, gold-set eval. *(done; first run on the gold set: [results](../eval/results/2026-09-25-gold.md))*
-5. **Report** — deterministic HTML report, then LLM narration with citation verification.
+5. **Report** — deterministic HTML report, then LLM narration with citation verification. *(done)*
 6. *(stretch)* Q&A over scan results.

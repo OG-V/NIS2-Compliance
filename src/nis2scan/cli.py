@@ -99,16 +99,19 @@ def scan(
         findings.add_row(f.check_id, f"[{style}]{f.status.value}[/]", f.message)
     console.print(findings)
 
-    verdicts = Table("Requirement", "Provision", "Verdict", "Review", title="Requirement verdicts")
-    for v in result.verdicts:
+    assessed = [v for v in result.verdicts if v.verdict != Verdict.NOT_ASSESSED]
+    verdicts = Table("Requirement", "Provision", "Verdict", title="Assessed requirements")
+    for v in assessed:
         style = VERDICT_STYLE[v.verdict]
         verdicts.add_row(
-            f"{v.requirement_id}\n[dim]{v.title}[/]",
-            v.provision,
-            f"[{style}]{v.verdict.value}[/]",
-            v.review_status.value,
+            f"{v.requirement_id}\n[dim]{v.title}[/]", v.provision, f"[{style}]{v.verdict.value}[/]"
         )
     console.print(verdicts)
+    counts = {status: sum(v.verdict == status for v in result.verdicts) for status in Verdict}
+    console.print(
+        ", ".join(f"{n} {status.value}" for status, n in counts.items() if n)
+        + f" (of {len(result.verdicts)} requirements; not-assessed ones are listed in the report)"
+    )
     if any(v.review_status != "reviewed" for v in result.verdicts):
         console.print("[yellow]Includes draft requirements that have not been reviewed yet.[/]")
     console.print(f"Results written to [bold]{run_dir}[/]")
@@ -299,6 +302,49 @@ def compare_extractions(
             )
             + "\n"
         )
+
+
+@app.command()
+def report(
+    run_dir: Annotated[Path, typer.Argument(help="Scan result directory (out/<target>-<time>).")],
+    narrate: Annotated[
+        bool, typer.Option("--narrate", help="Add an AI-drafted narrative (costs API credits).")
+    ] = False,
+) -> None:
+    """Render a scan as an HTML report, optionally with a validated AI narrative."""
+    from dataclasses import asdict
+
+    from nis2scan.report.data import load_run
+    from nis2scan.report.render import render
+
+    data = load_run(run_dir)
+    if narrate:
+        try:
+            import anthropic
+
+            from nis2scan.report.narrate import MODEL
+            from nis2scan.report.narrate import narrate as write_narrative
+        except ImportError:
+            console.print("[red]The LLM extra is not installed:[/] pip install -e '.[llm]'")
+            raise typer.Exit(code=2) from None
+        client = anthropic.Anthropic()
+        try:
+            client.models.retrieve(MODEL)
+        except (TypeError, anthropic.AnthropicError) as exc:
+            console.print(f"[red]Cannot reach {MODEL}:[/] {exc}")
+            raise typer.Exit(code=2) from None
+        with console.status("Drafting and validating the narrative..."):
+            result = write_narrative(client, data)
+        (run_dir / "narrative.json").write_text(json.dumps(asdict(result), indent=2) + "\n")
+        if result.status == "accepted":
+            console.print(f"Narrative accepted on attempt {result.attempts}.")
+        else:
+            console.print("[yellow]Narrative rejected; the report is rendered without it:[/]")
+            for problem in result.violations:
+                console.print(f"  - {problem}")
+
+    html_path, json_path = render(data, run_dir)
+    console.print(f"Report written to [bold]{html_path}[/] and {json_path.name}")
 
 
 if __name__ == "__main__":

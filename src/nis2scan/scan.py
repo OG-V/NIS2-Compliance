@@ -108,6 +108,8 @@ def _verdict(req: Requirement, findings: list[Finding]) -> RequirementVerdict:
         requirement_id=req.id,
         title=req.title,
         provision=f"{req.source.instrument}, {req.source.provision}",
+        nis2_article=req.source.nis2_article,
+        quote=req.source.quote,
         testability=req.testability,
         review_status=req.review.status,
         verdict=verdict,
