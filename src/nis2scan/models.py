@@ -114,6 +114,8 @@ class RequirementVerdict(BaseModel):
     requirement_id: str
     title: str
     provision: str
+    nis2_article: str
+    quote: str
     testability: Testability
     review_status: ReviewStatus
     verdict: Verdict
