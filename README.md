@@ -22,9 +22,11 @@ them, and the result is a gap report that non-engineers can read.
    TLS handshakes, SSH authentication methods, identity-provider settings, log retention,
    backups, container CVEs and incident-response documents. No model is involved in any
    pass/fail verdict.
-3. **Reports gaps in plain language.** An HTML report lists each failing check with the
-   provisions it breaches, the verified legal text and hashed evidence. An optional AI
-   narrative is shown only if a validator confirms it against the findings.
+3. **Reports gaps in plain language.** The HTML report opens with the result at a glance
+   and the problems to fix first, then maps the findings onto the NIS2 security measures.
+   Each gap says what was found, what it should be and what to do, and keeps the breached
+   provisions, the verified legal text and the hashed evidence one click away. An
+   optional AI narrative is shown only if a validator confirms it against the findings.
 
 The tool never says a system is "NIS2 compliant". NIS2 is outcome-based, and much of it
 is organisational. Requirements are reported as `partially_evidenced`, `not_satisfied`

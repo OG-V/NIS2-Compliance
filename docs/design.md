@@ -94,6 +94,14 @@ Requirement verdict roll-up (deterministic, `nis2scan.models.rollup`):
    breaches several provisions (the NIS2 article and the CIR points that detail it), and
    remediation belongs to the problem. Each gap lists every provision it breaches, with
    the verified quote and the hashed evidence file.
+
+   The report is written for managers as well as engineers. It opens with a headline,
+   one square per requirement coloured by verdict, and the gaps by severity, then lists
+   the critical and high-severity gaps as actions. Each check carries a hand-written
+   action and effort estimate, and a formatter per check restates its observed and
+   expected values as "found" and "should be" lines. These fields are presentation
+   only: they are kept out of the narrative's input, so the validator still checks the
+   model against the scan data alone.
 4. **Narrative (optional, `--narrate`).** The model receives only the gaps: finding,
    observed/expected values and legal text. It returns an executive summary plus one
    explanation per gap. A deterministic validator rejects the draft if it skips or
