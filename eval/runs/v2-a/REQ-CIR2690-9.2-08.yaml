@@ -1,0 +1,24 @@
+id: REQ-CIR2690-9.2-08
+title: Methods for changing or updating keys
+obligation: The entity shall establish, where appropriate, methods for changing or updating keys, including
+  rules on when and how to change keys, as part of its key management approach.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 9.2
+  nis2_article: 21(2)(h)
+  quote: changing or updating keys, including rules on when and how to change keys
+testability: documentary
+evidence:
+- key rotation procedure
+- key change records
+- key lifecycle configuration
+parameters:
+  key_change_trigger_or_interval: entity_defined
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.2
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:15:18.429336Z'
+review:
+  status: draft
+  notes: ''

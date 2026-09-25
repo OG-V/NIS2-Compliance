@@ -1,0 +1,26 @@
+id: REQ-CIR2690-11.3.2-02
+title: Dedicated system administration accounts
+obligation: The entity shall ensure that the policies referred to in point 11.3.1 set up specific accounts
+  to be used for system administration operations exclusively, such as installation, configuration, management
+  or maintenance.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 11.3.2
+  nis2_article: 21(2)(i), (j)
+  quote: set up specific accounts to be used for system administration operations exclusively, such as
+    installation, configuration, management or maintenance;
+testability: technical
+evidence:
+- account inventory listing dedicated administration accounts
+- access control policy
+- directory service account configuration
+parameters:
+  scope_of_system_administration_operations: installation, configuration, management or maintenance
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.2
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:16:10.006229Z'
+review:
+  status: draft
+  notes: ''

@@ -1,0 +1,30 @@
+id: REQ-CIR2690-7.3-01
+title: Periodic and event-driven review of policy
+obligation: The entity shall review and, where appropriate, update the policy and procedures to assess
+  the effectiveness of cybersecurity risk-management measures at planned intervals and when significant
+  incidents or significant changes to operations or risks occur.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 7.3
+  nis2_article: 21(2)(f)
+  quote: The relevant entities shall review and, where appropriate, update the policy and procedures at
+    planned intervals and when significant incidents or significant changes to operations or risks.
+testability: documentary
+evidence:
+- current version of the policy and procedures for assessing effectiveness of cybersecurity risk-management
+  measures
+- document version history and change log
+- review records, minutes or sign-off approvals
+- records linking reviews to significant incidents or significant changes to operations or risks
+parameters:
+  review_interval: entity_defined
+  review_trigger_events: significant incidents or significant changes to operations or risks
+  update_condition: where appropriate
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.2
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:14:55.548113Z'
+review:
+  status: draft
+  notes: ''

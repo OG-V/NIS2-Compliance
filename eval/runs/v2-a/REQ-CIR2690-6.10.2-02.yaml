@@ -1,0 +1,25 @@
+id: REQ-CIR2690-6.10.2-02
+title: Perform and record vulnerability scans
+obligation: The entity shall perform, where appropriate, vulnerability scans, and record evidence of the
+  results of the scans, at planned intervals.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 6.10.2
+  nis2_article: 21(2)(e)
+  quote: perform, where appropriate, vulnerability scans, and record evidence of the results of the scans,
+    at planned intervals
+testability: technical
+evidence:
+- vulnerability scan reports
+- scanner configuration and schedule
+- scan result records
+parameters:
+  scan_interval: entity_defined
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.2
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:14:57.026742Z'
+review:
+  status: draft
+  notes: ''

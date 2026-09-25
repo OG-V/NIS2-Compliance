@@ -1,0 +1,26 @@
+id: REQ-CIR2690-9.2-15
+title: Key activation and deactivation dates
+obligation: The entity shall establish, where appropriate, methods for setting activation and deactivation
+  dates for keys ensuring that the keys can only be used for the specified period of time according to
+  the organisation's rules on key management, as part of its key management approach.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 9.2
+  nis2_article: 21(2)(h)
+  quote: setting activation and deactivation dates for keys ensuring that the keys can only be used for
+    the specified period of time according to the organization's rules on key management
+testability: technical
+evidence:
+- key metadata showing activation and deactivation dates
+- key validity configuration in key management system
+- organisational rules on key management
+parameters:
+  key_validity_period: entity_defined
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.2
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:15:18.429336Z'
+review:
+  status: draft
+  notes: ''

@@ -1,0 +1,24 @@
+id: REQ-CIR2690-3.2.3-08
+title: Log access to configuration and backup files
+obligation: The entity shall, where appropriate, include access to or changes to critical configuration
+  and backup files in its logs.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 3.2.3
+  nis2_article: 21(2)(b)
+  quote: (f) access or changes to critical configuration and backup files;
+testability: technical
+evidence:
+- file integrity monitoring logs
+- backup system access logs
+- configuration change logs
+parameters:
+  logging_applicability_criteria: entity_defined
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.2
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:15:47.990026Z'
+review:
+  status: draft
+  notes: ''

@@ -1,0 +1,294 @@
+{
+  "summary": {
+    "provisions_scored": 20,
+    "provisions_missing": 0,
+    "requirements_extracted": 74,
+    "quote_validity": 1.0,
+    "obligation_recall": 1.0,
+    "granularity_in_range": 0.95,
+    "testability_accuracy": 0.905,
+    "invented_specificity_rate": 0.0,
+    "vague_stated_value_rate": 0.068
+  },
+  "provisions": [
+    {
+      "number": "1.1.2",
+      "extracted": 2,
+      "quotes_valid": 2,
+      "accepted": 2,
+      "count_ok": true,
+      "obligations_found": 2,
+      "obligations_total": 2,
+      "testability_ok": 2,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "3.2.1",
+      "extracted": 3,
+      "quotes_valid": 3,
+      "accepted": 3,
+      "count_ok": false,
+      "obligations_found": 1,
+      "obligations_total": 1,
+      "testability_ok": 2,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "3.2.3",
+      "extracted": 14,
+      "quotes_valid": 14,
+      "accepted": 14,
+      "count_ok": true,
+      "obligations_found": 5,
+      "obligations_total": 5,
+      "testability_ok": 14,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "3.2.4",
+      "extracted": 4,
+      "quotes_valid": 4,
+      "accepted": 4,
+      "count_ok": true,
+      "obligations_found": 4,
+      "obligations_total": 4,
+      "testability_ok": 4,
+      "invented": {},
+      "vague": {
+        "REQ-CIR2690-3.2.4-03": [
+          "automatic_alarm_triggering"
+        ]
+      },
+      "missed": []
+    },
+    {
+      "number": "3.2.5",
+      "extracted": 2,
+      "quotes_valid": 2,
+      "accepted": 2,
+      "count_ok": true,
+      "obligations_found": 2,
+      "obligations_total": 2,
+      "testability_ok": 2,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "4.2.1",
+      "extracted": 2,
+      "quotes_valid": 2,
+      "accepted": 2,
+      "count_ok": true,
+      "obligations_found": 2,
+      "obligations_total": 2,
+      "testability_ok": 1,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "4.2.2",
+      "extracted": 7,
+      "quotes_valid": 7,
+      "accepted": 7,
+      "count_ok": true,
+      "obligations_found": 4,
+      "obligations_total": 4,
+      "testability_ok": 4,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "4.2.3",
+      "extracted": 1,
+      "quotes_valid": 1,
+      "accepted": 1,
+      "count_ok": true,
+      "obligations_found": 1,
+      "obligations_total": 1,
+      "testability_ok": 1,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "6.6.1",
+      "extracted": 5,
+      "quotes_valid": 5,
+      "accepted": 5,
+      "count_ok": true,
+      "obligations_found": 4,
+      "obligations_total": 4,
+      "testability_ok": 5,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "6.6.2",
+      "extracted": 2,
+      "quotes_valid": 2,
+      "accepted": 2,
+      "count_ok": true,
+      "obligations_found": 1,
+      "obligations_total": 1,
+      "testability_ok": 1,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "6.10.1",
+      "extracted": 3,
+      "quotes_valid": 3,
+      "accepted": 3,
+      "count_ok": true,
+      "obligations_found": 3,
+      "obligations_total": 3,
+      "testability_ok": 3,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "6.10.2",
+      "extracted": 5,
+      "quotes_valid": 5,
+      "accepted": 5,
+      "count_ok": true,
+      "obligations_found": 4,
+      "obligations_total": 4,
+      "testability_ok": 5,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "7.3",
+      "extracted": 1,
+      "quotes_valid": 1,
+      "accepted": 1,
+      "count_ok": true,
+      "obligations_found": 1,
+      "obligations_total": 1,
+      "testability_ok": 1,
+      "invented": {},
+      "vague": {
+        "REQ-CIR2690-7.3-01": [
+          "update_condition"
+        ]
+      },
+      "missed": []
+    },
+    {
+      "number": "9.2",
+      "extracted": 3,
+      "quotes_valid": 3,
+      "accepted": 3,
+      "count_ok": true,
+      "obligations_found": 3,
+      "obligations_total": 3,
+      "testability_ok": 3,
+      "invented": {},
+      "vague": {
+        "REQ-CIR2690-9.2-02": [
+          "cryptographic_agility_condition"
+        ],
+        "REQ-CIR2690-9.2-03": [
+          "key_management_methods_condition"
+        ]
+      },
+      "missed": []
+    },
+    {
+      "number": "11.2.2",
+      "extracted": 6,
+      "quotes_valid": 6,
+      "accepted": 6,
+      "count_ok": true,
+      "obligations_found": 5,
+      "obligations_total": 5,
+      "testability_ok": 6,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "11.3.2",
+      "extracted": 4,
+      "quotes_valid": 4,
+      "accepted": 4,
+      "count_ok": true,
+      "obligations_found": 4,
+      "obligations_total": 4,
+      "testability_ok": 4,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "11.6.2",
+      "extracted": 6,
+      "quotes_valid": 6,
+      "accepted": 6,
+      "count_ok": true,
+      "obligations_found": 5,
+      "obligations_total": 5,
+      "testability_ok": 5,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "11.7.1",
+      "extracted": 1,
+      "quotes_valid": 1,
+      "accepted": 1,
+      "count_ok": true,
+      "obligations_found": 1,
+      "obligations_total": 1,
+      "testability_ok": 1,
+      "invented": {},
+      "vague": {
+        "REQ-CIR2690-11.7.1-01": [
+          "appropriateness_determination"
+        ]
+      },
+      "missed": []
+    },
+    {
+      "number": "11.7.2",
+      "extracted": 1,
+      "quotes_valid": 1,
+      "accepted": 1,
+      "count_ok": true,
+      "obligations_found": 1,
+      "obligations_total": 1,
+      "testability_ok": 1,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    },
+    {
+      "number": "12.4.1",
+      "extracted": 2,
+      "quotes_valid": 2,
+      "accepted": 2,
+      "count_ok": true,
+      "obligations_found": 2,
+      "obligations_total": 2,
+      "testability_ok": 2,
+      "invented": {},
+      "vague": {},
+      "missed": []
+    }
+  ]
+}
