@@ -22,7 +22,10 @@ from nis2scan.extract.verify import SourceIndex, check_quote, normalise
 from nis2scan.models import ExtractionMeta, Requirement, Review, ReviewStatus, SourceRef
 
 MODEL = "claude-opus-5"
-PROMPT_VERSION = "2026-09-25.1"
+# Version history (results in eval/results/):
+#   2026-09-25.1  first run
+#   2026-09-25.2  open values described by vague phrases must be null (run 1, finding 1)
+PROMPT_VERSION = "2026-09-25.2"
 # Server-side fallback: if the model declines a request, the API retries it on a
 # fallback model within the same call. The model that actually answered is
 # recorded in each requirement's extraction metadata.
@@ -47,9 +50,12 @@ of separate fragments. It is rejected automatically if it does not appear verbat
 if it needs audit or interviews.
 - evidence: the kinds of evidence an auditor could inspect (for example "firewall rule \
 set", "approved backup policy"). Describe kinds of evidence; do not set thresholds.
-- parameters: values the obligation depends on. If the text states the value, give it \
-in stated_value exactly as written in the text. If the text leaves it to the entity \
-(for example "appropriate", "regular"), set stated_value to null.
+- parameters: values the obligation depends on. If the text states a concrete value \
+(for example "at least annually", "24 hours"), give it in stated_value exactly as written. \
+If the text leaves the value to the entity, set stated_value to null, including when the \
+text describes it with a phrase such as "a predefined number", "a predefined period", \
+"a reasonable time", "appropriate", "regular" or "planned intervals". Those phrases say a \
+value must exist; they are not the value.
 
 Rules:
 - Never invent numbers, durations, frequencies, algorithms, key lengths, products or \
