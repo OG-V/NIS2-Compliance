@@ -10,7 +10,9 @@ traceable to a specific legal provision.
 > ([results](eval/results/2026-09-25-gold.md)), all reviewed and approved. Prompt v2 cut
 > vague stated values from 37% to 5–7%, and two repeat runs agree on 18/20 provisions
 > ([stability](eval/results/2026-09-25-prompt-v2.md)). Prompt v3 made the one nested-list
-> provision stable across runs ([v3](eval/results/2026-09-25-prompt-v3.md)).
+> provision stable across runs ([v3](eval/results/2026-09-25-prompt-v3.md)). The LLM steps now use
+> Claude Opus 5.5, which is as accurate as Opus 5, more stable between runs (clause overlap 0.99)
+> and writes plainer narratives ([comparison](eval/results/2026-09-25-opus-5-5.md)).
 > The HTML gap report with a validated AI narrative (milestone 5) is done. See [docs/design.md](docs/design.md).
 
 ![Gap report for the weak lab profile](docs/example-report/weak-report.png)

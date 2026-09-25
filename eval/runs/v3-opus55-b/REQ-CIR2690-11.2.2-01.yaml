@@ -1,0 +1,26 @@
+id: REQ-CIR2690-11.2.2-01
+title: Access rights based on security principles
+obligation: The entity shall assign and revoke access rights based on the principles of need-to-know,
+  least privilege and separation of duties.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 11.2.2
+  nis2_article: 21(2)(i), (j)
+  quote: assign and revoke access rights based on the principles of need-to-know, least privilege and
+    separation of duties
+testability: technical
+evidence:
+- access control policy
+- role and permission matrix
+- user access configuration in identity management system
+- separation of duties conflict matrix
+parameters: {}
+extraction:
+  model: claude-opus-5-5
+  effort: medium
+  prompt_version: 2026-09-25.3
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T01:24:56.809952Z'
+review:
+  status: draft
+  notes: ''

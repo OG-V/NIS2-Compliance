@@ -1,0 +1,24 @@
+id: REQ-CIR2690-11.6.2-06
+title: Separate credentials for privileged accounts
+obligation: The entity shall require separate credentials to access privileged access or administrative
+  accounts.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 11.6.2
+  nis2_article: 21(2)(i), (j)
+  quote: require separate credentials to access privileged access or administrative accounts
+testability: technical
+evidence:
+- list of privileged and administrative accounts with associated users
+- identity management system configuration
+- privileged access management policy
+parameters: {}
+extraction:
+  model: claude-opus-5-5
+  effort: medium
+  prompt_version: 2026-09-25.3
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T01:24:59.833197Z'
+review:
+  status: draft
+  notes: ''

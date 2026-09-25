@@ -1,0 +1,27 @@
+id: REQ-CIR2690-4.2.2-01
+title: Establish risk-based backup plans
+obligation: The entity shall lay down backup plans based on the results of the risk assessment carried
+  out pursuant to point 2.1 and the business continuity plan, which include the elements listed in points
+  (a) to (f).
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 4.2.2
+  nis2_article: 21(2)(c)
+  quote: 'Based on the results of the risk assessment carried out pursuant to point 2.1 and the business
+    continuity plan, the relevant entities shall lay down backup plans which include the following:'
+testability: documentary
+evidence:
+- approved backup plans
+- risk assessment results
+- business continuity plan
+- traceability between risk assessment and backup plans
+parameters: {}
+extraction:
+  model: claude-opus-5-5
+  effort: medium
+  prompt_version: 2026-09-25.3
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T01:24:49.307591Z'
+review:
+  status: draft
+  notes: ''
