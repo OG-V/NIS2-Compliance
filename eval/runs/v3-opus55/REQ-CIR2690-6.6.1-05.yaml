@@ -1,0 +1,26 @@
+id: REQ-CIR2690-6.6.1-05
+title: Measures when patches unavailable or unapplied
+obligation: The entity shall, through its patch management procedures, ensure that additional measures
+  are implemented and residual risks are accepted in cases where a patch is not available or not applied
+  pursuant to point 6.6.2.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 6.6.1
+  nis2_article: 21(2)(e)
+  quote: additional measures are implemented and residual risks are accepted in cases where a patch is
+    not available or not applied pursuant to point 6.6.2
+testability: documentary
+evidence:
+- records of compensating measures for unpatched systems
+- signed residual risk acceptance records
+- risk register entries for unpatched vulnerabilities
+parameters: {}
+extraction:
+  model: claude-opus-5-5
+  effort: medium
+  prompt_version: 2026-09-25.3
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T01:17:30.513832Z'
+review:
+  status: draft
+  notes: ''

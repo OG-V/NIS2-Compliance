@@ -1,0 +1,25 @@
+id: REQ-CIR2690-6.10.2-05
+title: Establish vulnerability disclosure procedure
+obligation: The entity shall lay down a procedure for disclosing vulnerabilities in accordance with the
+  applicable national coordinated vulnerability disclosure policy.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 6.10.2
+  nis2_article: 21(2)(e)
+  quote: lay down a procedure for disclosing vulnerabilities in accordance with the applicable national
+    coordinated vulnerability disclosure policy
+testability: documentary
+evidence:
+- approved vulnerability disclosure procedure
+- mapping of procedure to national coordinated vulnerability disclosure policy
+parameters:
+  applicable_national_cvd_policy: entity_defined
+extraction:
+  model: claude-opus-5-5
+  effort: medium
+  prompt_version: 2026-09-25.3
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T01:17:35.275003Z'
+review:
+  status: draft
+  notes: ''

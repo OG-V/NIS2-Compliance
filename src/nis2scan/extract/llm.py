@@ -21,10 +21,11 @@ from nis2scan.extract.sources import CIR_2690, Provision
 from nis2scan.extract.verify import SourceIndex, check_quote, normalise
 from nis2scan.models import ExtractionMeta, Requirement, Review, ReviewStatus, SourceRef
 
-MODEL = "claude-opus-5"
-# Explicit, because the default differs per model (Opus 5: high, Opus 5.5: medium)
+MODEL = "claude-opus-5-5"
+# Chosen by measurement (eval/results/2026-09-25-opus-5-5.md). Explicit, because the
+# default differs per model (Opus 5: high, Opus 5.5: medium)
 # and a model comparison must not silently change effort as well.
-EFFORT = "high"
+EFFORT = "medium"
 EFFORTS = ("low", "medium", "high", "xhigh", "max")
 # Version history (results in eval/results/):
 #   2026-09-25.1  first run

@@ -23,8 +23,8 @@ from pydantic import BaseModel
 
 from nis2scan.report.data import ReportData
 
-MODEL = "claude-opus-5"
-EFFORT = "high"  # explicit: defaults differ per model
+MODEL = "claude-opus-5-5"
+EFFORT = "medium"  # explicit: defaults differ per model
 PROMPT_VERSION = "2026-09-25.1"
 FALLBACK_BETA = "server-side-fallback-2026-07-01"
 MAX_ATTEMPTS = 2
