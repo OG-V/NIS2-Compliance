@@ -82,8 +82,8 @@ def test_write_results(tmp_path):
     run_dir = write_results(scan("weak"), tmp_path, PROFILE_PATH)
     meta = json.loads((run_dir / "scan.json").read_text())
     findings = json.loads((run_dir / "findings.json").read_text())
-    # 16 checks; the log retention and backup checks each run on two assets.
-    assert len(findings) == 18
+    # 17 checks; log retention and the two backup checks each run on two assets.
+    assert len(findings) == 20
     for f in findings:
         assert (run_dir / f["evidence_ref"]).exists()
     files = (run_dir / "evidence").rglob("*.json")

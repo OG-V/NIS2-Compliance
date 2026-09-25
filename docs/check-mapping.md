@@ -35,6 +35,15 @@ Severity **high** (Without recent backups, ransomware or failure causes permanen
 | `REQ-NIS2-21.2.C` | NIS2, Art. 21(2)(c) | “business continuity, such as backup management and disaster recovery, and crisis management” |
 | `REQ-CIR2690-4.2.1-01` | CIR 2024/2690, Annex, point 4.2.1 | “The relevant entities shall maintain backup copies of data” |
 
+## CHK-BAK-002: Backup copies are encrypted
+
+Severity **medium** (Unencrypted backups hand a full copy of the data to anyone who reaches the backup storage, bypassing every access control on the live systems.) · coverage partial
+
+| Requirement | Provision | Legal text |
+|---|---|---|
+| `REQ-NIS2-21.2.C` | NIS2, Art. 21(2)(c) | “business continuity, such as backup management and disaster recovery, and crisis management” |
+| `REQ-CIR2690-4.2.2-05` | CIR 2024/2690, Annex, point 4.2.2 | “(d) appropriate physical and logical access controls to backup copies, in accordance with the asset classific…” |
+
 ## CHK-DOC-001: Incident response plan covers the NIS2 reporting stages
 
 Severity **medium** (Missing a reporting deadline is itself a breach of Art. 23, separate from the incident.) · coverage partial

@@ -37,7 +37,7 @@ def test_nis2_points(article, points):
 
 def test_one_gap_per_failing_check_most_severe_first(weak):
     _, data = weak
-    assert len(data.gaps) == data.check_counts["fail"] == 16
+    assert len(data.gaps) == data.check_counts["fail"] == 17
     assert data.gaps[0].finding_id == "CHK-IDP-004"  # the only critical check
     order = ["critical", "high", "medium", "low"]
     assert [order.index(g.severity) for g in data.gaps] == sorted(
@@ -61,7 +61,8 @@ def test_article_overview_counts_cir_detail(weak):
     _, data = weak
     rows = {a.point: a for a in data.articles}
     assert rows["21(2)(c)"].verdict == "not_satisfied"
-    assert rows["21(2)(c)"].detailed_not_satisfied == 1  # 4.2.1-01 via the backup check
+    # 4.2.1-01 via the backup age check, 4.2.2-05 via the backup encryption check
+    assert rows["21(2)(c)"].detailed_not_satisfied == 2
     assert rows["21(2)(a)"].verdict == "not_assessed"
 
 
@@ -69,7 +70,7 @@ def test_hardened_has_no_gaps(tmp_path):
     data = load_run(scan_run(tmp_path, "hardened"))
     assert data.gaps == []
     assert data.verdict_counts["not_satisfied"] == 0
-    assert data.verdict_counts["partially_evidenced"] == 20
+    assert data.verdict_counts["partially_evidenced"] == 21
 
 
 def test_narrative_input_excludes_evidence_paths(weak):
@@ -157,9 +158,9 @@ def test_render_without_narrative(weak):
 def test_render_leads_with_the_result_and_what_to_fix_first(weak):
     run, data = weak
     html = render(data, run)[0].read_text()
-    assert "All 16 checks failed." in html
+    assert "All 17 checks failed." in html
     assert "1 problem is critical and 6 are high severity." in html
-    assert html.count('<i class="u ns">') == 20 and html.count('<i class="u">') == 65
+    assert html.count('<i class="u ns">') == 21 and html.count('<i class="u">') == 64
     fix_first = html[html.index('id="fix-first"') : html.index('id="measures"')]
     assert fix_first.count("<li>") == 7  # the critical and high-severity gaps
     assert fix_first.index("Change the default admin password") < fix_first.index(
@@ -190,8 +191,8 @@ def test_render_is_self_contained(weak):
 def test_render_passing_scan(tmp_path):
     run = scan_run(tmp_path, "hardened")
     html = render(load_run(run), run)[0].read_text()
-    assert "All 16 checks passed." in html and "No problems found." in html
-    assert "partial evidence for 20 of 85 legal requirements" in html
+    assert "All 17 checks passed." in html and "No problems found." in html
+    assert "partial evidence for 21 of 85 legal requirements" in html
     assert 'id="fix-first"' not in html
 
 

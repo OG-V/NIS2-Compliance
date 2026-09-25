@@ -5,7 +5,8 @@ from datetime import date, datetime, timedelta
 from nis2scan.adapters.backup import BackupEvidence
 from nis2scan.adapters.logging import LogRetentionEvidence
 from nis2scan.config import Profile
-from nis2scan.registry import check, failed, passed
+from nis2scan.models import CheckStatus
+from nis2scan.registry import Result, check, failed, passed
 
 
 @check(
@@ -60,21 +61,64 @@ def log_retention(ev: dict, profile: Profile, now: datetime):
     collector="backup_snapshots",
 )
 def recent_backup(ev: dict, profile: Profile, now: datetime):
+    """Every backup set must be recent; the stalest one decides."""
     repo = BackupEvidence.model_validate(ev["backup"])
     max_age = timedelta(hours=profile.backup.max_age_hours)
     expected = {"max_age_hours": profile.backup.max_age_hours}
-    newest = repo.newest
+    stalest = repo.stalest
+    newest = stalest.newest if stalest else None
+    which = f" ({stalest.name})" if stalest and len(repo.sets) > 1 else ""
     if newest is None:
-        return failed("No backup snapshots exist", {"snapshots": 0}, expected)
+        observed = {"snapshots": 0} | ({"set": stalest.name} if which else {})
+        return failed(f"No backup snapshots exist{which}", observed, expected)
     age = now - newest.time
     observed = {
-        "snapshots": len(repo.snapshots),
+        "snapshots": len(stalest.snapshots),
         "newest": newest.time.isoformat(),
         "age_hours": round(age.total_seconds() / 3600, 1),
     }
+    if which:
+        observed["set"] = stalest.name
     if age > max_age:
-        return failed(f"Newest backup is {age.days} days old", observed, expected)
+        return failed(f"Newest backup is {age.days} days old{which}", observed, expected)
     return passed("Newest backup is within the allowed age", observed, expected)
+
+
+@check(
+    id="CHK-BAK-002",
+    title="Backup copies are encrypted",
+    requirements=[
+        "REQ-NIS2-21.2.C",
+        "REQ-CIR2690-4.2.2-05",  # access controls to backup copies
+    ],
+    coverage="partial",
+    severity="medium",
+    severity_rationale=(
+        "Unencrypted backups hand a full copy of the data to anyone who reaches the "
+        "backup storage, bypassing every access control on the live systems."
+    ),
+    action="Encrypt the backups",
+    effort="change",
+    target_type="backup_repository",
+    collector="backup_snapshots",
+)
+def backups_encrypted(ev: dict, profile: Profile, now: datetime):
+    repo = BackupEvidence.model_validate(ev["backup"])
+    unencrypted = [s.name for s in repo.sets if s.encrypted is False]
+    unknown = [s.name for s in repo.sets if s.encrypted is None]
+    observed = {"unencrypted_sets": unencrypted, "sets": len(repo.sets)}
+    expected = {"unencrypted_sets": []}
+    if unencrypted:
+        what = "The backups are" if len(repo.sets) == 1 else f"{len(unencrypted)} backup set(s) are"
+        return failed(f"{what} not encrypted", observed, expected)
+    if unknown or not repo.sets:
+        return Result(
+            CheckStatus.ERROR,
+            "The backup tool does not report whether the backups are encrypted",
+            observed | {"unknown_sets": unknown},
+            expected,
+        )
+    return passed("The backups are encrypted", observed, expected)
 
 
 @check(

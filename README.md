@@ -18,7 +18,7 @@ them, and the result is a gap report that non-engineers can read.
 1. **Turns legal text into checkable requirements.** An LLM drafts structured
    requirements from the regulation. Code verifies every quote against the official text,
    and a human reviews each one before it is used.
-2. **Collects evidence and judges it deterministically.** 16 checks probe a live system:
+2. **Collects evidence and judges it deterministically.** 17 checks probe a live system:
    TLS handshakes, SSH authentication methods, identity-provider settings, log retention,
    backups, container CVEs and incident-response documents. No model is involved in any
    pass/fail verdict.
@@ -43,12 +43,12 @@ or `not_assessed`, and the report says how much it could and could not assess.
 
 | | |
 |---|---|
-| **Demo lab** | The `weak` profile fails 16 of 16 checks (20 requirements not satisfied). The `hardened` profile passes 16 of 16. Both are reproducible with one command. |
+| **Demo lab** | The `weak` profile fails 17 of 17 checks (21 requirements not satisfied). The `hardened` profile passes 17 of 17. Both are reproducible with one command. |
 | **Extraction quality** (gold set: 20 provisions, 55 obligations) | Quotes verbatim: 100%. Obligations found: 100%. Invented numbers or durations: 0. Open values mislabelled as stated: 0%. |
 | **Run-to-run stability** | Two runs agree on 19/20 provision structures, clause overlap 0.99. |
 | **Narrative grounding** | Every citation, every number and full gap coverage are checked by code, and IDs are kept out of the prose. A draft that fails twice is not shown. |
 | **Catalog** | 85 requirements (11 from NIS2, 74 from CIR 2024/2690), all reviewed, with every quote verified against EUR-Lex. |
-| **Tests** | 331 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
+| **Tests** | 344 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
 
 Each figure has a write-up in [`eval/results/`](eval/results/), including what went
 wrong and what was changed: three extraction prompt versions, a narrative prompt revision
@@ -114,8 +114,8 @@ until a human reviews them ([review workflow](catalog/README.md)).
 - **Demo target.** The lab is a small Docker stack, not a production estate. A target can
   list many web endpoints and hosts, and the network-based checks work on any of them.
   Identity providers (Keycloak, Okta, Microsoft Entra ID), log stores (Loki,
-  Elasticsearch) and backup tools (restic, BorgBackup) are detected and read through
-  adapters.
+  Elasticsearch) and backup tools (restic, BorgBackup, Veeam) are detected and read
+  through adapters. The Veeam adapter is tested on documented API responses only.
   Cloud accounts are out of scope.
 - **Interpretation is human, and published.** The requirement catalog, the gold-set labels
   and the [check-to-requirement mapping](docs/check-mapping.md) were drafted with Claude

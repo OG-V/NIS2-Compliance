@@ -127,7 +127,7 @@ def test_report_groups_assets_per_check(tmp_path):
     html = render(data, run_dir)[0].read_text()
     assert "Fails on 1 of 2 web endpoints" in html and "Passes on shop." in html
     # The headline counts checks, not results: 16 checks ran on more assets than that.
-    assert f"{data.check_counts['fail']} of 16 checks failed" in html
+    assert f"{data.check_counts['fail']} of 17 checks failed" in html
     assert "<th>Asset</th>" in html
 
 
@@ -182,4 +182,5 @@ def test_runs_from_before_assets_still_compare(tmp_path):
     # The lab now has two log stores and two backup repositories. The old run's one
     # unnamed asset of each cannot be matched to either, so those checks are listed as
     # not comparable, not as fixed.
-    assert {ch.check_id for ch in c.unresolved} == {"CHK-LOG-001", "CHK-BAK-001"}
+    # CHK-BAK-002 did not exist when the old run was made.
+    assert {ch.check_id for ch in c.unresolved} == {"CHK-LOG-001", "CHK-BAK-001", "CHK-BAK-002"}

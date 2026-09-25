@@ -1,16 +1,21 @@
 {
   "_collected_at": "2026-09-24T22:51:28.096081+00:00",
   "backup": {
-    "encrypted": true,
     "repository": "docker exec nis2lab-backup-1 restic snapshots",
-    "snapshots": [
+    "sets": [
       {
-        "host": "nordmsp",
-        "name": "2ad9bea1",
-        "paths": [
-          "/data"
-        ],
-        "time": "2026-09-24T22:51:10.143546Z"
+        "encrypted": true,
+        "name": "nordmsp:/data",
+        "snapshots": [
+          {
+            "host": "nordmsp",
+            "name": "2ad9bea1",
+            "paths": [
+              "/data"
+            ],
+            "time": "2026-09-24T22:51:10.143546Z"
+          }
+        ]
       }
     ]
   },

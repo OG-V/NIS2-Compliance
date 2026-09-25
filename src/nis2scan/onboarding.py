@@ -182,6 +182,8 @@ def _log_store(system: System, logs, target: Target, probe: bool) -> None:
 
 
 def _backup(system: System, backup, target: Target, probe: bool) -> None:
+    if backup.url:
+        system.access.append(_url_access(backup.url, f"Network access to {backup.url}", probe))
     if backup.container:
         system.access.append(
             Access(
@@ -212,8 +214,8 @@ def _backup(system: System, backup, target: Target, probe: bool) -> None:
     system.access.append(credential)
     if probe:
         try:
-            adapter.fetch(backup, target.secret)
-            credential.status, credential.note = OK, "tested by listing the snapshots (read-only)"
+            adapter.check_access(backup, target.secret)
+            credential.status, credential.note = OK, "tested with a read-only request"
         except KeyError as exc:
             credential.status, credential.note = MISSING, str(exc).strip("'")
         except CollectorError as exc:

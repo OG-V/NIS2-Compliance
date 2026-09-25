@@ -12,7 +12,14 @@ import json
 from datetime import UTC, datetime
 from typing import Any
 
-from nis2scan.adapters.backup import BackupAdapter, BackupEvidence, Snapshot, adapter, run
+from nis2scan.adapters.backup import (
+    BackupAdapter,
+    BackupEvidence,
+    BackupSet,
+    Snapshot,
+    adapter,
+    run,
+)
 from nis2scan.config import BackupTarget
 from nis2scan.registry import CollectorError
 
@@ -64,12 +71,18 @@ class Borg(BackupAdapter):
         }
 
     def normalize(self, raw: dict[str, Any]) -> BackupEvidence:
+        """One set per repository: Borg archive names follow no fixed grouping."""
         mode = raw.get("encryption")
         return BackupEvidence(
             repository=raw["source"],
-            snapshots=[
-                Snapshot(time=as_utc(a.get("start") or a["time"]), name=a["name"])
-                for a in raw["archives"]
+            sets=[
+                BackupSet(
+                    name="repository",
+                    snapshots=[
+                        Snapshot(time=as_utc(a.get("start") or a["time"]), name=a["name"])
+                        for a in raw["archives"]
+                    ],
+                    encrypted=None if mode is None else mode not in NOT_ENCRYPTED,
+                )
             ],
-            encrypted=None if mode is None else mode not in NOT_ENCRYPTED,
         )
