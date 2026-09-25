@@ -119,3 +119,8 @@ NIS2_LAB=1 pytest tests/test_lab_live.py    # scans the running lab
 nis2scan validate-catalog && nis2scan verify-quotes
 nis2scan checks --markdown > docs/check-mapping.md   # after changing a check's mapping
 ```
+
+## License
+
+The code is released under the [MIT License](LICENSE). The legal texts in `sources/` are
+© European Union and reused under EUR-Lex's terms (see [sources/README.md](sources/README.md)).
