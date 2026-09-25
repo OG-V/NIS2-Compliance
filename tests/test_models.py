@@ -22,6 +22,8 @@ def check(id_, coverage="full"):
         coverage=coverage,
         severity="high",
         severity_rationale="test",
+        action="test",
+        effort="quick",
         target_type="test",
     )
 

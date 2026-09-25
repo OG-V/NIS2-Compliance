@@ -25,6 +25,8 @@ REPORTING_ELEMENTS = {
     severity_rationale=(
         "Missing a reporting deadline is itself a breach of Art. 23, separate from the incident."
     ),
+    action="Add the NIS2 reporting deadlines and the CSIRT contact to the incident plan",
+    effort="change",
     target_type="document",
     collector="ir_plan",
 )
@@ -48,6 +50,8 @@ def ir_plan_reporting(ev: dict, profile: Profile, now: datetime):
     coverage="partial",
     severity="low",
     severity_rationale="A stale plan lists wrong contacts and outdated systems when it is needed.",
+    action="Review the incident response plan and record the review date",
+    effort="change",
     target_type="document",
     collector="ir_plan",
 )

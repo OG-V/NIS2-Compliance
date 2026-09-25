@@ -35,6 +35,8 @@ def parse_duration(text: str) -> timedelta:
     coverage="partial",
     severity="medium",
     severity_rationale="Logs deleted too early make an incident impossible to investigate or report.",
+    action="Keep logs for as long as the policy requires",
+    effort="quick",
     target_type="log_store",
     collector="loki_config",
 )
@@ -65,6 +67,8 @@ def log_retention(ev: dict, profile: Profile, now: datetime):
     coverage="partial",
     severity="high",
     severity_rationale="Without recent backups, ransomware or failure causes permanent data loss.",
+    action="Restart automatic backups",
+    effort="change",
     target_type="backup_repository",
     collector="restic_snapshots",
 )
@@ -95,6 +99,8 @@ def recent_backup(ev: dict, profile: Profile, now: datetime):
     coverage="partial",
     severity="medium",
     severity_rationale="Unknown services go unpatched and unmonitored.",
+    action="Add every running service to the asset inventory",
+    effort="quick",
     target_type="container_platform",
     collector="asset_inventory",
 )
@@ -119,6 +125,8 @@ def services_inventoried(ev: dict, profile: Profile, now: datetime):
     coverage="partial",
     severity="high",
     severity_rationale="Known, fixable critical vulnerabilities are the most common way in.",
+    action="Update software that has known critical flaws",
+    effort="project",
     target_type="container_platform",
     collector="image_vulnerabilities",
 )
