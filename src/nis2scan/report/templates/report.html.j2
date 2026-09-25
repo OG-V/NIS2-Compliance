@@ -275,7 +275,8 @@
       <p class="ai">
         Drafted by {{ narrative.model }} from the findings in this report only. Every cited
         finding, every number and full gap coverage were verified mechanically
-        (attempt {{ narrative.attempts }}). Sources: {{ narrative.narrative.executive_summary_finding_ids|join(", ") }}.
+        (attempt {{ narrative.attempts }}). Sources:
+        {% for fid in narrative.narrative.executive_summary_finding_ids %}<a href="#{{ fid }}">{{ fid }}</a>{{ ", " if not loop.last else "." }}{% endfor %}
       </p>
     </div>
   </section>
