@@ -11,7 +11,7 @@ traceable to a specific legal provision.
 > vague stated values from 37% to 5–7%, and two repeat runs agree on 18/20 provisions
 > ([stability](eval/results/2026-09-25-prompt-v2.md)). Prompt v3 made the one nested-list
 > provision stable across runs ([v3](eval/results/2026-09-25-prompt-v3.md)).
-> The report (milestone 5) is next. See [docs/design.md](docs/design.md).
+> The HTML gap report with a validated AI narrative (milestone 5) is done. See [docs/design.md](docs/design.md).
 
 ## Design in one paragraph
 
@@ -55,19 +55,23 @@ pip install -e '.[dev]'
 lab/lab.sh up weak                 # or: hardened
 nis2scan scan
 nis2scan checks                    # every check and the requirement it maps to
+nis2scan report out/<run>          # HTML gap report; add --narrate for an AI-drafted,
+                                   # mechanically validated narrative (needs an API key)
 ```
 
 A scan writes `out/<target>-<timestamp>/` containing `findings.json` (one per check),
 `verdicts.json` (one per requirement), and `evidence/` (the raw evidence each finding
 was judged on, with SHA-256 hashes recorded in `scan.json`).
 
-| Profile | Checks | Requirement verdicts |
+| Profile | Checks | Requirement verdicts (85 reviewed requirements) |
 |---|---|---|
-| `weak` | 16 fail | 7 `not_satisfied`, 4 `not_assessed` |
-| `hardened` | 16 pass | 7 `partially_evidenced`, 4 `not_assessed` |
+| `weak` | 16 fail | 20 `not_satisfied`, 65 `not_assessed` |
+| `hardened` | 16 pass | 20 `partially_evidenced`, 65 `not_assessed` |
 
 Even the hardened lab is only *partially evidenced*. Automated checks cover part of each
-obligation, and the organisational measures (Art. 21(2)(a), (d), (f), (g)) need an audit.
+obligation. Most requirements are *not assessed*: the organisational measures
+(Art. 21(2)(a), (d), (f), (g)) need an audit, and many CIR points have no check yet.
+The report states this coverage rather than hiding it.
 
 ## Extracting requirements with an LLM
 
