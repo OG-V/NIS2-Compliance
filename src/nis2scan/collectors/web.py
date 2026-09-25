@@ -8,6 +8,7 @@ import warnings
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes
 
+from nis2scan.config import WebTarget
 from nis2scan.registry import Context, collector
 
 TLS_VERSIONS = {
@@ -42,8 +43,7 @@ def _accepts(host: str, port: int, version: ssl.TLSVersion) -> bool:
 
 
 @collector("tls_probe", requires="web")
-def tls_probe(ctx: Context) -> dict:
-    web = ctx.target.web
+def tls_probe(ctx: Context, web: WebTarget) -> dict:
     accepted = {name: _accepts(web.host, web.https_port, v) for name, v in TLS_VERSIONS.items()}
 
     with (
@@ -66,8 +66,7 @@ def tls_probe(ctx: Context) -> dict:
 
 
 @collector("http_probe", requires="web")
-def http_probe(ctx: Context) -> dict:
-    web = ctx.target.web
+def http_probe(ctx: Context, web: WebTarget) -> dict:
     plain = http.client.HTTPConnection(web.host, web.http_port, timeout=5)
     plain.request("GET", "/")
     r = plain.getresponse()

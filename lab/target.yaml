@@ -1,27 +1,37 @@
 # Scan target description for the NordMSP lab. Relative paths resolve against
 # this file's directory. ./lab.sh points .current at the active profile.
+#
+# Each section except documents lists assets. The lab has one of each kind; a real
+# estate lists every web endpoint, SSH host and so on, each with a name that the
+# report uses. A single mapping instead of a list is also accepted.
 name: nordmsp-lab
 env_file: .current/lab.env   # provides KC_ADMIN_PASSWORD
 
 web:
-  host: 127.0.0.1
-  http_port: 18080
-  https_port: 18443
+  - name: portal
+    host: 127.0.0.1
+    http_port: 18080
+    https_port: 18443
 ssh:
-  host: 127.0.0.1
-  port: 12222
-  container: nis2lab-host-1
+  - name: app-host
+    host: 127.0.0.1
+    port: 12222
+    container: nis2lab-host-1   # optional: without it, only network-visible SSH checks run
 idp:
-  url: http://127.0.0.1:18081
-  realm: nordmsp
-  admin_user: admin
-  admin_password_env: KC_ADMIN_PASSWORD
+  - name: keycloak
+    url: http://127.0.0.1:18081
+    realm: nordmsp
+    admin_user: admin
+    admin_password_env: KC_ADMIN_PASSWORD
 logs:
-  url: http://127.0.0.1:13100
+  - name: loki
+    url: http://127.0.0.1:13100
 backup:
-  container: nis2lab-backup-1
+  - name: restic
+    container: nis2lab-backup-1
 docker:
-  compose_project: nis2lab
+  - name: nis2lab
+    compose_project: nis2lab
 documents:
   dir: .current/org
   ir_plan: incident-response.md

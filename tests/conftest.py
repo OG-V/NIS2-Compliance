@@ -22,14 +22,19 @@ def collected_at(evidence: dict) -> datetime:
 
 
 class FixtureContext(Context):
-    """Serves evidence recorded from a real lab run instead of probing a live target."""
+    """Serves evidence recorded from a real lab run instead of probing a live target.
 
-    def __init__(self, target, profile: str):
+    `per_asset` maps asset names to a lab profile, so one target can mix assets
+    recorded from the weak and the hardened lab.
+    """
+
+    def __init__(self, target, profile: str, per_asset: dict[str, str] | None = None):
         super().__init__(target)
         self.profile = profile
+        self.per_asset = per_asset or {}
 
-    def _run(self, name: str) -> dict:
-        return load_evidence(self.profile, name)
+    def _run(self, name: str, asset) -> dict:
+        return load_evidence(self.per_asset.get(asset.name, self.profile), name)
 
 
 @pytest.fixture

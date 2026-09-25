@@ -63,10 +63,10 @@ def test_collector_failure_becomes_error_finding():
     target = load_target(ROOT / "lab" / "target.yaml")
 
     class Broken(FixtureContext):
-        def _run(self, name):
+        def _run(self, name, asset):
             if name == "keycloak_realm":
                 raise ConnectionRefusedError("idp down")
-            return super()._run(name)
+            return super()._run(name, asset)
 
     result = run_scan(
         target, load_profile(PROFILE_PATH), REQUIREMENTS, context=Broken(target, "hardened"),
@@ -85,4 +85,8 @@ def test_write_results(tmp_path):
     assert len(findings) == 16
     for f in findings:
         assert (run_dir / f["evidence_ref"]).exists()
-    assert set(meta["evidence_sha256"]) == {p.stem for p in (run_dir / "evidence").iterdir()}
+    files = (run_dir / "evidence").rglob("*.json")
+    assert set(meta["evidence_sha256"]) == {
+        str(p.relative_to(run_dir / "evidence").with_suffix("")) for p in files
+    }
+    assert "tls_probe/portal" in meta["evidence_sha256"]  # one file per asset

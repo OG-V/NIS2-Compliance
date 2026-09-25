@@ -27,9 +27,11 @@
     "low": 0
   },
   "before_failing": 16,
+  "multi_asset": false,
   "fixed": [
     {
       "check_id": "CHK-IDP-004",
+      "asset": null,
       "title": "Default admin credentials are rejected",
       "severity": "critical",
       "action": "Change the default admin password",
@@ -42,6 +44,7 @@
     },
     {
       "check_id": "CHK-BAK-001",
+      "asset": null,
       "title": "A recent backup snapshot exists",
       "severity": "high",
       "action": "Restart automatic backups",
@@ -54,6 +57,7 @@
     },
     {
       "check_id": "CHK-IDP-001",
+      "asset": null,
       "title": "Every staff account has MFA enrolled or is forced to enrol",
       "severity": "high",
       "action": "Turn on two-factor login for every account",
@@ -66,6 +70,7 @@
     },
     {
       "check_id": "CHK-SSH-001",
+      "asset": null,
       "title": "SSH does not offer password authentication",
       "severity": "high",
       "action": "Allow only key-based server logins, not passwords",
@@ -78,6 +83,7 @@
     },
     {
       "check_id": "CHK-SSH-002",
+      "asset": null,
       "title": "Direct root login over SSH is disabled",
       "severity": "high",
       "action": "Stop direct administrator (root) logins to the server",
@@ -90,6 +96,7 @@
     },
     {
       "check_id": "CHK-TLS-001",
+      "asset": null,
       "title": "TLS versions below the profile minimum are refused",
       "severity": "high",
       "action": "Switch off outdated encryption versions on the website",
@@ -102,6 +109,7 @@
     },
     {
       "check_id": "CHK-VUL-001",
+      "asset": null,
       "title": "No unaccepted, fixable vulnerability at the failing severity in running images",
       "severity": "high",
       "action": "Update software that has known critical flaws",
@@ -114,6 +122,7 @@
     },
     {
       "check_id": "CHK-AST-001",
+      "asset": null,
       "title": "Every running service is in the asset inventory",
       "severity": "medium",
       "action": "Add every running service to the asset inventory",
@@ -126,6 +135,7 @@
     },
     {
       "check_id": "CHK-DOC-001",
+      "asset": null,
       "title": "Incident response plan covers the NIS2 reporting stages",
       "severity": "medium",
       "action": "Add the NIS2 reporting deadlines and the CSIRT contact to the incident plan",
@@ -138,6 +148,7 @@
     },
     {
       "check_id": "CHK-IDP-002",
+      "asset": null,
       "title": "Brute-force protection is enabled on the staff realm",
       "severity": "medium",
       "action": "Turn on protection against password guessing",
@@ -150,6 +161,7 @@
     },
     {
       "check_id": "CHK-IDP-003",
+      "asset": null,
       "title": "Password policy enforces the profile's minimum length",
       "severity": "medium",
       "action": "Set a minimum password length",
@@ -162,6 +174,7 @@
     },
     {
       "check_id": "CHK-LOG-001",
+      "asset": null,
       "title": "Central logs are kept at least as long as the profile requires",
       "severity": "medium",
       "action": "Keep logs for as long as the policy requires",
@@ -174,6 +187,7 @@
     },
     {
       "check_id": "CHK-TLS-002",
+      "asset": null,
       "title": "Certificate is valid and not about to expire",
       "severity": "medium",
       "action": "Renew the website's certificate",
@@ -186,6 +200,7 @@
     },
     {
       "check_id": "CHK-TLS-003",
+      "asset": null,
       "title": "Plain HTTP redirects to HTTPS and HSTS is set",
       "severity": "medium",
       "action": "Send all website traffic over HTTPS",
@@ -198,6 +213,7 @@
     },
     {
       "check_id": "CHK-DOC-002",
+      "asset": null,
       "title": "Incident response plan has been reviewed recently",
       "severity": "low",
       "action": "Review the incident response plan and record the review date",
@@ -210,6 +226,7 @@
     },
     {
       "check_id": "CHK-SSH-003",
+      "asset": null,
       "title": "SSH limits authentication attempts per connection",
       "severity": "low",
       "action": "Limit login attempts per connection to the server",

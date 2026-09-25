@@ -132,6 +132,7 @@
     {
       "check_id": "CHK-AST-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "undeclared_services": [],
@@ -159,11 +160,14 @@
       "found": null,
       "should": null,
       "topic": "Access control and asset management",
+      "asset_kind": "document sets",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-BAK-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "snapshots": 1,
@@ -186,11 +190,14 @@
       "found": null,
       "should": null,
       "topic": "Business continuity and backups",
+      "asset_kind": "backup repositories",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-DOC-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "document": "incident-response.md",
@@ -217,11 +224,14 @@
       "found": null,
       "should": null,
       "topic": "Reporting incidents to the CSIRT",
+      "asset_kind": "document sets",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-DOC-002",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "document": "incident-response.md",
@@ -244,11 +254,14 @@
       "found": null,
       "should": null,
       "topic": "Incident handling",
+      "asset_kind": "document sets",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-IDP-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "new_users_must_enrol_otp": true,
@@ -271,11 +284,14 @@
       "found": null,
       "should": null,
       "topic": "Multi-factor authentication",
+      "asset_kind": "identity providers",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-IDP-002",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "bruteForceProtected": true,
@@ -297,11 +313,14 @@
       "found": null,
       "should": null,
       "topic": "Access control and asset management",
+      "asset_kind": "identity providers",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-IDP-003",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "passwordPolicy": "length(12) and notUsername and passwordHistory(5)",
@@ -323,11 +342,14 @@
       "found": null,
       "should": null,
       "topic": "Access control and asset management",
+      "asset_kind": "identity providers",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-IDP-004",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "username_tried": "admin",
@@ -349,11 +371,14 @@
       "found": null,
       "should": null,
       "topic": "Access control and asset management",
+      "asset_kind": "identity providers",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-LOG-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "retention_period": "180d",
@@ -375,11 +400,14 @@
       "found": null,
       "should": null,
       "topic": "Incident handling",
+      "asset_kind": "log stores",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-SSH-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "auth_methods_offered": [
@@ -406,11 +434,14 @@
       "found": null,
       "should": null,
       "topic": "Access control and asset management",
+      "asset_kind": "SSH hosts",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-SSH-002",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "permitrootlogin": "no"
@@ -431,11 +462,14 @@
       "found": null,
       "should": null,
       "topic": "Access control and asset management",
+      "asset_kind": "SSH hosts",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-SSH-003",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "maxauthtries": 3
@@ -456,11 +490,14 @@
       "found": null,
       "should": null,
       "topic": "Access control and asset management",
+      "asset_kind": "SSH hosts",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-TLS-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "accepted_versions": [
@@ -484,11 +521,14 @@
       "found": null,
       "should": null,
       "topic": "Cryptography and encryption",
+      "asset_kind": "web endpoints",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-TLS-002",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "not_before": "2026-09-25T01:04:21+00:00",
@@ -511,11 +551,14 @@
       "found": null,
       "should": null,
       "topic": "Cryptography and encryption",
+      "asset_kind": "web endpoints",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-TLS-003",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "http_status": 301,
@@ -539,11 +582,14 @@
       "found": null,
       "should": null,
       "topic": "Cryptography and encryption",
+      "asset_kind": "web endpoints",
+      "assets": [],
       "breaches": []
     },
     {
       "check_id": "CHK-VUL-001",
       "target": "nordmsp-lab",
+      "asset": null,
       "status": "pass",
       "observed": {
         "images_scanned": 5,
@@ -572,6 +618,8 @@
       "found": null,
       "should": null,
       "topic": "Secure development and vulnerability handling",
+      "asset_kind": "Docker projects",
+      "assets": [],
       "breaches": []
     }
   ],
@@ -1650,5 +1698,6 @@
       "reason": "organisational requirement: needs audit, not automated checks"
     }
   ],
+  "multi_asset": false,
   "narrative": null
 }

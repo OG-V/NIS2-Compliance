@@ -3,13 +3,13 @@
 import paramiko
 
 from nis2scan.collectors._docker import docker
+from nis2scan.config import SshTarget
 from nis2scan.registry import Context, collector
 
 
 @collector("ssh_auth_methods", requires="ssh")
-def ssh_auth_methods(ctx: Context) -> dict:
+def ssh_auth_methods(ctx: Context, ssh: SshTarget) -> dict:
     """Ask the server which auth methods it offers, without attempting to log in."""
-    ssh = ctx.target.ssh
     transport = paramiko.Transport((ssh.host, ssh.port))
     try:
         transport.start_client(timeout=10)
@@ -42,10 +42,10 @@ def parse_sshd_t(output: str) -> dict[str, str | list[str]]:
     return config
 
 
-@collector("sshd_effective_config", requires="ssh")
-def sshd_effective_config(ctx: Context) -> dict:
-    output = docker("exec", ctx.target.ssh.container, "sshd", "-T")
+@collector("sshd_effective_config", requires="ssh", needs=("container",))
+def sshd_effective_config(ctx: Context, ssh: SshTarget) -> dict:
+    output = docker("exec", ssh.container, "sshd", "-T")
     return {
-        "source": f"docker exec {ctx.target.ssh.container} sshd -T",
+        "source": f"docker exec {ssh.container} sshd -T",
         "config": parse_sshd_t(output),
     }

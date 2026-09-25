@@ -44,7 +44,7 @@ or `not_assessed`, and the report says how much it could and could not assess.
 | **Run-to-run stability** | Two runs agree on 19/20 provision structures, clause overlap 0.99. |
 | **Narrative grounding** | Every citation, every number and full gap coverage are checked by code, and IDs are kept out of the prose. A draft that fails twice is not shown. |
 | **Catalog** | 85 requirements (11 from NIS2, 74 from CIR 2024/2690), all reviewed, with every quote verified against EUR-Lex. |
-| **Tests** | 222 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
+| **Tests** | 231 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
 
 Each figure has a write-up in [`eval/results/`](eval/results/), including what went
 wrong and what was changed: three extraction prompt versions, a narrative prompt revision
@@ -106,8 +106,10 @@ until a human reviews them ([review workflow](catalog/README.md)).
 
 - **Evidence, not compliance.** Most of NIS2 is organisational. 65 of 85 requirements have
   no automated check and are reported as not assessed.
-- **Demo target.** The lab is a small Docker stack, not a production estate. Cloud
-  accounts are out of scope.
+- **Demo target.** The lab is a small Docker stack, not a production estate. A target can
+  list many web endpoints and hosts, and the network-based checks work on any of them,
+  but identity, logging and backup support one product each (Keycloak, Loki, restic).
+  Cloud accounts are out of scope.
 - **Interpretation is human, and published.** The requirement catalog, the gold-set labels
   and the [check-to-requirement mapping](docs/check-mapping.md) were drafted with Claude
   and reviewed by the author. All three are in the repository so they can be challenged.

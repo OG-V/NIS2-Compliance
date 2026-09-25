@@ -106,6 +106,7 @@ class CheckStatus(StrEnum):
 class Finding(BaseModel):
     check_id: str
     target: str
+    asset: str | None = None  # the asset checked; None when the target has none of its kind
     status: CheckStatus
     observed: dict[str, Any] = {}
     expected: dict[str, Any] = {}

@@ -12,6 +12,7 @@
 </head>
 <body>
 {%- import "_shared.j2" as ui %}
+{%- macro fails_on(g) %}Fails on {{ g.failing_assets|length }} of {{ g.assets|length }} {{ g.asset_kind or "assets" }}{% endmacro %}
 {%- set total_checks = d.findings|length %}
 {%- set fails = d.check_counts.fail %}
 {%- set errors = d.check_counts.error %}
@@ -119,7 +120,7 @@
       {%- for g in urgent %}
       <li>
         <span class="pill cap {{ g.severity }}">{{ g.severity }}</span>
-        <div class="what"><a href="#{{ g.finding_id }}">{{ g.action }}</a><span class="muted small">{{ g.found or g.message }}</span></div>
+        <div class="what"><a href="#{{ g.finding_id }}">{{ g.action }}</a><span class="muted small">{% if g.assets|length > 1 %}{{ fails_on(g) }}: {{ g.failing_assets|map(attribute="asset")|join(", ") }}{% else %}{{ g.found or g.message }}{% endif %}</span></div>
         {{ ui.effort(g.effort) }}
       </li>
       {%- endfor %}
@@ -176,10 +177,19 @@
       <div class="stripe {{ g.severity }}"></div>
       <div class="gap-body">
         <div class="gap-head">
-          <div class="row"><span class="pill cap {{ g.severity }}">{{ g.severity }}</span>{% if g.topic %}<span class="muted small">{{ g.topic }}</span>{% endif %}</div>
+          <div class="row"><span class="pill cap {{ g.severity }}">{{ g.severity }}</span>{% if g.topic %}<span class="muted small">{{ g.topic }}</span>{% endif %}{% if g.assets|length > 1 %}<span class="small"><b>{{ fails_on(g) }}</b></span>{% endif %}</div>
           <h3>{{ g.message }}</h3>
         </div>
-        {% if g.found %}
+        {% if g.assets|length > 1 %}
+        <div class="compare">
+          <div class="cmp found"><span class="k">Found</span>
+            <dl class="per-asset">{% for a in g.failing_assets %}<dt>{{ a.asset }}</dt><dd>{{ a.found or a.message }}</dd>{% endfor %}</dl>
+            {%- set passing = g.assets|selectattr("status", "equalto", "pass")|map(attribute="asset")|list %}
+            {%- if passing %}<p class="small muted">Passes on {{ passing|join(", ") }}.</p>{% endif %}
+          </div>
+          <div class="cmp should"><span class="k">Should be</span><p>{{ g.should or "" }}</p></div>
+        </div>
+        {% elif g.found %}
         <div class="compare">
           <div class="cmp found"><span class="k">Found</span><p>{{ g.found }}</p></div>
           <div class="cmp should"><span class="k">Should be</span><p>{{ g.should }}</p></div>
@@ -200,9 +210,16 @@
           <div class="legal">
             <dl class="kv">
               <dt>Check</dt><dd><span class="mono">{{ g.finding_id }}</span> · {{ g.title }}</dd>
+              {%- if g.assets|length > 1 %}
+              <dt>Expected</dt><dd class="mono">{{ g.expected|tojson }}</dd>
+              {%- for a in g.assets %}
+              <dt>{{ a.asset }}</dt><dd><span class="pill {{ a.status }}">{{ a.status.replace("_", " ") }}</span> <span class="mono">{{ a.observed|tojson }}</span><br><span class="mono">{{ a.evidence_ref }}{% if a.evidence_sha256 %} (sha256 {{ a.evidence_sha256[:16] }}…){% endif %}</span></dd>
+              {%- endfor %}
+              {%- else %}
               <dt>Observed</dt><dd class="mono">{{ g.observed|tojson }}</dd>
               <dt>Expected</dt><dd class="mono">{{ g.expected|tojson }}</dd>
               <dt>Evidence</dt><dd class="mono">{{ g.evidence_ref }}{% if g.evidence_sha256 %} (sha256 {{ g.evidence_sha256[:16] }}…){% endif %}</dd>
+              {%- endif %}
             </dl>
             {% for b in g.breaches %}
             <div>
@@ -221,10 +238,10 @@
   <section aria-labelledby="all-checks">
     <h2 id="all-checks">All checks</h2>
     <div class="table-wrap"><table>
-      <tr><th>Check</th><th>Status</th><th>Severity</th><th>Result</th></tr>
+      <tr><th>Check</th>{% if d.multi_asset %}<th>Asset</th>{% endif %}<th>Status</th><th>Severity</th><th>Result</th></tr>
       {% for f in d.findings %}
       <tr>
-        <td><span class="mono">{{ f.check_id }}</span><br>{{ f.title }}</td>
+        <td><span class="mono">{{ f.check_id }}</span><br>{{ f.title }}</td>{% if d.multi_asset %}<td>{{ f.asset or "–" }}</td>{% endif %}
         <td><span class="pill {{ f.status }}">{{ f.status.replace("_", " ") }}</span></td>
         <td><span class="pill {{ f.severity }}">{{ f.severity }}</span></td>
         <td>{{ f.message }}</td>

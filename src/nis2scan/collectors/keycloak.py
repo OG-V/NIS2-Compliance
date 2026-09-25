@@ -5,6 +5,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
+from nis2scan.config import IdpTarget
 from nis2scan.registry import CollectorError, Context, collector
 
 DEFAULT_ADMIN = ("admin", "admin")
@@ -36,8 +37,7 @@ def _get(base_url: str, token: str, path: str):
 
 
 @collector("keycloak_realm", requires="idp")
-def keycloak_realm(ctx: Context) -> dict:
-    idp = ctx.target.idp
+def keycloak_realm(ctx: Context, idp: IdpTarget) -> dict:
     status, token = _token(idp.url, idp.admin_user, ctx.target.secret(idp.admin_password_env))
     if not token:
         raise CollectorError(f"admin login to {idp.url} failed with HTTP {status}")
@@ -69,9 +69,9 @@ def keycloak_realm(ctx: Context) -> dict:
 
 
 @collector("keycloak_default_admin", requires="idp")
-def keycloak_default_admin(ctx: Context) -> dict:
+def keycloak_default_admin(ctx: Context, idp: IdpTarget) -> dict:
     """Try the documented default admin credentials once. One attempt cannot trigger lockout."""
-    status, token = _token(ctx.target.idp.url, *DEFAULT_ADMIN)
+    status, token = _token(idp.url, *DEFAULT_ADMIN)
     return {
         "username_tried": DEFAULT_ADMIN[0],
         "http_status": status,
