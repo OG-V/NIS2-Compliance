@@ -33,6 +33,6 @@ product is a new adapter with its own tests, and normalisation is tested on reco
 responses without the product being present. Each adapter embodies an interpretation of
 its product's settings. These interpretations are documented in the adapter and tested,
 and they need review like the requirement catalog does. Adapters are verified against a
-live system where one is available (Keycloak, Loki and Elasticsearch on the lab, Okta on a
-developer org, Entra ID on a free tenant).
+live system where one is available (Keycloak, Loki, Elasticsearch, restic and Borg on the
+lab, Okta on a developer org, Entra ID on a free tenant).
 Otherwise they are marked as built from documentation only.
