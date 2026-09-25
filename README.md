@@ -101,9 +101,9 @@ until a human reviews them ([review workflow](catalog/README.md)).
   no automated check and are reported as not assessed.
 - **Demo target.** The lab is a small Docker stack, not a production estate. Cloud
   accounts are out of scope.
-- **Interpretation is human, and published.** The requirement catalog and the gold-set
-  labels were drafted with Claude and reviewed by the author. The check-to-requirement
-  mapping was drafted the same way and is [published for review](docs/check-mapping.md).
+- **Interpretation is human, and published.** The requirement catalog, the gold-set labels
+  and the [check-to-requirement mapping](docs/check-mapping.md) were drafted with Claude
+  and reviewed by the author. All three are in the repository so they can be challenged.
 - **The recall metric measures coverage, not correctness.** Whether a paraphrase is
   faithful is left to the human reviewer.
 - **Time-dependent results.** New CVEs appear daily, and the hardened lab's Keycloak risk
