@@ -84,11 +84,11 @@
   
   <h2>Executive summary</h2>
   <div class="narrative">
-    <p>The scan of nordmsp-lab ran 16 checks; all 16 failed, and 20 requirements are recorded as not satisfied. Most urgent: the admin console accepts the default admin/admin login (CHK-IDP-004). High-severity gaps follow: the newest backup snapshot is far too old (CHK-BAK-001), two accounts lack MFA (CHK-IDP-001), SSH offers password authentication and direct root login (CHK-SSH-001, CHK-SSH-002), outdated TLS versions are accepted (CHK-TLS-001), and fixable critical vulnerabilities remain in running images (CHK-VUL-001). Medium and low findings concern the asset inventory (CHK-AST-001), the incident response plan (CHK-DOC-001, CHK-DOC-002), identity settings (CHK-IDP-002, CHK-IDP-003), log retention (CHK-LOG-001), certificate validity and HTTPS handling (CHK-TLS-002, CHK-TLS-003) and SSH attempt limits (CHK-SSH-003).</p>
+    <p>The scan of nordmsp-lab found 16 failing checks and no passing checks. The most severe gap: the admin console accepts the default admin/admin login (CHK-IDP-004). High-severity gaps follow: the newest backup is 480 days old (CHK-BAK-001), two staff accounts lack MFA (CHK-IDP-001), SSH offers password login and allows direct root login (CHK-SSH-001, CHK-SSH-002), outdated TLS versions are accepted (CHK-TLS-001), and running images contain fixable critical vulnerabilities (CHK-VUL-001). Medium and low gaps cover the asset inventory, incident plan content and review, login protections, log retention, and certificate and HTTPS settings (CHK-AST-001, CHK-DOC-001, CHK-IDP-002, CHK-IDP-003, CHK-LOG-001, CHK-TLS-002, CHK-TLS-003, CHK-DOC-002, CHK-SSH-003).</p>
     <div class="ai-label">
-      Drafted by claude-opus-5 from the findings in this report only. Every cited
+      Drafted by claude-opus-5-5 from the findings in this report only. Every cited
       finding, every number and full gap coverage were verified mechanically
-      (attempt 2). Sources: CHK-IDP-004, CHK-BAK-001, CHK-IDP-001, CHK-SSH-001, CHK-SSH-002, CHK-TLS-001, CHK-VUL-001, CHK-AST-001, CHK-DOC-001, CHK-DOC-002, CHK-IDP-002, CHK-IDP-003, CHK-LOG-001, CHK-TLS-002, CHK-TLS-003, CHK-SSH-003.
+      (attempt 2). Sources: CHK-IDP-004, CHK-BAK-001, CHK-IDP-001, CHK-SSH-001, CHK-SSH-002, CHK-TLS-001, CHK-VUL-001, CHK-AST-001, CHK-DOC-001, CHK-IDP-002, CHK-IDP-003, CHK-LOG-001, CHK-TLS-002, CHK-TLS-003, CHK-DOC-002, CHK-SSH-003.
     </div>
   </div>
   
@@ -189,9 +189,9 @@
     <div class="meta">Failed check <span class="mono">CHK-IDP-004</span>: Default admin credentials are rejected</div>
     
     <div class="narrative">
-      <p>The law requires access control policies and, in the implementing regulation, that authentication credentials are changed initially, at predefined intervals and whenever compromise is suspected. The check logged in to the admin console with the username admin and the password admin and received HTTP status 200, whereas the expected result is that such a login is not accepted. A default credential that is publicly known gives anyone who reaches the console full administrative control of the system, so every other access control measure can be bypassed.</p>
+      <p>The rules require access control and that credentials are changed initially, i.e. before use. The scan logged into the admin console with the default username admin and password admin and was accepted. Default credentials are widely known, so anyone who can reach the console could take full administrative control. This requirement is not satisfied.</p>
       <b>Remediation</b>
-      <ul><li>Change the password of the &#39;admin&#39; account so that the default admin/admin combination is no longer accepted, matching the expected result accepted: false.</li><li>Re-run the check to confirm the admin console rejects the default credentials.</li><li>Apply the credential-change rule described in point 11.6.2 to this account: change credentials initially, at predefined intervals, and upon suspicion of compromise.</li></ul>
+      <ul><li>Change the password of the admin account on the admin console immediately so that admin/admin is rejected.</li><li>Check whether the console was accessed with these credentials and treat the account as possibly compromised.</li><li>Re-run the check to confirm the default login is no longer accepted.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.I, REQ-CIR2690-11.6.2-03; verified mechanically.</div>
     </div>
     
@@ -227,9 +227,9 @@
     <div class="meta">Failed check <span class="mono">CHK-BAK-001</span>: A recent backup snapshot exists</div>
     
     <div class="narrative">
-      <p>NIS2 requires business continuity including backup management, and the implementing regulation requires that backup copies of data are maintained. The scan found only 1 snapshot, with the newest dated 2025-06-01 and reported as 480 days old (age_hours 11542.6), against an expected max_age_hours of 26. Recovery from an incident would therefore fall back to a very old copy, and everything created since that snapshot would be lost.</p>
+      <p>The rules require backup management and that backup copies of data are maintained. The scan found only one backup snapshot, and it is 480 days old, far beyond the maximum age the profile allows. If data were lost or corrupted today, almost everything changed since that snapshot could not be recovered, threatening business continuity.</p>
       <b>Remediation</b>
-      <ul><li>Run and verify a new backup so a fresh snapshot exists for the target.</li><li>Schedule backups so that the newest snapshot always stays within the expected max_age_hours value of 26.</li><li>Monitor the age of the newest snapshot and alert when it approaches that expected value.</li></ul>
+      <ul><li>Restore regular, automated backup runs so that a new snapshot is produced within the maximum age set in the profile.</li><li>Monitor backup jobs and alert when the newest snapshot becomes older than allowed.</li><li>Test restoring from a recent snapshot to confirm the copies are usable.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.C, REQ-CIR2690-4.2.1-01; verified mechanically.</div>
     </div>
     
@@ -265,9 +265,9 @@
     <div class="meta">Failed check <span class="mono">CHK-IDP-001</span>: Every staff account has MFA enrolled or is forced to enrol</div>
     
     <div class="narrative">
-      <p>The directive and the implementing regulation call for multi-factor or continuous authentication for access to network and information systems, and specifically strong authentication such as MFA for privileged and system administration accounts. The scan observed two accounts without MFA, kari.admin and ola.tech, and that new accounts are not required to enrol OTP (new_users_must_enrol_otp: false). A stolen or guessed password alone is then enough to sign in, and the gap will keep growing as new accounts are created.</p>
+      <p>The rules call for multi-factor authentication, especially for privileged and administration accounts. The accounts kari.admin and ola.tech have no MFA, and new accounts are not required to enrol a one-time-password (OTP) factor. A stolen or guessed password alone would be enough to access these accounts, including what appears to be an administrator account.</p>
       <b>Remediation</b>
-      <ul><li>Enrol MFA for the accounts kari.admin and ola.tech so that users_without_mfa becomes empty.</li><li>Set new_users_must_enrol_otp to true so that newly created accounts are required to enrol OTP.</li><li>Re-run the check to confirm both expected values are met.</li></ul>
+      <ul><li>Enrol MFA for kari.admin and ola.tech.</li><li>Turn on the setting that requires new users to enrol OTP (new_users_must_enrol_otp = true).</li><li>Re-run the check to confirm no account remains without MFA.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.J, REQ-CIR2690-11.3.2-01, REQ-CIR2690-11.7.1-01; verified mechanically.</div>
     </div>
     
@@ -309,9 +309,9 @@
     <div class="meta">Failed check <span class="mono">CHK-SSH-001</span>: SSH does not offer password authentication</div>
     
     <div class="narrative">
-      <p>Access control policies must ensure the strength of authentication is appropriate to the classification of the asset being accessed. The SSH server offers both password and publickey authentication, while the check expects password, keyboard-interactive and none not to be offered. Because password login remains available, remote attackers can attempt to guess credentials for shell access instead of being limited to key-based authentication.</p>
+      <p>The rules require authentication strength that matches the importance of the system. The SSH server offers password login alongside key-based login. Passwords can be guessed or reused from elsewhere, so offering them weakens remote access to the server.</p>
       <b>Remediation</b>
-      <ul><li>Reconfigure the SSH server so password authentication is no longer offered, leaving publickey as the offered method.</li><li>Ensure keyboard-interactive and none are likewise not offered, as listed under expected not_offered.</li><li>Confirm the required users hold working public keys before the change, then re-run the check.</li></ul>
+      <ul><li>Disable password authentication on the SSH server so that only publickey is offered.</li><li>Make sure keyboard-interactive and none are also not offered.</li><li>Confirm all administrators have working keys before the change.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.I, REQ-CIR2690-11.6.2-01, REQ-CIR2690-11.7.2-01; verified mechanically.</div>
     </div>
     
@@ -353,9 +353,9 @@
     <div class="meta">Failed check <span class="mono">CHK-SSH-002</span>: Direct root login over SSH is disabled</div>
     
     <div class="narrative">
-      <p>The implementing regulation requires administration privileges to be individualised and restricted to the highest extent possible. The scan found PermitRootLogin set to &#39;yes&#39;, while the expected setting is &#39;no&#39;. Direct root login means administrative actions are performed through a shared, fully privileged account, so actions cannot be traced to an individual and one compromised credential grants complete control of the host.</p>
+      <p>The rules require administration privileges to be individualised and restricted. The SSH server allows direct login as root (PermitRootLogin is &#39;yes&#39;). Root is a shared, all-powerful account, so logins cannot be traced to a person and an attacker gains full control in one step.</p>
       <b>Remediation</b>
-      <ul><li>Set PermitRootLogin to &#39;no&#39; in the SSH server configuration, matching the expected value.</li><li>Ensure administrators have individual accounts with the privilege escalation they need before applying the change.</li><li>Restart or reload the SSH service and re-run the check.</li></ul>
+      <ul><li>Set PermitRootLogin to &#39;no&#39; in the SSH server configuration.</li><li>Have administrators log in with personal accounts and elevate privileges only when needed.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.I, REQ-CIR2690-11.3.2-03; verified mechanically.</div>
     </div>
     
@@ -391,9 +391,9 @@
     <div class="meta">Failed check <span class="mono">CHK-TLS-001</span>: TLS versions below the profile minimum are refused</div>
     
     <div class="narrative">
-      <p>NIS2 requires policies and procedures on the use of cryptography and, where appropriate, encryption. The server accepts TLSv1, TLSv1.1 and TLSv1.2, whereas the profile expects a minimum version of TLSv1.2. Because the two older versions are still accepted, a client or an attacker positioned in the network path can negotiate the weaker protocol instead of the stronger one, undermining the protection of traffic in transit.</p>
+      <p>The rules require policies on the use of cryptography and encryption. The server still accepts TLSv1 and TLSv1.1 in addition to TLSv1.2, while the profile sets TLSv1.2 as the minimum. Accepting older versions allows connections to fall back to weaker protection of data in transit.</p>
       <b>Remediation</b>
-      <ul><li>Configure the server to refuse TLSv1 and TLSv1.1 so that accepted versions start at the expected min_version TLSv1.2.</li><li>Re-run the check to confirm only versions at or above TLSv1.2 are accepted.</li></ul>
+      <ul><li>Configure the server to refuse TLSv1 and TLSv1.1 so that TLSv1.2 is the minimum accepted version.</li><li>Re-run the check to confirm only permitted versions are accepted.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.H; verified mechanically.</div>
     </div>
     
@@ -423,9 +423,9 @@
     <div class="meta">Failed check <span class="mono">CHK-VUL-001</span>: No unaccepted, fixable vulnerability at the failing severity in running images</div>
     
     <div class="narrative">
-      <p>The directive covers vulnerability handling, and the implementing regulation requires appropriate measures to manage vulnerabilities, that critical vulnerabilities are addressed without undue delay, and that security patches are applied within a reasonable time after they become available. Across 6 images scanned, the check found fixable CRITICAL vulnerabilities in nginx:1.20 (17), quay.io/keycloak/keycloak:26.3 (4), nis2lab-backup (3) and grafana/loki:3.5.1 (2), with no accepted risks recorded, and nginx:1.20 flagged under os_end_of_support. Fixes already exist for these issues, so the exposure is avoidable.</p>
+      <p>The rules require vulnerability handling, addressing critical vulnerabilities without undue delay and applying security patches within a reasonable time. Of 6 images scanned, 4 contain critical vulnerabilities for which a fix is available: nginx:1.20 (17), quay.io/keycloak/keycloak:26.3 (4), nis2lab-backup (3) and grafana/loki:3.5.1 (2). No risks have been formally accepted, and nginx:1.20 runs on an operating system that is out of support. Known, fixable weaknesses are a common entry point for attackers.</p>
       <b>Remediation</b>
-      <ul><li>Update the affected images (nginx:1.20, quay.io/keycloak/keycloak:26.3, nis2lab-backup, grafana/loki:3.5.1) to versions where the listed fixable CRITICAL CVEs are resolved.</li><li>Give priority to nginx:1.20, which carries 17 findings and is listed under os_end_of_support.</li><li>Where a fix cannot be applied immediately, record the item explicitly under accepted_risks with a rationale, and re-run the check to confirm no unaccepted fixable CRITICAL findings remain.</li></ul>
+      <ul><li>Update nginx:1.20, quay.io/keycloak/keycloak:26.3, nis2lab-backup and grafana/loki:3.5.1 to images in which the listed CRITICAL vulnerabilities are fixed.</li><li>Replace nginx:1.20 with an image whose operating system is still supported.</li><li>Where a vulnerability cannot be fixed promptly, record a formal accepted-risk decision.</li><li>Re-scan the running images to confirm no fixable CRITICAL vulnerabilities remain.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.E, REQ-CIR2690-6.10.1-03, REQ-CIR2690-6.10.2-03, REQ-CIR2690-6.6.1-02; verified mechanically.</div>
     </div>
     
@@ -473,9 +473,9 @@
     <div class="meta">Failed check <span class="mono">CHK-AST-001</span>: Every running service is in the asset inventory</div>
     
     <div class="narrative">
-      <p>Asset management under NIS2, detailed in point 12.4.1, requires a complete, accurate, up-to-date and consistent inventory of assets. Of the running services (backup, host, idp, legacy-web, logs, web), three are not in the inventory: backup, legacy-web and logs. Services that are not recorded are unlikely to be patched, monitored or included in incident handling, and the expected result is that no undeclared services remain.</p>
+      <p>The rules require a complete, accurate and up-to-date asset inventory. Three running services (backup, legacy-web and logs) are not in the inventory. Services nobody has recorded tend not to be patched, monitored or owned, which leaves blind spots.</p>
       <b>Remediation</b>
-      <ul><li>Add backup, legacy-web and logs to the asset inventory with their owners and relevant details.</li><li>Confirm the inventory matches the running services list so that undeclared_services is empty.</li><li>Re-run the check after updating the inventory.</li></ul>
+      <ul><li>Add backup, legacy-web and logs to the asset inventory with an owner and purpose, or shut down any that are not needed.</li><li>Compare running services against the inventory regularly.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.I, REQ-CIR2690-12.4.1-01; verified mechanically.</div>
     </div>
     
@@ -511,9 +511,9 @@
     <div class="meta">Failed check <span class="mono">CHK-DOC-001</span>: Incident response plan covers the NIS2 reporting stages</div>
     
     <div class="narrative">
-      <p>Article 23(4) sets out staged reporting of significant incidents, beginning with an early warning without undue delay and in any event within 24 hours of becoming aware of the incident. The document incident-response.md does not mention the 24h early warning, the 72h incident notification, the one-month final report or the CSIRT contact. Without these in the plan, staff handling an incident have no written instruction on what to report, when, or to whom.</p>
+      <p>NIS2 requires staged reporting of significant incidents to the CSIRT, starting with an early warning within 24 hours. The incident response plan (incident-response.md) does not mention the 24h early warning, the 72h incident notification, the one-month final report or the CSIRT contact. During an incident, staff may miss legal reporting deadlines.</p>
       <b>Remediation</b>
-      <ul><li>Add sections to incident-response.md covering the 24h early warning, the 72h incident notification and the one-month final report.</li><li>Record the CSIRT contact in the same document.</li><li>Re-run the check to confirm all four expected items are mentioned.</li></ul>
+      <ul><li>Update incident-response.md to describe the 24h early warning, 72h incident notification and one-month final report.</li><li>Add the CSIRT contact details to the plan.</li><li>Brief the incident team on the updated reporting steps.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-23.4; verified mechanically.</div>
     </div>
     
@@ -543,9 +543,9 @@
     <div class="meta">Failed check <span class="mono">CHK-IDP-002</span>: Brute-force protection is enabled on the staff realm</div>
     
     <div class="narrative">
-      <p>Point 11.6.2 requires credential reset and blocking of users after a predefined number of unsuccessful log-in attempts. In the staff realm, bruteForceProtected is false even though a failureFactor of 30 is configured, so the blocking behaviour never takes effect. Attackers can therefore make unlimited password guesses against staff accounts without being stopped.</p>
+      <p>The rules require blocking users after a predefined number of unsuccessful log-in attempts. Brute-force protection is switched off on the staff realm, so an attacker can keep guessing passwords without being blocked.</p>
       <b>Remediation</b>
-      <ul><li>Set bruteForceProtected to true on the staff realm so the configured failureFactor takes effect.</li><li>Re-run the check to confirm brute-force protection is enabled.</li></ul>
+      <ul><li>Enable brute-force protection on the staff realm (bruteForceProtected = true).</li><li>Review the failureFactor setting (currently 30) to decide how many failed attempts trigger blocking.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.I, REQ-CIR2690-11.6.2-04; verified mechanically.</div>
     </div>
     
@@ -581,9 +581,9 @@
     <div class="meta">Failed check <span class="mono">CHK-IDP-003</span>: Password policy enforces the profile&#39;s minimum length</div>
     
     <div class="narrative">
-      <p>Both cited points of the implementing regulation require authentication strength appropriate to the classification of the asset being accessed. The scan found passwordPolicy set to null and min_length 0, meaning no minimum password length is enforced, against an expected minimum length of at least 12. Users can therefore choose very short passwords that are quick to guess.</p>
+      <p>The rules require authentication strength that fits the systems being accessed. No password policy is set, so there is no minimum password length, while the profile expects at least 12. Users can therefore choose very short, easily guessed passwords.</p>
       <b>Remediation</b>
-      <ul><li>Configure a password policy that sets a minimum length of at least 12, replacing the current empty passwordPolicy.</li><li>Re-run the check to confirm the minimum length is enforced.</li></ul>
+      <ul><li>Configure a password policy with a minimum length of at least 12.</li><li>Require users with passwords that do not meet the new policy to change them.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.I, REQ-CIR2690-11.6.2-01, REQ-CIR2690-11.7.2-01; verified mechanically.</div>
     </div>
     
@@ -625,9 +625,9 @@
     <div class="meta">Failed check <span class="mono">CHK-LOG-001</span>: Central logs are kept at least as long as the profile requires</div>
     
     <div class="narrative">
-      <p>Incident handling under NIS2 and point 3.2.5 require logs to be maintained and backed up for a predefined period. Central logs are configured with retention_period 1w, that is retention_days 7, while the profile expects min_retention_days of 90. Evidence needed to investigate an incident detected later is therefore deleted before it can be examined.</p>
+      <p>The rules require logs to be maintained for a predefined period to support incident handling. Central logs are deleted after 7 days, while the profile requires at least 90. Incidents are often discovered late; by then the evidence needed to investigate may already be gone.</p>
       <b>Remediation</b>
-      <ul><li>Increase the central log retention setting from retention_days 7 to at least the expected min_retention_days of 90.</li><li>Ensure storage is sized for the longer retention and that logs are backed up as required by point 3.2.5.</li><li>Re-run the check to confirm the retention setting.</li></ul>
+      <ul><li>Change the log retention period from 7 days to at least 90 days.</li><li>Make sure logs are also backed up.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.B, REQ-CIR2690-3.2.5-01; verified mechanically.</div>
     </div>
     
@@ -663,9 +663,9 @@
     <div class="meta">Failed check <span class="mono">CHK-TLS-002</span>: Certificate is valid and not about to expire</div>
     
     <div class="narrative">
-      <p>NIS2 requires policies and procedures on the use of cryptography and, where appropriate, encryption. The certificate has not_before 2024-01-01 and not_after 2025-01-01 and is reported as expired, with days_left of -633 against an expected min_days_remaining of 14. An expired certificate causes client warnings or failures and removes the assurance that users are connecting to the genuine service.</p>
+      <p>The rules require policies on the use of cryptography. The server&#39;s certificate expired on 2025-01-01. An expired certificate causes browser warnings, trains users to ignore security warnings and means visitors cannot reliably confirm they are talking to the genuine server.</p>
       <b>Remediation</b>
-      <ul><li>Issue and install a current certificate for the service to replace the one with not_after 2025-01-01.</li><li>Set up renewal and alerting so the certificate is replaced before it falls below the expected min_days_remaining of 14.</li><li>Re-run the check to confirm the certificate is valid.</li></ul>
+      <ul><li>Obtain and install a new, valid certificate for the server.</li><li>Set up renewal tracking or automatic renewal so the certificate is replaced well before it expires.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.H; verified mechanically.</div>
     </div>
     
@@ -695,9 +695,9 @@
     <div class="meta">Failed check <span class="mono">CHK-TLS-003</span>: Plain HTTP redirects to HTTPS and HSTS is set</div>
     
     <div class="narrative">
-      <p>Under the cryptography and encryption requirement, traffic should be protected in transit. The scan found that plain HTTP returns http_status 200 with no location redirect and no Strict-Transport-Security header, while the expected result is that HTTP redirects to HTTPS and HSTS is set. Users and clients can therefore continue over unencrypted HTTP, exposing credentials and data to interception.</p>
+      <p>The rules require policies on the use of encryption. Plain HTTP requests are answered directly instead of being redirected to HTTPS, and no Strict-Transport-Security (HSTS) header is sent. Users may use the site unencrypted, exposing data to interception.</p>
       <b>Remediation</b>
-      <ul><li>Configure the web service so plain HTTP requests redirect to HTTPS instead of returning a 200 response.</li><li>Add the Strict-Transport-Security header to HTTPS responses.</li><li>Re-run the check to confirm both expected values are met.</li></ul>
+      <ul><li>Configure the web server to redirect all plain HTTP requests to HTTPS.</li><li>Add the Strict-Transport-Security header to HTTPS responses.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.H; verified mechanically.</div>
     </div>
     
@@ -727,9 +727,9 @@
     <div class="meta">Failed check <span class="mono">CHK-DOC-002</span>: Incident response plan has been reviewed recently</div>
     
     <div class="narrative">
-      <p>Incident handling under Article 21(2)(b) depends on documentation that reflects the current environment. The document incident-response.md was last reviewed on 2023-02-14, 1319 days ago, against an expected maximum review age of 365 days. Contacts, roles and steps in a long-unreviewed plan are likely to be out of date when an incident occurs.</p>
+      <p>Incident handling depends on a current plan. incident-response.md was last reviewed on 2023-02-14, 1319 days ago, while the profile expects a review at least every 365 days. Contacts, systems and procedures in an outdated plan may no longer be correct.</p>
       <b>Remediation</b>
-      <ul><li>Review and update incident-response.md, then record the new review date.</li><li>Set a recurring review so the document&#39;s age stays within the expected maximum of 365 days.</li><li>Re-run the check after the review date is updated.</li></ul>
+      <ul><li>Review and update incident-response.md and record the new review date.</li><li>Schedule reviews so that the plan is never older than 365 days.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.B; verified mechanically.</div>
     </div>
     
@@ -759,9 +759,9 @@
     <div class="meta">Failed check <span class="mono">CHK-SSH-003</span>: SSH limits authentication attempts per connection</div>
     
     <div class="narrative">
-      <p>Access control policies under Article 21(2)(i) include limiting how easily credentials can be guessed. The SSH server has MaxAuthTries set to 10, while the check expects at most 4. A higher allowance lets an attacker make more guesses per connection before being disconnected, making password-guessing attempts more efficient.</p>
+      <p>Access control includes limiting login attempts. The SSH server allows 10 authentication attempts per connection, while the profile allows at most 4. More attempts per connection make guessing credentials easier.</p>
       <b>Remediation</b>
-      <ul><li>Reduce MaxAuthTries in the SSH server configuration to 4 or lower.</li><li>Restart or reload the SSH service and re-run the check.</li></ul>
+      <ul><li>Set MaxAuthTries to 4 or lower in the SSH server configuration.</li></ul>
       <div class="ai-label">AI-drafted from this finding; cites REQ-NIS2-21.2.I; verified mechanically.</div>
     </div>
     

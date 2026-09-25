@@ -4,7 +4,7 @@ Real output from live scans of the demo lab on 2026-09-25. Nothing here is mocke
 
 | Folder | Lab profile | Result |
 |---|---|---|
-| [`weak/`](weak/) | deliberately misconfigured | 16/16 checks fail, 20 requirements not satisfied, AI narrative accepted on attempt 2 |
+| [`weak/`](weak/) | deliberately misconfigured | 16/16 checks fail, 20 requirements not satisfied, AI narrative (Claude Opus 5.5) accepted on attempt 2 |
 | [`hardened/`](hardened/) | gaps closed | 16/16 checks pass, 20 requirements partially evidenced, no gaps |
 
 ![Weak-profile report](weak-report.png)
@@ -15,7 +15,7 @@ source code. Each folder also holds the scan's raw material: `findings.json`,
 for the weak scan `narrative.json` (the accepted narrative and its model and prompt
 version).
 
-**Known weakness in the narrative:** because the validator only accepts numbers and terms
-that occur in the scan data, the model tends to quote field names literally ("retention_days
-7", "os_end_of_support") where a manager would need plain words. The next narrative prompt
-version should ask for plain-language wording of the same facts.
+**Narrative model:** the example uses Claude Opus 5.5. An earlier narrative of the same
+scan by Claude Opus 5 also passed the validator, but it quoted raw field names
+("retention_days 7") where managers need plain words. Opus 5.5 states the same facts in
+plain language ([comparison](../../eval/results/2026-09-25-opus-5-5.md)).

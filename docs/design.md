@@ -70,7 +70,8 @@ Requirement verdict roll-up (deterministic, `nis2scan.models.rollup`):
 ```
 
 1. **Extraction (offline).** `nis2scan extract` sends one Annex provision per request to
-   Claude Opus 5 and gets back schema-validated JSON (structured outputs, parsed into
+   Claude Opus 5.5 (medium effort, chosen by measurement) and gets back schema-validated
+   JSON (structured outputs, parsed into
    Pydantic models). Guard rails:
    - Every record must carry a verbatim `quote`; a **deterministic verifier** checks it
      appears in the *cited* provision of the hash-pinned source text. A parameter value
@@ -123,8 +124,10 @@ Requirement verdict roll-up (deterministic, `nis2scan.models.rollup`):
   meaning and get lost in paraphrase — hence the mandatory verbatim quote.
 - **Grounding and readability pull in opposite directions.** The narrative validator only
   accepts numbers and technical terms found in each gap's own data. That blocks invented
-  facts, but it nudges the model toward quoting field names ("retention_days 7") rather
-  than plain language. It's a prompt-level fix, not a reason to loosen the validator.
+  facts, but with Claude Opus 5 it nudged the model toward quoting field names
+  ("retention_days 7"). Claude Opus 5.5 keeps the same facts in plain language (18 field
+  names down to 1, [comparison](../eval/results/2026-09-25-opus-5-5.md)) under the same
+  validator. The model changed; the validator was not loosened.
 - **Most of Art. 21 is organisational** (policies, training, supply chain). These get
   `testability: organisational` and are reported as `NOT_ASSESSED`. Showing that honestly
   is a feature: the report states coverage, not just pass rate.
@@ -160,7 +163,8 @@ about national transposition law.
 - Python 3.12+, Pydantic v2 (schemas), Typer (CLI), PyYAML, pytest
 - Collectors: `docker` SDK, `paramiko`/`ssh -G`-style probing, `ssl`/`sslyze`, Keycloak admin
   REST API, Trivy JSON output
-- LLM layer (extraction + narration): Anthropic Python SDK (`claude-opus-5`, structured
+- LLM layer (extraction + narration): Anthropic Python SDK (`claude-opus-5-5` at medium
+  effort, configurable with `--model`/`--effort`; structured
   outputs); optional `llm` extra, so the scanner runs without an API key
 - Report: Jinja2 → static HTML + JSON (findings, verdicts)
 
