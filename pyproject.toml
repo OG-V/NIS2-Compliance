@@ -16,7 +16,9 @@ dependencies = [
 
 [project.optional-dependencies]
 llm = ["anthropic>=1.8,<2"]
-dev = ["pytest>=8", "ruff"]
+# ruff is pinned to a minor version: its default rule set changes between releases,
+# and CI must enforce the same rules as local development.
+dev = ["pytest>=8", "ruff>=0.16,<0.17"]
 
 [project.scripts]
 nis2scan = "nis2scan.cli:app"

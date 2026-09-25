@@ -51,3 +51,13 @@ def test_checks_never_import_an_llm_client():
                 assert not any(name == f or name.startswith(f + ".") for f in forbidden), (
                     f"{Path(path).name} imports {name}"
                 )
+
+
+def test_mapping_document_is_up_to_date():
+    """docs/check-mapping.md is what reviewers read; it must match the code."""
+    from nis2scan.mapping import render_markdown
+
+    committed = (ROOT / "docs" / "check-mapping.md").read_text()
+    assert committed == render_markdown(ROOT / "catalog" / "requirements"), (
+        "regenerate with: nis2scan checks --markdown > docs/check-mapping.md"
+    )

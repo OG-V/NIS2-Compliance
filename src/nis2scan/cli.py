@@ -54,8 +54,20 @@ def validate_catalog(path: Path = Path("catalog/requirements")) -> None:
 
 
 @app.command("checks")
-def list_checks() -> None:
+def list_checks(
+    markdown: Annotated[
+        bool, typer.Option("--markdown", help="Print the mapping document (docs/check-mapping.md).")
+    ] = False,
+    catalog: Annotated[Path, typer.Option(help="Requirement catalog.")] = Path(
+        "catalog/requirements"
+    ),
+) -> None:
     """List every check and the requirements it maps to."""
+    if markdown:
+        from nis2scan.mapping import render_markdown
+
+        typer.echo(render_markdown(catalog), nl=False)
+        return
     load_all()
     table = Table("Check", "Title", "Requirements", "Coverage", "Severity")
     for chk in sorted(CHECKS.values(), key=lambda c: c.meta.id):

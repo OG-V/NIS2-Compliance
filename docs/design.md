@@ -138,41 +138,53 @@ Requirement verdict roll-up (deterministic, `nis2scan.models.rollup`):
   differentiator here is not "a scanner with a NIS2 label" but the evidenced
   requirement-level traceability and the evaluated extraction pipeline.
 
-## 6. v1 scope
+## 6. v1 scope (as built)
 
-Target: `lab/` — a Docker Compose stack for a fictional small MSP, in two profiles:
-`weak` (realistic misconfigurations) and `hardened`. Reproducible with one command, so a
-reviewer can run the demo and see the gap report change between profiles.
+Target: `lab/`, a Docker Compose stack for a fictional small MSP in two profiles:
+`weak` (realistic misconfigurations) and `hardened`. It is reproducible with one command,
+so a reviewer can run the demo and watch the report change between profiles. The
+profile differences are listed as an answer key in [lab/README.md](../lab/README.md).
 
-| NIS2 Art. 21(2) | Lab component | Candidate checks (≈12–15 total) |
+| NIS2 Art. 21(2) | Lab component | Checks (16) |
 |---|---|---|
-| (j) MFA | Keycloak (IdP) | OTP required for admin realm; brute-force detection on |
-| (i) access control / asset mgmt | Linux host (sshd), inventory file | SSH password auth disabled; root login disabled; running containers ⊆ declared asset inventory |
-| (h) cryptography | nginx reverse proxy | TLS < 1.2 refused (live handshake); HTTP redirects to HTTPS; cert not expired |
-| (b) incident handling / logging | Loki or rsyslog | central log shipping configured; retention ≥ profile value; auth events logged |
-| (c) backups | restic | newest snapshot < profile max age |
-| (e) vulnerability handling | Trivy on lab images | no CRITICAL vulns with fix available, unless covered by an unexpired risk exception ([ADR 0004](adr/0004-risk-exceptions.md)) |
-| Art. 23 reporting (documentary) | `lab/docs/incident-response.md` | IR plan exists, contains 24h/72h/1-month reporting steps and CSIRT contact, reviewed < 12 months |
+| (h) cryptography | nginx | TLS versions below the profile minimum refused (live handshake); certificate valid; HTTP redirects to HTTPS with HSTS |
+| (i) access control | sshd host | password authentication not offered (live probe); root login disabled; auth attempts limited (`sshd -T`) |
+| (i), (j) identity | Keycloak | MFA enrolled or enforced for all staff; brute-force protection; password length; default admin credentials rejected |
+| (b) incident handling | Loki | log retention at least the profile minimum |
+| (c) backups | restic | recent snapshot exists |
+| (i) asset management | Docker, `assets.yaml` | every running service is inventoried |
+| (e) vulnerabilities | Trivy on running images | no fixable CRITICAL CVE unless covered by an unexpired risk exception ([ADR 0004](adr/0004-risk-exceptions.md)) |
+| Art. 23(4), (b) | `incident-response.md` | IR plan names the 24h / 72h / one-month reporting stages and the CSIRT; reviewed within 12 months |
 
-Explicitly **out of v1**: web dashboard (the Mini SOC already demonstrates FastAPI/React;
-v1 ships a CLI + static HTML report), cloud accounts, the Q&A/RAG stretch, and any claim
-about national transposition law.
+Each check maps to its NIS2 article, and where the CIR point has been extracted and
+reviewed, to that point as well ([check mapping](check-mapping.md)).
+
+**Planned but not built:** checks that logs are actually shipped centrally and that
+authentication events are logged. The lab's Loki instance receives no logs, so only
+retention is checked.
+
+**Out of scope for v1:** a web dashboard (the Mini SOC project already demonstrates
+FastAPI/React; v1 ships a CLI and a static HTML report), cloud accounts, the Q&A/RAG
+stretch goal, and any claim about national transposition law.
 
 ## 7. Tech stack
 
-- Python 3.12+, Pydantic v2 (schemas), Typer (CLI), PyYAML, pytest
-- Collectors: `docker` SDK, `paramiko`/`ssh -G`-style probing, `ssl`/`sslyze`, Keycloak admin
-  REST API, Trivy JSON output
-- LLM layer (extraction + narration): Anthropic Python SDK (`claude-opus-5-5` at medium
-  effort, configurable with `--model`/`--effort`; structured
-  outputs); optional `llm` extra, so the scanner runs without an API key
-- Report: Jinja2 → static HTML + JSON (findings, verdicts)
+- Python 3.12+, Pydantic v2 (schemas), Typer + Rich (CLI), PyYAML, pytest; CI runs lint,
+  catalog integrity and tests on Python 3.12, 3.13 and 3.14
+- Collectors: the Docker CLI (`docker exec`, `docker inspect`), Python `ssl` and
+  `cryptography` for TLS and certificates, `paramiko` for the SSH auth-method probe, the
+  Keycloak admin REST API, Loki's `/config` endpoint, Trivy (pinned by digest)
+- LLM layer (extraction + narration): Anthropic Python SDK, `claude-opus-5-5` at medium
+  effort, chosen by measurement ([comparison](../eval/results/2026-09-25-opus-5-5.md)) and
+  configurable with `--model`/`--effort`; structured outputs; an optional `llm` extra, so
+  the scanner runs without an API key
+- Report: Jinja2, rendering a self-contained static HTML file plus JSON
 
 ## 8. Milestones
 
 1. **Schema + catalog** — models, validator, hand-written requirements. *(done)*
 2. **Lab** — compose stack with `weak`/`hardened` profiles. *(done)*
 3. **Checks** — 12 collectors, 16 checks with recorded-evidence tests; `nis2scan scan` → JSON. *(done)*
-4. **Extraction** — ingest 2024/2690 Annex, LLM extraction, quote verifier, gold-set eval. *(done; first run on the gold set: [results](../eval/results/2026-09-25-gold.md))*
+4. **Extraction** — ingest 2024/2690 Annex, LLM extraction, quote verifier, gold-set eval. *(done; results in [eval/results](../eval/results/))*
 5. **Report** — deterministic HTML report, then LLM narration with citation verification. *(done)*
-6. *(stretch)* Q&A over scan results.
+6. *(stretch, not built)* Q&A over scan results.
