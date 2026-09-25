@@ -1,0 +1,27 @@
+id: REQ-CIR2690-6.6.2-01
+title: Patch exception only when disadvantages outweigh benefits
+obligation: The entity shall, by way of derogation from point 6.6.1(a), only choose not to apply security
+  patches when the disadvantages of applying the security patches outweigh the cybersecurity benefits.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 6.6.2
+  nis2_article: 21(2)(e)
+  quote: the relevant entities may choose not to apply security patches when the disadvantages of applying
+    the security patches outweigh the cybersecurity benefits
+testability: organisational
+evidence:
+- patch exception register
+- risk assessment or impact analysis supporting the exception decision
+- patch management procedure describing exception criteria
+- approval records for patch exceptions
+parameters:
+  patch_exception_criterion: when the disadvantages of applying the security patches outweigh the cybersecurity
+    benefits
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.2
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:15:46.788413Z'
+review:
+  status: draft
+  notes: ''

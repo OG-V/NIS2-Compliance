@@ -1,0 +1,26 @@
+id: REQ-CIR2690-4.2.2-03
+title: Completeness and accuracy of backups
+obligation: The entity shall include in its backup plans assurance that backup copies are complete and
+  accurate, including configuration data and data stored in cloud computing service environment.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 4.2.2
+  nis2_article: 21(2)(c)
+  quote: (b) assurance that backup copies are complete and accurate, including configuration data and
+    data stored in cloud computing service environment;
+testability: technical
+evidence:
+- backup job logs and integrity/verification reports
+- backup plan provisions on completeness and accuracy
+- cloud backup configuration settings
+parameters:
+  backup_verification_frequency: entity_defined
+  backup_scope: configuration data and data stored in cloud computing service environment
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.2
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:14:47.841489Z'
+review:
+  status: draft
+  notes: ''

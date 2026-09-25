@@ -1,0 +1,23 @@
+id: REQ-CIR2690-1.1.2-02
+title: Documentation of review results
+obligation: The entity shall document the result of the reviews of the network and information system
+  security policy.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 1.1.2
+  nis2_article: 21(2)(a)
+  quote: The result of the reviews shall be documented.
+testability: documentary
+evidence:
+- review reports or records documenting review outcomes
+- management body meeting minutes recording review results
+- document management system records
+parameters: {}
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.2
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:15:26.767948Z'
+review:
+  status: draft
+  notes: ''

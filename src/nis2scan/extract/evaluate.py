@@ -31,6 +31,23 @@ SPECIFIC = re.compile(
 )
 
 
+# Phrases that say a value must exist without giving it. A parameter whose
+# "stated" value is one of these should have been recorded as entity_defined.
+VAGUE = re.compile(
+    r"\b(predefined|reasonable|appropriate|regular(ly)?|planned intervals|sufficient|timely)\b",
+    re.IGNORECASE,
+)
+
+
+def vague_parameters(req: Requirement) -> list[str]:
+    """Parameters recorded as stated although their value only says 'some value'."""
+    return sorted(
+        name
+        for name, value in req.parameters.items()
+        if value != "entity_defined" and VAGUE.search(value)
+    )
+
+
 class GoldObligation(BaseModel):
     keywords: list[str]  # all must appear (case-insensitive) in obligation + quote
 
@@ -76,6 +93,7 @@ class ProvisionScore:
     obligations_total: int
     testability_ok: int
     invented: dict[str, list[str]] = field(default_factory=dict)
+    vague: dict[str, list[str]] = field(default_factory=dict)
     missed: list[list[str]] = field(default_factory=list)
 
 
@@ -93,6 +111,7 @@ def score_provision(
         if not any(all(k.lower() in h for k in o.keywords) for h in haystacks)
     ]
     invented = {r.id: terms for r in reqs if (terms := invented_terms(r, text))}
+    vague = {r.id: names for r in reqs if (names := vague_parameters(r))}
     return ProvisionScore(
         number=number,
         extracted=len(reqs),
@@ -103,6 +122,7 @@ def score_provision(
         obligations_total=len(gold.obligations),
         testability_ok=sum(r.testability in gold.testability for r in accepted),
         invented=invented,
+        vague=vague,
         missed=missed,
     )
 
@@ -142,6 +162,7 @@ class Evaluation:
             "granularity_in_range": ratio(sum(p.count_ok for p in s), len(s)),
             "testability_accuracy": ratio(sum(p.testability_ok for p in s), accepted),
             "invented_specificity_rate": ratio(sum(len(p.invented) for p in s), extracted),
+            "vague_stated_value_rate": ratio(sum(len(p.vague) for p in s), extracted),
         }
 
 

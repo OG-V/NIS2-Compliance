@@ -1,0 +1,22 @@
+id: REQ-CIR2690-3.2.3-10
+title: Log system resource use and performance
+obligation: The entity shall, where appropriate, include the use of system resources, as well as their
+  performance, in logs.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 3.2.3
+  nis2_article: 21(2)(b)
+  quote: (h) use of system resources, as well as their performance;
+testability: technical
+evidence:
+- performance and resource utilisation logs
+- monitoring tool configuration
+parameters: {}
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.2
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:14:39.417612Z'
+review:
+  status: draft
+  notes: ''

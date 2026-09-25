@@ -11,7 +11,8 @@ from conftest import ROOT
 
 from nis2scan.catalog import load_requirements
 from nis2scan.extract import llm
-from nis2scan.extract.evaluate import evaluate, invented_terms, load_gold
+from nis2scan.extract.compare import compare
+from nis2scan.extract.evaluate import evaluate, invented_terms, load_gold, vague_parameters
 from nis2scan.extract.sources import CIR_2690, NIS2, article_text, parse_annex, read_text, sha256
 from nis2scan.extract.verify import QuoteStatus, SourceIndex, check_quote, contains
 from nis2scan.models import ReviewStatus
@@ -282,3 +283,60 @@ def test_provision_dataclass_is_frozen():
     with pytest.raises(AttributeError):
         PROVISIONS["11.7.1"].number = "x"
     assert replace(PROVISIONS["11.7.1"], number="x").number == "x"
+
+
+def test_vague_stated_values_are_flagged():
+    vague = _item(
+        "require the reset of authentication credentials and the blocking of users",
+        parameters=[
+            llm.Parameter(name="threshold", stated_value="a predefined number"),
+            llm.Parameter(name="scope", stated_value=None),
+        ],
+    )
+    concrete = _item(
+        "reviewed and, where appropriate, updated by management bodies at least annually",
+        parameters=[llm.Parameter(name="frequency", stated_value="at least annually")],
+    )
+    [r1] = llm.to_requirements(
+        PROVISIONS["11.6.2"], llm.ExtractionResult(requirements=[vague]), "m", "a", INDEX
+    )
+    [r2] = llm.to_requirements(
+        PROVISIONS["1.1.2"], llm.ExtractionResult(requirements=[concrete]), "m", "a", INDEX
+    )
+    assert vague_parameters(r1) == ["threshold"]
+    assert vague_parameters(r2) == []
+
+
+def _write_run(directory, provision, quotes, testability="technical"):
+    directory.mkdir()
+    items = [_item(q, testability=testability) for q in quotes]
+    result = llm.ExtractionResult(requirements=items)
+    for req in llm.to_requirements(PROVISIONS[provision], result, "m", "abc", INDEX):
+        llm.write_requirement(directory / f"{req.id}.yaml", req)
+
+
+def test_compare_runs(tmp_path):
+    _write_run(
+        tmp_path / "a",
+        "11.6.2",
+        [
+            "terminate inactive sessions after a predefined period of inactivity",
+            "require separate credentials to access privileged access or administrative accounts",
+        ],
+    )
+    _write_run(
+        tmp_path / "b",
+        "11.6.2",
+        [
+            "terminate inactive sessions",  # shorter span of the same clause
+            "require separate credentials to access privileged access or administrative accounts",
+            "ensure the strength of authentication is appropriate",  # extra clause
+        ],
+        testability="documentary",
+    )
+    result = compare(tmp_path / "a", tmp_path / "b")
+    [diff] = result.diffs
+    assert (diff.count_a, diff.count_b, diff.matched) == (2, 3, 2)
+    assert diff.overlap == 2 / 3
+    assert diff.testability_agree == 0
+    assert result.summary()["same_count_rate"] == 0.0

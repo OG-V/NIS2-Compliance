@@ -7,7 +7,9 @@ traceable to a specific legal provision.
 > **Status:** milestone 4 of 6: the scanner (16 deterministic checks) and the LLM extraction
 > pipeline are done. The first extraction run covered the 20 gold-set provisions:
 > 74 requirements, every quote verbatim, and no invented values
-> ([results](eval/results/2026-09-25-gold.md)), all reviewed and approved.
+> ([results](eval/results/2026-09-25-gold.md)), all reviewed and approved. Prompt v2 cut
+> vague stated values from 37% to 5–7%, and two repeat runs agree on 18/20 provisions
+> ([stability](eval/results/2026-09-25-prompt-v2.md)).
 > The report (milestone 5) is next. See [docs/design.md](docs/design.md).
 
 ## Design in one paragraph

@@ -1,0 +1,25 @@
+id: REQ-CIR2690-11.6.2-04
+title: Reset and blocking after failed log-ins
+obligation: The entity shall require the reset of authentication credentials and the blocking of users
+  after a predefined number of unsuccessful log-in attempts.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 11.6.2
+  nis2_article: 21(2)(i), (j)
+  quote: require the reset of authentication credentials and the blocking of users after a predefined
+    number of unsuccessful log-in attempts
+testability: technical
+evidence:
+- account lockout policy configuration
+- authentication system settings
+- logs of blocked accounts and credential resets
+parameters:
+  unsuccessful_login_attempts_threshold: entity_defined
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.2
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:15:09.813009Z'
+review:
+  status: draft
+  notes: ''

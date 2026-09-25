@@ -1,0 +1,23 @@
+id: REQ-CIR2690-9.2-06
+title: Methods for key distribution and activation
+obligation: The entity shall establish, where appropriate, methods for distributing keys to intended entities,
+  including how to activate keys when received, as part of its key management approach.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 9.2
+  nis2_article: 21(2)(h)
+  quote: distributing keys to intended entities, including how to activate keys when received
+testability: documentary
+evidence:
+- key distribution procedure
+- key activation records
+- secure key transfer mechanism documentation
+parameters: {}
+extraction:
+  model: claude-opus-5
+  prompt_version: 2026-09-25.2
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T00:15:18.429336Z'
+review:
+  status: draft
+  notes: ''
