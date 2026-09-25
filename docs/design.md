@@ -102,6 +102,12 @@ Requirement verdict roll-up (deterministic, `nis2scan.models.rollup`):
    expected values as "found" and "should be" lines. These fields are presentation
    only: they are kept out of the narrative's input, so the validator still checks the
    model against the scan data alone.
+
+   `nis2scan diff <before> <after>` compares two scans check by check: fixed (fail to
+   pass), still open, new (not failing before, failing now) and not comparable (errors,
+   or checks in only one scan). It loads both runs the same way the gap report does, so
+   the figures agree. It warns when the comparison may mislead: different targets, a
+   reversed order, or a changed profile, catalog or tool version.
 4. **Narrative (optional, `--narrate`).** The model receives only the gaps: finding,
    observed/expected values and legal text. It returns an executive summary plus one
    explanation per gap. A deterministic validator rejects the draft if it skips or

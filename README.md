@@ -27,6 +27,9 @@ them, and the result is a gap report that non-engineers can read.
    Each gap says what was found, what it should be and what to do, and keeps the breached
    provisions, the verified legal text and the hashed evidence one click away. An
    optional AI narrative is shown only if a validator confirms it against the findings.
+4. **Shows progress between scans.** `nis2scan diff` compares two scans of the same target:
+   what was fixed, what is still open and what is new
+   ([example](docs/example-report/#example-reports)).
 
 The tool never says a system is "NIS2 compliant". NIS2 is outcome-based, and much of it
 is organisational. Requirements are reported as `partially_evidenced`, `not_satisfied`
@@ -41,7 +44,7 @@ or `not_assessed`, and the report says how much it could and could not assess.
 | **Run-to-run stability** | Two runs agree on 19/20 provision structures, clause overlap 0.99. |
 | **Narrative grounding** | Every citation, every number and full gap coverage are checked by code, and IDs are kept out of the prose. A draft that fails twice is not shown. |
 | **Catalog** | 85 requirements (11 from NIS2, 74 from CIR 2024/2690), all reviewed, with every quote verified against EUR-Lex. |
-| **Tests** | 216 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
+| **Tests** | 222 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
 
 Each figure has a write-up in [`eval/results/`](eval/results/), including what went
 wrong and what was changed: three extraction prompt versions, a narrative prompt revision
@@ -69,15 +72,16 @@ target system ──► collectors ──► checks ──► findings ──►
 python -m venv .venv && . .venv/bin/activate
 pip install -e '.[dev]'
 
-lab/lab.sh up weak                  # demo target in Docker; or: hardened
-nis2scan scan                       # evidence, findings and verdicts under out/
-nis2scan report out/<run>           # self-contained HTML gap report
+lab/lab.sh up weak                      # demo target in Docker; or: hardened
+nis2scan scan                           # evidence, findings and verdicts under out/
+nis2scan report out/<run>               # self-contained HTML gap report
+nis2scan diff out/<before> out/<after>  # progress between two scans
 ```
 
 The AI features are optional and need an Anthropic API key (`pip install -e '.[llm]'`):
 
 ```bash
-nis2scan report out/<run> --narrate        # add the validated AI narrative
+nis2scan report out/<run> --narrate     # add the validated AI narrative
 nis2scan extract --provision 11.7.1        # draft requirements from an Annex point
 nis2scan evaluate eval/runs/<run>          # score extractions against the gold set
 ```

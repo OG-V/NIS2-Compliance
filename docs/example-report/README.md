@@ -9,7 +9,13 @@ Real output from live scans of the demo lab on 2026-09-25. Nothing here is mocke
 
 ![Weak-profile report](weak-report.png)
 
-Open `weak/report.html` in a browser to see the full report. GitHub displays HTML files as
+[`weak-to-hardened.html`](weak-to-hardened.html) compares the two scans with
+`nis2scan diff docs/example-report/weak docs/example-report/hardened`: all 16 problems fixed,
+none new.
+
+![Progress from the weak to the hardened lab](weak-to-hardened.png)
+
+Open `weak/report.html` or `weak-to-hardened.html` in a browser to see the full pages. GitHub displays HTML files as
 source code. Each folder also holds the scan's raw material: `findings.json`,
 `verdicts.json`, `scan.json` (tool version, profile hash, evidence hashes), `evidence/`, and
 for the weak scan `narrative.json` (the accepted narrative and its model and prompt

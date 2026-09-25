@@ -34,6 +34,17 @@ MEASURES = {
 }
 
 
+def topic(requirement_ids: list[str]) -> str:
+    """The NIS2 measure a check falls under: that of its first NIS2-level requirement."""
+    for req_id in requirement_ids:
+        if match := re.fullmatch(r"REQ-NIS2-(\d+)\.(\d+)(?:\.([A-Z]))?", req_id):
+            article, paragraph, point = match.groups()
+            key = f"{article}({paragraph})" + (f"({point.lower()})" if point else "")
+            if key in MEASURES:
+                return MEASURES[key][0]
+    return ""
+
+
 def nis2_points(article: str) -> list[str]:
     """'21(2)(i), (j)' -> ['21(2)(i)', '21(2)(j)']; '23(4)' -> ['23(4)']."""
     match = re.match(r"(\d+\(\d+\))(.*)", article)
@@ -165,6 +176,7 @@ def load_run(run_dir: Path) -> ReportData:
             action=meta.action if meta else f.message,
             effort=meta.effort.value if meta else "change",
             why=meta.severity_rationale if meta else "",
+            topic=topic(meta.requirements) if meta else "",
             found=plain.found if plain else None,
             should=plain.should if plain else None,
         )
@@ -182,9 +194,6 @@ def load_run(run_dir: Path) -> ReportData:
         g.breaches.sort(
             key=lambda b: (not b.requirement_id.startswith("REQ-NIS2-"), b.requirement_id)
         )
-        if g.breaches:
-            point = nis2_points(g.breaches[0].nis2_article)[0]
-            g.topic = MEASURES.get(point, ("", ""))[0]
     ordered = sorted(gaps.values(), key=lambda g: (SEVERITY_ORDER.index(g.severity), g.finding_id))
 
     articles = {}
