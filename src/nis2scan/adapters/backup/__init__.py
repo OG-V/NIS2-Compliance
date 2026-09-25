@@ -99,6 +99,10 @@ class BackupAdapter:
     def fetch(self, backup: BackupTarget, secret) -> dict[str, Any]:
         raise NotImplementedError
 
+    def check_access(self, backup: BackupTarget, secret) -> None:
+        """A cheap read with the given access; by default, a full listing."""
+        self.fetch(backup, secret)
+
     def normalize(self, raw: dict[str, Any]) -> BackupEvidence:
         raise NotImplementedError
 
@@ -112,4 +116,4 @@ def adapter(cls: type[BackupAdapter]) -> type[BackupAdapter]:
 
 
 # Imported for their @adapter registrations.
-from nis2scan.adapters.backup import borg, restic  # noqa: F401
+from nis2scan.adapters.backup import borg, restic, veeam  # noqa: F401

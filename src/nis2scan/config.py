@@ -97,19 +97,23 @@ class BackupTarget(Asset):
     scanning host) must be given.
     """
 
-    product: str = "auto"  # or restic, borg
+    product: str = "auto"  # or restic, borg, veeam
     container: str | None = None
     repository: str | None = None  # e.g. s3:..., sftp:..., /srv/backups/repo
-    password_env: str | None = None  # the repository password or passphrase
+    password_env: str | None = None  # the repository password, or the backup server's
+    url: str | None = None  # a backup server's API, e.g. https://vbr.example:9419 (Veeam)
+    username: str | None = None  # for a backup server's API
+    ca_file: Path | None = None  # certificate to trust for a self-signed server
+    api_version: str = "1.1-rev0"  # Veeam REST API version header (VBR 12.0 and later)
 
     @model_validator(mode="after")
     def _one_way_in(self):
-        if not self.container and not self.repository:
-            raise ValueError("a backup asset needs either container or repository")
+        if not (self.container or self.repository or self.url):
+            raise ValueError("a backup asset needs container, repository or url")
         return self
 
     def _default_name(self) -> str:
-        return self.container or self.repository
+        return self.container or self.repository or urlparse(self.url).hostname or self.url
 
 
 class DockerTarget(Asset):
@@ -238,6 +242,9 @@ def load_target(path: Path) -> Target:
             target._env |= parse_env_file(env_file.read_text())
     if target.documents:
         target.documents.dir = base / target.documents.dir
+    for backup in target.backup:
+        if backup.ca_file:
+            backup.ca_file = base / backup.ca_file
     return target
 
 

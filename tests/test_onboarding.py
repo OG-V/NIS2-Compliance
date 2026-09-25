@@ -43,7 +43,7 @@ def lab(tmp_path, monkeypatch):
         lambda backup, secret: {"product": backup.name, "method": "test", "detail": ""},
     )
     for adapter in ob.BACKUP_ADAPTERS.values():
-        monkeypatch.setattr(adapter, "fetch", lambda backup, secret: {})
+        monkeypatch.setattr(adapter, "check_access", lambda backup, secret: None)
     return load_target(path)
 
 
@@ -136,3 +136,22 @@ def test_checklist_for_the_client(lab):
     assert text.startswith("# Access checklist: nordmsp-lab")
     assert "- [x] A Keycloak admin account for the realm" in text
     assert "not-a-real-password" not in text
+
+
+def test_backup_server_access(lab, monkeypatch):
+    lab.backup = [
+        type(lab.backup[0]).model_validate(
+            {
+                "name": "vbr01",
+                "url": "https://vbr01:9419",
+                "username": "viewer",
+                "password_env": "VBR_PW",
+                "product": "veeam",
+            }
+        )
+    ]
+    lab._env["VBR_PW"] = "x"
+    vbr = by_name(ob.plan(lab))["vbr01"]
+    assert vbr.product == "Veeam Backup & Replication" and vbr.ready
+    assert vbr.access[0].what == "Network access to https://vbr01:9419"
+    assert "Veeam Backup Viewer role" in vbr.access[1].what

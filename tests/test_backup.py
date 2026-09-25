@@ -2,13 +2,14 @@
 
 import json
 from datetime import UTC, datetime
+from urllib.parse import parse_qs, urlparse
 
 import pytest
 from conftest import FIXTURES
 
 from nis2scan import adapters
 from nis2scan.adapters import backup as backup_module
-from nis2scan.adapters.backup import ADAPTERS, BackupEvidence, BackupSet, Snapshot, run
+from nis2scan.adapters.backup import ADAPTERS, BackupEvidence, BackupSet, Snapshot, run, veeam
 from nis2scan.adapters.backup.borg import as_utc
 from nis2scan.adapters.backup.restic import parse_time
 from nis2scan.checks.operations import backups_encrypted, recent_backup
@@ -118,7 +119,7 @@ def test_local_runs_need_the_tool_installed(monkeypatch):
 
 
 def test_a_backup_asset_needs_a_way_in():
-    with pytest.raises(ValueError, match="needs either container or repository"):
+    with pytest.raises(ValueError, match="needs container, repository or url"):
         BackupTarget()
 
 
@@ -141,8 +142,8 @@ def test_detection_asks_each_tool_for_its_version(monkeypatch):
 
 
 def test_unknown_or_missing_tool(monkeypatch):
-    with pytest.raises(CollectorError, match="unknown backup tool 'veeam'"):
-        detect(BackupTarget(container="b1", product="veeam"), None)
+    with pytest.raises(CollectorError, match="unknown backup tool 'commvault'"):
+        detect(BackupTarget(container="b1", product="commvault"), None)
     for tool in ("restic", "borg"):
         monkeypatch.setattr(ADAPTERS[tool], "recognise", lambda backup, secret: None)
     with pytest.raises(CollectorError, match="no supported backup tool found"):
@@ -198,3 +199,108 @@ def test_encryption_check():
 def test_unknown_encryption_is_not_a_pass():
     result = backups_encrypted(evidence(("a", [FRESH], None)), PROFILE, NOW)
     assert result.status == "error" and "does not report" in result.message
+
+
+# --- Veeam Backup & Replication (documented response shapes) ------------------------
+
+
+VEEAM = json.loads((FIXTURES.parent / "veeam" / "documented.json").read_text())
+VBR = BackupTarget(url="https://vbr01:9419", username="viewer", password_env="VBR_PW")
+
+
+class FakeVeeam:
+    """Answers like the documented API; pages lists two items at a time."""
+
+    def __init__(self):
+        self.calls = []
+
+    def request(self, url, headers=None, data=None, context=None):
+        self.calls.append(("POST", url, headers, data, context))
+        assert url == "https://vbr01:9419/api/oauth2/token"
+        return VEEAM["token"], None
+
+    def get_json(self, url, headers=None, context=None):
+        self.calls.append(("GET", url, headers, None, context))
+        assert (
+            headers["x-api-version"] == "1.1-rev0"
+            and headers["Authorization"] == "Bearer test-token"
+        )
+        path, query = (
+            urlparse(url).path,
+            {k: v[0] for k, v in parse_qs(urlparse(url).query).items()},
+        )
+        if path == "/api/v1/serverInfo":
+            return VEEAM["serverInfo"]
+        if path == "/api/v1/restorePoints":
+            return {"data": VEEAM["restorePoints"][query["backupIdFilter"]]}
+        items = VEEAM[path.rsplit("/", 1)[-1]]
+        skip, limit = int(query["skip"]), min(int(query["limit"]), 2)
+        return {"data": items[skip : skip + limit], "pagination": {"total": len(items)}}
+
+
+@pytest.fixture
+def fake_veeam(monkeypatch):
+    fake = FakeVeeam()
+    monkeypatch.setattr(veeam, "request", fake.request)
+    monkeypatch.setattr(veeam, "get_json", fake.get_json)
+    return fake
+
+
+def secret(name):
+    assert name == "VBR_PW"
+    return "viewer-password"
+
+
+def test_veeam_backups_become_sets(fake_veeam):
+    repo = ADAPTERS["veeam"].normalize(ADAPTERS["veeam"].fetch(VBR, secret))
+    sets = {s.name: s for s in repo.sets}
+    assert set(sets) == {"File servers", "SQL servers", "Laptop agents"}  # all three pages
+    assert sets["File servers"].encrypted is True and sets["SQL servers"].encrypted is False
+    assert sets["Laptop agents"].encrypted is None  # no job the API shows
+    assert sets["File servers"].newest.time == datetime(2026, 9, 25, 23, 5, 12, 123456, tzinfo=UTC)
+    assert sets["Laptop agents"].snapshots == []
+
+
+def test_veeam_login_keeps_the_password_out_of_urls(fake_veeam):
+    ADAPTERS["veeam"].fetch(VBR, secret)
+    method, _url, headers, form, _ = fake_veeam.calls[0]
+    assert method == "POST" and form == {
+        "grant_type": "password",
+        "username": "viewer",
+        "password": "viewer-password",
+    }
+    assert headers == {"x-api-version": "1.1-rev0"}
+    assert not any("viewer-password" in call[1] for call in fake_veeam.calls)
+
+
+def test_veeam_checks(fake_veeam):
+    ev = {
+        "backup": ADAPTERS["veeam"]
+        .normalize(ADAPTERS["veeam"].fetch(VBR, secret))
+        .model_dump(mode="json")
+    }
+    age = recent_backup(ev, PROFILE, NOW)
+    # The agent backup has no restore points at all, so it is the stalest set.
+    assert (age.status, age.message) == ("fail", "No backup snapshots exist (Laptop agents)")
+    encryption = backups_encrypted(ev, PROFILE, NOW)
+    assert encryption.status == "fail" and encryption.observed["unencrypted_sets"] == [
+        "SQL servers"
+    ]
+
+
+def test_veeam_is_recognised_with_its_account(fake_veeam):
+    assert ADAPTERS["veeam"].recognise(VBR, secret) == "Veeam Backup & Replication 12.3.1.1139"
+    assert ADAPTERS["veeam"].recognise(BackupTarget(container="c"), secret) is None
+
+
+def test_veeam_trusts_a_given_certificate(fake_veeam, monkeypatch):
+    monkeypatch.setattr(veeam, "trust", lambda ca_file: f"context for {ca_file}")
+    ADAPTERS["veeam"].check_access(
+        BackupTarget(**{**VBR.model_dump(), "ca_file": "/certs/vbr.pem"}), secret
+    )
+    assert {call[4] for call in fake_veeam.calls} == {"context for /certs/vbr.pem"}
+
+
+def test_veeam_needs_its_settings():
+    with pytest.raises(CollectorError, match="Veeam needs url, username and password_env"):
+        ADAPTERS["veeam"].fetch(BackupTarget(url="https://vbr01:9419"), secret)
