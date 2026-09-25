@@ -136,9 +136,13 @@ class Okta(IdentityAdapter):
     label = "Okta"
     needs = ("api_token_env",)
     access = (
-        "An API token created by an administrator with the Read-only Administrator role "
-        "(Security > API > Tokens), in the environment variable named by api_token_env."
+        "An Okta API token, created by a user with the Read-only Administrator role "
+        "(Admin Console: Security > API > Tokens)"
     )
+
+    def check_access(self, idp: IdpTarget, secret) -> None:
+        headers = {"Authorization": f"SSWS {secret(idp.api_token_env)}"}
+        get_json(f"{idp.url.rstrip('/')}/api/v1/users?limit=1", headers)
 
     def fetch(self, idp: IdpTarget, secret) -> dict[str, Any]:
         base = idp.url.rstrip("/")

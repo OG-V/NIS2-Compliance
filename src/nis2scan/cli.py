@@ -385,6 +385,53 @@ def report(
     console.print(f"Report written to [bold]{html_path}[/] and {json_path.name}")
 
 
+@app.command()
+def onboard(
+    target: Annotated[Path, typer.Option(help="Target description file.")] = Path(
+        "lab/target.yaml"
+    ),
+    probe: Annotated[
+        bool, typer.Option(help="Check reachability, detect products and look for secrets.")
+    ] = True,
+    checklist: Annotated[
+        Path | None, typer.Option(help="Also write the checklist as Markdown for the client.")
+    ] = None,
+) -> None:
+    """List the access each system needs for a scan, and whether it is in place."""
+    from datetime import UTC, datetime
+
+    from nis2scan.onboarding import MISSING, OK, OPTIONAL, authorisation, checklist_markdown, plan
+
+    scan_target = load_target(target)
+    with console.status("Checking access..."):
+        systems = plan(scan_target, probe=probe)
+    auth = authorisation(scan_target, datetime.now(UTC).date())
+    mark = {OK: "[green]✓[/]", MISSING: "[red]✗[/]", OPTIONAL: "[yellow]○[/]"}
+
+    def line(a) -> str:
+        note = f" [dim]· {a.note}[/]" if a.note else ""
+        return f"  {mark.get(a.status, '[dim]?[/]')} {a.what}{note}"
+
+    console.print(f"[bold]Onboarding: {scan_target.name}[/]\n")
+    console.print("[bold]Authorisation[/]")
+    console.print(line(auth))
+    for s in systems:
+        product = f" · {s.product}" if s.product else ""
+        how = f"\n  [dim]{s.identified_by}[/]" if s.identified_by else ""
+        console.print(f"\n[bold]{s.name}[/] [dim]{s.kind}[/]{product}{how}")
+        for a in s.access:
+            console.print(line(a))
+    ready = sum(s.ready for s in systems)
+    console.print(
+        f"\n{ready} of {len(systems)} systems ready"
+        + ("" if auth.status == OK else "; [red]authorisation missing or not valid today[/]")
+        + ("" if probe else " [dim](not probed: ? means not checked)[/]")
+    )
+    if checklist:
+        checklist.write_text(checklist_markdown(scan_target, systems, auth))
+        console.print(f"Checklist written to [bold]{checklist}[/]")
+
+
 @app.command("diff")
 def diff(
     before: Annotated[Path, typer.Argument(help="The earlier scan result directory.")],

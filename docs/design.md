@@ -185,6 +185,16 @@ any reachable host. A collector declares the asset fields it needs, e.g. `sshd -
 needs a container. An asset without them skips those checks as not applicable rather
 than failing them.
 
+**Engagements.** A scan is run for a client who grants access. The target's
+`engagement` section records who authorised the scan, the window it is valid for, and
+whether active tests may run. Collectors that interact beyond reading (so far the
+one-time default admin login) are marked active and are skipped otherwise. Scans outside
+the window are refused, and the engagement is shown in the report. `nis2scan onboard`
+lists, per system, the access the client must grant in the client's terms (e.g. "an Okta
+API token created by a Read-only Administrator"). With probing it checks each item:
+ports, Docker containers, product detection, a single read-only request with each
+credential, and documents on disk. It can write the list as a Markdown checklist to send.
+
 **Products.** Identity providers are read through product adapters behind a neutral
 evidence model ([ADR 0006](adr/0006-product-adapters.md)): Keycloak (verified on the lab)
 and Okta (verified on a live developer org). The product is detected from the

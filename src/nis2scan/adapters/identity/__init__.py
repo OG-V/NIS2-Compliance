@@ -67,6 +67,10 @@ class IdentityAdapter:
     def normalize(self, raw: dict[str, Any]) -> IdentityEvidence:
         raise NotImplementedError
 
+    def check_access(self, idp: IdpTarget, secret) -> None:
+        """Make one cheap read with the client's credential; raise CollectorError if refused."""
+        raise NotImplementedError
+
     def try_default_login(self, idp: IdpTarget) -> DefaultLoginResult | None:
         """Try the product's documented default admin login once, or None if it has none."""
         return None

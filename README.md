@@ -27,7 +27,11 @@ them, and the result is a gap report that non-engineers can read.
    Each gap says what was found, what it should be and what to do, and keeps the breached
    provisions, the verified legal text and the hashed evidence one click away. An
    optional AI narrative is shown only if a validator confirms it against the findings.
-4. **Shows progress between scans.** `nis2scan diff` compares two scans of the same target:
+4. **Runs like an engagement.** `nis2scan onboard` tells the client exactly what access
+   each system needs and tests that it works, and can write it as a checklist. The target
+   records who authorised the scan and until when. Scans outside that window are refused,
+   and active tests (such as trying a default admin password) run only if allowed.
+5. **Shows progress between scans.** `nis2scan diff` compares two scans of the same target:
    what was fixed, what is still open and what is new
    ([example](docs/example-report/#example-reports)).
 
@@ -73,6 +77,7 @@ python -m venv .venv && . .venv/bin/activate
 pip install -e '.[dev]'
 
 lab/lab.sh up weak                      # demo target in Docker; or: hardened
+nis2scan onboard                        # access each system needs, and whether it works
 nis2scan scan                           # evidence, findings and verdicts under out/
 nis2scan report out/<run>               # self-contained HTML gap report
 nis2scan diff out/<before> out/<after>  # progress between two scans
