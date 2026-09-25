@@ -12,6 +12,16 @@ exceptions:
     owner: Security team
     approved_by: CISO
     expires: 2026-10-31
+  - vulnerability: CVE-2026-75595
+    image: elasticsearch
+    package: io.netty:netty-handler
+    reason: >-
+      Bundled in the vendor image; no Elasticsearch release ships the fixed netty
+      version yet (latest checked: 9.5.3 on 2026-09-26).
+    compensating_measures: Elasticsearch reachable only from the management network.
+    owner: Security team
+    approved_by: CISO
+    expires: 2026-10-31
   - vulnerability: CVE-2026-8763
     image: quay.io/keycloak/keycloak
     package: org.bouncycastle:bcprov-jdk18on

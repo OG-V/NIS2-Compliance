@@ -76,7 +76,14 @@ class IdpTarget(Asset):
 
 
 class LogsTarget(Asset):
+    """A log store. `product` is detected from `url` unless it is set."""
+
     url: str
+    product: str = "auto"  # or loki, elasticsearch
+    username: str | None = None  # Elasticsearch
+    password_env: str | None = None  # Elasticsearch
+    api_key_env: str | None = None  # Elasticsearch, instead of username and password
+    indices: str = "*"  # Elasticsearch: which indices and data streams hold logs
 
     def _default_name(self) -> str:
         return self.url

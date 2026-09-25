@@ -29,6 +29,14 @@ def lab(tmp_path, monkeypatch):
         ob, "detect", lambda idp: Detection("keycloak", "OpenID configuration", "issuer x")
     )
     monkeypatch.setattr(ADAPTERS["keycloak"], "check_access", lambda idp, secret: None)
+    stores = {"loki": "loki", "elasticsearch": "elasticsearch"}
+    monkeypatch.setattr(
+        ob,
+        "log_detect",
+        lambda logs: {"product": stores[logs.name], "method": "test", "detail": ""},
+    )
+    for adapter in ob.LOG_ADAPTERS.values():
+        monkeypatch.setattr(adapter, "check_access", lambda logs, secret: None)
     return load_target(path)
 
 

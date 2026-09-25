@@ -82,7 +82,7 @@ def test_write_results(tmp_path):
     run_dir = write_results(scan("weak"), tmp_path, PROFILE_PATH)
     meta = json.loads((run_dir / "scan.json").read_text())
     findings = json.loads((run_dir / "findings.json").read_text())
-    assert len(findings) == 16
+    assert len(findings) == 17  # 16 checks; the log retention check runs on two log stores
     for f in findings:
         assert (run_dir / f["evidence_ref"]).exists()
     files = (run_dir / "evidence").rglob("*.json")

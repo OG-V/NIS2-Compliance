@@ -1,28 +1,10 @@
 """Logging (Art. 21(2)(b)), backups (21(2)(c)), assets (21(2)(i)), vulnerabilities (21(2)(e))."""
 
-import re
 from datetime import date, datetime, timedelta
 
+from nis2scan.adapters.logging import LogRetentionEvidence
 from nis2scan.config import Profile
 from nis2scan.registry import check, failed, passed
-
-DURATION_UNITS = {
-    "ms": timedelta(milliseconds=1),
-    "s": timedelta(seconds=1),
-    "m": timedelta(minutes=1),
-    "h": timedelta(hours=1),
-    "d": timedelta(days=1),
-    "w": timedelta(weeks=1),
-    "y": timedelta(days=365),
-}
-
-
-def parse_duration(text: str) -> timedelta:
-    """Parse a Prometheus/Loki duration such as '1w', '180d' or '1d12h'."""
-    parts = re.findall(r"(\d+)(ms|s|m|h|d|w|y)", text)
-    if not parts or "".join(n + u for n, u in parts) != text:
-        raise ValueError(f"not a duration: {text!r}")
-    return sum((int(n) * DURATION_UNITS[u] for n, u in parts), timedelta())
 
 
 @check(
@@ -38,23 +20,27 @@ def parse_duration(text: str) -> timedelta:
     action="Keep logs for as long as the policy requires",
     effort="quick",
     target_type="log_store",
-    collector="loki_config",
+    collector="log_retention",
 )
 def log_retention(ev: dict, profile: Profile, now: datetime):
-    period = ev["limits_config"]["retention_period"]
-    enabled = ev["compactor"]["retention_enabled"]
+    """The shortest retention in the store decides: it applies to some of the logs."""
+    store = LogRetentionEvidence.model_validate(ev["retention"])
     minimum = profile.logging.min_retention_days
     expected = {"min_retention_days": minimum}
-    retention = parse_duration(period)
-    if not enabled or retention == timedelta(0):
-        observed = {"retention_enabled": enabled, "retention_period": period}
-        return passed(
-            "Retention deletion is disabled; logs are kept indefinitely", observed, expected
-        )
-    observed = {"retention_period": period, "retention_days": retention.days}
-    if retention < timedelta(days=minimum):
-        return failed(f"Logs are deleted after {retention.days} days", observed, expected)
-    return passed(f"Logs are kept for {retention.days} days", observed, expected)
+    shortest = store.shortest
+    if shortest is None:
+        observed = {"retention_days": None, "scopes": len(store.scopes)}
+        return passed("Logs are never deleted; they are kept indefinitely", observed, expected)
+    observed = {"retention_days": shortest.retention_days, "source": shortest.source}
+    where = ""
+    if len(store.scopes) > 1:  # name the scope only when there is a choice
+        observed["scope"] = shortest.name
+        where = f" ({shortest.name})"
+    n = shortest.retention_days
+    span = f"{n} day{'' if n == 1 else 's'}{where}"
+    if n < minimum:
+        return failed(f"Logs are deleted after {span}", observed, expected)
+    return passed(f"Logs are kept for {span}", observed, expected)
 
 
 @check(

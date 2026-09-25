@@ -125,8 +125,9 @@ def _default_admin(o: dict, e: dict) -> Plain:
 
 
 def _log_retention(o: dict, e: dict) -> Plain:
+    which = f"Logs in {o['scope']} are" if o.get("scope") else "Logs are"
     return Plain(
-        f"Logs are deleted after {_plural(o['retention_days'], 'day')}.",
+        f"{which} deleted after {_plural(o['retention_days'], 'day')}.",
         f"Logs are kept for at least {_plural(e['min_retention_days'], 'day')}.",
     )
 

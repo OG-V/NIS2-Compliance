@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import base64
 import json
 import re
 import urllib.error
@@ -19,6 +20,23 @@ class HttpError(CollectorError):
     def __init__(self, url: str, status: int, body: str = ""):
         super().__init__(f"HTTP {status} from {url}" + (f": {body[:200]}" if body else ""))
         self.status = status
+        self.body = body
+
+
+def basic_auth(username: str, password: str) -> dict[str, str]:
+    token = base64.b64encode(f"{username}:{password}".encode()).decode()
+    return {"Authorization": f"Basic {token}"}
+
+
+def get_text(url: str, headers: dict[str, str] | None = None) -> str:
+    req = urllib.request.Request(url, headers=headers or {})
+    try:
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+            return resp.read().decode()
+    except urllib.error.HTTPError as exc:
+        raise HttpError(url, exc.code, exc.read().decode(errors="replace")) from None
+    except (urllib.error.URLError, TimeoutError, OSError) as exc:
+        raise CollectorError(f"cannot reach {url}: {exc}") from None
 
 
 def request(
