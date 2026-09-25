@@ -12,6 +12,7 @@ case "${1:-}" in
     [[ -f "profiles/$profile/lab.env" ]] || { echo "usage: $0 up <weak|hardened>" >&2; exit 2; }
     compose weak down -v --remove-orphans
     compose "$profile" up -d --build --wait
+    compose "$profile" --profile setup run --rm search-setup
     ln -sfn "profiles/$profile" .current  # read by target.yaml
     echo "lab is up with the '$profile' profile"
     ;;

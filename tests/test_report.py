@@ -177,7 +177,7 @@ def test_report_lists_the_systems_scanned(weak):
         "OpenID configuration",
     )
     html = render(data, run)[0].read_text()
-    assert "Systems scanned (7)" in html and "issuer http://127.0.0.1:18081/realms/nordmsp" in html
+    assert "Systems scanned (8)" in html and "issuer http://127.0.0.1:18081/realms/nordmsp" in html
 
 
 def test_render_is_self_contained(weak):

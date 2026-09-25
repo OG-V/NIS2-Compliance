@@ -17,6 +17,10 @@ assets:
     description: Central log store
     owner: Security team
     criticality: high
+  - service: search
+    description: Application log store (Elasticsearch)
+    owner: Security team
+    criticality: high
   - service: backup
     description: Backup agent and repository
     owner: Platform team

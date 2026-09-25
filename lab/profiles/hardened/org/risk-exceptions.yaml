@@ -12,12 +12,33 @@ exceptions:
     owner: Security team
     approved_by: CISO
     expires: 2026-10-31
+  - vulnerability: CVE-2026-75595
+    image: elasticsearch
+    package: io.netty:netty-handler
+    reason: >-
+      Bundled in the vendor image; no Elasticsearch release ships the fixed netty
+      version yet (latest checked: 9.5.3 on 2026-09-26).
+    compensating_measures: Elasticsearch reachable only from the management network.
+    owner: Security team
+    approved_by: CISO
+    expires: 2026-10-31
   - vulnerability: CVE-2026-8763
     image: quay.io/keycloak/keycloak
     package: org.bouncycastle:bcprov-jdk18on
     reason: >-
       Bundled in the vendor image; no Keycloak release ships BouncyCastle 1.85
       yet (latest checked: 26.7.4 on 2026-09-25).
+    compensating_measures: Admin console reachable only from the management network.
+    owner: Security team
+    approved_by: CISO
+    expires: 2026-10-31
+  - vulnerability: CVE-2026-84939
+    image: quay.io/keycloak/keycloak
+    package: org.freemarker:freemarker
+    reason: >-
+      Bundled in the vendor image; no Keycloak release ships FreeMarker 2.3.35
+      yet (latest checked: 26.7.4 on 2026-09-26). Published after the lab's
+      first scan on 2026-09-25.
     compensating_measures: Admin console reachable only from the management network.
     owner: Security team
     approved_by: CISO

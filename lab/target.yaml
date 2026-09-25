@@ -37,6 +37,10 @@ idp:
 logs:
   - name: loki
     url: http://127.0.0.1:13100
+  - name: elasticsearch
+    url: http://127.0.0.1:19200
+    username: nis2scan          # a read-only user created for the scanner
+    password_env: ES_SCAN_PASSWORD
 backup:
   - name: restic
     container: nis2lab-backup-1

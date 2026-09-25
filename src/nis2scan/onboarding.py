@@ -16,7 +16,9 @@ from urllib.parse import urlparse
 
 from nis2scan.adapters.identity import ADAPTERS
 from nis2scan.adapters.identity.detect import LABELS, detect
+from nis2scan.adapters.logging import ADAPTERS as LOG_ADAPTERS
 from nis2scan.collectors._docker import docker
+from nis2scan.collectors.logging import detect as log_detect
 from nis2scan.config import Target
 from nis2scan.registry import CollectorError
 
@@ -142,6 +144,41 @@ def _identity(system: System, idp, target: Target, probe: bool) -> None:
             credential.status, credential.note = MISSING, f"refused: {exc}"
 
 
+def _log_store(system: System, logs, target: Target, probe: bool) -> None:
+    system.access.append(_url_access(logs.url, f"Network access to {logs.url}", probe))
+    if logs.product != "auto":
+        product, system.identified_by = logs.product, "set in the target file"
+    elif probe:
+        try:
+            found = log_detect(logs)
+            product, system.identified_by = (
+                found["product"],
+                f"identified from its {found['method']}",
+            )
+        except CollectorError as exc:
+            product, system.identified_by = None, f"not identified: {str(exc).split(';')[0]}"
+    else:
+        product = None
+    if product not in LOG_ADAPTERS:
+        if probe or product:
+            system.access.append(
+                Access("A supported log store", MISSING, "set `product:` or check the URL")
+            )
+        return
+    adapter = LOG_ADAPTERS[product]
+    system.product = adapter.label
+    credential = Access(adapter.access)
+    system.access.append(credential)
+    if probe:
+        try:
+            adapter.check_access(logs, target.secret)
+            credential.status, credential.note = OK, "tested with one read-only request"
+        except KeyError as exc:
+            credential.status, credential.note = MISSING, str(exc).strip("'")
+        except CollectorError as exc:
+            credential.status, credential.note = MISSING, f"refused: {exc}"
+
+
 def plan(target: Target, probe: bool = True) -> list[System]:
     """Every system in the target, with the access it needs and whether that is in place."""
     systems = []
@@ -182,15 +219,8 @@ def plan(target: Target, probe: bool = True) -> list[System]:
         _identity(s, idp, target, probe)
         systems.append(s)
     for logs in target.logs:
-        s = System(
-            "logs",
-            logs.name,
-            product="Loki",
-            identified_by="assumed: the only log store supported so far",
-        )
-        s.access.append(
-            _url_access(logs.url, f"HTTP access to {logs.url} (its /config endpoint)", probe)
-        )
+        s = System("logs", logs.name)
+        _log_store(s, logs, target, probe)
         systems.append(s)
     for backup in target.backup:
         s = System(

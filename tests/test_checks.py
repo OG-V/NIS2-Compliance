@@ -3,10 +3,10 @@
 from datetime import timedelta
 
 import pytest
-from conftest import PROFILES, ROOT, collected_at, load_evidence
+from conftest import PROFILES, ROOT, collected_at, load_evidence, recorded
 
 from nis2scan.adapters.identity.keycloak import min_password_length
-from nis2scan.checks.operations import parse_duration
+from nis2scan.adapters.logging import parse_duration
 from nis2scan.collectors.ssh import parse_sshd_t
 from nis2scan.config import load_profile
 from nis2scan.models import CheckStatus
@@ -20,10 +20,10 @@ EXPECTED = {"weak": CheckStatus.FAIL, "hardened": CheckStatus.PASS}
 @pytest.mark.parametrize("check_id", sorted(CHECKS))
 def test_check_matches_answer_key(check_id, lab_profile):
     chk = CHECKS[check_id]
-    evidence = load_evidence(lab_profile, chk.collector)
-    # Evaluate at collection time so date-based checks don't drift as fixtures age.
-    result = chk.evaluate(evidence, PROFILE, collected_at(evidence))
-    assert result.status == EXPECTED[lab_profile], result.message
+    for asset, evidence in recorded(lab_profile, chk.collector).items():
+        # Evaluate at collection time so date-based checks don't drift as fixtures age.
+        result = chk.evaluate(evidence, PROFILE, collected_at(evidence))
+        assert result.status == EXPECTED[lab_profile], (asset, result.message)
 
 
 def test_risk_exceptions_lapse_after_expiry():

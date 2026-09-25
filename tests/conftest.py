@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+from nis2scan.config import slug
 from nis2scan.registry import Context, load_all
 
 ROOT = Path(__file__).parent.parent
@@ -13,8 +14,21 @@ PROFILES = ["weak", "hardened"]
 load_all()
 
 
-def load_evidence(profile: str, collector: str) -> dict:
-    return json.loads((FIXTURES / profile / f"{collector}.json").read_text())
+def load_evidence(profile: str, collector: str, asset: str | None = None) -> dict:
+    """Recorded evidence; <collector>/<asset>.json when a collector has one per asset."""
+    per_asset = FIXTURES / profile / collector / f"{slug(asset)}.json" if asset else None
+    path = (
+        per_asset if per_asset and per_asset.exists() else FIXTURES / profile / f"{collector}.json"
+    )
+    return json.loads(path.read_text())
+
+
+def recorded(profile: str, collector: str) -> dict[str | None, dict]:
+    """Every recorded asset's evidence for a collector: {asset: evidence}, or {None: ...}."""
+    folder = FIXTURES / profile / collector
+    if folder.is_dir():
+        return {p.stem: json.loads(p.read_text()) for p in sorted(folder.glob("*.json"))}
+    return {None: load_evidence(profile, collector)}
 
 
 def collected_at(evidence: dict) -> datetime:
@@ -34,7 +48,7 @@ class FixtureContext(Context):
         self.per_asset = per_asset or {}
 
     def _run(self, name: str, asset) -> dict:
-        return load_evidence(self.per_asset.get(asset.name, self.profile), name)
+        return load_evidence(self.per_asset.get(asset.name, self.profile), name, asset.name)
 
 
 @pytest.fixture

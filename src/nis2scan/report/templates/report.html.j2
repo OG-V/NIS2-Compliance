@@ -13,7 +13,7 @@
 <body>
 {%- import "_shared.j2" as ui %}
 {%- macro fails_on(g) %}Fails on {{ g.failing_assets|length }} of {{ g.assets|length }} {{ g.asset_kind or "assets" }}{% endmacro %}
-{%- set total_checks = d.findings|length %}
+{%- set total_checks = d.check_counts.values()|sum %}  {#- checks, not results: one check can run on several assets #}
 {%- set fails = d.check_counts.fail %}
 {%- set errors = d.check_counts.error %}
 {%- set n_req = d.verdict_counts.values()|sum %}

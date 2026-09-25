@@ -1,0 +1,7 @@
+{
+  "_collected_at": "2026-09-25T23:15:17.229395+00:00",
+  "detail": "",
+  "label": "Grafana Loki",
+  "method": "build-info endpoint (Loki 3.5.1)",
+  "product": "loki"
+}

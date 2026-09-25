@@ -1,0 +1,24 @@
+{
+  "_collected_at": "2026-09-25T23:16:11.014689+00:00",
+  "product": "loki",
+  "raw": {
+    "compactor": {
+      "retention_enabled": true
+    },
+    "limits_config": {
+      "retention_period": "180d",
+      "retention_stream": []
+    },
+    "source": "http://127.0.0.1:13100/config"
+  },
+  "retention": {
+    "scopes": [
+      {
+        "name": "all streams",
+        "retention_days": 180,
+        "source": "limits_config.retention_period 180d"
+      }
+    ],
+    "store": "http://127.0.0.1:13100/config"
+  }
+}

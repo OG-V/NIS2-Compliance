@@ -26,9 +26,11 @@ profile runs at a time. It also points the `.current` symlink at the active prof
 | `host` | Linux admin jump host (sshd) | 12222 |
 | `idp` | Keycloak, realm `nordmsp` | 18081 |
 | `logs` | Loki central log store | 13100 |
+| `search` | Elasticsearch application log store (security on; scanner user `nis2scan`) | 19200 |
 | `backup` | restic backup of `/data` (image built from `backup/`) | none (use `docker exec`) |
 | `legacy-web` | forgotten, undocumented service (weak only) | none |
 | `certgen` | one-shot: generates the web certificate | none |
+| `search-setup` | one-shot, run by `lab.sh`: creates the `nis2scan` user and the log data | none |
 
 The ports are chosen so the lab can run next to the Mini SOC lab, which uses 2222 and 8080.
 
@@ -49,9 +51,10 @@ the running lab.
 | (i) access control | Keycloak brute-force protection, password policy | off / none | on / length ≥ 12 |
 | (i) access control | Keycloak admin console `admin`/`admin` | works | 401 |
 | (b) incident handling | Loki `limits_config.retention_period` | 7 days | 180 days |
+| (b) incident handling | Elasticsearch retention of log data | index `app-logs-000001` under ILM policy `logs-7d` (Elasticsearch 8.19) | data stream `logs-nordmsp` with lifecycle retention 180 days (Elasticsearch 9.5) |
 | (c) backups | Newest restic snapshot | 2025-06-01 (stale) | at start-up, then daily |
-| (i) asset management | Running services vs `org/assets.yaml` | `logs`, `backup`, `legacy-web` undeclared | all declared |
-| (e) vulnerability handling | Fixable CRITICAL CVEs in running images (Trivy) | nginx 1.20 (Debian 11, end of support), Keycloak 26.3, Loki 3.5.1, restic 0.18.0 | current releases; restic rebuilt with OS updates; 2 Keycloak CVEs under a time-limited risk exception |
+| (i) asset management | Running services vs `org/assets.yaml` | `logs`, `search`, `backup`, `legacy-web` undeclared | all declared |
+| (e) vulnerability handling | Fixable CRITICAL CVEs in running images (Trivy) | nginx 1.20 (Debian 11, end of support), Keycloak 26.3, Loki 3.5.1, Elasticsearch 8.19, restic 0.18.0 | current releases; restic rebuilt with OS updates; 3 Keycloak CVEs and 1 Elasticsearch CVE, all in bundled libraries, under time-limited risk exceptions |
 | Art. 23 reporting | `org/incident-response.md` | no 24h/72h/1-month steps, no CSIRT, reviewed 2023 | complete, reviewed 2026-09-01 |
 
 Each row is encoded as a test: `tests/test_checks.py` evaluates every check against

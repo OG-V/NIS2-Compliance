@@ -170,7 +170,7 @@ profile differences are listed as an answer key in [lab/README.md](../lab/README
 | (h) cryptography | nginx | TLS versions below the profile minimum refused (live handshake); certificate valid; HTTP redirects to HTTPS with HSTS |
 | (i) access control | sshd host | password authentication not offered (live probe); root login disabled; auth attempts limited (`sshd -T`) |
 | (i), (j) identity | Keycloak (also Okta, Entra ID) | MFA enrolled or enforced for all staff, and no sign-in by password alone; lockout after failed logins; password length; default admin credentials rejected |
-| (b) incident handling | Loki | log retention at least the profile minimum |
+| (b) incident handling | Loki, Elasticsearch | log retention at least the profile minimum, judged on the shortest-kept logs |
 | (c) backups | restic | recent snapshot exists |
 | (i) asset management | Docker, `assets.yaml` | every running service is inventoried |
 | (e) vulnerabilities | Trivy on running images | no fixable CRITICAL CVE unless covered by an unexpired risk exception ([ADR 0004](adr/0004-risk-exceptions.md)) |
@@ -203,8 +203,11 @@ Accounts that sign in at another provider, such as guests or the personal Micros
 account that created a tenant, are marked external: their MFA happens where the tested
 product cannot see it, so they are listed rather than counted as lacking MFA. The product is detected from the
 provider's OpenID configuration, or set with `product:` in the target, and the report
-lists every system with its product and how it was identified. Logging and backups
-still speak one product each (Loki, restic) and are next in line for the same pattern.
+lists every system with its product and how it was identified. Log stores follow the same
+pattern: Grafana Loki and Elasticsearch, both verified on the lab, which runs one of each.
+Each adapter lists every retention scope (Loki's global period and per-stream overrides;
+Elasticsearch's indices under ILM policies and data streams under their own lifecycle
+or ILM), and the check judges the shortest. Backups still speak one product (restic).
 
 **Planned but not built:** checks that logs are actually shipped centrally and that
 authentication events are logged. The lab's Loki instance receives no logs, so only

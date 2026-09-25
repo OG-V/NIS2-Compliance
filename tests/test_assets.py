@@ -126,11 +126,24 @@ def test_report_groups_assets_per_check(tmp_path):
 
     html = render(data, run_dir)[0].read_text()
     assert "Fails on 1 of 2 web endpoints" in html and "Passes on shop." in html
+    # The headline counts checks, not results: 16 checks ran on more assets than that.
+    assert f"{data.check_counts['fail']} of 16 checks failed" in html
     assert "<th>Asset</th>" in html
 
 
 def test_single_asset_report_has_no_asset_column(tmp_path):
-    run = scan_run(tmp_path, "weak")
+    single = {**MIXED, "web": MIXED["web"][:1], "ssh": MIXED["ssh"][:1], "logs": LAB["logs"][:1]}
+    path = tmp_path / "target.yaml"
+    path.write_text(yaml.safe_dump(single))
+    target = load_target(path)
+    result = run_scan(
+        target,
+        load_profile(PROFILE),
+        load_requirements(ROOT / "catalog" / "requirements"),
+        now=collected_at(load_evidence("weak", "tls_probe")),
+        context=FixtureContext(target, "weak"),
+    )
+    run = write_results(result, tmp_path / "out", PROFILE)
     html = render(load_run(run), run)[0].read_text()
     assert "<th>Asset</th>" not in html and "Fails on" not in html
 
@@ -158,4 +171,8 @@ def test_runs_from_before_assets_still_compare(tmp_path):
     old = load_run(ROOT / "docs" / "example-report" / "weak")  # findings have no asset field
     new = load_run(scan_run(tmp_path, "hardened"))
     c = compare(old, new)
-    assert len(c.fixed) == 16 and not c.unresolved
+    # Checks with one result on each side pair up whatever the asset is called.
+    assert len(c.fixed) == 15
+    # The lab now has two log stores. The old run's one unnamed log store cannot be
+    # matched to either, so log retention is listed as not comparable, not as fixed.
+    assert {ch.check_id for ch in c.unresolved} == {"CHK-LOG-001"}

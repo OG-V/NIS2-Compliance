@@ -64,6 +64,41 @@ services:
     ports:
       - "127.0.0.1:13100:3100"
 
+  # A second log store, of another product: Elasticsearch with security on.
+  search:
+    image: ${SEARCH_IMAGE:-elasticsearch:9.5.3}
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      xpack.security.enabled: "true"
+      xpack.security.http.ssl.enabled: "false"
+      xpack.security.transport.ssl.enabled: "false"
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:?set in lab.env}
+    ports:
+      - "127.0.0.1:19200:9200"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS -u elastic:$$ELASTIC_PASSWORD 'http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=5s' >/dev/null"]
+      interval: 5s
+      timeout: 10s
+      retries: 60
+      start_period: 30s
+
+  # One-shot configuration, run by lab.sh after `up --wait` (which treats a container
+  # that exits as a failure unless another service depends on it).
+  search-setup:
+    image: curlimages/curl:8.22.0
+    profiles: [setup]
+    depends_on:
+      search:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "/scripts/search-setup.sh"]
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:?set in lab.env}
+      ES_SCAN_PASSWORD: ${ES_SCAN_PASSWORD:?set in lab.env}
+      LAB_PROFILE: ${LAB_PROFILE:-hardened}
+    volumes:
+      - ./scripts:/scripts:ro
+
   backup:
     build:
       context: ./backup
