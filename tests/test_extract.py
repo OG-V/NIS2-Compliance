@@ -147,7 +147,25 @@ def test_request_shape():
     assert call["model"] == llm.MODEL
     assert call["output_format"] is llm.ExtractionResult
     assert call["fallbacks"] == "default" and call["betas"] == [llm.FALLBACK_BETA]
+    assert call["output_config"] == {"effort": llm.EFFORT}
     assert "<provision>\nThe relevant entities shall ensure" in call["messages"][0]["content"]
+
+
+def test_model_and_effort_are_passed_and_recorded(tmp_path):
+    client = FakeClient(llm.ExtractionResult(requirements=[_item(MFA_QUOTE)]))
+    llm.extract_provision(
+        client,
+        PROVISIONS["11.7.1"],
+        tmp_path,
+        INDEX,
+        "abc",
+        model="claude-opus-5-5",
+        effort="medium",
+    )
+    assert client.calls[0]["model"] == "claude-opus-5-5"
+    assert client.calls[0]["output_config"] == {"effort": "medium"}
+    written = yaml.safe_load((tmp_path / "REQ-CIR2690-11.7.1-01.yaml").read_text())
+    assert written["extraction"]["effort"] == "medium"
 
 
 def test_valid_extraction_becomes_traceable_draft():

@@ -21,7 +21,12 @@ from nis2scan.extract.sources import CIR_2690, Provision
 from nis2scan.extract.verify import SourceIndex, check_quote, normalise
 from nis2scan.models import ExtractionMeta, Requirement, Review, ReviewStatus, SourceRef
 
-MODEL = "claude-opus-5"
+MODEL = "claude-opus-5-5"
+# Chosen by measurement (eval/results/2026-09-25-opus-5-5.md). Explicit, because the
+# default differs per model (Opus 5: high, Opus 5.5: medium)
+# and a model comparison must not silently change effort as well.
+EFFORT = "medium"
+EFFORTS = ("low", "medium", "high", "xhigh", "max")
 # Version history (results in eval/results/):
 #   2026-09-25.1  first run
 #   2026-09-25.2  open values described by vague phrases must be null (run 1, finding 1)
@@ -105,11 +110,14 @@ def user_message(provision: Provision) -> str:
     )
 
 
-def call_model(client, provision: Provision) -> tuple[ExtractionResult, str]:
+def call_model(
+    client, provision: Provision, model: str = MODEL, effort: str = EFFORT
+) -> tuple[ExtractionResult, str]:
     """Ask the model for requirements. Returns the parsed result and the serving model."""
     response = client.beta.messages.parse(
-        model=MODEL,
+        model=model,
         max_tokens=16000,
+        output_config={"effort": effort},
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_message(provision)}],
         output_format=ExtractionResult,
@@ -132,6 +140,7 @@ def to_requirements(
     source_sha256: str,
     index: SourceIndex,
     now: datetime | None = None,
+    effort: str | None = None,
 ) -> list[Requirement]:
     """Convert model output into draft Requirements, rejecting any with an unverifiable quote."""
     now = now or datetime.now(UTC)
@@ -152,6 +161,7 @@ def to_requirements(
             parameters={p.name: p.stated_value or "entity_defined" for p in item.parameters},
             extraction=ExtractionMeta(
                 model=served_by,
+                effort=effort,
                 prompt_version=PROMPT_VERSION,
                 source_sha256=source_sha256,
                 extracted_at=now,
@@ -200,7 +210,13 @@ def write_requirement(path: Path, req: Requirement) -> None:
 
 
 def extract_provision(
-    client, provision: Provision, out_dir: Path, index: SourceIndex, source_sha256: str
+    client,
+    provision: Provision,
+    out_dir: Path,
+    index: SourceIndex,
+    source_sha256: str,
+    model: str = MODEL,
+    effort: str = EFFORT,
 ) -> ProvisionOutcome:
     """Extract one provision into out_dir, replacing earlier unreviewed drafts for it.
 
@@ -213,13 +229,13 @@ def extract_provision(
         outcome.skipped = "has reviewed requirements"
         return outcome
     try:
-        result, served_by = call_model(client, provision)
+        result, served_by = call_model(client, provision, model, effort)
     except (ExtractionError, anthropic.APIError) as exc:  # record it; don't stop the batch
         outcome.error = f"{type(exc).__name__}: {exc}"
         return outcome
     for f in existing:
         f.unlink()
-    for req in to_requirements(provision, result, served_by, source_sha256, index):
+    for req in to_requirements(provision, result, served_by, source_sha256, index, effort=effort):
         write_requirement(requirement_file(out_dir, req), req)
         outcome.written += 1
         outcome.rejected += req.review.status == ReviewStatus.REJECTED
@@ -233,11 +249,16 @@ def extract_all(
     index: SourceIndex,
     source_sha256: str,
     workers: int = 4,
+    model: str = MODEL,
+    effort: str = EFFORT,
 ) -> list[ProvisionOutcome]:
     out_dir.mkdir(parents=True, exist_ok=True)
     with ThreadPoolExecutor(max_workers=workers) as pool:
         return list(
             pool.map(
-                lambda p: extract_provision(client, p, out_dir, index, source_sha256), provisions
+                lambda p: extract_provision(
+                    client, p, out_dir, index, source_sha256, model, effort
+                ),
+                provisions,
             )
         )

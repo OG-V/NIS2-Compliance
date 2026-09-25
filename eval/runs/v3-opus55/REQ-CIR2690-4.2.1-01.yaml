@@ -1,0 +1,24 @@
+id: REQ-CIR2690-4.2.1-01
+title: Maintain backup copies of data
+obligation: The entity shall maintain backup copies of data.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 4.2.1
+  nis2_article: 21(2)(c)
+  quote: maintain backup copies of data
+testability: technical
+evidence:
+- backup system configuration
+- backup job logs
+- backup inventory or catalogue
+- approved backup policy
+parameters: {}
+extraction:
+  model: claude-opus-5-5
+  effort: medium
+  prompt_version: 2026-09-25.3
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T01:17:20.804456Z'
+review:
+  status: draft
+  notes: ''

@@ -1,0 +1,29 @@
+id: REQ-CIR2690-11.2.2-04
+title: Limit third-party access rights
+obligation: The entity shall ensure that access rights appropriately address third-party access, such
+  as visitors, suppliers and service providers, in particular by limiting access rights in scope and in
+  duration.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 11.2.2
+  nis2_article: 21(2)(i), (j)
+  quote: ensure that access rights appropriately address third-party access, such as visitors, suppliers
+    and service providers, in particular by limiting access rights in scope and in duration
+testability: technical
+evidence:
+- third-party access policy
+- third-party account list with scope and expiry dates
+- visitor access records
+- supplier access agreements
+parameters:
+  third_party_access_duration: entity_defined
+  third_party_access_scope: entity_defined
+extraction:
+  model: claude-opus-5-5
+  effort: medium
+  prompt_version: 2026-09-25.3
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T01:17:40.882427Z'
+review:
+  status: draft
+  notes: ''

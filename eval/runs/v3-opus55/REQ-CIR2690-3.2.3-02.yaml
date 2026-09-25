@@ -1,0 +1,25 @@
+id: REQ-CIR2690-3.2.3-02
+title: List of assets subject to logging
+obligation: The entity shall establish a list of assets to be subject to logging based on the results
+  of the risk assessment carried out pursuant to point 2.1.
+source:
+  instrument: Commission Implementing Regulation (EU) 2024/2690
+  provision: Annex, point 3.2.3
+  nis2_article: 21(2)(b)
+  quote: The relevant entities shall establish a list of assets to be subject to logging based on the
+    results of the risk assessment carried out pursuant to point 2.1.
+testability: documentary
+evidence:
+- list of assets subject to logging
+- risk assessment results
+- traceability between risk assessment and logging scope
+parameters: {}
+extraction:
+  model: claude-opus-5-5
+  effort: medium
+  prompt_version: 2026-09-25.3
+  source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
+  extracted_at: '2026-09-25T01:17:26.267880Z'
+review:
+  status: draft
+  notes: ''
