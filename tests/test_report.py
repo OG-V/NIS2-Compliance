@@ -170,6 +170,35 @@ def test_render_without_narrative(weak):
     assert json.loads(json_path.read_text())["narrative"] is None
 
 
+def test_render_leads_with_the_result_and_what_to_fix_first(weak):
+    run, data = weak
+    html = render(data, run)[0].read_text()
+    assert "All 16 checks failed." in html
+    assert "1 problem is critical and 6 are high severity." in html
+    assert html.count('<i class="u ns">') == 20 and html.count('<i class="u">') == 65
+    fix_first = html[html.index('id="fix-first"') : html.index('id="measures"')]
+    assert fix_first.count("<li>") == 7  # the critical and high-severity gaps
+    assert fix_first.index("Change the default admin password") < fix_first.index(
+        "Restart automatic backups"
+    )
+    assert "A backup no older than 26 hours." in html
+    assert "20 detailed requirements: <b>8 failing</b> · 12 not checked" in html
+
+
+def test_render_is_self_contained(weak):
+    run, data = weak
+    html = render(data, run)[0].read_text()
+    assert "<script" not in html and "<link" not in html and 'src="' not in html
+
+
+def test_render_passing_scan(tmp_path):
+    run = scan_run(tmp_path, "hardened")
+    html = render(load_run(run), run)[0].read_text()
+    assert "All 16 checks passed." in html and "No problems found." in html
+    assert "partial evidence for 20 of 85 legal requirements" in html
+    assert 'id="fix-first"' not in html
+
+
 def test_render_escapes_scan_data(weak):
     run, data = weak
     data.gaps[0].message = "<script>alert(1)</script>"
