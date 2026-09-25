@@ -1,6 +1,8 @@
 """Backup tools: the product-neutral snapshot model, adapters and how the tool is run.
 
-The backup check reads only BackupEvidence. Backup tools are command-line programs,
+The backup checks read only BackupEvidence. A repository or backup server usually
+holds several backup sets (one per backed-up host, or per backup job); each is judged
+on its own, because one stopped job must not hide behind another's fresh backups. Backup tools are command-line programs,
 so an adapter runs its tool's read-only listing command, either inside the client's
 backup container (already configured with the repository and password) or on the
 scanning host with the repository and a password from the target's secrets.
@@ -28,14 +30,28 @@ class Snapshot(BaseModel):
     name: str = ""  # snapshot ID or archive name
 
 
-class BackupEvidence(BaseModel):
-    repository: str
+class BackupSet(BaseModel):
+    name: str  # e.g. "nordmsp:/data" (host and paths) or a backup job's name
     snapshots: list[Snapshot]
     encrypted: bool | None = None  # None when the tool does not say
 
     @property
     def newest(self) -> Snapshot | None:
         return max(self.snapshots, key=lambda s: s.time) if self.snapshots else None
+
+
+class BackupEvidence(BaseModel):
+    repository: str  # the repository or backup server read
+    sets: list[BackupSet]
+
+    @property
+    def stalest(self) -> BackupSet | None:
+        """The set whose newest snapshot is oldest; a set without snapshots first."""
+        if not self.sets:
+            return None
+        return min(
+            self.sets, key=lambda s: (s.newest is not None, s.newest.time if s.newest else 0)
+        )
 
 
 def run(

@@ -18,7 +18,7 @@ them, and the result is a gap report that non-engineers can read.
 1. **Turns legal text into checkable requirements.** An LLM drafts structured
    requirements from the regulation. Code verifies every quote against the official text,
    and a human reviews each one before it is used.
-2. **Collects evidence and judges it deterministically.** 16 checks probe a live system:
+2. **Collects evidence and judges it deterministically.** 17 checks probe a live system:
    TLS handshakes, SSH authentication methods, identity-provider settings, log retention,
    backups, container CVEs and incident-response documents. No model is involved in any
    pass/fail verdict.
@@ -43,7 +43,7 @@ or `not_assessed`, and the report says how much it could and could not assess.
 
 | | |
 |---|---|
-| **Demo lab** | The `weak` profile fails 16 of 16 checks (20 requirements not satisfied). The `hardened` profile passes 16 of 16. Both are reproducible with one command. |
+| **Demo lab** | The `weak` profile fails 17 of 17 checks (21 requirements not satisfied). The `hardened` profile passes 17 of 17. Both are reproducible with one command. |
 | **Extraction quality** (gold set: 20 provisions, 55 obligations) | Quotes verbatim: 100%. Obligations found: 100%. Invented numbers or durations: 0. Open values mislabelled as stated: 0%. |
 | **Run-to-run stability** | Two runs agree on 19/20 provision structures, clause overlap 0.99. |
 | **Narrative grounding** | Every citation, every number and full gap coverage are checked by code, and IDs are kept out of the prose. A draft that fails twice is not shown. |

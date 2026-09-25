@@ -8,10 +8,10 @@ from conftest import FIXTURES
 
 from nis2scan import adapters
 from nis2scan.adapters import backup as backup_module
-from nis2scan.adapters.backup import ADAPTERS, BackupEvidence, Snapshot, run
+from nis2scan.adapters.backup import ADAPTERS, BackupEvidence, BackupSet, Snapshot, run
 from nis2scan.adapters.backup.borg import as_utc
 from nis2scan.adapters.backup.restic import parse_time
-from nis2scan.checks.operations import recent_backup
+from nis2scan.checks.operations import backups_encrypted, recent_backup
 from nis2scan.collectors.backup import detect
 from nis2scan.config import BackupTarget, load_profile
 from nis2scan.registry import CollectorError
@@ -31,9 +31,32 @@ def test_recorded_evidence_is_the_normalised_raw_response(profile, tool):
 
 
 def test_live_borg_repositories():
-    weak = ADAPTERS["borg"].normalize(recorded("weak", "borg")["raw"])
+    (weak,) = ADAPTERS["borg"].normalize(recorded("weak", "borg")["raw"]).sets
     assert weak.encrypted is False and weak.newest.time == datetime(2025, 3, 15, 3, tzinfo=UTC)
-    assert ADAPTERS["borg"].normalize(recorded("hardened", "borg")["raw"]).encrypted is True
+    (hardened,) = ADAPTERS["borg"].normalize(recorded("hardened", "borg")["raw"]).sets
+    assert hardened.encrypted is True
+
+
+def test_restic_groups_snapshots_by_host_and_paths():
+    raw = {
+        "source": "r",
+        "snapshots": [
+            {"time": "2026-09-25T02:00:00Z", "hostname": "web", "paths": ["/srv"], "short_id": "a"},
+            {"time": "2026-09-26T02:00:00Z", "hostname": "web", "paths": ["/srv"], "short_id": "b"},
+            {
+                "time": "2025-01-01T02:00:00Z",
+                "hostname": "db",
+                "paths": ["/var/lib/pg"],
+                "short_id": "c",
+            },
+        ],
+    }
+    repo = ADAPTERS["restic"].normalize(raw)
+    assert [(s.name, len(s.snapshots)) for s in repo.sets] == [
+        ("db:/var/lib/pg", 1),
+        ("web:/srv", 2),
+    ]
+    assert repo.stalest.name == "db:/var/lib/pg"  # the stopped job is not hidden
 
 
 @pytest.mark.parametrize(
@@ -48,7 +71,7 @@ def test_live_borg_repositories():
 )
 def test_borg_encryption_modes(mode, encrypted):
     raw = {"source": "x", "encryption": mode, "archives": []}
-    assert ADAPTERS["borg"].normalize(raw).encrypted is encrypted
+    assert ADAPTERS["borg"].normalize(raw).sets[0].encrypted is encrypted
 
 
 def test_times():
@@ -131,16 +154,47 @@ def test_unknown_or_missing_tool(monkeypatch):
 NOW = datetime(2026, 9, 26, 12, tzinfo=UTC)
 
 
-def check(*times):
-    evidence = BackupEvidence(repository="r", snapshots=[Snapshot(time=t) for t in times])
-    return recent_backup({"backup": evidence.model_dump(mode="json")}, PROFILE, NOW)
+OLD, FRESH = datetime(2025, 1, 1, tzinfo=UTC), datetime(2026, 9, 26, 2, tzinfo=UTC)
 
 
-def test_newest_snapshot_decides():
-    old, fresh = datetime(2025, 1, 1, tzinfo=UTC), datetime(2026, 9, 26, 2, tzinfo=UTC)
-    assert check(old, fresh).status == "pass"
-    assert check(old).status == "fail"
+def evidence(*sets):
+    """sets: (name, [times], encrypted)"""
+    repo = BackupEvidence(
+        repository="r",
+        sets=[
+            BackupSet(name=n, snapshots=[Snapshot(time=t) for t in times], encrypted=enc)
+            for n, times, enc in sets
+        ],
+    )
+    return {"backup": repo.model_dump(mode="json")}
+
+
+def test_newest_snapshot_of_a_set_decides():
+    assert recent_backup(evidence(("a", [OLD, FRESH], True)), PROFILE, NOW).status == "pass"
+    assert recent_backup(evidence(("a", [OLD], True)), PROFILE, NOW).status == "fail"
+
+
+def test_the_stalest_set_decides_and_is_named():
+    result = recent_backup(evidence(("web", [FRESH], True), ("db", [OLD], True)), PROFILE, NOW)
+    assert result.status == "fail" and result.message.endswith("days old (db)")
+    assert result.observed["set"] == "db"
 
 
 def test_no_snapshots_fail():
-    assert check().message == "No backup snapshots exist"
+    assert recent_backup(evidence(), PROFILE, NOW).message == "No backup snapshots exist"
+    result = recent_backup(evidence(("web", [FRESH], True), ("db", [], True)), PROFILE, NOW)
+    assert result.message == "No backup snapshots exist (db)"
+
+
+def test_encryption_check():
+    assert backups_encrypted(evidence(("a", [FRESH], True)), PROFILE, NOW).status == "pass"
+    single = backups_encrypted(evidence(("a", [FRESH], False)), PROFILE, NOW)
+    assert (single.status, single.message) == ("fail", "The backups are not encrypted")
+    several = backups_encrypted(evidence(("a", [FRESH], True), ("b", [FRESH], False)), PROFILE, NOW)
+    assert several.message == "1 backup set(s) are not encrypted"
+    assert several.observed["unencrypted_sets"] == ["b"]
+
+
+def test_unknown_encryption_is_not_a_pass():
+    result = backups_encrypted(evidence(("a", [FRESH], None)), PROFILE, NOW)
+    assert result.status == "error" and "does not report" in result.message

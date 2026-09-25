@@ -47,11 +47,12 @@ def _assets(o: dict, e: dict) -> Plain:
 
 def _backup(o: dict, e: dict) -> Plain:
     should = f"A backup no older than {_plural(e['max_age_hours'], 'hour')}."
+    of = f" of {o['set']}" if o.get("set") else ""
     if not o["snapshots"]:
-        return Plain("There are no backups at all.", should)
+        return Plain(f"There are no backups{of} at all.", should)
     hours = o["age_hours"]
     age = _plural(int(hours // 24), "day") if hours >= 48 else _plural(int(hours), "hour")
-    return Plain(f"The newest backup was taken on {_day(o['newest'])}, {age} ago.", should)
+    return Plain(f"The newest backup{of} was taken on {_day(o['newest'])}, {age} ago.", should)
 
 
 def _plan_content(o: dict, e: dict) -> Plain:
@@ -206,9 +207,20 @@ def _vulnerabilities(o: dict, e: dict) -> Plain:
     )
 
 
+def _backup_encryption(o: dict, e: dict) -> Plain:
+    sets = o["unencrypted_sets"]
+    found = (
+        "The backups are stored without encryption."
+        if o.get("sets", 1) <= 1
+        else f"Backup sets stored without encryption: {_list(sets)}."
+    )
+    return Plain(found, "Every backup copy is encrypted, with the key kept apart from the backups.")
+
+
 FORMATTERS: dict[str, Callable[[dict, dict], Plain]] = {
     "CHK-AST-001": _assets,
     "CHK-BAK-001": _backup,
+    "CHK-BAK-002": _backup_encryption,
     "CHK-DOC-001": _plan_content,
     "CHK-DOC-002": _plan_review,
     "CHK-IDP-001": _mfa,

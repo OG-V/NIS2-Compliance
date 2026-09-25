@@ -1,14 +1,19 @@
 {
   "_collected_at": "2026-09-25T23:36:05.118568+00:00",
   "backup": {
-    "encrypted": true,
     "repository": "borg list (docker exec nis2lab-backup-borg-1)",
-    "snapshots": [
+    "sets": [
       {
-        "host": null,
-        "name": "nordmsp-2026-09-25T23:35:36",
-        "paths": [],
-        "time": "2026-09-25T23:35:36Z"
+        "encrypted": true,
+        "name": "repository",
+        "snapshots": [
+          {
+            "host": null,
+            "name": "nordmsp-2026-09-25T23:35:36",
+            "paths": [],
+            "time": "2026-09-25T23:35:36Z"
+          }
+        ]
       }
     ]
   },

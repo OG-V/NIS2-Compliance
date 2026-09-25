@@ -23,8 +23,10 @@ def edit(run, name, change):
 def test_weak_to_hardened_fixes_everything(runs):
     weak, hardened = runs
     c = compare(load_run(weak), load_run(hardened))
-    # Per check and asset: 16 checks, log retention and backups on two assets each.
-    assert (len(c.fixed), len(c.still_open), len(c.new), len(c.unresolved)) == (18, 0, 0, 0)
+    # Per check and asset: 17 checks, 20 results. The weak lab's restic repository is
+    # already encrypted (restic always is), so that one result passes in both scans.
+    assert (len(c.fixed), len(c.still_open), len(c.new), len(c.unresolved)) == (19, 0, 0, 0)
+    assert c.still_passing == 1
     assert c.warnings == []
     assert c.fixed[0].check_id == "CHK-IDP-004"  # most severe first
     backup = next(ch for ch in c.fixed if (ch.check_id, ch.asset) == ("CHK-BAK-001", "restic"))
@@ -39,14 +41,14 @@ def test_weak_to_hardened_fixes_everything(runs):
 def test_reversed_order_shows_regressions_and_warns(runs):
     weak, hardened = runs
     c = compare(load_run(hardened), load_run(weak))
-    assert len(c.new) == 18 and not c.fixed
+    assert len(c.new) == 19 and not c.fixed
     assert c.warnings == ["The 'after' scan is older than the 'before' scan."]
 
 
 def test_same_scan_twice_is_all_still_open(runs):
     weak, _ = runs
     c = compare(load_run(weak), load_run(weak))
-    assert len(c.still_open) == 18 and not c.fixed and not c.new
+    assert len(c.still_open) == 19 and not c.fixed and not c.new
 
 
 def test_mixed_progress(runs, tmp_path):
@@ -69,12 +71,12 @@ def test_mixed_progress(runs, tmp_path):
 
     edit(after, "findings.json", partly_fixed)
     c = compare(load_run(weak), load_run(after))
-    assert (len(c.fixed), len(c.still_open), len(c.unresolved)) == (16, 1, 1)
+    assert (len(c.fixed), len(c.still_open), len(c.unresolved)) == (17, 1, 1)
     assert c.still_open[0].check_id == "CHK-BAK-001"
     assert c.unresolved[0].check_id == "CHK-SSH-003"
 
     html = render_comparison(weak, after, tmp_path / "diff.html")[0].read_text()
-    assert "16 of 18 problems fixed." in html and "1 still open." in html
+    assert "17 of 19 problems fixed." in html and "1 still open." in html
     assert "Could not compare (1)" in html
 
 
@@ -95,7 +97,7 @@ def test_render_comparison(runs, tmp_path):
     weak, hardened = runs
     html_path, json_path, _ = render_comparison(weak, hardened, tmp_path / "out" / "diff.html")
     html = html_path.read_text()
-    assert "All 18 problems fixed." in html and "No new problems." in html
+    assert "All 19 problems fixed." in html and "No new problems." in html
     assert "Default admin credentials are rejected" in html  # fixed items show the goal
     assert "<script" not in html and "<link" not in html and 'src="' not in html
-    assert len(json.loads(json_path.read_text())["fixed"]) == 18
+    assert len(json.loads(json_path.read_text())["fixed"]) == 19

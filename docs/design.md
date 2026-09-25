@@ -165,13 +165,13 @@ Target: `lab/`, a Docker Compose stack for a fictional small MSP in two profiles
 so a reviewer can run the demo and watch the report change between profiles. The
 profile differences are listed as an answer key in [lab/README.md](../lab/README.md).
 
-| NIS2 Art. 21(2) | Lab component | Checks (16) |
+| NIS2 Art. 21(2) | Lab component | Checks (17) |
 |---|---|---|
 | (h) cryptography | nginx | TLS versions below the profile minimum refused (live handshake); certificate valid; HTTP redirects to HTTPS with HSTS |
 | (i) access control | sshd host | password authentication not offered (live probe); root login disabled; auth attempts limited (`sshd -T`) |
 | (i), (j) identity | Keycloak (also Okta, Entra ID) | MFA enrolled or enforced for all staff, and no sign-in by password alone; lockout after failed logins; password length; default admin credentials rejected |
 | (b) incident handling | Loki, Elasticsearch | log retention at least the profile minimum, judged on the shortest-kept logs |
-| (c) backups | restic, BorgBackup | recent snapshot exists |
+| (c) backups | restic, BorgBackup | a recent snapshot in every backup set; every set encrypted |
 | (i) asset management | Docker, `assets.yaml` | every running service is inventoried |
 | (e) vulnerabilities | Trivy on running images | no fixable CRITICAL CVE unless covered by an unexpired risk exception ([ADR 0004](adr/0004-risk-exceptions.md)) |
 | Art. 23(4), (b) | `incident-response.md` | IR plan names the 24h / 72h / one-month reporting stages and the CSIRT; reviewed within 12 months |

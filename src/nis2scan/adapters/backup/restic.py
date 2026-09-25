@@ -11,7 +11,14 @@ import re
 from datetime import datetime
 from typing import Any
 
-from nis2scan.adapters.backup import BackupAdapter, BackupEvidence, Snapshot, adapter, run
+from nis2scan.adapters.backup import (
+    BackupAdapter,
+    BackupEvidence,
+    BackupSet,
+    Snapshot,
+    adapter,
+    run,
+)
 from nis2scan.config import BackupTarget
 from nis2scan.registry import CollectorError
 
@@ -56,16 +63,23 @@ class Restic(BackupAdapter):
         }
 
     def normalize(self, raw: dict[str, Any]) -> BackupEvidence:
-        return BackupEvidence(
-            repository=raw["source"],
-            snapshots=[
+        """One set per host and paths, as restic itself groups snapshots."""
+        groups: dict[str, list[Snapshot]] = {}
+        for s in raw["snapshots"]:
+            paths = s.get("paths") or []
+            key = f"{s.get('hostname') or '?'}:{','.join(sorted(paths))}"
+            groups.setdefault(key, []).append(
                 Snapshot(
                     time=parse_time(s["time"]),
                     host=s.get("hostname"),
-                    paths=s.get("paths") or [],
+                    paths=paths,
                     name=s.get("short_id") or "",
                 )
-                for s in raw["snapshots"]
+            )
+        return BackupEvidence(
+            repository=raw["source"],
+            # restic has no unencrypted repositories
+            sets=[
+                BackupSet(name=k, snapshots=v, encrypted=True) for k, v in sorted(groups.items())
             ],
-            encrypted=True,  # restic has no unencrypted repositories
         )

@@ -20,10 +20,17 @@ EXPECTED = {"weak": CheckStatus.FAIL, "hardened": CheckStatus.PASS}
 @pytest.mark.parametrize("check_id", sorted(CHECKS))
 def test_check_matches_answer_key(check_id, lab_profile):
     chk = CHECKS[check_id]
+    statuses = {}
     for asset, evidence in recorded(lab_profile, chk.collector).items():
         # Evaluate at collection time so date-based checks don't drift as fixtures age.
         result = chk.evaluate(evidence, PROFILE, collected_at(evidence))
-        assert result.status == EXPECTED[lab_profile], (asset, result.message)
+        statuses[asset] = (result.status, result.message)
+    if lab_profile == "hardened":
+        assert all(s == CheckStatus.PASS for s, _ in statuses.values()), statuses
+    else:
+        # Every check fails on the weak lab, though not necessarily on every asset:
+        # its restic repository is encrypted, as restic always is.
+        assert any(s == CheckStatus.FAIL for s, _ in statuses.values()), statuses
 
 
 def test_risk_exceptions_lapse_after_expiry():
