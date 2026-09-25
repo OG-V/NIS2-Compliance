@@ -208,10 +208,15 @@ pattern: Grafana Loki and Elasticsearch, both verified on the lab, which runs on
 Each adapter lists every retention scope (Loki's global period and per-stream overrides;
 Elasticsearch's indices under ILM policies and data streams under their own lifecycle
 or ILM), and the check judges the shortest. Backups too: restic and BorgBackup, both
-verified on the lab. Their tools are run either inside the client's backup container,
+verified on the lab, and Veeam Backup & Replication, built from its REST API reference
+and tested on documented responses (it needs a Windows server and a licence, so it is not
+yet verified live). restic and Borg run either inside the client's backup container,
 already configured with its repository, or on the scanning host with the repository and
-a password from the secrets (passed in the environment, never on the command line). The
-model also records whether a repository is encrypted, for a future check.
+a password from the secrets (passed in the environment, never on the command line). Veeam
+is read through its REST API with a Backup Viewer account, trusting the server's own
+certificate when it is self-signed; there is no option to skip certificate checks.
+A repository or server holds backup sets (restic: per host and paths; Veeam: per backup
+job). Every set must have a recent backup and be encrypted; the worst set decides.
 
 **Planned but not built:** checks that logs are actually shipped centrally and that
 authentication events are logged. The lab's Loki instance receives no logs, so only
