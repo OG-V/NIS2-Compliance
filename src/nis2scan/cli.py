@@ -1,6 +1,7 @@
 """Command-line entry point."""
 
 import json
+from collections import Counter
 from pathlib import Path
 from typing import Annotated
 
@@ -106,9 +107,11 @@ def scan(
     run_dir = write_results(result, out, profile)
 
     findings = Table("Check", "Status", "Result", title=f"Findings: {result.target}")
+    per_check = Counter(f.check_id for f in result.findings)
     for f in result.findings:
         style = STATUS_STYLE[f.status]
-        findings.add_row(f.check_id, f"[{style}]{f.status.value}[/]", f.message)
+        label = f"{f.check_id}\n[dim]{f.asset}[/]" if per_check[f.check_id] > 1 else f.check_id
+        findings.add_row(label, f"[{style}]{f.status.value}[/]", f.message)
     console.print(findings)
 
     assessed = [v for v in result.verdicts if v.verdict != Verdict.NOT_ASSESSED]

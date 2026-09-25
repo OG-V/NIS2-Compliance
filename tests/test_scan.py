@@ -89,4 +89,4 @@ def test_write_results(tmp_path):
     assert set(meta["evidence_sha256"]) == {
         str(p.relative_to(run_dir / "evidence").with_suffix("")) for p in files
     }
-    assert "tls_probe/127.0.0.1_18443" in meta["evidence_sha256"]  # one file per asset
+    assert "tls_probe/portal" in meta["evidence_sha256"]  # one file per asset
