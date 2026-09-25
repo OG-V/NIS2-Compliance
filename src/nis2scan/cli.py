@@ -13,6 +13,7 @@ from rich.table import Table
 from nis2scan.catalog import load_all_requirements, load_requirements
 from nis2scan.config import load_profile, load_target
 from nis2scan.extract import sources as legal_sources
+from nis2scan.extract.compare import compare as compare_runs
 from nis2scan.extract.evaluate import evaluate as run_evaluation
 from nis2scan.extract.evaluate import load_gold
 from nis2scan.extract.verify import SourceIndex, check_quote
@@ -229,7 +230,15 @@ def evaluate_extraction(
     if gold_set.status != "reviewed":
         console.print(f"[yellow]Gold set status is '{gold_set.status}': not human-verified yet.[/]")
 
-    table = Table("Point", "Extracted", "Quotes ok", "Count ok", "Obligations", "Invented terms")
+    table = Table(
+        "Point",
+        "Extracted",
+        "Quotes ok",
+        "Count ok",
+        "Obligations",
+        "Invented terms",
+        "Vague values",
+    )
     for p in result.scores:
         invented = "; ".join(
             f"{i.rsplit('-', 1)[1]}: {', '.join(t)}" for i, t in p.invented.items()
@@ -241,6 +250,7 @@ def evaluate_extraction(
             "yes" if p.count_ok else "[red]no[/]",
             f"{p.obligations_found}/{p.obligations_total}",
             invented,
+            str(len(p.vague)) if p.vague else "",
         )
     console.print(table)
     summary = result.summary()
@@ -252,6 +262,40 @@ def evaluate_extraction(
         json_out.write_text(
             json.dumps(
                 {"summary": summary, "provisions": [vars(p) for p in result.scores]}, indent=2
+            )
+            + "\n"
+        )
+
+
+@app.command("compare")
+def compare_extractions(
+    run_a: Annotated[Path, typer.Argument(help="First extraction directory.")],
+    run_b: Annotated[Path, typer.Argument(help="Second extraction directory.")],
+    json_out: Annotated[Path | None, typer.Option(help="Also write the results as JSON.")] = None,
+) -> None:
+    """Measure how much two extraction runs of the same provisions agree."""
+    result = compare_runs(run_a, run_b)
+    table = Table("Point", "Count A", "Count B", "Same clauses", "Overlap", "Testability agrees")
+    for d in result.diffs:
+        table.add_row(
+            d.number,
+            str(d.count_a),
+            str(d.count_b),
+            str(d.matched),
+            f"{d.overlap:.2f}",
+            f"{d.testability_agree}/{d.matched}",
+        )
+    console.print(table)
+    summary = result.summary()
+    for key, value in summary.items():
+        console.print(f"{key:28} {value}")
+    for label, missing in (("only in A", result.only_in_a), ("only in B", result.only_in_b)):
+        if missing:
+            console.print(f"[yellow]Provisions {label}:[/] {', '.join(missing)}")
+    if json_out:
+        json_out.write_text(
+            json.dumps(
+                {"summary": summary, "provisions": [vars(d) for d in result.diffs]}, indent=2
             )
             + "\n"
         )
