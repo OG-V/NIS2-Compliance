@@ -35,3 +35,23 @@ class FixtureContext(Context):
 @pytest.fixture
 def root() -> Path:
     return ROOT
+
+
+PROFILE = ROOT / "catalog" / "profile.yaml"
+
+
+def scan_run(tmp_path: Path, lab_profile: str) -> Path:
+    """Scan the recorded evidence of a lab profile and write a result directory."""
+    from nis2scan.catalog import load_requirements
+    from nis2scan.config import load_profile, load_target
+    from nis2scan.scan import run_scan, write_results
+
+    target = load_target(ROOT / "lab" / "target.yaml")
+    result = run_scan(
+        target,
+        load_profile(PROFILE),
+        load_requirements(ROOT / "catalog" / "requirements"),
+        now=collected_at(load_evidence(lab_profile, "tls_probe")),
+        context=FixtureContext(target, lab_profile),
+    )
+    return write_results(result, tmp_path / lab_profile, PROFILE)

@@ -5,30 +5,13 @@ from dataclasses import asdict
 from types import SimpleNamespace
 
 import pytest
-from conftest import ROOT, FixtureContext, collected_at, load_evidence
+from conftest import scan_run
 
-from nis2scan.catalog import load_requirements
-from nis2scan.config import load_profile, load_target
 from nis2scan.registry import CHECKS
 from nis2scan.report import narrate as nr
 from nis2scan.report.data import load_run, nis2_points
 from nis2scan.report.plain import FORMATTERS, explain
 from nis2scan.report.render import render
-from nis2scan.scan import run_scan, write_results
-
-PROFILE = ROOT / "catalog" / "profile.yaml"
-
-
-def scan_run(tmp_path, lab_profile):
-    target = load_target(ROOT / "lab" / "target.yaml")
-    result = run_scan(
-        target,
-        load_profile(PROFILE),
-        load_requirements(ROOT / "catalog" / "requirements"),
-        now=collected_at(load_evidence(lab_profile, "tls_probe")),
-        context=FixtureContext(target, lab_profile),
-    )
-    return write_results(result, tmp_path, PROFILE)
 
 
 @pytest.fixture
