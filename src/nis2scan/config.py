@@ -3,64 +3,140 @@
 from __future__ import annotations
 
 import os
+import re
 from pathlib import Path
 
 import yaml
-from pydantic import BaseModel, PrivateAttr
+from pydantic import BaseModel, PrivateAttr, field_validator, model_validator
 
 
-class WebTarget(BaseModel):
+def slug(name: str) -> str:
+    """An asset name as a safe file name, for evidence files."""
+    return re.sub(r"[^A-Za-z0-9._-]+", "_", name).strip("_") or "asset"
+
+
+class Asset(BaseModel):
+    """One thing to scan in a target section, e.g. one web endpoint or one SSH host.
+
+    `name` labels the asset in findings and reports. If it is left out, a name is
+    derived from the asset's address.
+    """
+
+    name: str = ""
+
+    def _default_name(self) -> str:
+        raise NotImplementedError
+
+    @model_validator(mode="after")
+    def _set_name(self):
+        self.name = self.name or self._default_name()
+        return self
+
+
+class WebTarget(Asset):
     host: str
     http_port: int
     https_port: int
 
+    def _default_name(self) -> str:
+        return f"{self.host}:{self.https_port}"
 
-class SshTarget(BaseModel):
+
+class SshTarget(Asset):
     host: str
     port: int
-    container: str  # effective config is read with `docker exec <container> sshd -T`
+    # The effective config is read with `docker exec <container> sshd -T`. Without a
+    # container only the network-visible checks run; the config checks are not applicable.
+    container: str | None = None
+
+    def _default_name(self) -> str:
+        return f"{self.host}:{self.port}"
 
 
-class IdpTarget(BaseModel):
+class IdpTarget(Asset):
     url: str
     realm: str
     admin_user: str
     admin_password_env: str
 
+    def _default_name(self) -> str:
+        return self.realm
 
-class LogsTarget(BaseModel):
+
+class LogsTarget(Asset):
     url: str
 
+    def _default_name(self) -> str:
+        return self.url
 
-class BackupTarget(BaseModel):
+
+class BackupTarget(Asset):
     container: str  # restic runs inside it, with the repository configured by env
 
+    def _default_name(self) -> str:
+        return self.container
 
-class DockerTarget(BaseModel):
+
+class DockerTarget(Asset):
     compose_project: str
 
+    def _default_name(self) -> str:
+        return self.compose_project
 
-class DocumentsTarget(BaseModel):
+
+class DocumentsTarget(Asset):
     dir: Path
     ir_plan: str
     asset_inventory: str
     risk_exceptions: str | None = None  # accepted vulnerability risks, optional
 
+    def _default_name(self) -> str:
+        return "documents"
+
+
+# Sections that can list several assets. `documents` is organisation-wide, so it is single.
+ASSET_SECTIONS = ("web", "ssh", "idp", "logs", "backup", "docker")
+
 
 class Target(BaseModel):
-    """What to scan. Sections left out make the checks that need them not applicable."""
+    """What to scan. Sections left out make the checks that need them not applicable.
+
+    Each section in ASSET_SECTIONS takes a list of assets. A single mapping is also
+    accepted, for targets with one asset of that kind.
+    """
 
     name: str
     env_file: Path | None = None
-    web: WebTarget | None = None
-    ssh: SshTarget | None = None
-    idp: IdpTarget | None = None
-    logs: LogsTarget | None = None
-    backup: BackupTarget | None = None
-    docker: DockerTarget | None = None
+    web: list[WebTarget] = []
+    ssh: list[SshTarget] = []
+    idp: list[IdpTarget] = []
+    logs: list[LogsTarget] = []
+    backup: list[BackupTarget] = []
+    docker: list[DockerTarget] = []
     documents: DocumentsTarget | None = None
 
     _env: dict[str, str] = PrivateAttr(default_factory=dict)
+
+    @field_validator(*ASSET_SECTIONS, mode="before")
+    @classmethod
+    def _one_or_many(cls, value):
+        if value is None:
+            return []
+        return [value] if isinstance(value, dict) else value
+
+    @model_validator(mode="after")
+    def _unique_names(self):
+        for section in ASSET_SECTIONS:
+            names = [a.name for a in getattr(self, section)]
+            if duplicates := sorted({n for n in names if names.count(n) > 1}):
+                raise ValueError(f"duplicate {section} asset names: {', '.join(duplicates)}")
+        return self
+
+    def assets(self, section: str) -> list[Asset]:
+        """The assets a collector with `requires=section` runs against."""
+        if section == "documents":
+            return [self.documents] if self.documents else []
+        return list(getattr(self, section))
 
     def secret(self, name: str) -> str:
         """Look up a secret in the process environment, then in env_file."""

@@ -1,9 +1,9 @@
 """Registries of collectors and checks.
 
-A collector gathers raw evidence from the target and returns it as a JSON-able
-dict. A check is a pure function of that evidence, the organisational profile
-and the current time, so it can be tested against recorded evidence without a
-live target.
+A collector gathers raw evidence from one asset of the target (one web endpoint,
+one SSH host, ...) and returns it as a JSON-able dict. A check is a pure function
+of one asset's evidence, the organisational profile and the current time, so it
+can be tested against recorded evidence without a live target.
 """
 
 from __future__ import annotations
@@ -15,12 +15,16 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
 
-from nis2scan.config import Profile, Target
+from nis2scan.config import Asset, Profile, Target
 from nis2scan.models import CheckMeta, CheckStatus
 
 
 class CollectorError(Exception):
     """Evidence could not be collected (service down, command failed, ...)."""
+
+
+class NotApplicable(CollectorError):
+    """The asset does not offer this evidence, e.g. an SSH host without config access."""
 
 
 @dataclass(frozen=True)
@@ -45,8 +49,8 @@ Evaluator = Callable[[dict[str, Any], Profile, datetime], Result]
 @dataclass(frozen=True)
 class Collector:
     name: str
-    requires: str  # Target section that must be present, e.g. "web"
-    collect: Callable[[Context], dict[str, Any]]
+    requires: str  # the Target section whose assets it runs against, e.g. "web"
+    collect: Callable[[Context, Asset], dict[str, Any]]
 
 
 @dataclass(frozen=True)
@@ -94,24 +98,26 @@ class Context:
 
     def __init__(self, target: Target):
         self.target = target
-        self._cache: dict[str, dict[str, Any] | Exception] = {}
+        # Keyed by (collector, asset name): names are unique within a section.
+        self._cache: dict[tuple[str, str], dict[str, Any] | Exception] = {}
 
-    def collect(self, name: str) -> dict[str, Any]:
-        if name not in self._cache:
+    def collect(self, name: str, asset: Asset) -> dict[str, Any]:
+        key = (name, asset.name)
+        if key not in self._cache:
             try:
-                evidence = self._run(name)
+                evidence = self._run(name, asset)
                 evidence.setdefault("_collected_at", datetime.now(UTC).isoformat())
-                self._cache[name] = evidence
+                self._cache[key] = evidence
             # A broken collector must not abort the scan; its checks report 'error'.
             except Exception as exc:  # noqa: BLE001
-                self._cache[name] = exc
-        cached = self._cache[name]
+                self._cache[key] = exc
+        cached = self._cache[key]
         if isinstance(cached, Exception):
             raise cached
         return cached
 
-    def _run(self, name: str) -> dict[str, Any]:
-        return COLLECTORS[name].collect(self)
+    def _run(self, name: str, asset: Asset) -> dict[str, Any]:
+        return COLLECTORS[name].collect(self, asset)
 
-    def evidence(self) -> dict[str, dict[str, Any] | Exception]:
+    def evidence(self) -> dict[tuple[str, str], dict[str, Any] | Exception]:
         return dict(self._cache)

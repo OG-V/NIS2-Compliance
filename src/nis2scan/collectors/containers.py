@@ -6,6 +6,7 @@ from pathlib import Path
 import yaml
 
 from nis2scan.collectors._docker import docker
+from nis2scan.config import BackupTarget, DockerTarget
 from nis2scan.registry import CollectorError, Context, collector
 
 # Pinned by digest: a security scanner should not silently pull a changed image.
@@ -16,8 +17,8 @@ TRIVY_CACHE = Path.home() / ".cache" / "nis2scan" / "trivy"
 
 
 @collector("docker_services", requires="docker")
-def docker_services(ctx: Context) -> dict:
-    project = ctx.target.docker.compose_project
+def docker_services(ctx: Context, asset: DockerTarget) -> dict:
+    project = asset.compose_project
     ids = docker("ps", "-q", "--filter", f"label=com.docker.compose.project={project}").split()
     services = []
     if ids:
@@ -34,8 +35,8 @@ def docker_services(ctx: Context) -> dict:
 
 
 @collector("restic_snapshots", requires="backup")
-def restic_snapshots(ctx: Context) -> dict:
-    container = ctx.target.backup.container
+def restic_snapshots(ctx: Context, asset: BackupTarget) -> dict:
+    container = asset.container
     snapshots = json.loads(docker("exec", container, "restic", "snapshots", "--json"))
     return {
         "source": f"docker exec {container} restic snapshots",
@@ -79,8 +80,8 @@ def _trivy(image: str) -> dict:
 
 
 @collector("image_vulnerabilities", requires="docker")
-def image_vulnerabilities(ctx: Context) -> dict:
-    images = sorted({s["image"] for s in ctx.collect("docker_services")["services"]})
+def image_vulnerabilities(ctx: Context, asset: DockerTarget) -> dict:
+    images = sorted({s["image"] for s in ctx.collect("docker_services", asset)["services"]})
     if not images:
         raise CollectorError("no running containers to scan")
     return {
