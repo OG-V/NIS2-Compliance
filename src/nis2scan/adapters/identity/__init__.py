@@ -21,6 +21,9 @@ class IdentityUser(BaseModel):
     enabled: bool
     mfa_enrolled: bool  # has at least one active second factor
     mfa_pending: bool = False  # will be made to enrol one at the next login
+    # Signs in at another identity provider (a guest, or a personal Microsoft account),
+    # which also handles its MFA. The scanned product cannot see those factors.
+    external: bool = False
 
 
 class IdentityEvidence(BaseModel):
@@ -32,6 +35,7 @@ class IdentityEvidence(BaseModel):
     lockout_enabled: bool  # accounts are locked after repeated failed logins
     lockout_max_attempts: int | None = None
     password_min_length: int  # 0 when no minimum is set
+    password_min_length_fixed: bool = False  # set by the vendor; the client cannot raise it
     password_policy: str  # the product's own description of the policy, for traceability
     # Sign-in paths (policies, apps) that accept a password alone. None when the product
     # has no sign-in policies separate from users' factors (then per-user MFA decides).
@@ -40,8 +44,14 @@ class IdentityEvidence(BaseModel):
     @property
     def users_without_mfa(self) -> list[str]:
         return [
-            u.username for u in self.users if u.enabled and not u.mfa_enrolled and not u.mfa_pending
+            u.username
+            for u in self.users
+            if u.enabled and not u.external and not u.mfa_enrolled and not u.mfa_pending
         ]
+
+    @property
+    def external_accounts(self) -> list[str]:
+        return [u.username for u in self.users if u.enabled and u.external]
 
 
 class DefaultLoginResult(BaseModel):

@@ -29,6 +29,11 @@ instead, which this adapter does not read.
 
 As with Okta, a user without a registered second factor counts as without MFA even
 if a policy will make them register at their next sign-in.
+
+External identities (guests, and accounts marked #EXT#, such as the personal Microsoft
+account that created a tenant) sign in at their home provider, which also handles
+their MFA. Graph cannot see those factors, so they are marked external rather than
+counted as without MFA, and the MFA check lists them for a reviewer.
 """
 
 from __future__ import annotations
@@ -190,14 +195,15 @@ class EntraId(IdentityAdapter):
                     username=u["userPrincipalName"],
                     enabled=u["accountEnabled"],
                     mfa_enrolled=any(m not in NOT_SECOND_FACTORS for m in u["methods"]),
+                    external=u.get("userType") == "Guest" or "#EXT#" in u["userPrincipalName"],
                 )
                 for u in raw["users"]
-                if u.get("userType") != "Guest"  # guests authenticate in their home tenant
             ],
             new_users_must_enrol_mfa=raw["security_defaults_enabled"] or password_only == [],
             lockout_enabled=True,
             lockout_max_attempts=threshold,
             password_min_length=CLOUD_MIN_PASSWORD_LENGTH,
+            password_min_length_fixed=True,
             password_policy=(
                 f"Entra ID cloud accounts: {CLOUD_MIN_PASSWORD_LENGTH} to 256 characters, fixed "
                 f"by Microsoft; smart lockout after {threshold} failed attempts"

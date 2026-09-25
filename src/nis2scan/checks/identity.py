@@ -37,6 +37,8 @@ def mfa_enforced(ev: dict, profile: Profile, now: datetime):
         "users_without_mfa": without_mfa,
     }
     expected = {"new_users_must_enrol_mfa": True, "users_without_mfa": []}
+    if idp.external_accounts:  # their MFA is handled, and only visible, at their home provider
+        observed["external_accounts"] = idp.external_accounts
     if idp.password_only_sign_in is not None:  # products with separate sign-in policies
         observed["password_only_sign_in"] = idp.password_only_sign_in
         expected["password_only_sign_in"] = []
@@ -50,7 +52,14 @@ def mfa_enforced(ev: dict, profile: Profile, now: datetime):
     if problems:
         message = "; ".join(problems)
         return failed(message[0].upper() + message[1:], observed, expected)
-    return passed(f"All {len(idp.users)} accounts have or must enrol MFA", observed, expected)
+    external = len(idp.external_accounts)
+    internal = len(idp.users) - external
+    message = (
+        f"All {internal} accounts have or must enrol MFA" if internal else "No internal accounts"
+    )
+    if external:
+        message += f"; {external} external account(s) use their home provider's MFA"
+    return passed(message, observed, expected)
 
 
 @check(
@@ -100,6 +109,8 @@ def password_length(ev: dict, profile: Profile, now: datetime):
     length = idp.password_min_length
     required = profile.identity.min_password_length
     observed = {"password_policy": idp.password_policy, "min_length": length}
+    if idp.password_min_length_fixed:
+        observed["min_length_fixed_by_vendor"] = True
     expected = {"min_length_at_least": required}
     if length < required:
         what = f"minimum length is {length}" if length else "no minimum length is set"

@@ -248,6 +248,9 @@ def load_run(run_dir: Path) -> ReportData:
         check = CHECKS.get(f.check_id)
         meta = check.meta if check else None
         r = result(f)
+        plain = (
+            explain(f.check_id, f.observed, f.expected) if f.status == CheckStatus.FAIL else None
+        )
         return Gap(
             finding_id=f.check_id,
             title=meta.title if meta else f.check_id,
@@ -257,8 +260,8 @@ def load_run(run_dir: Path) -> ReportData:
             expected=f.expected,
             evidence_ref=f.evidence_ref,
             evidence_sha256=r.evidence_sha256,
-            action=meta.action if meta else f.message,
-            effort=meta.effort.value if meta else "change",
+            action=(plain and plain.action) or (meta.action if meta else f.message),
+            effort=(plain and plain.effort) or (meta.effort.value if meta else "change"),
             why=meta.severity_rationale if meta else "",
             topic=topic(meta.requirements) if meta else "",
             found=r.found,

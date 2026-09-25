@@ -252,8 +252,8 @@ ENTRA = json.loads((Path(__file__).parent / "fixtures" / "entra" / "documented.j
 def test_entra_users_and_methods():
     idp = ADAPTERS["entra-id"].normalize(ENTRA)
     assert idp.tenant == "Contoso"
-    usernames = [u.username for u in idp.users]
-    assert not any("#EXT#" in u for u in usernames)  # guests authenticate at home
+    external = [u.username for u in idp.users if u.external]
+    assert external == ["partner_fabrikam.example#EXT#@contoso.example"]  # signs in at home
     # Email is not a second factor; a disabled account cannot sign in.
     assert idp.users_without_mfa == ["sales@contoso.example"]
 
@@ -330,3 +330,49 @@ def test_entra_discovery_url_is_per_tenant():
     assert (
         urls[0] == "https://login.microsoftonline.com/abc-123/v2.0/.well-known/openid-configuration"
     )
+
+
+ENTRA_LIVE = json.loads(
+    (Path(__file__).parent / "fixtures" / "entra" / "live-free-tenant.json").read_text()
+)
+
+
+def test_entra_live_free_tenant():
+    idp = ADAPTERS["entra-id"].normalize(ENTRA_LIVE)
+    # The tenant's creator is a personal Microsoft account: external, MFA at home.
+    assert idp.users_without_mfa == [] and len(idp.external_accounts) == 1
+    # Security defaults are on; Graph lists no Conditional Access policies.
+    assert ENTRA_LIVE["conditional_access_policies"] == []
+    assert idp.password_only_sign_in == [] and idp.new_users_must_enrol_mfa
+    assert (idp.password_min_length, idp.lockout_max_attempts) == (8, 10)
+
+
+def test_mfa_check_names_external_accounts():
+    from nis2scan.checks.identity import mfa_enforced
+
+    result = mfa_enforced(
+        {"identity": ADAPTERS["entra-id"].normalize(ENTRA_LIVE).model_dump()}, None, None
+    )
+    assert result.status == "pass"
+    assert (
+        result.message
+        == "No internal accounts; 1 external account(s) use their home provider's MFA"
+    )
+    assert result.observed["external_accounts"] == [
+        "owner1_example.com#EXT#@example.onmicrosoft.com"
+    ]
+
+
+def test_fixed_password_minimum_is_explained():
+    from nis2scan.checks.identity import password_length
+    from nis2scan.config import load_profile
+    from nis2scan.report.plain import explain
+
+    ev = {"identity": ADAPTERS["entra-id"].normalize(ENTRA_LIVE).model_dump()}
+    result = password_length(
+        ev, load_profile(Path(__file__).parent.parent / "catalog" / "profile.yaml"), None
+    )
+    assert result.status == "fail" and result.observed["min_length_fixed_by_vendor"]
+    plain = explain("CHK-IDP-003", result.observed, result.expected)
+    assert "cannot be raised" in plain.found
+    assert plain.action.startswith("Compensate for the fixed minimum") and plain.effort == "change"

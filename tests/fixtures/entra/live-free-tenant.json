@@ -1,0 +1,18 @@
+{
+  "_source": "Recorded from a live Entra ID free tenant (security defaults on, no Conditional Access) on 2026-09-26 with the nis2scan Entra ID adapter. Account and tenant ID replaced by placeholders.",
+  "tenant_id": "00000000-0000-0000-0000-000000000001",
+  "tenant_name": "Default Directory",
+  "users": [
+    {
+      "userPrincipalName": "owner1_example.com#EXT#@example.onmicrosoft.com",
+      "accountEnabled": true,
+      "userType": "Member",
+      "methods": [
+        "password"
+      ]
+    }
+  ],
+  "security_defaults_enabled": true,
+  "conditional_access_policies": [],
+  "password_rule_settings": null
+}
