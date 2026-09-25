@@ -372,5 +372,27 @@ def report(
     console.print(f"Report written to [bold]{html_path}[/] and {json_path.name}")
 
 
+@app.command("diff")
+def diff(
+    before: Annotated[Path, typer.Argument(help="The earlier scan result directory.")],
+    after: Annotated[Path, typer.Argument(help="The later scan result directory.")],
+    out: Annotated[
+        Path | None, typer.Option(help="Where to write the HTML (default: AFTER/diff.html).")
+    ] = None,
+) -> None:
+    """Compare two scans of the same target: what was fixed, what is still open, what is new."""
+    from nis2scan.report.compare import render_comparison
+
+    html_path, json_path, c = render_comparison(before, after, out or after / "diff.html")
+    for warning in c.warnings:
+        console.print(f"[yellow]{warning}[/]")
+    console.print(
+        f"[green]{len(c.fixed)} fixed[/] · {len(c.still_open)} still open · "
+        f"[red]{len(c.new)} new[/]"
+        + (f" · {len(c.unresolved)} could not be compared" if c.unresolved else "")
+    )
+    console.print(f"Comparison written to [bold]{html_path}[/] and {json_path.name}")
+
+
 if __name__ == "__main__":
     app()

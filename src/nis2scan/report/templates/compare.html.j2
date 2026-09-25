@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NIS2 progress report · {{ c.target }}</title>
+{#- Self-contained like the gap report: no scripts, fonts or images from elsewhere. #}
+<style>
+{% include "_style.css" %}
+  .pair { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 760px) { .pair { grid-template-columns: 1fr; } .pair > .arrow { display: none; } }
+  .arrow { align-self: center; font-size: 28px; color: var(--faint); }
+  .sev-change { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .sev-change .sev b { font-size: 22px; }
+  .sev-change .was { font-weight: 600; opacity: .7; }
+  .fixed-pill { background: var(--green-bg); color: var(--green); }
+  .change-list li { grid-template-columns: 80px 1fr; }
+  .change-list .ba { display: grid; grid-template-columns: max-content 1fr; gap: 2px 10px; font-size: 13px; margin-top: 4px; }
+  .change-list .ba dt { color: var(--muted); font-weight: 600; }
+  .change-list .ba dd { margin: 0; }
+  .measure .transition { display: grid; grid-template-columns: max-content 1fr; gap: 6px 10px; align-items: center; font-size: 12.5px; color: var(--muted); }
+  .measure .transition .pill { justify-self: start; }
+  .measure.good { border-color: var(--green-dot); }
+</style>
+</head>
+<body>
+{%- import "_shared.j2" as ui %}
+{%- macro units(v) -%}
+  {%- set ev = v.partially_evidenced + v.evidenced -%}
+  <div class="units" role="img" aria-label="{{ v.not_satisfied }} not satisfied, {{ ev }} with evidence, {{ v.not_assessed }} not checked">
+    {%- for _ in range(v.not_satisfied) %}<i class="u ns"></i>{% endfor %}
+    {%- for _ in range(ev) %}<i class="u ev"></i>{% endfor %}
+    {%- for _ in range(v.not_assessed) %}<i class="u"></i>{% endfor -%}
+  </div>
+  <div class="legend">
+    <span><i class="ns"></i><b>{{ v.not_satisfied }}</b> not satisfied</span>
+    <span><i class="ev"></i><b>{{ ev }}</b> partially evidenced</span>
+    <span><i style="background:var(--grey-dot)"></i><b>{{ v.not_assessed }}</b> not checked</span>
+  </div>
+{%- endmacro %}
+{%- macro change_list(items, id, pill_class, pill_text) -%}
+  <ol class="fix-list change-list" id="{{ id }}">
+    {%- for ch in items %}
+    <li>
+      <span class="pill cap {{ pill_class or ch.severity }}">{{ pill_text or ch.severity }}</span>
+      <div class="what">
+        <b>{{ ch.title if pill_text == "Fixed" else ch.action }}</b>
+        <span class="muted small">{% if ch.topic %}{{ ch.topic }} · {% endif %}<span class="mono">{{ ch.check_id }}</span>{% if pill_text %} · {{ ch.severity }} severity{% endif %}</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>{{ ch.before_text }}</dd>
+          <dt>Now</dt><dd>{{ ch.after_text }}</dd>
+        </dl>
+      </div>
+    </li>
+    {%- endfor %}
+  </ol>
+{%- endmacro %}
+{%- set n_fixed = c.fixed|length %}
+{%- set n_open = c.still_open|length %}
+{%- set n_new = c.new|length %}
+<main>
+  <header class="masthead">
+    <div class="label">NIS2 progress report</div>
+    <h1>{{ c.target }}</h1>
+    <div class="meta">
+      <span>Before <b>{{ c.before_started_at[:16].replace("T", " ") }} UTC</b> <span class="mono">{{ before_name }}</span></span>
+      <span>After <b>{{ c.after_started_at[:16].replace("T", " ") }} UTC</b> <span class="mono">{{ after_name }}</span></span>
+    </div>
+    <p class="disclaimer">
+      This compares the technical evidence from two scans. Like each scan's own report, it is
+      <b>not</b> a statement of NIS2 compliance: fixing every problem found here shows progress
+      on the measures the tool can check, not on the organisational ones it cannot.
+    </p>
+  </header>
+
+  {% if c.warnings %}
+  <div class="note"><b>Read with care.</b>
+    <ul style="margin:6px 0 0;padding-left:20px">{% for w in c.warnings %}<li>{{ w }}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  <section aria-labelledby="glance">
+    <h2 id="glance" hidden>At a glance</h2>
+    <div class="panel">
+      <p class="headline">
+        {%- if c.before_failing == 0 and n_new == 0 %}
+        <span class="ok">No problems before or after.</span>
+        {%- else %}
+        {%- if c.before_failing %}
+        {%- if n_fixed == c.before_failing %}<span class="ok">All {{ n_fixed }} problems fixed.</span>
+        {%- else %}<span class="ok">{{ n_fixed }} of {{ c.before_failing }} problems fixed.</span>{% if n_open %} {{ n_open }} still open.{% endif %}
+        {%- endif %}
+        {%- endif %}
+        {%- if n_new %} <em>{{ n_new }} new {{ "problem" if n_new == 1 else "problems" }}.</em>{% else %} No new problems.{% endif %}
+        {%- endif %}
+        <small>Requirements not satisfied: {{ c.before_verdicts.not_satisfied }} before, {{ c.after_verdicts.not_satisfied }} now.
+          Partially evidenced: {{ c.before_verdicts.partially_evidenced + c.before_verdicts.evidenced }} before, {{ c.after_verdicts.partially_evidenced + c.after_verdicts.evidenced }} now.</small>
+      </p>
+      <div class="pair">
+        <div><div class="label" style="margin-bottom:10px">Before</div>{{ units(c.before_verdicts) }}</div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div><div class="label" style="margin-bottom:10px">Now</div>{{ units(c.after_verdicts) }}</div>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom:10px">Problems by severity, before → now</div>
+        <div class="sev-change">
+          {%- for s in ["critical", "high", "medium", "low"] %}
+          {%- set now = c.after_severities[s] %}
+          <div class="sev {{ s if now else 'low' }}"><b><span class="was">{{ c.before_severities[s] }}</span> → {{ now }}</b><span class="cap">{{ s }}</span></div>
+          {%- endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="measures">
+    <div class="sec-head">
+      <h2 id="measures">The NIS2 security measures</h2>
+      <p class="muted small">How the status of each measure changed between the two scans.</p>
+    </div>
+    <div class="map">
+      {%- for m in c.measures %}
+      {%- set better = m.before == "not_satisfied" and m.after != "not_satisfied" %}
+      <div class="measure{{ ' bad' if m.after == 'not_satisfied' else (' good' if better) }}">
+        <div class="measure-top">
+          <div class="ico {{ m.after or 'not_assessed' }}"><svg viewBox="0 0 24 24" aria-hidden="true">{{ ui.ICONS[m.icon]|safe }}</svg></div>
+        </div>
+        <div><h3>{{ m.short_title }}</h3><div class="art">Art. {{ m.point }}</div></div>
+        {%- macro status(v) %}{% if v %}<span class="pill {{ v }}">{{ ui.STATUS[v] }}</span>{% else %}<span class="pill not_assessed">Not in scan</span>{% endif %}{% endmacro %}
+        <div class="transition">
+          {%- if m.before == m.after %}
+          <span>Both scans</span>{{ status(m.after) }}
+          {%- else %}
+          <span>Before</span>{{ status(m.before) }}
+          <span>Now</span>{{ status(m.after) }}
+          {%- endif %}
+        </div>
+        {%- if m.before_not_satisfied or m.after_not_satisfied %}
+        <div class="detail">Detailed requirements failing: {{ m.before_not_satisfied }} before, {{ m.after_not_satisfied }} now</div>
+        {%- endif %}
+      </div>
+      {%- endfor %}
+    </div>
+  </section>
+
+  {% if c.new %}
+  <section aria-labelledby="new-h">
+    <div class="sec-head">
+      <h2 id="new-h">New problems ({{ n_new }})</h2>
+      <p class="muted small">Checks that were not failing before and fail now. Look at these first.</p>
+    </div>
+    {{ change_list(c.new, "new", "", "") }}
+  </section>
+  {% endif %}
+
+  {% if c.still_open %}
+  <section aria-labelledby="open-h">
+    <div class="sec-head">
+      <h2 id="open-h">Still open ({{ n_open }})</h2>
+      <p class="muted small">Problems found in both scans, most severe first.</p>
+    </div>
+    {{ change_list(c.still_open, "open", "", "") }}
+  </section>
+  {% endif %}
+
+  {% if c.fixed %}
+  <section aria-labelledby="fixed-h">
+    <div class="sec-head">
+      <h2 id="fixed-h">Fixed ({{ n_fixed }})</h2>
+      <p class="muted small">Problems found before that the second scan no longer finds.</p>
+    </div>
+    {{ change_list(c.fixed, "fixed", "fixed-pill", "Fixed") }}
+  </section>
+  {% endif %}
+
+  {% if c.unresolved %}
+  <section aria-labelledby="unresolved-h">
+    <div class="sec-head">
+      <h2 id="unresolved-h">Could not compare ({{ c.unresolved|length }})</h2>
+      <p class="muted small">Checks that could not run in one of the scans, or that exist in only one of them.</p>
+    </div>
+    <div class="table-wrap"><table>
+      <tr><th>Check</th><th>Before</th><th>Now</th></tr>
+      {% for ch in c.unresolved %}
+      <tr>
+        <td><span class="mono">{{ ch.check_id }}</span><br>{{ ch.title }}</td>
+        <td>{{ (ch.before or "not in scan").replace("_", " ") }}</td>
+        <td>{{ (ch.after or "not in scan").replace("_", " ") }}</td>
+      </tr>
+      {% endfor %}
+    </table></div>
+  </section>
+  {% endif %}
+
+  <section aria-labelledby="method">
+    <h2 id="method">Method</h2>
+    <ul class="method">
+      <li>Both scans are read from their own result files and compared check by check. No language model is involved.</li>
+      <li>A problem counts as fixed when its check failed in the first scan and passed in the second. {{ c.still_passing }} {{ "check" if c.still_passing == 1 else "checks" }} passed in both.</li>
+      <li>Each scan's full report, with evidence and legal text, is in its own result directory.</li>
+    </ul>
+  </section>
+
+  <footer>Generated by nis2scan diff.</footer>
+</main>
+</body>
+</html>
