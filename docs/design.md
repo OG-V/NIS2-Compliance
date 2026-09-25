@@ -121,6 +121,10 @@ Requirement verdict roll-up (deterministic, `nis2scan.models.rollup`):
 - **Cross-references and qualifiers** ("where appropriate", "in accordance with the
   classification of the asset", "taking into account the state of the art") carry legal
   meaning and get lost in paraphrase — hence the mandatory verbatim quote.
+- **Grounding and readability pull in opposite directions.** The narrative validator only
+  accepts numbers and technical terms found in each gap's own data. That blocks invented
+  facts, but it nudges the model toward quoting field names ("retention_days 7") rather
+  than plain language. It's a prompt-level fix, not a reason to loosen the validator.
 - **Most of Art. 21 is organisational** (policies, training, supply chain). These get
   `testability: organisational` and are reported as `NOT_ASSESSED`. Showing that honestly
   is a feature: the report states coverage, not just pass rate.

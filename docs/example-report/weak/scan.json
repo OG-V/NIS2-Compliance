@@ -1,0 +1,20 @@
+{
+  "tool": "nis2scan 0.1.0",
+  "target": "nordmsp-lab",
+  "started_at": "2026-09-25T00:36:23.166005+00:00",
+  "profile_sha256": "3ff459e2e0235cee7a4cb33f341754de058a92c2a528f5fbcf8ae7b4e481a11d",
+  "evidence_sha256": {
+    "asset_inventory": "3d9fa29c260f20531fcfb2b4190b05d7fe73357ff30d877b4ef0558c61e87d03",
+    "docker_services": "356acdee5a24277ab6aaafe87cb917ae930b66d17378d5c440bdb18edb5fa334",
+    "http_probe": "730960ddfbba96a3e29d5452c427d3a94a95bb4bfb06d5992353e1a324896d4d",
+    "image_vulnerabilities": "56a30d01473510f9284a698048f4c094ca9b546ac6559fe526fe1e756af79c9f",
+    "ir_plan": "91f66d26e8a6fd305d69a35095d5a401cb41ed0b2317d033a418417a5bf65d90",
+    "keycloak_default_admin": "0f9328a749bc5d34d42a44656f5678cf2431a37ffc5c55b6a3180a0fa0ca1741",
+    "keycloak_realm": "e4ef41b65e6a68a307f4508f58ac00b3cdac29abbb7a5b671362c5122b31ea6c",
+    "loki_config": "d11b47d3d9fe44eff73456982e4985b745e69e7a40594b9c66dd60f1d15b4431",
+    "restic_snapshots": "afdf5b13c0d507cb01d5372a2b19451ece02205ab2597128e753292467a6fd1f",
+    "ssh_auth_methods": "165b573a555bfffdef8c469f0059c685474a0ed2231323285b58428a29318f6a",
+    "sshd_effective_config": "0fd555bbf8c345d81a46bdfacb5356743e995cbd6d703fb4dc642d6614365c84",
+    "tls_probe": "89bc1a8cccc4e064fe27b3a9d3eb750d4594c6ea534ff340d4b7f41dfa58c9a9"
+  }
+}

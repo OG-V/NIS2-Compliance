@@ -13,6 +13,10 @@ traceable to a specific legal provision.
 > provision stable across runs ([v3](eval/results/2026-09-25-prompt-v3.md)).
 > The HTML gap report with a validated AI narrative (milestone 5) is done. See [docs/design.md](docs/design.md).
 
+![Gap report for the weak lab profile](docs/example-report/weak-report.png)
+
+*An excerpt from a real report on the deliberately weak lab ([examples](docs/example-report/)).*
+
 ## Design in one paragraph
 
 An LLM runs **offline** to turn legal text into draft, structured requirements. Each one
