@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NIS2 progress report · nordmsp-lab</title>
+<style>
+  :root {
+    --bg: #f5f6f4; --card: #ffffff; --fg: #1a2130; --muted: #5d6573; --faint: #7c8391;
+    --line: #dde0e4; --accent: #2f4b8a;
+    --crit: #7a1712; --crit-bg: #f6d9d6;
+    --red: #b3261e; --red-bg: #fbe9e7; --red-dot: #cf3a2f;
+    --amber: #8a5a00; --amber-bg: #fdf1d6; --amber-dot: #d99a1e;
+    --green: #1e6b3a; --green-bg: #e3f2e7; --green-dot: #2f8f52;
+    --grey: #5d6573; --grey-bg: #eceef0; --grey-dot: #cfd3d9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --bg: #12151b; --card: #1a1e26; --fg: #e8eaee; --muted: #a2a9b5; --faint: #858c99;
+      --line: #2c323d; --accent: #9db4ff;
+      --crit: #ffb4ab; --crit-bg: #4a1714;
+      --red: #ff8a80; --red-bg: #3a1c19; --red-dot: #e0584d;
+      --amber: #ffcc66; --amber-bg: #3a2e12; --amber-dot: #c98f1c;
+      --green: #7fd69a; --green-bg: #173222; --green-dot: #3fa665;
+      --grey: #a2a9b5; --grey-bg: #262b34; --grey-dot: #3b424e;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 1000px; margin: 0 auto; padding: 32px 20px 72px; display: grid; gap: 44px; }
+  h1, h2, h3 { margin: 0; text-wrap: balance; }
+  h1 { font-size: 30px; font-weight: 800; letter-spacing: -.01em; line-height: 1.2; }
+  h2 { font-size: 20px; font-weight: 700; }
+  h3 { font-size: 17px; font-weight: 600; line-height: 1.35; }
+  p { margin: 0; }
+  a { color: var(--accent); }
+  code, .mono { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 12.5px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  section { display: grid; gap: 16px; min-width: 0; }
+  .sec-head { display: grid; gap: 4px; }
+  .label { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+
+  .masthead { display: grid; gap: 10px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--muted); }
+  .meta b { color: var(--fg); font-weight: 600; }
+  .disclaimer { font-size: 14px; color: var(--muted); max-width: 75ch; }
+
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; display: grid; gap: 24px; }
+  .headline { font-size: 22px; font-weight: 700; line-height: 1.35; max-width: 40ch; }
+  .headline em { font-style: normal; color: var(--red); }
+  .headline .ok { color: var(--green); }
+  .headline small { display: block; font-size: 15px; font-weight: 400; color: var(--muted); margin-top: 6px; }
+  .glance { display: grid; grid-template-columns: 1.35fr 1fr; gap: 28px; }
+  @media (max-width: 760px) { .glance { grid-template-columns: 1fr; } }
+  .glance .label { margin-bottom: 10px; }
+  .units { display: flex; flex-wrap: wrap; gap: 4px; }
+  .u { width: 14px; height: 14px; border-radius: 3px; background: var(--grey-dot); }
+  .ns { background: var(--red-dot); }
+  .ev { background: var(--green-dot); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; font-size: 13px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+  .legend b { font-variant-numeric: tabular-nums; }
+  .sev-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .sev { border-radius: 8px; padding: 10px 12px; display: grid; gap: 2px; }
+  .sev b { font-size: 28px; line-height: 1.1; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .sev span { font-size: 12.5px; font-weight: 600; }
+  .sev-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 12px; gap: 2px; background: var(--grey-bg); }
+  .checks-line { margin-top: 12px; font-size: 13.5px; }
+
+  .critical { background: var(--crit-bg); color: var(--crit); }
+  .high, .not_satisfied, .fail { background: var(--red-bg); color: var(--red); }
+  .medium, .error { background: var(--amber-bg); color: var(--amber); }
+  .low, .not_assessed, .not_applicable { background: var(--grey-bg); color: var(--grey); }
+  .evidenced, .partially_evidenced, .pass { background: var(--green-bg); color: var(--green); }
+  .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .cap { text-transform: capitalize; }
+
+  .fix-list { list-style: none; margin: 0; padding: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .fix-list li { display: grid; grid-template-columns: 80px 1fr 150px; gap: 14px; align-items: center; padding: 12px 16px; border-top: 1px solid var(--line); }
+  .fix-list li:first-child { border-top: 0; }
+  .fix-list li > .pill { justify-self: start; }
+  .fix-list a { color: var(--fg); text-decoration: none; font-weight: 600; }
+  .fix-list a:hover, .fix-list a:focus-visible { color: var(--accent); text-decoration: underline; }
+  .fix-list .what { display: grid; gap: 1px; min-width: 0; }
+  @media (max-width: 640px) { .fix-list li { grid-template-columns: 1fr; gap: 6px; } }
+  .effort { font-size: 12.5px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .effort i { display: inline-flex; gap: 2px; }
+  .effort s { width: 6px; height: 12px; border-radius: 1px; background: var(--grey-dot); }
+  .effort s.on { background: var(--accent); }
+
+  .map { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .measure { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 10px; align-content: start; }
+  .measure.bad { border-color: var(--red-dot); }
+  .measure-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .ico { width: 36px; height: 36px; border-radius: 8px; display: grid; place-items: center; flex: none; }
+  .ico svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .measure h3 { font-size: 15px; }
+  .art { font-size: 12px; color: var(--faint); }
+  .dots { display: flex; flex-wrap: wrap; gap: 3px; }
+  .dots i { width: 8px; height: 8px; border-radius: 2px; background: var(--grey-dot); }
+  .dots i.ns { background: var(--red-dot); }
+  .dots i.ev { background: var(--green-dot); }
+  .detail { font-size: 12.5px; color: var(--muted); }
+  .detail b { color: var(--red); white-space: nowrap; }
+
+  .gap { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: grid; grid-template-columns: 6px 1fr; }
+  .stripe.critical { background: var(--crit); }
+  .stripe.high { background: var(--red-dot); }
+  .stripe.medium { background: var(--amber-dot); }
+  .stripe.low { background: var(--grey-dot); }
+  .gap-body { padding: 18px 20px; display: grid; gap: 14px; min-width: 0; }
+  .gap-head { display: grid; gap: 6px; }
+  .gap-head .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 640px) { .compare { grid-template-columns: 1fr; } }
+  .cmp { border-radius: 8px; padding: 10px 12px; display: grid; gap: 2px; align-content: start; }
+  .cmp .k { font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .cmp.found { background: var(--red-bg); }
+  .cmp.found .k { color: var(--red); }
+  .cmp.should { background: var(--green-bg); }
+  .cmp.should .k { color: var(--green); }
+  .cmp p { font-weight: 500; overflow-wrap: anywhere; }
+  .why { max-width: 75ch; }
+  .todo { display: grid; gap: 6px; }
+  .todo .row { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; }
+  .todo ol { margin: 0; padding-left: 22px; display: grid; gap: 4px; }
+  .ai { font-size: 12px; color: var(--faint); }
+  .gap details { border-top: 1px solid var(--line); padding-top: 10px; }
+  summary { cursor: pointer; color: var(--accent); font-size: 13.5px; font-weight: 600; }
+  summary:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+  .legal { display: grid; gap: 12px; margin-top: 10px; }
+  blockquote { margin: 4px 0 0; padding: 4px 12px; border-left: 3px solid var(--accent); color: var(--muted); font-size: 14px; }
+  .kv { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; font-size: 13px; margin: 0; }
+  .kv dt { color: var(--muted); }
+  .kv dd { margin: 0; overflow-wrap: anywhere; }
+
+  .narrative { border-left: 3px solid var(--accent); padding-left: 16px; display: grid; gap: 8px; max-width: 80ch; }
+  .note { background: var(--grey-bg); border-radius: 8px; padding: 12px 16px; font-size: 14px; }
+
+  .table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  th { font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+
+  .terms { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; font-size: 14px; margin: 0; }
+  .terms dt { font-weight: 600; }
+  .terms dd { margin: 0; color: var(--muted); }
+  ul.method { margin: 0; padding-left: 20px; display: grid; gap: 6px; max-width: 80ch; }
+  footer { color: var(--muted); font-size: 12px; }
+
+  @media print {
+    :root { color-scheme: light; }
+    body { background: #fff; }
+    main { gap: 28px; }
+    .panel, .gap, .measure, .fix-list li { break-inside: avoid; }
+  }
+  .pair { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 760px) { .pair { grid-template-columns: 1fr; } .pair > .arrow { display: none; } }
+  .arrow { align-self: center; font-size: 28px; color: var(--faint); }
+  .sev-change { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .sev-change .sev b { font-size: 22px; }
+  .sev-change .was { font-weight: 600; opacity: .7; }
+  .fixed-pill { background: var(--green-bg); color: var(--green); }
+  .change-list li { grid-template-columns: 80px 1fr; }
+  .change-list .ba { display: grid; grid-template-columns: max-content 1fr; gap: 2px 10px; font-size: 13px; margin-top: 4px; }
+  .change-list .ba dt { color: var(--muted); font-weight: 600; }
+  .change-list .ba dd { margin: 0; }
+  .measure .transition { display: grid; grid-template-columns: max-content 1fr; gap: 6px 10px; align-items: center; font-size: 12.5px; color: var(--muted); }
+  .measure .transition .pill { justify-self: start; }
+  .measure.good { border-color: var(--green-dot); }
+</style>
+</head>
+<body>
+<main>
+  <header class="masthead">
+    <div class="label">NIS2 progress report</div>
+    <h1>nordmsp-lab</h1>
+    <div class="meta">
+      <span>Before <b>2026-09-25 00:36 UTC</b> <span class="mono">weak</span></span>
+      <span>After <b>2026-09-25 01:04 UTC</b> <span class="mono">hardened</span></span>
+    </div>
+    <p class="disclaimer">
+      This compares the technical evidence from two scans. Like each scan's own report, it is
+      <b>not</b> a statement of NIS2 compliance: fixing every problem found here shows progress
+      on the measures the tool can check, not on the organisational ones it cannot.
+    </p>
+  </header>
+
+  
+
+  <section aria-labelledby="glance">
+    <h2 id="glance" hidden>At a glance</h2>
+    <div class="panel">
+      <p class="headline"><span class="ok">All 16 problems fixed.</span> No new problems.
+        <small>Requirements not satisfied: 20 before, 0 now.
+          Partially evidenced: 0 before, 20 now.</small>
+      </p>
+      <div class="pair">
+        <div><div class="label" style="margin-bottom:10px">Before</div><div class="units" role="img" aria-label="20 not satisfied, 0 with evidence, 65 not checked"><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i></div>
+  <div class="legend">
+    <span><i class="ns"></i><b>20</b> not satisfied</span>
+    <span><i class="ev"></i><b>0</b> partially evidenced</span>
+    <span><i style="background:var(--grey-dot)"></i><b>65</b> not checked</span>
+  </div></div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div><div class="label" style="margin-bottom:10px">Now</div><div class="units" role="img" aria-label="0 not satisfied, 20 with evidence, 65 not checked"><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i></div>
+  <div class="legend">
+    <span><i class="ns"></i><b>0</b> not satisfied</span>
+    <span><i class="ev"></i><b>20</b> partially evidenced</span>
+    <span><i style="background:var(--grey-dot)"></i><b>65</b> not checked</span>
+  </div></div>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom:10px">Problems by severity, before → now</div>
+        <div class="sev-change">
+          <div class="sev low"><b><span class="was">1</span> → 0</b><span class="cap">critical</span></div>
+          <div class="sev low"><b><span class="was">6</span> → 0</b><span class="cap">high</span></div>
+          <div class="sev low"><b><span class="was">7</span> → 0</b><span class="cap">medium</span></div>
+          <div class="sev low"><b><span class="was">2</span> → 0</b><span class="cap">low</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="measures">
+    <div class="sec-head">
+      <h2 id="measures">The NIS2 security measures</h2>
+      <p class="muted small">How the status of each measure changed between the two scans.</p>
+    </div>
+    <div class="map">
+      <div class="measure">
+        <div class="measure-top">
+          <div class="ico not_assessed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        </div>
+        <div><h3>Risk analysis and security policies</h3><div class="art">Art. 21(2)(a)</div></div>
+        <div class="transition">
+          <span>Both scans</span><span class="pill not_assessed">Not checked</span>
+        </div>
+      </div>
+      <div class="measure good">
+        <div class="measure-top">
+          <div class="ico partially_evidenced"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L2 20h20z"/><path d="M12 10v4M12 17h.01"/></svg></div>
+        </div>
+        <div><h3>Incident handling</h3><div class="art">Art. 21(2)(b)</div></div>
+        <div class="transition">
+          <span>Before</span><span class="pill not_satisfied">Problems found</span>
+          <span>Now</span><span class="pill partially_evidenced">Evidence found</span>
+        </div>
+        <div class="detail">Detailed requirements failing: 1 before, 0 now</div>
+      </div>
+      <div class="measure good">
+        <div class="measure-top">
+          <div class="ico partially_evidenced"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg></div>
+        </div>
+        <div><h3>Business continuity and backups</h3><div class="art">Art. 21(2)(c)</div></div>
+        <div class="transition">
+          <span>Before</span><span class="pill not_satisfied">Problems found</span>
+          <span>Now</span><span class="pill partially_evidenced">Evidence found</span>
+        </div>
+        <div class="detail">Detailed requirements failing: 1 before, 0 now</div>
+      </div>
+      <div class="measure">
+        <div class="measure-top">
+          <div class="ico not_assessed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></div>
+        </div>
+        <div><h3>Supply chain security</h3><div class="art">Art. 21(2)(d)</div></div>
+        <div class="transition">
+          <span>Both scans</span><span class="pill not_assessed">Not checked</span>
+        </div>
+      </div>
+      <div class="measure good">
+        <div class="measure-top">
+          <div class="ico partially_evidenced"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13 5l-2 14"/></svg></div>
+        </div>
+        <div><h3>Secure development and vulnerability handling</h3><div class="art">Art. 21(2)(e)</div></div>
+        <div class="transition">
+          <span>Before</span><span class="pill not_satisfied">Problems found</span>
+          <span>Now</span><span class="pill partially_evidenced">Evidence found</span>
+        </div>
+        <div class="detail">Detailed requirements failing: 3 before, 0 now</div>
+      </div>
+      <div class="measure">
+        <div class="measure-top">
+          <div class="ico not_assessed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 16l4-5"/></svg></div>
+        </div>
+        <div><h3>Checking that the measures work</h3><div class="art">Art. 21(2)(f)</div></div>
+        <div class="transition">
+          <span>Both scans</span><span class="pill not_assessed">Not checked</span>
+        </div>
+      </div>
+      <div class="measure">
+        <div class="measure-top">
+          <div class="ico not_assessed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg></div>
+        </div>
+        <div><h3>Cyber hygiene and training</h3><div class="art">Art. 21(2)(g)</div></div>
+        <div class="transition">
+          <span>Both scans</span><span class="pill not_assessed">Not checked</span>
+        </div>
+      </div>
+      <div class="measure good">
+        <div class="measure-top">
+          <div class="ico partially_evidenced"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+        </div>
+        <div><h3>Cryptography and encryption</h3><div class="art">Art. 21(2)(h)</div></div>
+        <div class="transition">
+          <span>Before</span><span class="pill not_satisfied">Problems found</span>
+          <span>Now</span><span class="pill partially_evidenced">Evidence found</span>
+        </div>
+      </div>
+      <div class="measure good">
+        <div class="measure-top">
+          <div class="ico partially_evidenced"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M17 11l2 2 3-3"/></svg></div>
+        </div>
+        <div><h3>Access control and asset management</h3><div class="art">Art. 21(2)(i)</div></div>
+        <div class="transition">
+          <span>Before</span><span class="pill not_satisfied">Problems found</span>
+          <span>Now</span><span class="pill partially_evidenced">Evidence found</span>
+        </div>
+        <div class="detail">Detailed requirements failing: 8 before, 0 now</div>
+      </div>
+      <div class="measure good">
+        <div class="measure-top">
+          <div class="ico partially_evidenced"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2M10 8h4v4h-4z"/></svg></div>
+        </div>
+        <div><h3>Multi-factor authentication</h3><div class="art">Art. 21(2)(j)</div></div>
+        <div class="transition">
+          <span>Before</span><span class="pill not_satisfied">Problems found</span>
+          <span>Now</span><span class="pill partially_evidenced">Evidence found</span>
+        </div>
+        <div class="detail">Detailed requirements failing: 7 before, 0 now</div>
+      </div>
+      <div class="measure good">
+        <div class="measure-top">
+          <div class="ico partially_evidenced"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></div>
+        </div>
+        <div><h3>Reporting incidents to the CSIRT</h3><div class="art">Art. 23(4)</div></div>
+        <div class="transition">
+          <span>Before</span><span class="pill not_satisfied">Problems found</span>
+          <span>Now</span><span class="pill partially_evidenced">Evidence found</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  
+
+  
+  <section aria-labelledby="fixed-h">
+    <div class="sec-head">
+      <h2 id="fixed-h">Fixed (16)</h2>
+      <p class="muted small">Problems found before that the second scan no longer finds.</p>
+    </div>
+    <ol class="fix-list change-list" id="fixed">
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>Default admin credentials are rejected</b>
+        <span class="muted small">Access control and asset management · <span class="mono">CHK-IDP-004</span> · critical severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>The admin console accepted the default username “admin” with its default password.</dd>
+          <dt>Now</dt><dd>Default admin credentials are rejected</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>A recent backup snapshot exists</b>
+        <span class="muted small">Business continuity and backups · <span class="mono">CHK-BAK-001</span> · high severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>The newest backup was taken on 1 June 2025, 480 days ago.</dd>
+          <dt>Now</dt><dd>Newest backup is within the allowed age</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>Every staff account has MFA enrolled or is forced to enrol</b>
+        <span class="muted small">Multi-factor authentication · <span class="mono">CHK-IDP-001</span> · high severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>Accounts that log in with a password alone: kari.admin and ola.tech. New accounts are not asked to set up two-factor login.</dd>
+          <dt>Now</dt><dd>All 2 accounts have or must enrol OTP</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>SSH does not offer password authentication</b>
+        <span class="muted small">Access control and asset management · <span class="mono">CHK-SSH-001</span> · high severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>The server accepts password logins, which can be guessed or bypassed.</dd>
+          <dt>Now</dt><dd>Server offers only publickey</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>Direct root login over SSH is disabled</b>
+        <span class="muted small">Access control and asset management · <span class="mono">CHK-SSH-002</span> · high severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>Anyone with the root password can log straight in as administrator (PermitRootLogin yes).</dd>
+          <dt>Now</dt><dd>PermitRootLogin is &#39;no&#39;</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>TLS versions below the profile minimum are refused</b>
+        <span class="muted small">Cryptography and encryption · <span class="mono">CHK-TLS-001</span> · high severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>The website still accepts TLSv1 and TLSv1.1, which are outdated and can be attacked.</dd>
+          <dt>Now</dt><dd>Server only accepts TLSv1.2, TLSv1.3</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>No unaccepted, fixable vulnerability at the failing severity in running images</b>
+        <span class="muted small">Secure development and vulnerability handling · <span class="mono">CHK-VUL-001</span> · high severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>26 known critical flaws with an available fix, in 4 components: grafana/loki:3.5.1 (2), nginx:1.20 (17), nis2lab-backup (3) and quay.io/keycloak/keycloak:26.3 (4). nginx:1.20 runs on an operating system that no longer gets updates.</dd>
+          <dt>Now</dt><dd>No unaccepted fixable CRITICAL vulnerabilities, 2 covered by accepted risk exceptions</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>Every running service is in the asset inventory</b>
+        <span class="muted small">Access control and asset management · <span class="mono">CHK-AST-001</span> · medium severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>Running but missing from the asset inventory: backup, legacy-web and logs.</dd>
+          <dt>Now</dt><dd>All 5 running services are inventoried</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>Incident response plan covers the NIS2 reporting stages</b>
+        <span class="muted small">Reporting incidents to the CSIRT · <span class="mono">CHK-DOC-001</span> · medium severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>The incident plan does not cover: 24h early warning, 72h incident notification, one-month final report and CSIRT contact.</dd>
+          <dt>Now</dt><dd>Plan mentions every reporting stage and the CSIRT</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>Brute-force protection is enabled on the staff realm</b>
+        <span class="muted small">Access control and asset management · <span class="mono">CHK-IDP-002</span> · medium severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>Nothing stops someone from guessing passwords over and over.</dd>
+          <dt>Now</dt><dd>Brute-force protection is on</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>Password policy enforces the profile&#39;s minimum length</b>
+        <span class="muted small">Access control and asset management · <span class="mono">CHK-IDP-003</span> · medium severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>No minimum password length is set.</dd>
+          <dt>Now</dt><dd>Password policy requires 12 characters</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>Central logs are kept at least as long as the profile requires</b>
+        <span class="muted small">Incident handling · <span class="mono">CHK-LOG-001</span> · medium severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>Logs are deleted after 7 days.</dd>
+          <dt>Now</dt><dd>Logs are kept for 180 days</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>Certificate is valid and not about to expire</b>
+        <span class="muted small">Cryptography and encryption · <span class="mono">CHK-TLS-002</span> · medium severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>The website&#39;s certificate expired on 1 January 2025.</dd>
+          <dt>Now</dt><dd>Certificate valid for 364 more days</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>Plain HTTP redirects to HTTPS and HSTS is set</b>
+        <span class="muted small">Cryptography and encryption · <span class="mono">CHK-TLS-003</span> · medium severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>Visitors who type http:// stay on the unencrypted site; browsers are not told to always use the encrypted site.</dd>
+          <dt>Now</dt><dd>HTTP redirects to HTTPS and HSTS is set</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>Incident response plan has been reviewed recently</b>
+        <span class="muted small">Incident handling · <span class="mono">CHK-DOC-002</span> · low severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>The incident plan was last reviewed on 14 February 2023, 1319 days ago.</dd>
+          <dt>Now</dt><dd>Plan was reviewed 24 days ago</dd>
+        </dl>
+      </div>
+    </li>
+    <li>
+      <span class="pill cap fixed-pill">Fixed</span>
+      <div class="what">
+        <b>SSH limits authentication attempts per connection</b>
+        <span class="muted small">Access control and asset management · <span class="mono">CHK-SSH-003</span> · low severity</span>
+        <dl class="ba">
+          <dt>Before</dt><dd>Each connection allows 10 login attempts.</dd>
+          <dt>Now</dt><dd>MaxAuthTries is 3</dd>
+        </dl>
+      </div>
+    </li>
+  </ol>
+  </section>
+  
+
+  
+
+  <section aria-labelledby="method">
+    <h2 id="method">Method</h2>
+    <ul class="method">
+      <li>Both scans are read from their own result files and compared check by check. No language model is involved.</li>
+      <li>A problem counts as fixed when its check failed in the first scan and passed in the second. 0 checks passed in both.</li>
+      <li>Each scan's full report, with evidence and legal text, is in its own result directory.</li>
+    </ul>
+  </section>
+
+  <footer>Generated by nis2scan diff.</footer>
+</main>
+</body>
+</html>

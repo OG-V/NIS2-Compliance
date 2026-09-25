@@ -158,7 +158,7 @@
       "why": "Unknown services go unpatched and unmonitored.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -185,7 +185,7 @@
       "why": "Without recent backups, ransomware or failure causes permanent data loss.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Business continuity and backups",
       "breaches": []
     },
     {
@@ -216,7 +216,7 @@
       "why": "Missing a reporting deadline is itself a breach of Art. 23, separate from the incident.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Reporting incidents to the CSIRT",
       "breaches": []
     },
     {
@@ -243,7 +243,7 @@
       "why": "A stale plan lists wrong contacts and outdated systems when it is needed.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Incident handling",
       "breaches": []
     },
     {
@@ -270,7 +270,7 @@
       "why": "Staff accounts reach customer systems; a stolen password alone must not be enough.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Multi-factor authentication",
       "breaches": []
     },
     {
@@ -296,7 +296,7 @@
       "why": "Limits online password guessing against staff accounts.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -322,7 +322,7 @@
       "why": "Short passwords weaken the first factor even when MFA is in place.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -348,7 +348,7 @@
       "why": "Default admin credentials give anyone full control of every staff identity.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -374,7 +374,7 @@
       "why": "Logs deleted too early make an incident impossible to investigate or report.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Incident handling",
       "breaches": []
     },
     {
@@ -405,7 +405,7 @@
       "why": "Password logins on an admin host can be brute-forced or phished.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -430,7 +430,7 @@
       "why": "Shared root logins remove individual accountability and give an attacker full control.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -455,7 +455,7 @@
       "why": "Slows guessing, but is a minor control compared with key-only auth.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -483,7 +483,7 @@
       "why": "Legacy TLS allows downgrade attacks on traffic to a public service.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Cryptography and encryption",
       "breaches": []
     },
     {
@@ -510,7 +510,7 @@
       "why": "An invalid certificate trains users to click through warnings, which makes interception easier.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Cryptography and encryption",
       "breaches": []
     },
     {
@@ -538,7 +538,7 @@
       "why": "Without a redirect and HSTS, users can be kept on unencrypted HTTP.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Cryptography and encryption",
       "breaches": []
     },
     {
@@ -571,7 +571,7 @@
       "why": "Known, fixable critical vulnerabilities are the most common way in.",
       "found": null,
       "should": null,
-      "topic": "",
+      "topic": "Secure development and vulnerability handling",
       "breaches": []
     }
   ],

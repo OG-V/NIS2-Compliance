@@ -828,7 +828,7 @@
       "why": "Unknown services go unpatched and unmonitored.",
       "found": "Running but missing from the asset inventory: backup, legacy-web and logs.",
       "should": "Every running service is listed in the asset inventory.",
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -855,7 +855,7 @@
       "why": "Without recent backups, ransomware or failure causes permanent data loss.",
       "found": "The newest backup was taken on 1 June 2025, 480 days ago.",
       "should": "A backup no older than 26 hours.",
-      "topic": "",
+      "topic": "Business continuity and backups",
       "breaches": []
     },
     {
@@ -891,7 +891,7 @@
       "why": "Missing a reporting deadline is itself a breach of Art. 23, separate from the incident.",
       "found": "The incident plan does not cover: 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
       "should": "The plan covers 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
-      "topic": "",
+      "topic": "Reporting incidents to the CSIRT",
       "breaches": []
     },
     {
@@ -918,7 +918,7 @@
       "why": "A stale plan lists wrong contacts and outdated systems when it is needed.",
       "found": "The incident plan was last reviewed on 14 February 2023, 1319 days ago.",
       "should": "The plan is reviewed at least every 365 days.",
-      "topic": "",
+      "topic": "Incident handling",
       "breaches": []
     },
     {
@@ -948,7 +948,7 @@
       "why": "Staff accounts reach customer systems; a stolen password alone must not be enough.",
       "found": "Accounts that log in with a password alone: kari.admin and ola.tech. New accounts are not asked to set up two-factor login.",
       "should": "Every account uses two-factor login, and new accounts must set it up.",
-      "topic": "",
+      "topic": "Multi-factor authentication",
       "breaches": []
     },
     {
@@ -974,7 +974,7 @@
       "why": "Limits online password guessing against staff accounts.",
       "found": "Nothing stops someone from guessing passwords over and over.",
       "should": "Accounts are locked for a while after repeated failed logins.",
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -1000,7 +1000,7 @@
       "why": "Short passwords weaken the first factor even when MFA is in place.",
       "found": "No minimum password length is set.",
       "should": "Passwords have at least 12 characters.",
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -1026,7 +1026,7 @@
       "why": "Default admin credentials give anyone full control of every staff identity.",
       "found": "The admin console accepted the default username \u201cadmin\u201d with its default password.",
       "should": "The default login is refused.",
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -1052,7 +1052,7 @@
       "why": "Logs deleted too early make an incident impossible to investigate or report.",
       "found": "Logs are deleted after 7 days.",
       "should": "Logs are kept for at least 90 days.",
-      "topic": "",
+      "topic": "Incident handling",
       "breaches": []
     },
     {
@@ -1084,7 +1084,7 @@
       "why": "Password logins on an admin host can be brute-forced or phished.",
       "found": "The server accepts password logins, which can be guessed or bypassed.",
       "should": "Only key-based logins (public key) are accepted.",
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -1109,7 +1109,7 @@
       "why": "Shared root logins remove individual accountability and give an attacker full control.",
       "found": "Anyone with the root password can log straight in as administrator (PermitRootLogin yes).",
       "should": "Direct root login is switched off. Administrators log in as themselves first.",
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -1134,7 +1134,7 @@
       "why": "Slows guessing, but is a minor control compared with key-only auth.",
       "found": "Each connection allows 10 login attempts.",
       "should": "At most 4 attempts per connection.",
-      "topic": "",
+      "topic": "Access control and asset management",
       "breaches": []
     },
     {
@@ -1163,7 +1163,7 @@
       "why": "Legacy TLS allows downgrade attacks on traffic to a public service.",
       "found": "The website still accepts TLSv1 and TLSv1.1, which are outdated and can be attacked.",
       "should": "Only TLSv1.2 or newer is accepted.",
-      "topic": "",
+      "topic": "Cryptography and encryption",
       "breaches": []
     },
     {
@@ -1190,7 +1190,7 @@
       "why": "An invalid certificate trains users to click through warnings, which makes interception easier.",
       "found": "The website's certificate expired on 1 January 2025.",
       "should": "A valid certificate with at least 14 days left.",
-      "topic": "",
+      "topic": "Cryptography and encryption",
       "breaches": []
     },
     {
@@ -1218,7 +1218,7 @@
       "why": "Without a redirect and HSTS, users can be kept on unencrypted HTTP.",
       "found": "Visitors who type http:// stay on the unencrypted site; browsers are not told to always use the encrypted site.",
       "should": "Visitors on http:// are sent to https://, and browsers are told to always use it.",
-      "topic": "",
+      "topic": "Cryptography and encryption",
       "breaches": []
     },
     {
@@ -1286,7 +1286,7 @@
       "why": "Known, fixable critical vulnerabilities are the most common way in.",
       "found": "26 known critical flaws with an available fix, in 4 components: grafana/loki:3.5.1 (2), nginx:1.20 (17), nis2lab-backup (3) and quay.io/keycloak/keycloak:26.3 (4). nginx:1.20 runs on an operating system that no longer gets updates.",
       "should": "No fixable critical flaws, unless a documented risk exception covers them.",
-      "topic": "",
+      "topic": "Secure development and vulnerability handling",
       "breaches": []
     }
   ],

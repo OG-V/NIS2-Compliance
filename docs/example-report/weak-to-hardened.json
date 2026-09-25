@@ -1,0 +1,330 @@
+{
+  "target": "nordmsp-lab",
+  "before_started_at": "2026-09-25T00:36:23.166005+00:00",
+  "after_started_at": "2026-09-25T01:04:47.891787+00:00",
+  "before_verdicts": {
+    "evidenced": 0,
+    "partially_evidenced": 0,
+    "not_satisfied": 20,
+    "not_assessed": 65
+  },
+  "after_verdicts": {
+    "evidenced": 0,
+    "partially_evidenced": 20,
+    "not_satisfied": 0,
+    "not_assessed": 65
+  },
+  "before_severities": {
+    "critical": 1,
+    "high": 6,
+    "medium": 7,
+    "low": 2
+  },
+  "after_severities": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "before_failing": 16,
+  "fixed": [
+    {
+      "check_id": "CHK-IDP-004",
+      "title": "Default admin credentials are rejected",
+      "severity": "critical",
+      "action": "Change the default admin password",
+      "effort": "quick",
+      "topic": "Access control and asset management",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "The admin console accepted the default username \u201cadmin\u201d with its default password.",
+      "after_text": "Default admin credentials are rejected"
+    },
+    {
+      "check_id": "CHK-BAK-001",
+      "title": "A recent backup snapshot exists",
+      "severity": "high",
+      "action": "Restart automatic backups",
+      "effort": "change",
+      "topic": "Business continuity and backups",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "The newest backup was taken on 1 June 2025, 480 days ago.",
+      "after_text": "Newest backup is within the allowed age"
+    },
+    {
+      "check_id": "CHK-IDP-001",
+      "title": "Every staff account has MFA enrolled or is forced to enrol",
+      "severity": "high",
+      "action": "Turn on two-factor login for every account",
+      "effort": "change",
+      "topic": "Multi-factor authentication",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "Accounts that log in with a password alone: kari.admin and ola.tech. New accounts are not asked to set up two-factor login.",
+      "after_text": "All 2 accounts have or must enrol OTP"
+    },
+    {
+      "check_id": "CHK-SSH-001",
+      "title": "SSH does not offer password authentication",
+      "severity": "high",
+      "action": "Allow only key-based server logins, not passwords",
+      "effort": "quick",
+      "topic": "Access control and asset management",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "The server accepts password logins, which can be guessed or bypassed.",
+      "after_text": "Server offers only publickey"
+    },
+    {
+      "check_id": "CHK-SSH-002",
+      "title": "Direct root login over SSH is disabled",
+      "severity": "high",
+      "action": "Stop direct administrator (root) logins to the server",
+      "effort": "quick",
+      "topic": "Access control and asset management",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "Anyone with the root password can log straight in as administrator (PermitRootLogin yes).",
+      "after_text": "PermitRootLogin is 'no'"
+    },
+    {
+      "check_id": "CHK-TLS-001",
+      "title": "TLS versions below the profile minimum are refused",
+      "severity": "high",
+      "action": "Switch off outdated encryption versions on the website",
+      "effort": "quick",
+      "topic": "Cryptography and encryption",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "The website still accepts TLSv1 and TLSv1.1, which are outdated and can be attacked.",
+      "after_text": "Server only accepts TLSv1.2, TLSv1.3"
+    },
+    {
+      "check_id": "CHK-VUL-001",
+      "title": "No unaccepted, fixable vulnerability at the failing severity in running images",
+      "severity": "high",
+      "action": "Update software that has known critical flaws",
+      "effort": "project",
+      "topic": "Secure development and vulnerability handling",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "26 known critical flaws with an available fix, in 4 components: grafana/loki:3.5.1 (2), nginx:1.20 (17), nis2lab-backup (3) and quay.io/keycloak/keycloak:26.3 (4). nginx:1.20 runs on an operating system that no longer gets updates.",
+      "after_text": "No unaccepted fixable CRITICAL vulnerabilities, 2 covered by accepted risk exceptions"
+    },
+    {
+      "check_id": "CHK-AST-001",
+      "title": "Every running service is in the asset inventory",
+      "severity": "medium",
+      "action": "Add every running service to the asset inventory",
+      "effort": "quick",
+      "topic": "Access control and asset management",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "Running but missing from the asset inventory: backup, legacy-web and logs.",
+      "after_text": "All 5 running services are inventoried"
+    },
+    {
+      "check_id": "CHK-DOC-001",
+      "title": "Incident response plan covers the NIS2 reporting stages",
+      "severity": "medium",
+      "action": "Add the NIS2 reporting deadlines and the CSIRT contact to the incident plan",
+      "effort": "change",
+      "topic": "Reporting incidents to the CSIRT",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "The incident plan does not cover: 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
+      "after_text": "Plan mentions every reporting stage and the CSIRT"
+    },
+    {
+      "check_id": "CHK-IDP-002",
+      "title": "Brute-force protection is enabled on the staff realm",
+      "severity": "medium",
+      "action": "Turn on protection against password guessing",
+      "effort": "quick",
+      "topic": "Access control and asset management",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "Nothing stops someone from guessing passwords over and over.",
+      "after_text": "Brute-force protection is on"
+    },
+    {
+      "check_id": "CHK-IDP-003",
+      "title": "Password policy enforces the profile's minimum length",
+      "severity": "medium",
+      "action": "Set a minimum password length",
+      "effort": "quick",
+      "topic": "Access control and asset management",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "No minimum password length is set.",
+      "after_text": "Password policy requires 12 characters"
+    },
+    {
+      "check_id": "CHK-LOG-001",
+      "title": "Central logs are kept at least as long as the profile requires",
+      "severity": "medium",
+      "action": "Keep logs for as long as the policy requires",
+      "effort": "quick",
+      "topic": "Incident handling",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "Logs are deleted after 7 days.",
+      "after_text": "Logs are kept for 180 days"
+    },
+    {
+      "check_id": "CHK-TLS-002",
+      "title": "Certificate is valid and not about to expire",
+      "severity": "medium",
+      "action": "Renew the website's certificate",
+      "effort": "quick",
+      "topic": "Cryptography and encryption",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "The website's certificate expired on 1 January 2025.",
+      "after_text": "Certificate valid for 364 more days"
+    },
+    {
+      "check_id": "CHK-TLS-003",
+      "title": "Plain HTTP redirects to HTTPS and HSTS is set",
+      "severity": "medium",
+      "action": "Send all website traffic over HTTPS",
+      "effort": "quick",
+      "topic": "Cryptography and encryption",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "Visitors who type http:// stay on the unencrypted site; browsers are not told to always use the encrypted site.",
+      "after_text": "HTTP redirects to HTTPS and HSTS is set"
+    },
+    {
+      "check_id": "CHK-DOC-002",
+      "title": "Incident response plan has been reviewed recently",
+      "severity": "low",
+      "action": "Review the incident response plan and record the review date",
+      "effort": "change",
+      "topic": "Incident handling",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "The incident plan was last reviewed on 14 February 2023, 1319 days ago.",
+      "after_text": "Plan was reviewed 24 days ago"
+    },
+    {
+      "check_id": "CHK-SSH-003",
+      "title": "SSH limits authentication attempts per connection",
+      "severity": "low",
+      "action": "Limit login attempts per connection to the server",
+      "effort": "quick",
+      "topic": "Access control and asset management",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "Each connection allows 10 login attempts.",
+      "after_text": "MaxAuthTries is 3"
+    }
+  ],
+  "still_open": [],
+  "new": [],
+  "unresolved": [],
+  "still_passing": 0,
+  "measures": [
+    {
+      "point": "21(2)(a)",
+      "short_title": "Risk analysis and security policies",
+      "icon": "policy",
+      "before": "not_assessed",
+      "after": "not_assessed",
+      "before_not_satisfied": 0,
+      "after_not_satisfied": 0
+    },
+    {
+      "point": "21(2)(b)",
+      "short_title": "Incident handling",
+      "icon": "incident",
+      "before": "not_satisfied",
+      "after": "partially_evidenced",
+      "before_not_satisfied": 1,
+      "after_not_satisfied": 0
+    },
+    {
+      "point": "21(2)(c)",
+      "short_title": "Business continuity and backups",
+      "icon": "backup",
+      "before": "not_satisfied",
+      "after": "partially_evidenced",
+      "before_not_satisfied": 1,
+      "after_not_satisfied": 0
+    },
+    {
+      "point": "21(2)(d)",
+      "short_title": "Supply chain security",
+      "icon": "supply",
+      "before": "not_assessed",
+      "after": "not_assessed",
+      "before_not_satisfied": 0,
+      "after_not_satisfied": 0
+    },
+    {
+      "point": "21(2)(e)",
+      "short_title": "Secure development and vulnerability handling",
+      "icon": "code",
+      "before": "not_satisfied",
+      "after": "partially_evidenced",
+      "before_not_satisfied": 3,
+      "after_not_satisfied": 0
+    },
+    {
+      "point": "21(2)(f)",
+      "short_title": "Checking that the measures work",
+      "icon": "gauge",
+      "before": "not_assessed",
+      "after": "not_assessed",
+      "before_not_satisfied": 0,
+      "after_not_satisfied": 0
+    },
+    {
+      "point": "21(2)(g)",
+      "short_title": "Cyber hygiene and training",
+      "icon": "training",
+      "before": "not_assessed",
+      "after": "not_assessed",
+      "before_not_satisfied": 0,
+      "after_not_satisfied": 0
+    },
+    {
+      "point": "21(2)(h)",
+      "short_title": "Cryptography and encryption",
+      "icon": "lock",
+      "before": "not_satisfied",
+      "after": "partially_evidenced",
+      "before_not_satisfied": 0,
+      "after_not_satisfied": 0
+    },
+    {
+      "point": "21(2)(i)",
+      "short_title": "Access control and asset management",
+      "icon": "access",
+      "before": "not_satisfied",
+      "after": "partially_evidenced",
+      "before_not_satisfied": 8,
+      "after_not_satisfied": 0
+    },
+    {
+      "point": "21(2)(j)",
+      "short_title": "Multi-factor authentication",
+      "icon": "mfa",
+      "before": "not_satisfied",
+      "after": "partially_evidenced",
+      "before_not_satisfied": 7,
+      "after_not_satisfied": 0
+    },
+    {
+      "point": "23(4)",
+      "short_title": "Reporting incidents to the CSIRT",
+      "icon": "report",
+      "before": "not_satisfied",
+      "after": "partially_evidenced",
+      "before_not_satisfied": 0,
+      "after_not_satisfied": 0
+    }
+  ],
+  "warnings": []
+}
