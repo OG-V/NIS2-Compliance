@@ -304,7 +304,7 @@
       "message": "Brute-force protection is on",
       "collected_at": "2026-09-25T01:04:50.198491Z",
       "finding_id": "CHK-IDP-002",
-      "title": "Brute-force protection is enabled on the staff realm",
+      "title": "Accounts are locked after repeated failed logins",
       "severity": "medium",
       "evidence_sha256": "823d60906327741931d3ba5d6b542eec4d46d739da69dfc76d6f33f1527c339d",
       "action": "Turn on protection against password guessing",
@@ -1699,5 +1699,7 @@
     }
   ],
   "multi_asset": false,
+  "assets": [],
+  "engagement": null,
   "narrative": null
 }
