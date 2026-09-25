@@ -23,5 +23,7 @@ extraction:
   source_sha256: 65ebc68b6cb3a9425377bf16efcf9ba3af8b83b37cf294bb16e54fc97a4d35f6
   extracted_at: '2026-09-24T23:57:41.285563Z'
 review:
-  status: draft
-  notes: ''
+  status: reviewed
+  reviewer: OG V
+  reviewed_at: '2026-09-25'
+  notes: Reviewed against the Annex text and approved.
