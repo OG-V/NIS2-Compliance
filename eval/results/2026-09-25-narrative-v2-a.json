@@ -1,0 +1,221 @@
+{
+  "status": "accepted",
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "prompt_version": "2026-09-25.2",
+  "created_at": "2026-09-25T10:22:09.670036+00:00",
+  "attempts": 2,
+  "violations": [],
+  "narrative": {
+    "executive_summary": "The scan found gaps in every area it tested: all 16 checks failed, 20 requirements were not satisfied and 65 were not assessed. The most severe gap is that the admin console accepts the factory login admin/admin, so anyone who knows it could take control. The newest backup is 480 days old, leaving recent data unprotected. Two staff accounts, including an administrator, lack multi-factor authentication. Critical, fixable software vulnerabilities are present in several running components. Remote server access still accepts passwords and direct root login. The web service accepts outdated encryption versions.",
+    "executive_summary_finding_ids": [
+      "CHK-IDP-004",
+      "CHK-BAK-001",
+      "CHK-IDP-001",
+      "CHK-VUL-001",
+      "CHK-SSH-001",
+      "CHK-SSH-002",
+      "CHK-TLS-001"
+    ],
+    "gaps": [
+      {
+        "finding_id": "CHK-IDP-004",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.I",
+          "REQ-CIR2690-11.6.2-03"
+        ],
+        "why_it_matters": "The rules require access control and require login credentials to be changed initially. The scan logged into the admin console using the default username and password admin/admin. These defaults are widely known, so an outsider could gain full administrative control without any hacking skill.",
+        "remediation": [
+          "Change the password of the admin account on the admin console immediately.",
+          "Confirm that a login attempt with admin/admin is no longer accepted.",
+          "Make changing default credentials a mandatory step when setting up any new system."
+        ]
+      },
+      {
+        "finding_id": "CHK-BAK-001",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.C",
+          "REQ-CIR2690-4.2.1-01"
+        ],
+        "why_it_matters": "The rules require backup management and the keeping of backup copies of data. Only one backup snapshot exists, and it is 480 days old, far beyond the maximum age the profile allows. If data were lost or encrypted by ransomware, everything created since then could not be restored.",
+        "remediation": [
+          "Investigate why scheduled backups stopped running and fix the backup job.",
+          "Run a fresh backup now and confirm the new snapshot appears.",
+          "Set up monitoring that alerts staff when the newest backup is older than the profile allows."
+        ]
+      },
+      {
+        "finding_id": "CHK-IDP-001",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.J",
+          "REQ-CIR2690-11.3.2-01",
+          "REQ-CIR2690-11.7.1-01"
+        ],
+        "why_it_matters": "The rules call for multi-factor authentication, especially for administrator accounts. Two accounts, kari.admin and ola.tech, have no second factor, and new accounts are not required to enrol one. A stolen password alone would be enough to access these accounts, one of which appears to be an administrator.",
+        "remediation": [
+          "Require kari.admin and ola.tech to enrol a second factor before their next login.",
+          "Turn on the setting that forces new users to enrol OTP.",
+          "Re-run the check to confirm no accounts remain without MFA."
+        ]
+      },
+      {
+        "finding_id": "CHK-SSH-001",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.I",
+          "REQ-CIR2690-11.6.2-01",
+          "REQ-CIR2690-11.7.2-01"
+        ],
+        "why_it_matters": "The rules require authentication strength to match the importance of the system. The remote server login (SSH) offers password login alongside key-based login. Passwords can be guessed or stolen, which weakens protection of the server.",
+        "remediation": [
+          "Disable password authentication in the SSH server configuration so only publickey login is offered.",
+          "Ensure keyboard-interactive and none methods are also not offered.",
+          "Confirm all administrators have working keys before making the change."
+        ]
+      },
+      {
+        "finding_id": "CHK-SSH-002",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.I",
+          "REQ-CIR2690-11.3.2-03"
+        ],
+        "why_it_matters": "The rules require administration privileges to be individualised and restricted. The server allows direct login as root, the all-powerful shared account. This hides who performed an action and gives attackers a single target with full control.",
+        "remediation": [
+          "Change the SSH setting PermitRootLogin from yes to no.",
+          "Have administrators log in with their own named accounts and raise privileges only when needed."
+        ]
+      },
+      {
+        "finding_id": "CHK-TLS-001",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.H"
+        ],
+        "why_it_matters": "The rules require policies on the use of cryptography and encryption. The web server accepts the outdated TLSv1 and TLSv1.1 versions, below the expected minimum of TLSv1.2. Old versions have known weaknesses that can expose traffic.",
+        "remediation": [
+          "Configure the web server to refuse TLSv1 and TLSv1.1 and accept TLSv1.2 as the minimum.",
+          "Re-scan to confirm the older versions are rejected."
+        ]
+      },
+      {
+        "finding_id": "CHK-VUL-001",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.E",
+          "REQ-CIR2690-6.10.1-03",
+          "REQ-CIR2690-6.10.2-03",
+          "REQ-CIR2690-6.6.1-02"
+        ],
+        "why_it_matters": "The rules require vulnerabilities to be managed, critical ones addressed without undue delay and security patches applied within a reasonable time. The scan found fixable CRITICAL vulnerabilities in running software: nginx:1.20 (17), quay.io/keycloak/keycloak:26.3 (4), nis2lab-backup (3) and grafana/loki:3.5.1 (2). No risks have been formally accepted, and nginx:1.20 runs on an operating system that is out of support. Known, fixable flaws are a common route for attackers.",
+        "remediation": [
+          "Update each affected image to a version where the fixes are available.",
+          "Replace nginx:1.20 with a supported version, since its operating system is out of support.",
+          "If any vulnerability cannot be fixed, record it as a formally accepted risk.",
+          "Re-scan to confirm no fixable CRITICAL vulnerabilities remain."
+        ]
+      },
+      {
+        "finding_id": "CHK-AST-001",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.I",
+          "REQ-CIR2690-12.4.1-01"
+        ],
+        "why_it_matters": "The rules require a complete, accurate and up-to-date inventory of assets. Three running services, backup, legacy-web and logs, are not in the inventory. Systems that are not listed tend to be forgotten when patching and reviewing security.",
+        "remediation": [
+          "Add backup, legacy-web and logs to the asset inventory, with an owner for each.",
+          "Decide whether legacy-web is still needed and shut it down if not.",
+          "Compare the inventory with running services regularly."
+        ]
+      },
+      {
+        "finding_id": "CHK-DOC-001",
+        "requirement_ids": [
+          "REQ-NIS2-23.4"
+        ],
+        "why_it_matters": "The Directive requires significant incidents to be reported to the CSIRT in stages, starting with an early warning. The incident response plan incident-response.md does not mention the 24h early warning, the 72h incident notification, the one-month final report or the CSIRT contact. During an incident, staff may miss legal reporting deadlines.",
+        "remediation": [
+          "Add the 24h early warning, 72h incident notification and one-month final report stages to incident-response.md.",
+          "Add the CSIRT contact details to the plan.",
+          "Brief the incident team on the updated reporting steps."
+        ]
+      },
+      {
+        "finding_id": "CHK-IDP-002",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.I",
+          "REQ-CIR2690-11.6.2-04"
+        ],
+        "why_it_matters": "The rules require users to be blocked after a predefined number of unsuccessful login attempts. Brute-force protection on the staff login is switched off, so an attacker can keep guessing passwords without being stopped.",
+        "remediation": [
+          "Set bruteForceProtected to true on the staff realm.",
+          "Review the failureFactor value, currently 30, so blocking happens after a number of attempts the organisation considers appropriate."
+        ]
+      },
+      {
+        "finding_id": "CHK-IDP-003",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.I",
+          "REQ-CIR2690-11.6.2-01",
+          "REQ-CIR2690-11.7.2-01"
+        ],
+        "why_it_matters": "The rules require authentication strength to match the importance of the system. No password policy is set, so there is no minimum length, while the profile expects at least 12 characters. Short passwords are easy to guess.",
+        "remediation": [
+          "Configure a password policy with a minimum length of at least 12.",
+          "Ask users with passwords shorter than this to change them."
+        ]
+      },
+      {
+        "finding_id": "CHK-LOG-001",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.B",
+          "REQ-CIR2690-3.2.5-01"
+        ],
+        "why_it_matters": "The rules require logs to be kept for a predefined period to support incident handling. Central logs are deleted after 7 days, while the profile requires at least 90 days. Incidents are often discovered late, and the evidence needed to investigate them would already be gone.",
+        "remediation": [
+          "Change the log retention_period from 1w to at least 90 days.",
+          "Check that storage is sufficient for the longer retention."
+        ]
+      },
+      {
+        "finding_id": "CHK-TLS-002",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.H"
+        ],
+        "why_it_matters": "The rules require policies on the use of cryptography. The website certificate expired on 2025-01-01. Browsers warn visitors, users get used to ignoring warnings, and the service's identity can no longer be trusted.",
+        "remediation": [
+          "Obtain and install a new valid certificate.",
+          "Set up reminders or automatic renewal so the certificate is replaced well before it expires."
+        ]
+      },
+      {
+        "finding_id": "CHK-TLS-003",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.H"
+        ],
+        "why_it_matters": "The rules require policies on encryption. The site answers plain HTTP without redirecting to HTTPS and does not send the Strict-Transport-Security header. Visitors may use an unencrypted connection that others can read or alter.",
+        "remediation": [
+          "Configure the web server to redirect all plain HTTP requests to HTTPS.",
+          "Add the Strict-Transport-Security header to HTTPS responses."
+        ]
+      },
+      {
+        "finding_id": "CHK-DOC-002",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.B"
+        ],
+        "why_it_matters": "The rules require incident handling to be in place. The incident response plan was last reviewed on 2023-02-14, 1319 days ago, while the profile expects a review within 365 days. An outdated plan may list wrong contacts or steps.",
+        "remediation": [
+          "Review and update incident-response.md and record the new review date.",
+          "Schedule reviews so the plan is never older than 365 days."
+        ]
+      },
+      {
+        "finding_id": "CHK-SSH-003",
+        "requirement_ids": [
+          "REQ-NIS2-21.2.I"
+        ],
+        "why_it_matters": "Access control includes limiting login guessing. The SSH server allows 10 authentication attempts per connection, while the profile expects at most 4. More attempts make password or key guessing easier.",
+        "remediation": [
+          "Change the SSH setting MaxAuthTries from 10 to 4 or fewer."
+        ]
+      }
+    ]
+  }
+}
