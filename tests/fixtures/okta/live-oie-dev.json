@@ -1,0 +1,457 @@
+{
+  "_source": "Recorded from a live Okta Identity Engine developer org on 2026-09-25 with the nis2scan Okta adapter. Logins, org name and Okta object IDs replaced by placeholders.",
+  "org": "dev-org.okta.com",
+  "users": [
+    {
+      "login": "user1@example.com",
+      "status": "ACTIVE",
+      "factors": [
+        {
+          "factorType": "signed_nonce",
+          "provider": "OKTA",
+          "status": "ACTIVE"
+        },
+        {
+          "factorType": "token:software:totp",
+          "provider": "OKTA",
+          "status": "ACTIVE"
+        }
+      ]
+    }
+  ],
+  "password_policies": [
+    {
+      "id": "id001",
+      "name": "Default Policy",
+      "status": "ACTIVE",
+      "priority": 1,
+      "system": true,
+      "settings": {
+        "password": {
+          "complexity": {
+            "minLength": 8,
+            "minLowerCase": 1,
+            "minUpperCase": 1,
+            "minNumber": 1,
+            "minSymbol": 0,
+            "excludeUsername": true,
+            "dictionary": {
+              "common": {
+                "exclude": false
+              }
+            },
+            "excludeAttributes": []
+          },
+          "age": {
+            "maxAgeDays": 0,
+            "expireWarnDays": 0,
+            "minAgeMinutes": 0,
+            "historyCount": 4
+          },
+          "lockout": {
+            "maxAttempts": 10,
+            "autoUnlockMinutes": 0,
+            "userLockoutNotificationChannels": [],
+            "showLockoutFailures": false
+          },
+          "breachedProtection": {
+            "expireAfterDays": 0,
+            "logoutEnabled": true,
+            "delegatedWorkflowId": null
+          }
+        },
+        "recovery": {
+          "factors": {
+            "recovery_question": {
+              "status": "INACTIVE",
+              "properties": {
+                "complexity": {
+                  "minLength": 4
+                }
+              }
+            },
+            "okta_email": {
+              "status": "INACTIVE",
+              "properties": {
+                "recoveryToken": {
+                  "tokenLifetimeMinutes": 60
+                }
+              }
+            },
+            "okta_sms": {
+              "status": "INACTIVE"
+            },
+            "okta_call": {
+              "status": "INACTIVE"
+            }
+          }
+        },
+        "delegation": {
+          "options": {
+            "skipUnlock": false
+          }
+        }
+      }
+    }
+  ],
+  "mfa_enroll_policies": [
+    {
+      "id": "id002",
+      "name": "Default Policy",
+      "status": "ACTIVE",
+      "priority": 1,
+      "system": true,
+      "settings": {
+        "type": "AUTHENTICATORS",
+        "authenticators": [
+          {
+            "key": "okta_email",
+            "enroll": {
+              "self": "NOT_ALLOWED"
+            }
+          },
+          {
+            "key": "okta_verify",
+            "enroll": {
+              "self": "OPTIONAL"
+            }
+          },
+          {
+            "key": "okta_password",
+            "enroll": {
+              "self": "REQUIRED"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "sign_on_policies": [
+    {
+      "id": "id003",
+      "name": "Default Policy",
+      "status": "ACTIVE",
+      "priority": 1,
+      "system": true,
+      "settings": null,
+      "rules": [
+        {
+          "name": "Default Rule",
+          "status": "ACTIVE",
+          "priority": 1,
+          "conditions": {
+            "people": {
+              "users": {
+                "exclude": []
+              }
+            },
+            "network": {
+              "connection": "ANYWHERE"
+            },
+            "authContext": {
+              "authType": "ANY"
+            }
+          },
+          "actions": {
+            "signon": {
+              "access": "ALLOW",
+              "requireFactor": false,
+              "primaryFactor": "PASSWORD_IDP_ANY_FACTOR",
+              "rememberDeviceByDefault": false,
+              "session": {
+                "usePersistentCookie": false,
+                "maxSessionIdleMinutes": 120,
+                "maxSessionLifetimeMinutes": 1440
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "access_policies": [
+    {
+      "id": "id004",
+      "name": "Any two factors",
+      "status": "ACTIVE",
+      "priority": 1,
+      "system": true,
+      "settings": null,
+      "rules": [
+        {
+          "name": "Catch-all Rule",
+          "status": "ACTIVE",
+          "priority": 99,
+          "conditions": null,
+          "actions": {
+            "appSignOn": {
+              "access": "ALLOW",
+              "verificationMethod": {
+                "factorMode": "2FA",
+                "type": "ASSURANCE",
+                "reauthenticateIn": "PT12H"
+              },
+              "keepMeSignedIn": {
+                "postAuth": "NOT_ALLOWED"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "id005",
+      "name": "Okta Admin Console",
+      "status": "ACTIVE",
+      "priority": 1,
+      "system": false,
+      "settings": null,
+      "rules": [
+        {
+          "name": "Admin App Policy",
+          "status": "ACTIVE",
+          "priority": 0,
+          "conditions": {
+            "people": {
+              "users": {
+                "exclude": []
+              }
+            },
+            "network": {
+              "connection": "ANYWHERE"
+            },
+            "riskScore": {
+              "level": "ANY"
+            },
+            "userType": {
+              "include": [],
+              "exclude": []
+            }
+          },
+          "actions": {
+            "appSignOn": {
+              "access": "ALLOW",
+              "verificationMethod": {
+                "factorMode": "2FA",
+                "type": "ASSURANCE",
+                "reauthenticateIn": "PT0S",
+                "constraints": [
+                  {
+                    "knowledge": {
+                      "required": true,
+                      "types": [
+                        "password"
+                      ],
+                      "reauthenticateIn": "PT43800H"
+                    }
+                  }
+                ]
+              },
+              "keepMeSignedIn": {
+                "postAuth": "NOT_ALLOWED"
+              }
+            }
+          }
+        },
+        {
+          "name": "Catch-all Rule",
+          "status": "ACTIVE",
+          "priority": 99,
+          "conditions": null,
+          "actions": {
+            "appSignOn": {
+              "access": "ALLOW",
+              "verificationMethod": {
+                "factorMode": "2FA",
+                "type": "ASSURANCE",
+                "reauthenticateIn": "PT12H",
+                "constraints": [
+                  {
+                    "knowledge": {
+                      "required": true,
+                      "types": [
+                        "password"
+                      ],
+                      "reauthenticateIn": "PT12H"
+                    }
+                  }
+                ]
+              },
+              "keepMeSignedIn": {
+                "postAuth": "NOT_ALLOWED"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "id006",
+      "name": "Okta Dashboard",
+      "status": "ACTIVE",
+      "priority": 1,
+      "system": false,
+      "settings": null,
+      "rules": [
+        {
+          "name": "Catch-all Rule",
+          "status": "ACTIVE",
+          "priority": 99,
+          "conditions": null,
+          "actions": {
+            "appSignOn": {
+              "access": "ALLOW",
+              "verificationMethod": {
+                "factorMode": "2FA",
+                "type": "ASSURANCE",
+                "reauthenticateIn": "PT12H"
+              },
+              "keepMeSignedIn": {
+                "postAuth": "NOT_ALLOWED"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "id007",
+      "name": "Okta Browser Plugin",
+      "status": "ACTIVE",
+      "priority": 1,
+      "system": false,
+      "settings": null,
+      "rules": [
+        {
+          "name": "Catch-all Rule",
+          "status": "ACTIVE",
+          "priority": 99,
+          "conditions": null,
+          "actions": {
+            "appSignOn": {
+              "access": "ALLOW",
+              "verificationMethod": {
+                "factorMode": "2FA",
+                "type": "ASSURANCE",
+                "reauthenticateIn": "PT12H"
+              },
+              "keepMeSignedIn": {
+                "postAuth": "NOT_ALLOWED"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "id008",
+      "name": "Okta Account Management Policy",
+      "status": "ACTIVE",
+      "priority": 1,
+      "system": false,
+      "settings": null,
+      "rules": [
+        {
+          "name": "Password Expiry Rule",
+          "status": "ACTIVE",
+          "priority": 0,
+          "conditions": {
+            "people": {
+              "users": {
+                "exclude": []
+              }
+            },
+            "network": {
+              "connection": "ANYWHERE"
+            },
+            "riskScore": {
+              "level": "ANY"
+            },
+            "elCondition": {
+              "condition": "accessRequest.operation=='recover' && accessRequest.metadata.type=='expiry'"
+            },
+            "userType": {
+              "include": [],
+              "exclude": []
+            }
+          },
+          "actions": {
+            "appSignOn": {
+              "access": "ALLOW",
+              "verificationMethod": {
+                "factorMode": "1FA",
+                "type": "ASSURANCE",
+                "reauthenticateIn": "PT0S",
+                "constraints": [
+                  {
+                    "knowledge": {
+                      "required": true,
+                      "types": [
+                        "password"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "Catch-all Rule",
+          "status": "ACTIVE",
+          "priority": 99,
+          "conditions": null,
+          "actions": {
+            "appSignOn": {
+              "access": "ALLOW",
+              "verificationMethod": {
+                "factorMode": "2FA_If_Possible",
+                "type": "ASSURANCE",
+                "reauthenticateIn": "PT0S"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "id009",
+      "name": "Okta OIN Submission Tester",
+      "status": "ACTIVE",
+      "priority": 1,
+      "system": false,
+      "settings": null,
+      "rules": [
+        {
+          "name": "Catch-all Rule",
+          "status": "ACTIVE",
+          "priority": 99,
+          "conditions": null,
+          "actions": {
+            "appSignOn": {
+              "access": "ALLOW",
+              "verificationMethod": {
+                "factorMode": "1FA",
+                "type": "ASSURANCE",
+                "reauthenticateIn": "PT2H",
+                "constraints": [
+                  {
+                    "knowledge": {
+                      "required": true,
+                      "types": [
+                        "password"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "keepMeSignedIn": {
+                "postAuth": "NOT_ALLOWED"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

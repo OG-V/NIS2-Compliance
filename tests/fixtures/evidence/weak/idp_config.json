@@ -5,6 +5,7 @@
     "lockout_max_attempts": null,
     "new_users_must_enrol_mfa": false,
     "password_min_length": 0,
+    "password_only_sign_in": null,
     "password_policy": "no password policy",
     "tenant": "nordmsp",
     "users": [

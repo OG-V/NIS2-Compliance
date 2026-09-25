@@ -33,6 +33,9 @@ class IdentityEvidence(BaseModel):
     lockout_max_attempts: int | None = None
     password_min_length: int  # 0 when no minimum is set
     password_policy: str  # the product's own description of the policy, for traceability
+    # Sign-in paths (policies, apps) that accept a password alone. None when the product
+    # has no sign-in policies separate from users' factors (then per-user MFA decides).
+    password_only_sign_in: list[str] | None = None
 
     @property
     def users_without_mfa(self) -> list[str]:

@@ -37,13 +37,19 @@ def mfa_enforced(ev: dict, profile: Profile, now: datetime):
         "users_without_mfa": without_mfa,
     }
     expected = {"new_users_must_enrol_mfa": True, "users_without_mfa": []}
+    if idp.password_only_sign_in is not None:  # products with separate sign-in policies
+        observed["password_only_sign_in"] = idp.password_only_sign_in
+        expected["password_only_sign_in"] = []
     problems = []
     if without_mfa:
         problems.append(f"{len(without_mfa)} account(s) without MFA: {', '.join(without_mfa)}")
     if not idp.new_users_must_enrol_mfa:
         problems.append("new accounts are not required to enrol a second factor")
+    if idp.password_only_sign_in:
+        problems.append(f"a password alone signs in through {', '.join(idp.password_only_sign_in)}")
     if problems:
-        return failed("; ".join(problems), observed, expected)
+        message = "; ".join(problems)
+        return failed(message[0].upper() + message[1:], observed, expected)
     return passed(f"All {len(idp.users)} accounts have or must enrol MFA", observed, expected)
 
 

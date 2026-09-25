@@ -172,3 +172,72 @@ def test_saas_products_have_no_default_login():
 def test_missing_product_settings_are_reported():
     with pytest.raises(CollectorError, match="Okta needs api_token_env set in the target"):
         idp_config(DetectedAs("okta"), IdpTarget(url="https://x"))
+
+
+# --- Okta sign-in policies (recorded from a live Identity Engine org) --------------
+
+LIVE = json.loads((Path(__file__).parent / "fixtures" / "okta" / "live-oie-dev.json").read_text())
+
+
+def _access_rule(raw, policy_name):
+    policy = next(p for p in raw["access_policies"] if p["name"] == policy_name)
+    return next(r for r in policy["rules"] if r["name"] == "Catch-all Rule")
+
+
+def test_live_org_has_one_password_only_app():
+    idp = ADAPTERS["okta"].normalize(LIVE)
+    assert idp.users_without_mfa == []
+    # Every other app requires 2FA. The password-expiry rule (an expression condition)
+    # and account management ("2FA_If_Possible") are not sign-in paths.
+    assert idp.password_only_sign_in == ["Okta OIN Submission Tester"]
+    assert not idp.new_users_must_enrol_mfa  # that app can be used without ever enrolling
+
+
+def test_all_apps_requiring_2fa_forces_enrolment():
+    raw = copy.deepcopy(LIVE)
+    rule = _access_rule(raw, "Okta OIN Submission Tester")
+    rule["actions"]["appSignOn"]["verificationMethod"]["factorMode"] = "2FA"
+    idp = ADAPTERS["okta"].normalize(raw)
+    assert idp.password_only_sign_in == []
+    assert idp.new_users_must_enrol_mfa  # Okta Verify is optional, so it can be enrolled
+
+
+def test_no_enrollable_factor_means_no_forced_enrolment():
+    raw = copy.deepcopy(LIVE)
+    _access_rule(raw, "Okta OIN Submission Tester")["actions"]["appSignOn"]["verificationMethod"][
+        "factorMode"
+    ] = "2FA"
+    for a in raw["mfa_enroll_policies"][0]["settings"]["authenticators"]:
+        a["enroll"]["self"] = "NOT_ALLOWED" if a["key"] != "okta_password" else "REQUIRED"
+    assert not ADAPTERS["okta"].normalize(raw).new_users_must_enrol_mfa
+
+
+def test_session_policy_requiring_a_factor_covers_every_app():
+    raw = copy.deepcopy(LIVE)
+    for p in raw["sign_on_policies"]:
+        for r in p["rules"]:
+            r["actions"]["signon"]["requireFactor"] = True
+    assert ADAPTERS["okta"].normalize(raw).password_only_sign_in == []
+
+
+def test_classic_engine_relies_on_the_session_policy():
+    raw = copy.deepcopy(LIVE)
+    raw["access_policies"] = None  # Classic Engine orgs have no authentication policies
+    assert ADAPTERS["okta"].normalize(raw).password_only_sign_in == ["Default Policy"]
+
+
+def test_evidence_without_sign_in_policies_says_nothing_about_them():
+    assert ADAPTERS["okta"].normalize(OKTA).password_only_sign_in is None
+
+
+def test_mfa_check_names_password_only_apps():
+    from nis2scan.checks.identity import mfa_enforced
+
+    ev = {"identity": ADAPTERS["okta"].normalize(LIVE).model_dump()}
+    result = mfa_enforced(ev, None, None)
+    assert result.status == "fail"
+    assert result.message == (
+        "New accounts are not required to enrol a second factor; "
+        "a password alone signs in through Okta OIN Submission Tester"
+    )
+    assert result.observed["password_only_sign_in"] == ["Okta OIN Submission Tester"]
