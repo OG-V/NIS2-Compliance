@@ -401,6 +401,119 @@ def evidence_template(
 
 
 @app.command()
+def suggest(
+    documents: Annotated[
+        list[Path], typer.Argument(help="Documents to read (.md, .txt, .docx, .pdf).")
+    ],
+    base: Annotated[
+        Path | None,
+        typer.Option(
+            help="Folder the register's document paths are relative to (default: as given)."
+        ),
+    ] = None,
+    out: Annotated[Path | None, typer.Option(help="Also write each result as JSON here.")] = None,
+    catalog: Annotated[Path, typer.Option(help="Requirement catalog.")] = Path(
+        "catalog/requirements"
+    ),
+    model: Annotated[str | None, typer.Option(help="Claude model ID.")] = None,
+    effort: Annotated[str | None, typer.Option(help="low, medium, high, xhigh or max.")] = None,
+) -> None:
+    """Suggest which unchecked requirements a document may evidence (costs API credits).
+
+    Prints draft register entries without a verdict; a reviewer decides (ADR 0007).
+    """
+    from dataclasses import asdict
+
+    from nis2scan.doctext import UnreadableDocument, extract_text
+
+    try:
+        import anthropic
+
+        from nis2scan.suggest import EFFORT, MODEL, draft_entries
+        from nis2scan.suggest import suggest as run_suggest
+    except ImportError:
+        console.print("[red]The LLM extra is not installed:[/] pip install -e '.[llm]'")
+        raise typer.Exit(code=2) from None
+
+    texts = {}
+    for doc in documents:
+        try:
+            texts[doc] = extract_text(doc)
+        except (OSError, UnreadableDocument) as exc:
+            console.print(f"[red]Cannot read {doc}:[/] {exc}")
+            raise typer.Exit(code=2) from None
+
+    load_all()
+    checked = {r for c in CHECKS.values() for r in c.meta.requirements}
+    requirements = [r for r in load_requirements(catalog) if r.id not in checked]
+    titles = {r.id: r.title for r in requirements}
+    model, effort = model or MODEL, effort or EFFORT
+    client = anthropic.Anthropic()
+    try:
+        client.models.retrieve(model)
+    except (TypeError, anthropic.AnthropicError) as exc:
+        console.print(f"[red]Cannot reach {model}:[/] {exc}")
+        raise typer.Exit(code=2) from None
+
+    if out:
+        out.mkdir(parents=True, exist_ok=True)
+    for doc, text in texts.items():
+        with console.status(f"Reading {doc} with {model}..."):
+            result = run_suggest(client, doc.as_posix(), text, requirements, model, effort)
+        if result.error:
+            console.print(f"[red]{doc}: {result.error}[/]")
+        else:
+            register_path = doc.resolve().relative_to(base.resolve()) if base else doc
+            typer.echo(draft_entries(result, register_path.as_posix(), titles))
+            if result.rejected:
+                console.print(
+                    f"[yellow]{len(result.rejected)} suggestion(s) failed verification "
+                    "and were dropped[/] (see --out for the reasons)."
+                )
+        if out:
+            name = doc.with_suffix("").as_posix().lstrip("./").replace("/", "--") + ".json"
+            (out / name).write_text(json.dumps(asdict(result), indent=2) + "\n")
+
+
+@app.command("evaluate-suggestions")
+def evaluate_suggestions(
+    run_dir: Annotated[Path, typer.Argument(help="Directory written by `suggest --out`.")],
+    gold_file: Annotated[Path, typer.Option("--gold", help="Gold set.")] = Path(
+        "eval/gold-suggestions.yaml"
+    ),
+    json_out: Annotated[Path | None, typer.Option(help="Also write the results as JSON.")] = None,
+) -> None:
+    """Score evidence suggestions against the gold set (deterministic, no LLM)."""
+    from dataclasses import asdict
+
+    from nis2scan.suggest import GoldSuggestions, score
+
+    gold = GoldSuggestions.model_validate(yaml.safe_load(gold_file.read_text()))
+    results = [json.loads(p.read_text()) for p in sorted(run_dir.glob("*.json"))]
+    if gold.status != "reviewed":
+        console.print(f"[yellow]Gold set status is '{gold.status}': not human-verified yet.[/]")
+    scores, totals = score(results, gold)
+    table = Table("Document", "Suggested", "Must found", "Missed", "False positives", "Rejected")
+    for s in scores:
+        table.add_row(
+            Path(s.document).name,
+            str(len(s.suggested)),
+            f"{len(s.hits)}/{len(s.hits) + len(s.missed)}",
+            ", ".join(s.missed),
+            ", ".join(s.false_positives),
+            str(s.rejected) if s.rejected else "",
+        )
+    console.print(table)
+    for key, value in totals.items():
+        console.print(f"{key:26} {value}")
+    if json_out:
+        json_out.write_text(
+            json.dumps({"summary": totals, "documents": [asdict(s) for s in scores]}, indent=2)
+            + "\n"
+        )
+
+
+@app.command()
 def onboard(
     target: Annotated[Path, typer.Option(help="Target description file.")] = Path(
         "lab/target.yaml"
