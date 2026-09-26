@@ -21,7 +21,7 @@
     },
     "evidence_ref": "evidence/asset_inventory/documents.json",
     "message": "All 7 running services are inventoried",
-    "collected_at": "2026-09-26T01:32:48.849335Z"
+    "collected_at": "2026-09-26T11:44:53.082696Z"
   },
   {
     "check_id": "CHK-BAK-001",
@@ -30,7 +30,7 @@
     "status": "pass",
     "observed": {
       "snapshots": 1,
-      "newest": "2026-09-26T01:32:21.340426+00:00",
+      "newest": "2026-09-26T11:44:13.913159+00:00",
       "age_hours": 0.0
     },
     "expected": {
@@ -38,7 +38,7 @@
     },
     "evidence_ref": "evidence/backup_snapshots/restic.json",
     "message": "Newest backup is within the allowed age",
-    "collected_at": "2026-09-26T01:32:49.521665Z"
+    "collected_at": "2026-09-26T11:44:53.766097Z"
   },
   {
     "check_id": "CHK-BAK-001",
@@ -47,7 +47,7 @@
     "status": "pass",
     "observed": {
       "snapshots": 1,
-      "newest": "2026-09-26T01:32:21+00:00",
+      "newest": "2026-09-26T11:44:14+00:00",
       "age_hours": 0.0
     },
     "expected": {
@@ -55,7 +55,7 @@
     },
     "evidence_ref": "evidence/backup_snapshots/borg.json",
     "message": "Newest backup is within the allowed age",
-    "collected_at": "2026-09-26T01:32:50.050427Z"
+    "collected_at": "2026-09-26T11:44:54.340441Z"
   },
   {
     "check_id": "CHK-BAK-002",
@@ -71,7 +71,7 @@
     },
     "evidence_ref": "evidence/backup_snapshots/restic.json",
     "message": "The backups are encrypted",
-    "collected_at": "2026-09-26T01:32:49.521665Z"
+    "collected_at": "2026-09-26T11:44:53.766097Z"
   },
   {
     "check_id": "CHK-BAK-002",
@@ -87,7 +87,7 @@
     },
     "evidence_ref": "evidence/backup_snapshots/borg.json",
     "message": "The backups are encrypted",
-    "collected_at": "2026-09-26T01:32:50.050427Z"
+    "collected_at": "2026-09-26T11:44:54.340441Z"
   },
   {
     "check_id": "CHK-DOC-001",
@@ -108,7 +108,7 @@
     },
     "evidence_ref": "evidence/ir_plan/documents.json",
     "message": "Plan mentions every reporting stage and the CSIRT",
-    "collected_at": "2026-09-26T01:32:50.050634Z"
+    "collected_at": "2026-09-26T11:44:54.340639Z"
   },
   {
     "check_id": "CHK-DOC-002",
@@ -125,7 +125,7 @@
     },
     "evidence_ref": "evidence/ir_plan/documents.json",
     "message": "Plan was reviewed 25 days ago",
-    "collected_at": "2026-09-26T01:32:50.050634Z"
+    "collected_at": "2026-09-26T11:44:54.340639Z"
   },
   {
     "check_id": "CHK-IDP-001",
@@ -142,7 +142,7 @@
     },
     "evidence_ref": "evidence/idp_config/keycloak.json",
     "message": "All 2 accounts have or must enrol MFA",
-    "collected_at": "2026-09-26T01:32:50.257880Z"
+    "collected_at": "2026-09-26T11:44:54.829032Z"
   },
   {
     "check_id": "CHK-IDP-002",
@@ -158,7 +158,7 @@
     },
     "evidence_ref": "evidence/idp_config/keycloak.json",
     "message": "Accounts lock after 5 failed logins",
-    "collected_at": "2026-09-26T01:32:50.257880Z"
+    "collected_at": "2026-09-26T11:44:54.829032Z"
   },
   {
     "check_id": "CHK-IDP-003",
@@ -174,7 +174,7 @@
     },
     "evidence_ref": "evidence/idp_config/keycloak.json",
     "message": "Password policy requires 12 characters",
-    "collected_at": "2026-09-26T01:32:50.257880Z"
+    "collected_at": "2026-09-26T11:44:54.829032Z"
   },
   {
     "check_id": "CHK-IDP-004",
@@ -190,7 +190,7 @@
     },
     "evidence_ref": "evidence/idp_default_admin/keycloak.json",
     "message": "Default admin credentials are rejected",
-    "collected_at": "2026-09-26T01:32:50.287337Z"
+    "collected_at": "2026-09-26T11:44:54.861679Z"
   },
   {
     "check_id": "CHK-LOG-001",
@@ -206,7 +206,7 @@
     },
     "evidence_ref": "evidence/log_retention/loki.json",
     "message": "Logs are kept for 180 days",
-    "collected_at": "2026-09-26T01:32:50.407533Z"
+    "collected_at": "2026-09-26T11:44:54.987879Z"
   },
   {
     "check_id": "CHK-LOG-001",
@@ -222,7 +222,7 @@
     },
     "evidence_ref": "evidence/log_retention/elasticsearch.json",
     "message": "Logs are kept for 180 days",
-    "collected_at": "2026-09-26T01:32:50.445680Z"
+    "collected_at": "2026-09-26T11:44:55.114949Z"
   },
   {
     "check_id": "CHK-SSH-001",
@@ -243,7 +243,7 @@
     },
     "evidence_ref": "evidence/ssh_auth_methods/app-host.json",
     "message": "Server offers only publickey",
-    "collected_at": "2026-09-26T01:32:50.507228Z"
+    "collected_at": "2026-09-26T11:44:55.174342Z"
   },
   {
     "check_id": "CHK-SSH-002",
@@ -258,7 +258,7 @@
     },
     "evidence_ref": "evidence/sshd_effective_config/app-host.json",
     "message": "PermitRootLogin is 'no'",
-    "collected_at": "2026-09-26T01:32:50.576216Z"
+    "collected_at": "2026-09-26T11:44:55.252310Z"
   },
   {
     "check_id": "CHK-SSH-003",
@@ -273,7 +273,7 @@
     },
     "evidence_ref": "evidence/sshd_effective_config/app-host.json",
     "message": "MaxAuthTries is 3",
-    "collected_at": "2026-09-26T01:32:50.576216Z"
+    "collected_at": "2026-09-26T11:44:55.252310Z"
   },
   {
     "check_id": "CHK-TLS-001",
@@ -291,7 +291,7 @@
     },
     "evidence_ref": "evidence/tls_probe/portal.json",
     "message": "Server only accepts TLSv1.2, TLSv1.3",
-    "collected_at": "2026-09-26T01:32:50.583813Z"
+    "collected_at": "2026-09-26T11:44:55.261252Z"
   },
   {
     "check_id": "CHK-TLS-002",
@@ -299,8 +299,8 @@
     "asset": "portal",
     "status": "pass",
     "observed": {
-      "not_before": "2026-09-26T01:32:20+00:00",
-      "not_after": "2027-09-26T01:32:20+00:00",
+      "not_before": "2026-09-26T11:44:12+00:00",
+      "not_after": "2027-09-26T11:44:12+00:00",
       "days_left": 364
     },
     "expected": {
@@ -308,7 +308,7 @@
     },
     "evidence_ref": "evidence/tls_probe/portal.json",
     "message": "Certificate valid for 364 more days",
-    "collected_at": "2026-09-26T01:32:50.583813Z"
+    "collected_at": "2026-09-26T11:44:55.261252Z"
   },
   {
     "check_id": "CHK-TLS-003",
@@ -326,7 +326,7 @@
     },
     "evidence_ref": "evidence/http_probe/portal.json",
     "message": "HTTP redirects to HTTPS and HSTS is set",
-    "collected_at": "2026-09-26T01:32:50.586980Z"
+    "collected_at": "2026-09-26T11:44:55.264607Z"
   },
   {
     "check_id": "CHK-VUL-001",
@@ -350,6 +350,6 @@
     },
     "evidence_ref": "evidence/image_vulnerabilities/nis2lab.json",
     "message": "No unaccepted fixable CRITICAL vulnerabilities, 3 covered by accepted risk exceptions",
-    "collected_at": "2026-09-26T01:33:10.557326Z"
+    "collected_at": "2026-09-26T11:45:17.102670Z"
   }
 ]

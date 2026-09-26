@@ -1,0 +1,54 @@
+{
+  "_collected_at": "2026-09-26T11:43:47.629289+00:00",
+  "problems": [],
+  "register": "evidence-register.yaml",
+  "reviews": [
+    {
+      "documents": [
+        {
+          "path": "evidence/information-security-policy.md",
+          "sha256": "5aa73f1b4f3c0004ae660cda752d13b1b134f6e0ea52ba17969c30a188ee1dc2"
+        }
+      ],
+      "rationale": "The only policy is a three-line list of rules from 2023, not approved by management, with no risk analysis behind it.",
+      "requirement": "REQ-NIS2-21.2.A",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "valid_until": "2027-09-15",
+      "verdict": "not_satisfied"
+    },
+    {
+      "documents": [
+        {
+          "path": "evidence/information-security-policy.md",
+          "sha256": "5aa73f1b4f3c0004ae660cda752d13b1b134f6e0ea52ba17969c30a188ee1dc2"
+        }
+      ],
+      "rationale": "The policy has not been reviewed since it was written in February 2023.",
+      "requirement": "REQ-CIR2690-1.1.2-01",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "valid_until": "2027-09-15",
+      "verdict": "not_satisfied"
+    },
+    {
+      "documents": [],
+      "rationale": "No backup plan exists; the IT lead confirmed backups are set up ad hoc.",
+      "requirement": "REQ-CIR2690-4.2.2-01",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "valid_until": "2027-09-15",
+      "verdict": "not_satisfied"
+    },
+    {
+      "documents": [],
+      "rationale": "No training records exist; staff have had no security training since 2022.",
+      "requirement": "REQ-NIS2-21.2.G",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "valid_until": "2027-09-15",
+      "verdict": "not_satisfied"
+    }
+  ],
+  "sha256": "ea69b3ead70646ef9c08b6ce5e528ec698b0f153aab1d2c796b2a66c5ce28c04"
+}

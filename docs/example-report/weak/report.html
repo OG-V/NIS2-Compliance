@@ -13,6 +13,7 @@
     --amber: #8a5a00; --amber-bg: #fdf1d6; --amber-dot: #d99a1e;
     --green: #1e6b3a; --green-bg: #e3f2e7; --green-dot: #2f8f52;
     --grey: #5d6573; --grey-bg: #eceef0; --grey-dot: #cfd3d9;
+    --doc: #1f5fa8; --doc-bg: #e3edf9; --doc-dot: #3c7fd0;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -24,6 +25,7 @@
       --amber: #ffcc66; --amber-bg: #3a2e12; --amber-dot: #c98f1c;
       --green: #7fd69a; --green-bg: #173222; --green-dot: #3fa665;
       --grey: #a2a9b5; --grey-bg: #262b34; --grey-dot: #3b424e;
+      --doc: #8fb8f2; --doc-bg: #1b2a40; --doc-dot: #4f8fe0;
     }
   }
   * { box-sizing: border-box; }
@@ -162,6 +164,15 @@
     main { gap: 28px; }
     .panel, .gap, .measure, .fix-list li { break-inside: avoid; }
   }
+
+  .doc { background: var(--doc-dot); }
+  .dots i.doc { background: var(--doc-dot); }
+  .pill.docpill { background: var(--doc-bg); color: var(--doc); }
+  .review { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--doc-dot); border-radius: 12px; padding: 16px 20px; display: grid; gap: 8px; }
+  .review-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+  .review .kv { margin-top: 2px; }
+  .review.review-ns { border-left-color: var(--red-dot); }
+  .review.review-na { border-left-color: var(--amber-dot); }
 </style>
 </head>
 <body>
@@ -170,7 +181,7 @@
     <div class="label">NIS2 evidence report</div>
     <h1>nordmsp-lab</h1>
     <div class="meta">
-      <span>Scanned <b>2026-09-26 01:31 UTC</b></span>
+      <span>Scanned <b>2026-09-26 11:43 UTC</b></span>
       <span>nis2scan 0.1.0</span>
       <span>Profile <span class="mono">3ff459e2e023</span></span>
     </div>
@@ -190,16 +201,17 @@
   <section aria-labelledby="glance">
     <h2 id="glance" hidden>At a glance</h2>
     <div class="panel">
-      <p class="headline"><em>All 17 checks failed.</em> 1 problem is critical and 6 are high severity.
+      <p class="headline"><em>All 17 checks failed.</em> 1 problem is critical and 6 are high severity.<small>Document review found 4 more requirements not satisfied.</small>
       </p>
       <div class="glance">
         <div>
           <div class="label">85 legal requirements · one square each</div>
-          <div class="units" role="img" aria-label="21 not satisfied, 0 with evidence, 64 not checked"><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i></div>
+          <div class="units" role="img" aria-label="25 not satisfied, 0 with evidence, 60 not checked"><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i></div>
           <div class="legend">
-            <span><i class="ns"></i><b>21</b> not satisfied</span>
-            <span><i class="ev"></i><b>0</b> partially evidenced</span>
-            <span><i style="background:var(--grey-dot)"></i><b>64</b> not checked by this tool</span>
+            <span><i class="ns"></i><b>25</b> not satisfied</span>
+            <span><i class="ev"></i><b>0</b> partially evidenced by checks</span>
+            <span><i class="doc"></i><b>0</b> evidenced by document review</span>
+            <span><i style="background:var(--grey-dot)"></i><b>60</b> not checked by this tool</span>
           </div>
         </div>
         <div>
@@ -222,7 +234,7 @@
   <section>
     <h2>Executive summary</h2>
     <div class="narrative">
-      <p>The scan found gaps across every area it tested: all 17 checks failed, 21 requirements were not satisfied and 64 could not be assessed by this scan. The most serious gap is that the admin console accepts the default admin/admin login, which could give anyone full control. Other urgent gaps: the newest backups are 559 and 481 days old, two staff accounts lack multi-factor authentication, SSH allows password and direct root login, the web server still accepts outdated TLS versions, and running software contains fixable critical vulnerabilities.</p>
+      <p>All 17 automated checks failed, leaving 25 requirements not satisfied and 60 not assessed. The most severe gap is that the admin console accepts the default admin/admin login, so anyone who tries it gains administrative access. High-severity gaps follow: the only backups are 560 and 482 days old; two staff accounts, including an admin, have no multi-factor authentication; the SSH server offers password login and allows direct root login; the web server still accepts outdated TLS versions; and running software images contain fixable critical vulnerabilities, including one image whose operating system is at end of support. Further gaps cover the asset inventory, backup encryption, incident reporting, account lockout, password length, log retention and certificates.</p>
       <p class="ai">
         Drafted by claude-opus-5-5 from the findings in this report only. Every cited
         finding, every number and full gap coverage were verified mechanically
@@ -288,14 +300,14 @@
         Regulation (EU) 2024/2690.</p>
     </div>
     <div class="map">
-      <div class="measure">
+      <div class="measure bad">
         <div class="measure-top">
-          <div class="ico not_assessed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
-          <span class="pill not_assessed">Not checked</span>
+          <div class="ico not_satisfied"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <span class="pill not_satisfied">Problems found</span>
         </div>
-        <div><h3>Risk analysis and security policies</h3><div class="art">Art. 21(2)(a)</div></div>
-        <div class="dots" aria-hidden="true"><i></i><i></i></div>
-        <div class="detail">2 detailed requirements, none checked yet</div>
+        <div><h3>Risk analysis and security policies</h3><div class="art">Art. 21(2)(a) · by document review</div></div>
+        <div class="dots" aria-hidden="true"><i class="ns"></i><i></i></div>
+        <div class="detail">2 detailed requirements: <b>1 failing</b> · 1 not checked</div>
       </div>
       <div class="measure bad">
         <div class="measure-top">
@@ -312,8 +324,8 @@
           <span class="pill not_satisfied">Problems found</span>
         </div>
         <div><h3>Business continuity and backups</h3><div class="art">Art. 21(2)(c)</div></div>
-        <div class="dots" aria-hidden="true"><i class="ns"></i><i class="ns"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="detail">10 detailed requirements: <b>2 failing</b> · 8 not checked</div>
+        <div class="dots" aria-hidden="true"><i class="ns"></i><i class="ns"></i><i class="ns"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="detail">10 detailed requirements: <b>3 failing</b> · 7 not checked</div>
       </div>
       <div class="measure">
         <div class="measure-top">
@@ -341,12 +353,12 @@
         <div class="dots" aria-hidden="true"><i></i><i></i></div>
         <div class="detail">2 detailed requirements, none checked yet</div>
       </div>
-      <div class="measure">
+      <div class="measure bad">
         <div class="measure-top">
-          <div class="ico not_assessed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg></div>
-          <span class="pill not_assessed">Not checked</span>
+          <div class="ico not_satisfied"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg></div>
+          <span class="pill not_satisfied">Problems found</span>
         </div>
-        <div><h3>Cyber hygiene and training</h3><div class="art">Art. 21(2)(g)</div></div>
+        <div><h3>Cyber hygiene and training</h3><div class="art">Art. 21(2)(g) · by document review</div></div>
         <div class="detail">No detailed requirements in the catalog yet</div>
       </div>
       <div class="measure bad">
@@ -408,11 +420,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>The default login is refused.</p></div>
         </div>
         
-        <p class="why">The rules require access control policies and require that login credentials are changed initially. The scan logged into the admin console with the username admin and password admin and was let in. Default credentials are widely known, so anyone who can reach the console could take full administrative control of the system.</p>
+        <p class="why">The rules require access control and that login credentials are changed from their initial values. The scan logged in to the admin console with the username admin and password admin and was let in. Default credentials are widely known, so anyone who reaches the console can take full administrative control of the system.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A setting, a password or a line of configuration"><i><s class="on"></s><s class=""></s><s class=""></s></i>Quick fix</span></div>
           
-          <ol><li>Change the admin console password immediately to a unique, strong secret.</li><li>Ensure the default admin/admin combination is rejected, then re-run the check to confirm the login is refused.</li><li>Review console activity for signs that the default login was already misused.</li></ol>
+          <ol><li>Change the admin account password on the admin console immediately so that admin/admin is rejected.</li><li>Check whether any other accounts still use initial or default passwords and change them.</li><li>Repeat the test to confirm the default login is no longer accepted.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.I, REQ-CIR2690-11.6.2-03; verified mechanically.</p>
           
         </div>
@@ -423,7 +435,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-IDP-004</span> · Default admin credentials are rejected</dd>
               <dt>Observed</dt><dd class="mono">{"result": "HTTP 200", "username_tried": "admin"}</dd>
               <dt>Expected</dt><dd class="mono">{"accepted": false}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/idp_default_admin/keycloak.json (sha256 55cc9154d2795fe3…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/idp_default_admin/keycloak.json (sha256 6eb069bcff6aa694…)</dd>
             </dl>
             
             <div>
@@ -449,21 +461,21 @@
       <div class="gap-body">
         <div class="gap-head">
           <div class="row"><span class="pill cap high">high</span><span class="muted small">Business continuity and backups</span><span class="small"><b>Fails on 2 of 2 backup repositories</b></span></div>
-          <h3>Newest backup is 559 days old</h3>
+          <h3>Newest backup is 560 days old</h3>
         </div>
         
         <div class="compare">
           <div class="cmp found"><span class="k">Found</span>
-            <dl class="per-asset"><dt>borg</dt><dd>The newest backup was taken on 15 March 2025, 559 days ago.</dd><dt>restic</dt><dd>The newest backup was taken on 1 June 2025, 481 days ago.</dd></dl>
+            <dl class="per-asset"><dt>borg</dt><dd>The newest backup was taken on 15 March 2025, 560 days ago.</dd><dt>restic</dt><dd>The newest backup was taken on 1 June 2025, 482 days ago.</dd></dl>
           </div>
           <div class="cmp should"><span class="k">Should be</span><p>A backup no older than 26 hours.</p></div>
         </div>
         
-        <p class="why">The rules require backup management and that backup copies of data are maintained. Each backup system holds a single snapshot: the newest borg backup is 559 days old and the newest restic backup is 481 days old, far beyond the maximum age the profile allows. If data were lost now, most recent work could not be restored.</p>
+        <p class="why">The rules require backup management and that backup copies of data are maintained. Each backup system holds a single snapshot: the newest borg backup is 560 days old and the newest restic backup is 482 days old, far beyond the maximum age the profile allows. If data were lost today, only very old copies could be restored, and most recent work would be gone.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A configuration or process change that needs some testing"><i><s class="on"></s><s class="on"></s><s class=""></s></i>Needs a change</span></div>
           
-          <ol><li>Find out why scheduled backups for borg and restic stopped running and fix the cause.</li><li>Restore a regular backup schedule so the newest snapshot always stays within the profile&#39;s maximum age.</li><li>Set up an alert when backups stop, and re-run the check to confirm fresh snapshots exist.</li></ol>
+          <ol><li>Find out why scheduled backups in borg and restic stopped running and fix the cause.</li><li>Restore regular automatic backups so a new snapshot is always within the profile&#39;s maximum age.</li><li>Set up an alert when no fresh snapshot has been created, and test a restore.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.C, REQ-CIR2690-4.2.1-01; verified mechanically.</p>
           
         </div>
@@ -473,8 +485,8 @@
             <dl class="kv">
               <dt>Check</dt><dd><span class="mono">CHK-BAK-001</span> · A recent backup snapshot exists</dd>
               <dt>Expected</dt><dd class="mono">{"max_age_hours": 26}</dd>
-              <dt>borg</dt><dd><span class="pill fail">fail</span> <span class="mono">{"age_hours": 13438.5, "newest": "2025-03-15T03:00:00+00:00", "snapshots": 1}</span><br><span class="mono">evidence/backup_snapshots/borg.json (sha256 2fecceaab5dc7070…)</span></dd>
-              <dt>restic</dt><dd><span class="pill fail">fail</span> <span class="mono">{"age_hours": 11567.5, "newest": "2025-06-01T02:00:00+00:00", "snapshots": 1}</span><br><span class="mono">evidence/backup_snapshots/restic.json (sha256 cf800ed1454ce697…)</span></dd>
+              <dt>borg</dt><dd><span class="pill fail">fail</span> <span class="mono">{"age_hours": 13448.7, "newest": "2025-03-15T03:00:00+00:00", "snapshots": 1}</span><br><span class="mono">evidence/backup_snapshots/borg.json (sha256 0db576d5b7739640…)</span></dd>
+              <dt>restic</dt><dd><span class="pill fail">fail</span> <span class="mono">{"age_hours": 11577.7, "newest": "2025-06-01T02:00:00+00:00", "snapshots": 1}</span><br><span class="mono">evidence/backup_snapshots/restic.json (sha256 7fd8f335fc720155…)</span></dd>
             </dl>
             
             <div>
@@ -508,11 +520,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>Every account uses two-factor login, and new accounts must set it up.</p></div>
         </div>
         
-        <p class="why">The rules call for multi-factor authentication, especially for privileged and administration accounts. The accounts kari.admin and ola.tech have no second factor, and new accounts are not required to enrol one. A single stolen password would be enough to access these accounts, one of which appears to be an administrator.</p>
+        <p class="why">The rules call for multi-factor authentication, especially for privileged and administration accounts. The accounts kari.admin and ola.tech have no second factor, and new accounts are not required to set one up. A stolen or guessed password alone is enough to take over these accounts, including one that appears to be an administrator.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A configuration or process change that needs some testing"><i><s class="on"></s><s class="on"></s><s class=""></s></i>Needs a change</span></div>
           
-          <ol><li>Enrol a second factor for kari.admin and ola.tech.</li><li>Turn on the identity provider setting that forces new users to enrol multi-factor authentication.</li><li>Re-run the check to confirm no accounts remain without multi-factor authentication.</li></ol>
+          <ol><li>Enrol kari.admin and ola.tech in multi-factor authentication.</li><li>Change the identity provider setting so every new user must enrol a second factor.</li><li>Review accounts regularly so the list of users without MFA stays empty.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.J, REQ-CIR2690-11.3.2-01, REQ-CIR2690-11.7.1-01; verified mechanically.</p>
           
         </div>
@@ -523,7 +535,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-IDP-001</span> · Every staff account has MFA enrolled or is forced to enrol</dd>
               <dt>Observed</dt><dd class="mono">{"new_users_must_enrol_mfa": false, "users_without_mfa": ["kari.admin", "ola.tech"]}</dd>
               <dt>Expected</dt><dd class="mono">{"new_users_must_enrol_mfa": true, "users_without_mfa": []}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/idp_config/keycloak.json (sha256 66c7e01f5bccbaa4…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/idp_config/keycloak.json (sha256 71dea08e87fd2c8f…)</dd>
             </dl>
             
             <div>
@@ -563,11 +575,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>Only key-based logins (public key) are accepted.</p></div>
         </div>
         
-        <p class="why">The rules require that the strength of authentication matches the importance of what is being accessed. The SSH server, used for remote administration, accepts plain passwords alongside keys. Passwords can be guessed or stolen, which weakens protection of a sensitive entry point.</p>
+        <p class="why">The rules require authentication strength that fits the importance of the system. The SSH server accepts passwords as well as keys. Passwords can be guessed or stolen, so offering them weakens remote access to the server.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A setting, a password or a line of configuration"><i><s class="on"></s><s class=""></s><s class=""></s></i>Quick fix</span></div>
           
-          <ol><li>Configure the SSH server to stop offering password, keyboard-interactive and none authentication, keeping only public key login.</li><li>Make sure all administrators have working keys before the change.</li><li>Re-run the check to confirm password authentication is no longer offered.</li></ol>
+          <ol><li>Disable password authentication in the SSH server configuration so only publickey is offered.</li><li>Make sure keyboard-interactive and none are also not offered.</li><li>Confirm that all administrators have working keys before making the change.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.I, REQ-CIR2690-11.6.2-01, REQ-CIR2690-11.7.2-01; verified mechanically.</p>
           
         </div>
@@ -578,7 +590,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-SSH-001</span> · SSH does not offer password authentication</dd>
               <dt>Observed</dt><dd class="mono">{"auth_methods_offered": ["password", "publickey"]}</dd>
               <dt>Expected</dt><dd class="mono">{"not_offered": ["password", "keyboard-interactive", "none"]}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/ssh_auth_methods/app-host.json (sha256 4aed10bcbea333ec…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/ssh_auth_methods/app-host.json (sha256 be7f1f741b1efc0c…)</dd>
             </dl>
             
             <div>
@@ -618,11 +630,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>Direct root login is switched off. Administrators log in as themselves first.</p></div>
         </div>
         
-        <p class="why">The rules require administration privileges to be individualised and restricted. SSH currently allows direct login as root (PermitRootLogin is &#39;yes&#39;). This means attackers can target the most powerful account directly, and actions cannot be traced to an individual person.</p>
+        <p class="why">The rules require administration privileges to be individualised and restricted. The SSH setting PermitRootLogin is &#39;yes&#39;, so anyone can try to log in directly as the all-powerful root account. This hides who did what and gives attackers a single, well-known target.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A setting, a password or a line of configuration"><i><s class="on"></s><s class=""></s><s class=""></s></i>Quick fix</span></div>
           
-          <ol><li>Set PermitRootLogin to &#39;no&#39; in the SSH server configuration.</li><li>Have administrators log in with personal accounts and raise privileges only when needed.</li><li>Re-run the check to confirm root login is disabled.</li></ol>
+          <ol><li>Set PermitRootLogin to &#39;no&#39; in the SSH configuration.</li><li>Have administrators log in with their own named accounts and raise privileges only when needed.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.I, REQ-CIR2690-11.3.2-03; verified mechanically.</p>
           
         </div>
@@ -633,7 +645,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-SSH-002</span> · Direct root login over SSH is disabled</dd>
               <dt>Observed</dt><dd class="mono">{"permitrootlogin": "yes"}</dd>
               <dt>Expected</dt><dd class="mono">{"permitrootlogin": "no"}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/sshd_effective_config/app-host.json (sha256 2c22468e076bce4e…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/sshd_effective_config/app-host.json (sha256 4cffeaa6c7b6086f…)</dd>
             </dl>
             
             <div>
@@ -667,11 +679,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>Only TLSv1.2 or newer is accepted.</p></div>
         </div>
         
-        <p class="why">The rules require policies on the use of cryptography. The server still accepts the outdated TLSv1 and TLSv1.1 versions in addition to TLSv1.2. Older versions have known weaknesses, so connections could be downgraded and traffic exposed.</p>
+        <p class="why">The rules require policies on cryptography and encryption. The server still accepts TLSv1 and TLSv1.1, although the profile sets TLSv1.2 as the minimum. Older versions have known weaknesses and could allow traffic to be read or tampered with.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A setting, a password or a line of configuration"><i><s class="on"></s><s class=""></s><s class=""></s></i>Quick fix</span></div>
           
-          <ol><li>Configure the server to refuse TLSv1 and TLSv1.1, keeping TLSv1.2 as the minimum.</li><li>Re-run the check to confirm only permitted versions are accepted.</li></ol>
+          <ol><li>Configure the server to refuse TLSv1 and TLSv1.1 so TLSv1.2 is the lowest version accepted.</li><li>Re-scan to confirm only permitted versions are offered.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.H; verified mechanically.</p>
           
         </div>
@@ -682,7 +694,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-TLS-001</span> · TLS versions below the profile minimum are refused</dd>
               <dt>Observed</dt><dd class="mono">{"accepted_versions": ["TLSv1", "TLSv1.1", "TLSv1.2"]}</dd>
               <dt>Expected</dt><dd class="mono">{"min_version": "TLSv1.2"}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/tls_probe/portal.json (sha256 7629ba9359a270cf…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/tls_probe/portal.json (sha256 4a975f9a886e1a20…)</dd>
             </dl>
             
             <div>
@@ -710,11 +722,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>No fixable critical flaws, unless a documented risk exception covers them.</p></div>
         </div>
         
-        <p class="why">The rules require vulnerability handling, addressing critical vulnerabilities without undue delay, and applying security patches within a reasonable time. Of 8 running images scanned, several contain critical vulnerabilities for which fixes exist: nginx:1.20 (17), quay.io/keycloak/keycloak:26.3 (5), elasticsearch:8.19.10 (3), nis2lab-backup (3) and grafana/loki:3.5.1 (2). No risks have been formally accepted, and nginx:1.20 runs on an operating system that is no longer supported. Known, fixable flaws are a common route for attackers.</p>
+        <p class="why">The rules require vulnerabilities to be managed, critical ones addressed without undue delay and security patches applied in reasonable time. Of 8 running images scanned, five contain critical vulnerabilities for which a fix exists: nginx:1.20 (17), quay.io/keycloak/keycloak:26.3 (5), elasticsearch:8.19.10 (3), nis2lab-backup (3) and grafana/loki:3.5.1 (2). None has been formally accepted as a risk, and nginx:1.20 runs on an operating system at end of support. Attackers actively look for such known, fixable flaws.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="Planned work, such as upgrading several systems"><i><s class="on"></s><s class="on"></s><s class="on"></s></i>Project</span></div>
           
-          <ol><li>Update each listed image to a release that contains the available fixes and redeploy.</li><li>Replace nginx:1.20 with an image whose operating system is still supported.</li><li>Where a fix cannot be applied yet, record a formal risk acceptance.</li><li>Re-run the scan to confirm no fixable critical vulnerabilities remain.</li></ol>
+          <ol><li>Update each listed image to a version that includes the available fixes and redeploy it.</li><li>Replace nginx:1.20 with an image whose operating system is still supported.</li><li>Where a fix cannot be applied promptly, record a formal risk acceptance, and re-scan until no fixable critical vulnerabilities remain.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.E, REQ-CIR2690-6.10.1-03, REQ-CIR2690-6.10.2-03, REQ-CIR2690-6.6.1-02; verified mechanically.</p>
           
         </div>
@@ -725,7 +737,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-VUL-001</span> · No unaccepted, fixable vulnerability at the failing severity in running images</dd>
               <dt>Observed</dt><dd class="mono">{"accepted_risks": [], "failing": {"elasticsearch:8.19.10": ["CVE-2025-14813", "CVE-2026-75595", "CVE-2026-8763"], "grafana/loki:3.5.1": ["CVE-2025-68121", "CVE-2026-33186"], "nginx:1.20": ["CVE-2021-22945", "CVE-2021-46848", "CVE-2022-1586", "CVE-2022-1587", "CVE-2022-1664", "CVE-2022-27404", "CVE-2022-29155", "CVE-2022-32207", "CVE-2022-32221", "CVE-2022-37434", "CVE-2023-38545", "CVE-2024-37371", "CVE-2024-45491", "CVE-2024-45492", "CVE-2024-56171", "CVE-2026-33845", "CVE-2026-42010"], "nis2lab-backup": ["CVE-2025-68121", "CVE-2026-31789", "CVE-2026-33186"], "quay.io/keycloak/keycloak:26.3": ["CVE-2025-14813", "CVE-2026-18963", "CVE-2026-75595", "CVE-2026-84939", "CVE-2026-8763"]}, "images_scanned": 8, "os_end_of_support": ["nginx:1.20"]}</dd>
               <dt>Expected</dt><dd class="mono">{"only_with_fix": true, "severities": ["CRITICAL"]}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/image_vulnerabilities/nis2lab.json (sha256 f0c7960f737e64a4…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/image_vulnerabilities/nis2lab.json (sha256 f784062a9ff26a6a…)</dd>
             </dl>
             
             <div>
@@ -771,11 +783,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>Every running service is listed in the asset inventory.</p></div>
         </div>
         
-        <p class="why">The rules require a complete, accurate and up-to-date asset inventory. Five running services are missing from it: backup, backup-borg, legacy-web, logs and search. Services that are not inventoried tend to be forgotten, left unpatched and unmonitored.</p>
+        <p class="why">The rules require a complete, accurate and up-to-date asset inventory. Five running services are missing from it: backup, backup-borg, legacy-web, logs and search. Services that are not recorded tend not to be patched, monitored or owned, which leaves blind spots.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A setting, a password or a line of configuration"><i><s class="on"></s><s class=""></s><s class=""></s></i>Quick fix</span></div>
           
-          <ol><li>Add backup, backup-borg, legacy-web, logs and search to the asset inventory with an owner, or shut down any that are no longer needed.</li><li>Re-run the check to confirm no undeclared services remain.</li></ol>
+          <ol><li>Add backup, backup-borg, legacy-web, logs and search to the asset inventory with an owner, or shut down any that are no longer needed.</li><li>Compare the inventory with running services regularly.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.I, REQ-CIR2690-12.4.1-01; verified mechanically.</p>
           
         </div>
@@ -786,7 +798,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-AST-001</span> · Every running service is in the asset inventory</dd>
               <dt>Observed</dt><dd class="mono">{"running": ["backup", "backup-borg", "host", "idp", "legacy-web", "logs", "search", "web"], "undeclared_services": ["backup", "backup-borg", "legacy-web", "logs", "search"]}</dd>
               <dt>Expected</dt><dd class="mono">{"undeclared_services": []}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/asset_inventory/documents.json (sha256 b85610a7cc6f55e2…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/asset_inventory/documents.json (sha256 6336dbfbbbba573b…)</dd>
             </dl>
             
             <div>
@@ -822,11 +834,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>Every backup copy is encrypted, with the key kept apart from the backups.</p></div>
         </div>
         
-        <p class="why">The rules require appropriate access controls on backup copies. The borg backup repository is not encrypted. Anyone who obtains a copy of the backups could read all the data in them.</p>
+        <p class="why">The rules require appropriate access controls on backup copies. The borg backup repository is not encrypted, so anyone who gets hold of the backup storage can read all the data in it.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A configuration or process change that needs some testing"><i><s class="on"></s><s class="on"></s><s class=""></s></i>Needs a change</span></div>
           
-          <ol><li>Create an encrypted borg repository and move backups into it.</li><li>Store the encryption key securely and separately from the backups.</li><li>Re-run the check to confirm no unencrypted backup sets remain.</li></ol>
+          <ol><li>Create an encrypted borg repository and move backups into it.</li><li>Store the encryption key securely and separately from the backups, then remove the unencrypted repository.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.C, REQ-CIR2690-4.2.2-05; verified mechanically.</p>
           
         </div>
@@ -836,8 +848,8 @@
             <dl class="kv">
               <dt>Check</dt><dd><span class="mono">CHK-BAK-002</span> · Backup copies are encrypted</dd>
               <dt>Expected</dt><dd class="mono">{"unencrypted_sets": []}</dd>
-              <dt>borg</dt><dd><span class="pill fail">fail</span> <span class="mono">{"sets": 1, "unencrypted_sets": ["repository"]}</span><br><span class="mono">evidence/backup_snapshots/borg.json (sha256 2fecceaab5dc7070…)</span></dd>
-              <dt>restic</dt><dd><span class="pill pass">pass</span> <span class="mono">{"sets": 1, "unencrypted_sets": []}</span><br><span class="mono">evidence/backup_snapshots/restic.json (sha256 cf800ed1454ce697…)</span></dd>
+              <dt>borg</dt><dd><span class="pill fail">fail</span> <span class="mono">{"sets": 1, "unencrypted_sets": ["repository"]}</span><br><span class="mono">evidence/backup_snapshots/borg.json (sha256 0db576d5b7739640…)</span></dd>
+              <dt>restic</dt><dd><span class="pill pass">pass</span> <span class="mono">{"sets": 1, "unencrypted_sets": []}</span><br><span class="mono">evidence/backup_snapshots/restic.json (sha256 7fd8f335fc720155…)</span></dd>
             </dl>
             
             <div>
@@ -871,11 +883,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>The plan covers 24h early warning, 72h incident notification, one-month final report and CSIRT contact.</p></div>
         </div>
         
-        <p class="why">The law requires staged reporting of significant incidents to the CSIRT, starting with an early warning within 24 hours. The incident response plan (incident-response.md) does not mention the 24h early warning, the 72h incident notification, the one-month final report or the CSIRT contact. During an incident staff may miss mandatory reporting steps.</p>
+        <p class="why">The Directive requires significant incidents to be reported to the CSIRT in stages, starting with an early warning within 24 hours. The incident response plan does not mention the 24h early warning, the 72h incident notification, the one-month final report or the CSIRT contact. In a real incident staff may miss legal reporting deadlines.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A configuration or process change that needs some testing"><i><s class="on"></s><s class="on"></s><s class=""></s></i>Needs a change</span></div>
           
-          <ol><li>Add the 24h early warning, 72h incident notification and one-month final report stages to incident-response.md.</li><li>Add the CSIRT contact details to the plan.</li><li>Re-run the check to confirm all stages are mentioned.</li></ol>
+          <ol><li>Update incident-response.md to describe the 24h early warning, 72h incident notification and one-month final report.</li><li>Add the CSIRT contact details and who is responsible for each report.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-23.4; verified mechanically.</p>
           
         </div>
@@ -886,7 +898,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-DOC-001</span> · Incident response plan covers the NIS2 reporting stages</dd>
               <dt>Observed</dt><dd class="mono">{"document": "incident-response.md", "missing": ["24h early warning", "72h incident notification", "one-month final report", "CSIRT contact"]}</dd>
               <dt>Expected</dt><dd class="mono">{"mentions": ["24h early warning", "72h incident notification", "one-month final report", "CSIRT contact"]}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/ir_plan/documents.json (sha256 8e77d719a43a6034…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/ir_plan/documents.json (sha256 efe275ec27cdff25…)</dd>
             </dl>
             
             <div>
@@ -914,11 +926,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>Accounts are locked for a while after repeated failed logins.</p></div>
         </div>
         
-        <p class="why">The rules require blocking users after a predefined number of unsuccessful log-in attempts. Account lockout is disabled, so attackers can try unlimited passwords against any account.</p>
+        <p class="why">The rules require users to be blocked after a predefined number of failed logins. Account lockout is switched off, so an attacker can try unlimited passwords against any account.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A setting, a password or a line of configuration"><i><s class="on"></s><s class=""></s><s class=""></s></i>Quick fix</span></div>
           
-          <ol><li>Enable account lockout in the identity provider and set a maximum number of failed attempts.</li><li>Re-run the check to confirm lockout is enabled.</li></ol>
+          <ol><li>Enable account lockout in the identity provider and set a maximum number of attempts.</li><li>Define how locked accounts are reset.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.I, REQ-CIR2690-11.6.2-04; verified mechanically.</p>
           
         </div>
@@ -929,7 +941,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-IDP-002</span> · Accounts are locked after repeated failed logins</dd>
               <dt>Observed</dt><dd class="mono">{"lockout_enabled": false, "max_attempts": null}</dd>
               <dt>Expected</dt><dd class="mono">{"lockout_enabled": true}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/idp_config/keycloak.json (sha256 66c7e01f5bccbaa4…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/idp_config/keycloak.json (sha256 71dea08e87fd2c8f…)</dd>
             </dl>
             
             <div>
@@ -963,11 +975,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>Passwords have at least 12 characters.</p></div>
         </div>
         
-        <p class="why">The rules require authentication strength that fits the asset being accessed. There is no password policy and no minimum length, while the profile expects a minimum length of at least 12. Very short passwords are easy to guess.</p>
+        <p class="why">The rules require authentication strength suited to the asset. There is no password policy and the minimum length is 0, while the profile expects a minimum length of at least 12. Very short passwords are easy to guess.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A setting, a password or a line of configuration"><i><s class="on"></s><s class=""></s><s class=""></s></i>Quick fix</span></div>
           
-          <ol><li>Create a password policy in the identity provider with a minimum length of at least 12.</li><li>Re-run the check to confirm the policy is enforced.</li></ol>
+          <ol><li>Create a password policy in the identity provider with a minimum length of at least 12.</li><li>Require users with shorter passwords to change them.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.I, REQ-CIR2690-11.6.2-01, REQ-CIR2690-11.7.2-01; verified mechanically.</p>
           
         </div>
@@ -978,7 +990,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-IDP-003</span> · Password policy enforces the profile&#39;s minimum length</dd>
               <dt>Observed</dt><dd class="mono">{"min_length": 0, "password_policy": "no password policy"}</dd>
               <dt>Expected</dt><dd class="mono">{"min_length_at_least": 12}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/idp_config/keycloak.json (sha256 66c7e01f5bccbaa4…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/idp_config/keycloak.json (sha256 71dea08e87fd2c8f…)</dd>
             </dl>
             
             <div>
@@ -1020,11 +1032,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>Logs are kept for at least 90 days.</p></div>
         </div>
         
-        <p class="why">The rules require incident handling and keeping logs for a predefined period. Both elasticsearch (ILM policy logs-7d) and loki (retention_period 1w) delete logs after 7 days, while the profile expects at least 90 days. Incidents are often found late, and the evidence needed to investigate would already be gone.</p>
+        <p class="why">The rules require logs to be kept for a predefined period to support incident handling. Both elasticsearch and loki delete logs after 7 days, while the profile expects at least 90. Incidents are often discovered late, and by then the evidence would be gone.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A setting, a password or a line of configuration"><i><s class="on"></s><s class=""></s><s class=""></s></i>Quick fix</span></div>
           
-          <ol><li>Change the elasticsearch ILM policy so logs are kept at least 90 days.</li><li>Change the loki retention_period setting so logs are kept at least 90 days.</li><li>Re-run the check to confirm the new retention on both systems.</li></ol>
+          <ol><li>Change the elasticsearch ILM policy logs-7d so logs are kept at least 90 days.</li><li>Change the loki limits_config.retention_period to at least 90 days.</li><li>Make sure the logs are also backed up.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.B, REQ-CIR2690-3.2.5-01; verified mechanically.</p>
           
         </div>
@@ -1034,8 +1046,8 @@
             <dl class="kv">
               <dt>Check</dt><dd><span class="mono">CHK-LOG-001</span> · Central logs are kept at least as long as the profile requires</dd>
               <dt>Expected</dt><dd class="mono">{"min_retention_days": 90}</dd>
-              <dt>elasticsearch</dt><dd><span class="pill fail">fail</span> <span class="mono">{"retention_days": 7, "source": "ILM policy logs-7d deletes after 7d"}</span><br><span class="mono">evidence/log_retention/elasticsearch.json (sha256 60ad10e7fd5dfaea…)</span></dd>
-              <dt>loki</dt><dd><span class="pill fail">fail</span> <span class="mono">{"retention_days": 7, "source": "limits_config.retention_period 1w"}</span><br><span class="mono">evidence/log_retention/loki.json (sha256 73a9376aec13458f…)</span></dd>
+              <dt>elasticsearch</dt><dd><span class="pill fail">fail</span> <span class="mono">{"retention_days": 7, "source": "ILM policy logs-7d deletes after 7d"}</span><br><span class="mono">evidence/log_retention/elasticsearch.json (sha256 036f0adfac7f0873…)</span></dd>
+              <dt>loki</dt><dd><span class="pill fail">fail</span> <span class="mono">{"retention_days": 7, "source": "limits_config.retention_period 1w"}</span><br><span class="mono">evidence/log_retention/loki.json (sha256 bdfee719c892f3bf…)</span></dd>
             </dl>
             
             <div>
@@ -1069,11 +1081,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>A valid certificate with at least 14 days left.</p></div>
         </div>
         
-        <p class="why">The rules require policies on the use of cryptography. The server&#39;s certificate expired on 2025-01-01. Users see security warnings and learn to ignore them, and encrypted connections can no longer be properly trusted.</p>
+        <p class="why">The rules require policies on the use of cryptography. The server&#39;s certificate expired on 2025-01-01. Visitors get security warnings, and users become used to ignoring them, which makes impersonation of the service easier.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A setting, a password or a line of configuration"><i><s class="on"></s><s class=""></s><s class=""></s></i>Quick fix</span></div>
           
-          <ol><li>Replace the expired certificate with a valid one.</li><li>Set up automatic renewal or expiry alerts so the certificate is renewed well before it expires.</li><li>Re-run the check to confirm the certificate is valid.</li></ol>
+          <ol><li>Issue and install a new valid certificate on the server.</li><li>Set up renewal and monitoring so the certificate is replaced well before it expires.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.H; verified mechanically.</p>
           
         </div>
@@ -1084,7 +1096,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-TLS-002</span> · Certificate is valid and not about to expire</dd>
               <dt>Observed</dt><dd class="mono">{"days_left": -634, "not_after": "2025-01-01T00:00:00+00:00", "not_before": "2024-01-01T00:00:00+00:00"}</dd>
               <dt>Expected</dt><dd class="mono">{"min_days_remaining": 14}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/tls_probe/portal.json (sha256 7629ba9359a270cf…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/tls_probe/portal.json (sha256 4a975f9a886e1a20…)</dd>
             </dl>
             
             <div>
@@ -1112,11 +1124,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>Visitors on http:// are sent to https://, and browsers are told to always use it.</p></div>
         </div>
         
-        <p class="why">The rules require policies on the use of encryption. The website answers over plain, unencrypted HTTP without redirecting to HTTPS, and sends no Strict-Transport-Security header. Visitors may use an unencrypted connection that can be read or altered.</p>
+        <p class="why">The rules require policies on encryption. The site answers plain HTTP without redirecting to HTTPS and does not send a Strict-Transport-Security header. Users may use the site unencrypted, exposing their data and logins.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A setting, a password or a line of configuration"><i><s class="on"></s><s class=""></s><s class=""></s></i>Quick fix</span></div>
           
-          <ol><li>Configure the web server to redirect all plain HTTP requests to HTTPS.</li><li>Add the Strict-Transport-Security header to HTTPS responses.</li><li>Re-run the check to confirm both settings.</li></ol>
+          <ol><li>Configure the web server to redirect all HTTP requests to HTTPS.</li><li>Add the Strict-Transport-Security header to HTTPS responses.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.H; verified mechanically.</p>
           
         </div>
@@ -1127,7 +1139,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-TLS-003</span> · Plain HTTP redirects to HTTPS and HSTS is set</dd>
               <dt>Observed</dt><dd class="mono">{"hsts": null, "http_status": 200, "location": null}</dd>
               <dt>Expected</dt><dd class="mono">{"hsts": true, "http_redirects_to_https": true}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/http_probe/portal.json (sha256 fb1a885fffcf0933…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/http_probe/portal.json (sha256 c94a28239ab90e08…)</dd>
             </dl>
             
             <div>
@@ -1155,7 +1167,7 @@
           <div class="cmp should"><span class="k">Should be</span><p>The plan is reviewed at least every 365 days.</p></div>
         </div>
         
-        <p class="why">The rules require incident handling. The incident response plan was last reviewed on 2023-02-14, 1320 days ago, while the profile expects a review at least every 365 days. An outdated plan may list wrong contacts, systems or steps.</p>
+        <p class="why">Incident handling depends on a current plan. The incident response plan was last reviewed on 2023-02-14, 1320 days ago, while the profile expects a review at least every 365 days. Contacts, systems and procedures in it are likely outdated.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A configuration or process change that needs some testing"><i><s class="on"></s><s class="on"></s><s class=""></s></i>Needs a change</span></div>
           
@@ -1170,7 +1182,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-DOC-002</span> · Incident response plan has been reviewed recently</dd>
               <dt>Observed</dt><dd class="mono">{"age_days": 1320, "document": "incident-response.md", "last_reviewed": "2023-02-14"}</dd>
               <dt>Expected</dt><dd class="mono">{"max_review_age_days": 365}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/ir_plan/documents.json (sha256 8e77d719a43a6034…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/ir_plan/documents.json (sha256 efe275ec27cdff25…)</dd>
             </dl>
             
             <div>
@@ -1198,11 +1210,11 @@
           <div class="cmp should"><span class="k">Should be</span><p>At most 4 attempts per connection.</p></div>
         </div>
         
-        <p class="why">The rules require access control policies. SSH allows 10 authentication attempts per connection, while the profile expects at most 4. More attempts per connection make password-guessing easier.</p>
+        <p class="why">Access control should limit guessing. The SSH setting MaxAuthTries is 10, while the profile expects at most 4, giving attackers more guesses per connection.</p>
         <div class="todo">
           <div class="row"><span class="label">What to do</span><span class="effort" title="A setting, a password or a line of configuration"><i><s class="on"></s><s class=""></s><s class=""></s></i>Quick fix</span></div>
           
-          <ol><li>Set MaxAuthTries to 4 or lower in the SSH server configuration.</li><li>Re-run the check to confirm the new value.</li></ol>
+          <ol><li>Set MaxAuthTries to 4 or lower in the SSH configuration.</li></ol>
           <p class="ai">Explanation and steps drafted by AI from this finding only; cites REQ-NIS2-21.2.I; verified mechanically.</p>
           
         </div>
@@ -1213,7 +1225,7 @@
               <dt>Check</dt><dd><span class="mono">CHK-SSH-003</span> · SSH limits authentication attempts per connection</dd>
               <dt>Observed</dt><dd class="mono">{"maxauthtries": 10}</dd>
               <dt>Expected</dt><dd class="mono">{"maxauthtries_at_most": 4}</dd>
-              <dt>Evidence</dt><dd class="mono">evidence/sshd_effective_config/app-host.json (sha256 2c22468e076bce4e…)</dd>
+              <dt>Evidence</dt><dd class="mono">evidence/sshd_effective_config/app-host.json (sha256 4cffeaa6c7b6086f…)</dd>
             </dl>
             
             <div>
@@ -1228,6 +1240,63 @@
     </article>
     
   </section>
+
+  
+  <section aria-labelledby="reviews">
+    <div class="sec-head">
+      <h2 id="reviews">Document review (4)</h2>
+      <p class="muted small">Requirements no automated check covers, judged by a named reviewer from the organisation's documents. The tool records each decision and verifies it: the documents exist and are hashed, the review is dated and in force, and it names its reasons. It does not judge the documents itself.</p>
+    </div>
+    <article class="review review-ns">
+      <div class="review-head">
+        <span class="pill not_satisfied">Not satisfied</span>
+        <h3>Annual and event-driven policy review by management</h3>
+      </div>
+      <div class="muted small"><span class="mono">REQ-CIR2690-1.1.2-01</span> · Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2</div>
+      <p>The policy has not been reviewed since it was written in February 2023.</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>Ingrid Solberg, external consultant, 2026-09-15 · valid until 2027-09-15</dd>
+        <dt>Documents</dt><dd><span class="mono">evidence/information-security-policy.md</span> <span class="muted">(sha256 5aa73f1b4f3c…)</span></dd>
+      </dl>
+    </article>
+    <article class="review review-ns">
+      <div class="review-head">
+        <span class="pill not_satisfied">Not satisfied</span>
+        <h3>Establish backup plans</h3>
+      </div>
+      <div class="muted small"><span class="mono">REQ-CIR2690-4.2.2-01</span> · Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</div>
+      <p>No backup plan exists; the IT lead confirmed backups are set up ad hoc.</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>Ingrid Solberg, external consultant, 2026-09-15 · valid until 2027-09-15</dd>
+        <dt>Documents</dt><dd><span class="muted">none: the reviewer found no document to review</span></dd>
+      </dl>
+    </article>
+    <article class="review review-ns">
+      <div class="review-head">
+        <span class="pill not_satisfied">Not satisfied</span>
+        <h3>Risk analysis and information system security policies</h3>
+      </div>
+      <div class="muted small"><span class="mono">REQ-NIS2-21.2.A</span> · Directive (EU) 2022/2555, Art. 21(2)(a)</div>
+      <p>The only policy is a three-line list of rules from 2023, not approved by management, with no risk analysis behind it.</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>Ingrid Solberg, external consultant, 2026-09-15 · valid until 2027-09-15</dd>
+        <dt>Documents</dt><dd><span class="mono">evidence/information-security-policy.md</span> <span class="muted">(sha256 5aa73f1b4f3c…)</span></dd>
+      </dl>
+    </article>
+    <article class="review review-ns">
+      <div class="review-head">
+        <span class="pill not_satisfied">Not satisfied</span>
+        <h3>Cyber hygiene and training</h3>
+      </div>
+      <div class="muted small"><span class="mono">REQ-NIS2-21.2.G</span> · Directive (EU) 2022/2555, Art. 21(2)(g)</div>
+      <p>No training records exist; staff have had no security training since 2022.</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>Ingrid Solberg, external consultant, 2026-09-15 · valid until 2027-09-15</dd>
+        <dt>Documents</dt><dd><span class="muted">none: the reviewer found no document to review</span></dd>
+      </dl>
+    </article>
+  </section>
+  
 
   
   <section aria-labelledby="systems">
@@ -1321,14 +1390,14 @@
         <td><span class="mono">CHK-BAK-001</span><br>A recent backup snapshot exists</td><td>borg</td>
         <td><span class="pill fail">fail</span></td>
         <td><span class="pill high">high</span></td>
-        <td>Newest backup is 559 days old</td>
+        <td>Newest backup is 560 days old</td>
       </tr>
       
       <tr>
         <td><span class="mono">CHK-BAK-001</span><br>A recent backup snapshot exists</td><td>restic</td>
         <td><span class="pill fail">fail</span></td>
         <td><span class="pill high">high</span></td>
-        <td>Newest backup is 481 days old</td>
+        <td>Newest backup is 482 days old</td>
       </tr>
       
       <tr>
@@ -1454,9 +1523,16 @@
   </section>
 
   <section aria-labelledby="assessed">
-    <h2 id="assessed">Checked requirements (21)</h2>
+    <h2 id="assessed">Checked requirements (25)</h2>
     <div class="table-wrap"><table>
       <tr><th>Requirement</th><th>Provision</th><th>Verdict</th><th>Reason</th></tr>
+      
+      <tr>
+        <td><span class="mono">REQ-CIR2690-1.1.2-01</span><br>Annual and event-driven policy review by management</td>
+        <td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2</td>
+        <td><span class="pill not_satisfied">not satisfied</span></td>
+        <td>document review by Ingrid Solberg, external consultant on 2026-09-15: The policy has not been reviewed since it was written in February 2023.</td>
+      </tr>
       
       <tr>
         <td><span class="mono">REQ-CIR2690-11.3.2-01</span><br>Strong authentication for privileged accounts</td>
@@ -1529,6 +1605,13 @@
       </tr>
       
       <tr>
+        <td><span class="mono">REQ-CIR2690-4.2.2-01</span><br>Establish backup plans</td>
+        <td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td>
+        <td><span class="pill not_satisfied">not satisfied</span></td>
+        <td>document review by Ingrid Solberg, external consultant on 2026-09-15: No backup plan exists; the IT lead confirmed backups are set up ad hoc.</td>
+      </tr>
+      
+      <tr>
         <td><span class="mono">REQ-CIR2690-4.2.2-05</span><br>Access controls to backup copies</td>
         <td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td>
         <td><span class="pill not_satisfied">not satisfied</span></td>
@@ -1557,6 +1640,13 @@
       </tr>
       
       <tr>
+        <td><span class="mono">REQ-NIS2-21.2.A</span><br>Risk analysis and information system security policies</td>
+        <td>Directive (EU) 2022/2555, Art. 21(2)(a)</td>
+        <td><span class="pill not_satisfied">not satisfied</span></td>
+        <td>document review by Ingrid Solberg, external consultant on 2026-09-15: The only policy is a three-line list of rules from 2023, not approved by management, with no risk analysis behind it.</td>
+      </tr>
+      
+      <tr>
         <td><span class="mono">REQ-NIS2-21.2.B</span><br>Incident handling</td>
         <td>Directive (EU) 2022/2555, Art. 21(2)(b)</td>
         <td><span class="pill not_satisfied">not satisfied</span></td>
@@ -1575,6 +1665,13 @@
         <td>Directive (EU) 2022/2555, Art. 21(2)(e)</td>
         <td><span class="pill not_satisfied">not satisfied</span></td>
         <td>failed: CHK-VUL-001</td>
+      </tr>
+      
+      <tr>
+        <td><span class="mono">REQ-NIS2-21.2.G</span><br>Cyber hygiene and training</td>
+        <td>Directive (EU) 2022/2555, Art. 21(2)(g)</td>
+        <td><span class="pill not_satisfied">not satisfied</span></td>
+        <td>document review by Ingrid Solberg, external consultant on 2026-09-15: No training records exist; staff have had no security training since 2022.</td>
       </tr>
       
       <tr>
@@ -1607,137 +1704,129 @@
       
     </table></div>
     <details>
-      <summary>Not checked by this tool (64 requirements)</summary>
+      <summary>Not checked by this tool (60 requirements)</summary>
       <div class="table-wrap" style="margin-top:10px"><table>
         <tr><th>Requirement</th><th>Provision</th><th>Reason</th></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-1.1.2-01</span><br>Annual and event-driven policy review by management</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-1.1.2-02</span><br>Documentation of review results</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-1.1.2-02</span><br>Documentation of review results</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.2.2-01</span><br>Assign and revoke access rights on principles</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.2.2-01</span><br>Assign and revoke access rights on principles</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.2.2-02</span><br>Modify access rights on employment change</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.2.2-02</span><br>Modify access rights on employment change</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.2.2-03</span><br>Authorisation of access by relevant persons</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.2.2-03</span><br>Authorisation of access by relevant persons</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.2.2-04</span><br>Control third-party access rights</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.2.2-04</span><br>Control third-party access rights</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.2.2-05</span><br>Maintain register of granted access rights</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.2.2-05</span><br>Maintain register of granted access rights</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.2.2-06</span><br>Log access rights management</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.2.2-06</span><br>Log access rights management</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.3.2-02</span><br>Dedicated system administration accounts</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.3.2-02</span><br>Dedicated system administration accounts</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.3.2-04</span><br>Administration accounts limited to administration systems</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.3.2-04</span><br>Administration accounts limited to administration systems</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.6.2-02</span><br>Controlled allocation of secret authentication information</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.6.2-02</span><br>Controlled allocation of secret authentication information</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.6.2-05</span><br>Termination of inactive sessions</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.6.2-05</span><br>Termination of inactive sessions</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.6.2-06</span><br>Separate credentials for privileged accounts</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.6.2-06</span><br>Separate credentials for privileged accounts</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-12.4.1-02</span><br>Traceable recording of inventory changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 12.4.1</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-12.4.1-02</span><br>Traceable recording of inventory changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 12.4.1</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.1-01</span><br>Monitoring and logging procedures and tools</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.1</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.1-01</span><br>Monitoring and logging procedures and tools</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.1</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.1-02</span><br>Respond to detected events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.1</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.1-02</span><br>Respond to detected events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.1</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-01</span><br>Maintain, document and review logs</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-01</span><br>Maintain, document and review logs</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-02</span><br>List of assets subject to logging</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-02</span><br>List of assets subject to logging</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-03</span><br>Log network traffic</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-03</span><br>Log network traffic</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-04</span><br>Log user account and permission changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-04</span><br>Log user account and permission changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-05</span><br>Log system and application access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-05</span><br>Log system and application access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-06</span><br>Log authentication-related events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-06</span><br>Log authentication-related events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-07</span><br>Log privileged and administrative access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-07</span><br>Log privileged and administrative access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-08</span><br>Log critical configuration and backup file access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-08</span><br>Log critical configuration and backup file access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-09</span><br>Log security tool events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-09</span><br>Log security tool events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-10</span><br>Log system resource use and performance</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-10</span><br>Log system resource use and performance</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-11</span><br>Log physical access to facilities</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-11</span><br>Log physical access to facilities</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-12</span><br>Log network equipment and device access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-12</span><br>Log network equipment and device access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-13</span><br>Log logging service state changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-13</span><br>Log logging service state changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-14</span><br>Log environmental events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-14</span><br>Log environmental events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.4-01</span><br>Regular log review for unusual trends</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.4-01</span><br>Regular log review for unusual trends</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.4-02</span><br>Alarm thresholds defined where appropriate</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.4-02</span><br>Alarm thresholds defined where appropriate</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.4-03</span><br>Alarm triggered on threshold exceedance</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.4-03</span><br>Alarm triggered on threshold exceedance</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.4-04</span><br>Timely qualified response to alarms</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.4-04</span><br>Timely qualified response to alarms</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.5-02</span><br>Protect logs from unauthorised access or changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.5</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.5-02</span><br>Protect logs from unauthorised access or changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.5</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-4.2.1-02</span><br>Sufficient resources for redundancy</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.1</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.1-02</span><br>Sufficient resources for redundancy</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.1</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-4.2.2-02</span><br>Recovery times in backup plans</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.2-01</span><br>Establish backup plans</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-4.2.2-03</span><br>Completeness and accuracy of backups</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.2-02</span><br>Recovery times in backup plans</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-4.2.2-04</span><br>Safe offsite storage of backups</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.2-03</span><br>Completeness and accuracy of backups</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-4.2.2-06</span><br>Restoring data from backups</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.2-04</span><br>Safe offsite storage of backups</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-4.2.2-07</span><br>Backup retention periods</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.2-06</span><br>Restoring data from backups</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-4.2.3-01</span><br>Regular backup integrity checks</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.2-07</span><br>Backup retention periods</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.10.1-01</span><br>Obtain technical vulnerability information</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.3-01</span><br>Regular backup integrity checks</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.10.1-02</span><br>Evaluate exposure to vulnerabilities</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.10.1-01</span><br>Obtain technical vulnerability information</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.10.2-01</span><br>Monitor vulnerability information through appropriate channels</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.10.1-02</span><br>Evaluate exposure to vulnerabilities</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.10.2-02</span><br>Vulnerability scans at planned intervals</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.10.2-01</span><br>Monitor vulnerability information through appropriate channels</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.10.2-04</span><br>Compatibility with related management procedures</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.10.2-02</span><br>Vulnerability scans at planned intervals</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.10.2-05</span><br>Vulnerability disclosure procedure</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.10.2-04</span><br>Compatibility with related management procedures</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.6.1-01</span><br>Establish coherent security patch procedures</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.10.2-05</span><br>Vulnerability disclosure procedure</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.6.1-03</span><br>Test patches before production deployment</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.6.1-01</span><br>Establish coherent security patch procedures</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.6.1-04</span><br>Trusted sources and integrity checking</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.6.1-03</span><br>Test patches before production deployment</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.6.1-05</span><br>Compensating measures when patch unavailable</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.6.1-04</span><br>Trusted sources and integrity checking</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.6.2-01</span><br>Non-application of patches only when justified</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.2</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.6.1-05</span><br>Compensating measures when patch unavailable</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.6.2-02</span><br>Document reasons for not patching</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.6.2-01</span><br>Non-application of patches only when justified</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.2</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-7.3-01</span><br>Review policy and procedures at planned intervals</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 7.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.6.2-02</span><br>Document reasons for not patching</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-7.3-02</span><br>Update policy and procedures where appropriate</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 7.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-7.3-01</span><br>Review policy and procedures at planned intervals</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 7.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-9.2-01</span><br>Define cryptographic measures per asset classification</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-7.3-02</span><br>Update policy and procedures where appropriate</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 7.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-9.2-02</span><br>Approve protocols, algorithms and usage practices</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-9.2-01</span><br>Define cryptographic measures per asset classification</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-9.2-03</span><br>Establish key management approach</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-9.2-02</span><br>Approve protocols, algorithms and usage practices</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-NIS2-21.2.D</span><br>Supply chain security</td><td>Directive (EU) 2022/2555, Art. 21(2)(d)</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-9.2-03</span><br>Establish key management approach</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2</td><td>no checks implemented yet</td></tr>
-        
-        <tr><td><span class="mono">REQ-NIS2-21.2.A</span><br>Risk analysis and information system security policies</td><td>Directive (EU) 2022/2555, Art. 21(2)(a)</td><td>organisational requirement: needs audit, not automated checks</td></tr>
-        
-        <tr><td><span class="mono">REQ-NIS2-21.2.D</span><br>Supply chain security</td><td>Directive (EU) 2022/2555, Art. 21(2)(d)</td><td>organisational requirement: needs audit, not automated checks</td></tr>
-        
-        <tr><td><span class="mono">REQ-NIS2-21.2.F</span><br>Assessing the effectiveness of risk-management measures</td><td>Directive (EU) 2022/2555, Art. 21(2)(f)</td><td>organisational requirement: needs audit, not automated checks</td></tr>
-        
-        <tr><td><span class="mono">REQ-NIS2-21.2.G</span><br>Cyber hygiene and training</td><td>Directive (EU) 2022/2555, Art. 21(2)(g)</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-NIS2-21.2.F</span><br>Assessing the effectiveness of risk-management measures</td><td>Directive (EU) 2022/2555, Art. 21(2)(f)</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
       </table></div>
     </details>
@@ -1754,7 +1843,8 @@
       <dt>SSH</dt><dd>The remote login used by administrators to manage servers.</dd>
       <dt>CVE</dt><dd>A publicly known software flaw with a catalogue number.</dd>
       <dt>Partially evidenced</dt><dd>A check passed, but it covers only part of what the requirement asks for.</dd>
-      <dt>Not checked</dt><dd>No automated check covers the requirement. It needs other evidence, such as an audit.</dd>
+      <dt>Not checked</dt><dd>No automated check covers the requirement, and no document review is recorded for it. It needs other evidence, such as an audit.</dd>
+      <dt>Document review</dt><dd>A named reviewer judged the requirement from the organisation's documents. The tool verified the review but did not judge the documents.</dd>
     </dl>
   </section>
 
@@ -1766,6 +1856,7 @@
       <li>Each check covers only part of the obligations it maps to, so the best possible verdict is <i>partially evidenced</i>.</li>
       <li>Thresholds (log retention, backup age, password length and so on) come from the organisation's own profile, not from the law, which leaves them open.</li>
       <li>Severity, effort, the actions and the "found / should be" lines are written by hand for each check and filled in from the scan's own values.</li>
+      <li>Requirements without automated checks can be judged by a named reviewer from the organisation's documents. The reviewer's decision, date, reasons and the documents' hashes are recorded; a review that has expired, is dated after the scan or whose document is missing counts as not assessed. No model is involved.</li>
       <li>Narrative text is AI-drafted from this report's findings. It was accepted only after a validator confirmed that every gap is covered, every citation refers to a real failing finding, and no number or standard appears that is not in the data.</li>
     </ul>
   </section>

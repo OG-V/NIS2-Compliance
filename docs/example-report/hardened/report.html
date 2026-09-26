@@ -13,6 +13,7 @@
     --amber: #8a5a00; --amber-bg: #fdf1d6; --amber-dot: #d99a1e;
     --green: #1e6b3a; --green-bg: #e3f2e7; --green-dot: #2f8f52;
     --grey: #5d6573; --grey-bg: #eceef0; --grey-dot: #cfd3d9;
+    --doc: #1f5fa8; --doc-bg: #e3edf9; --doc-dot: #3c7fd0;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -24,6 +25,7 @@
       --amber: #ffcc66; --amber-bg: #3a2e12; --amber-dot: #c98f1c;
       --green: #7fd69a; --green-bg: #173222; --green-dot: #3fa665;
       --grey: #a2a9b5; --grey-bg: #262b34; --grey-dot: #3b424e;
+      --doc: #8fb8f2; --doc-bg: #1b2a40; --doc-dot: #4f8fe0;
     }
   }
   * { box-sizing: border-box; }
@@ -162,6 +164,15 @@
     main { gap: 28px; }
     .panel, .gap, .measure, .fix-list li { break-inside: avoid; }
   }
+
+  .doc { background: var(--doc-dot); }
+  .dots i.doc { background: var(--doc-dot); }
+  .pill.docpill { background: var(--doc-bg); color: var(--doc); }
+  .review { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--doc-dot); border-radius: 12px; padding: 16px 20px; display: grid; gap: 8px; }
+  .review-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+  .review .kv { margin-top: 2px; }
+  .review.review-ns { border-left-color: var(--red-dot); }
+  .review.review-na { border-left-color: var(--amber-dot); }
 </style>
 </head>
 <body>
@@ -170,7 +181,7 @@
     <div class="label">NIS2 evidence report</div>
     <h1>nordmsp-lab</h1>
     <div class="meta">
-      <span>Scanned <b>2026-09-26 01:32 UTC</b></span>
+      <span>Scanned <b>2026-09-26 11:44 UTC</b></span>
       <span>nis2scan 0.1.0</span>
       <span>Profile <span class="mono">3ff459e2e023</span></span>
     </div>
@@ -192,16 +203,17 @@
     <div class="panel">
       <p class="headline">
         <span class="ok">All 17 checks passed.</span>
-        <small>They give partial evidence for 21 of 85 legal requirements. The other 64 need other evidence, such as an audit.</small>
+        <small>They give partial evidence for 21 of 85 legal requirements, and document review evidences 9 more. The other 55 need other evidence, such as an audit.</small>
       </p>
       <div class="glance">
         <div>
           <div class="label">85 legal requirements · one square each</div>
-          <div class="units" role="img" aria-label="0 not satisfied, 21 with evidence, 64 not checked"><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i></div>
+          <div class="units" role="img" aria-label="0 not satisfied, 30 with evidence, 55 not checked"><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i></div>
           <div class="legend">
             <span><i class="ns"></i><b>0</b> not satisfied</span>
-            <span><i class="ev"></i><b>21</b> partially evidenced</span>
-            <span><i style="background:var(--grey-dot)"></i><b>64</b> not checked by this tool</span>
+            <span><i class="ev"></i><b>21</b> partially evidenced by checks</span>
+            <span><i class="doc"></i><b>9</b> evidenced by document review</span>
+            <span><i style="background:var(--grey-dot)"></i><b>55</b> not checked by this tool</span>
           </div>
         </div>
         <div>
@@ -227,12 +239,12 @@
     <div class="map">
       <div class="measure">
         <div class="measure-top">
-          <div class="ico not_assessed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
-          <span class="pill not_assessed">Not checked</span>
+          <div class="ico partially_evidenced"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <span class="pill partially_evidenced">Evidence found</span>
         </div>
-        <div><h3>Risk analysis and security policies</h3><div class="art">Art. 21(2)(a)</div></div>
-        <div class="dots" aria-hidden="true"><i></i><i></i></div>
-        <div class="detail">2 detailed requirements, none checked yet</div>
+        <div><h3>Risk analysis and security policies</h3><div class="art">Art. 21(2)(a) · by document review</div></div>
+        <div class="dots" aria-hidden="true"><i class="doc"></i><i class="doc"></i></div>
+        <div class="detail">2 detailed requirements: 2 by document review</div>
       </div>
       <div class="measure">
         <div class="measure-top">
@@ -240,8 +252,8 @@
           <span class="pill partially_evidenced">Evidence found</span>
         </div>
         <div><h3>Incident handling</h3><div class="art">Art. 21(2)(b)</div></div>
-        <div class="dots" aria-hidden="true"><i class="ev"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="detail">22 detailed requirements: 1 with evidence · 21 not checked</div>
+        <div class="dots" aria-hidden="true"><i class="ev"></i><i class="doc"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="detail">22 detailed requirements: 1 with evidence · 1 by document review · 20 not checked</div>
       </div>
       <div class="measure">
         <div class="measure-top">
@@ -249,15 +261,15 @@
           <span class="pill partially_evidenced">Evidence found</span>
         </div>
         <div><h3>Business continuity and backups</h3><div class="art">Art. 21(2)(c)</div></div>
-        <div class="dots" aria-hidden="true"><i class="ev"></i><i class="ev"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="detail">10 detailed requirements: 2 with evidence · 8 not checked</div>
+        <div class="dots" aria-hidden="true"><i class="ev"></i><i class="ev"></i><i class="doc"></i><i class="doc"></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="detail">10 detailed requirements: 2 with evidence · 2 by document review · 6 not checked</div>
       </div>
       <div class="measure">
         <div class="measure-top">
-          <div class="ico not_assessed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></div>
-          <span class="pill not_assessed">Not checked</span>
+          <div class="ico partially_evidenced"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></div>
+          <span class="pill partially_evidenced">Evidence found</span>
         </div>
-        <div><h3>Supply chain security</h3><div class="art">Art. 21(2)(d)</div></div>
+        <div><h3>Supply chain security</h3><div class="art">Art. 21(2)(d) · by document review</div></div>
         <div class="detail">No detailed requirements in the catalog yet</div>
       </div>
       <div class="measure">
@@ -280,10 +292,10 @@
       </div>
       <div class="measure">
         <div class="measure-top">
-          <div class="ico not_assessed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg></div>
-          <span class="pill not_assessed">Not checked</span>
+          <div class="ico partially_evidenced"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg></div>
+          <span class="pill partially_evidenced">Evidence found</span>
         </div>
-        <div><h3>Cyber hygiene and training</h3><div class="art">Art. 21(2)(g)</div></div>
+        <div><h3>Cyber hygiene and training</h3><div class="art">Art. 21(2)(g) · by document review</div></div>
         <div class="detail">No detailed requirements in the catalog yet</div>
       </div>
       <div class="measure">
@@ -301,8 +313,8 @@
           <span class="pill partially_evidenced">Evidence found</span>
         </div>
         <div><h3>Access control and asset management</h3><div class="art">Art. 21(2)(i)</div></div>
-        <div class="dots" aria-hidden="true"><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="detail">20 detailed requirements: 8 with evidence · 12 not checked</div>
+        <div class="dots" aria-hidden="true"><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="doc"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="detail">20 detailed requirements: 8 with evidence · 1 by document review · 11 not checked</div>
       </div>
       <div class="measure">
         <div class="measure-top">
@@ -310,8 +322,8 @@
           <span class="pill partially_evidenced">Evidence found</span>
         </div>
         <div><h3>Multi-factor authentication</h3><div class="art">Art. 21(2)(j)</div></div>
-        <div class="dots" aria-hidden="true"><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="detail">18 detailed requirements: 7 with evidence · 11 not checked</div>
+        <div class="dots" aria-hidden="true"><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="ev"></i><i class="doc"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="detail">18 detailed requirements: 7 with evidence · 1 by document review · 10 not checked</div>
       </div>
       <div class="measure">
         <div class="measure-top">
@@ -332,6 +344,123 @@
     <p>No check failed.</p>
     
   </section>
+
+  
+  <section aria-labelledby="reviews">
+    <div class="sec-head">
+      <h2 id="reviews">Document review (9)</h2>
+      <p class="muted small">Requirements no automated check covers, judged by a named reviewer from the organisation's documents. The tool records each decision and verifies it: the documents exist and are hashed, the review is dated and in force, and it names its reasons. It does not judge the documents itself.</p>
+    </div>
+    <article class="review">
+      <div class="review-head">
+        <span class="pill partially_evidenced docpill">Partly evidenced</span>
+        <h3>Risk analysis and information system security policies</h3>
+      </div>
+      <div class="muted small"><span class="mono">REQ-NIS2-21.2.A</span> · Directive (EU) 2022/2555, Art. 21(2)(a)</div>
+      <p>A board-approved policy covers risk management and security principles. The risk assessment it refers to was not provided, so only the policy half is evidenced.</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>Ingrid Solberg, external consultant, 2026-09-15 · valid until 2027-09-15</dd>
+        <dt>Documents</dt><dd><span class="mono">evidence/information-security-policy.md</span> <span class="muted">(sha256 a5ea16860385…)</span></dd>
+      </dl>
+    </article>
+    <article class="review">
+      <div class="review-head">
+        <span class="pill partially_evidenced docpill">Partly evidenced</span>
+        <h3>Supply chain security</h3>
+      </div>
+      <div class="muted small"><span class="mono">REQ-NIS2-21.2.D</span> · Directive (EU) 2022/2555, Art. 21(2)(d)</div>
+      <p>Suppliers are registered and assessed, but one supplier&#39;s contract has no security clauses yet.</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>Ingrid Solberg, external consultant, 2026-09-15 · valid until 2027-03-31</dd>
+        <dt>Documents</dt><dd><span class="mono">evidence/supplier-register.md</span> <span class="muted">(sha256 c770beed4a43…)</span></dd>
+      </dl>
+    </article>
+    <article class="review">
+      <div class="review-head">
+        <span class="pill partially_evidenced docpill">Partly evidenced</span>
+        <h3>Cyber hygiene and training</h3>
+      </div>
+      <div class="muted small"><span class="mono">REQ-NIS2-21.2.G</span> · Directive (EU) 2022/2555, Art. 21(2)(g)</div>
+      <p>All staff completed security training in 2026 and phishing simulations run quarterly. Basic cyber hygiene practices are taught but not set out as a practice.</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>Ingrid Solberg, external consultant, 2026-09-15 · valid until 2027-05-31</dd>
+        <dt>Documents</dt><dd><span class="mono">evidence/security-training-2026.md</span> <span class="muted">(sha256 ac911c25667e…)</span></dd>
+      </dl>
+    </article>
+    <article class="review">
+      <div class="review-head">
+        <span class="pill evidenced docpill">Evidenced</span>
+        <h3>Annual and event-driven policy review by management</h3>
+      </div>
+      <div class="muted small"><span class="mono">REQ-CIR2690-1.1.2-01</span> · Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2</div>
+      <p>The policy requires annual and event-driven management review; the June 2026 minutes show a review triggered by the risk assessment and an incident.</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>Ingrid Solberg, external consultant, 2026-09-15 · valid until 2027-06-30</dd>
+        <dt>Documents</dt><dd><span class="mono">evidence/information-security-policy.md</span> <span class="muted">(sha256 a5ea16860385…)</span><br><span class="mono">evidence/policy-review-2026-06.md</span> <span class="muted">(sha256 3384c606186d…)</span></dd>
+      </dl>
+    </article>
+    <article class="review">
+      <div class="review-head">
+        <span class="pill evidenced docpill">Evidenced</span>
+        <h3>Documentation of review results</h3>
+      </div>
+      <div class="muted small"><span class="mono">REQ-CIR2690-1.1.2-02</span> · Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2</div>
+      <p>The results of the June 2026 review are minuted, with the decisions taken.</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>Ingrid Solberg, external consultant, 2026-09-15 · valid until 2027-06-30</dd>
+        <dt>Documents</dt><dd><span class="mono">evidence/policy-review-2026-06.md</span> <span class="muted">(sha256 3384c606186d…)</span></dd>
+      </dl>
+    </article>
+    <article class="review">
+      <div class="review-head">
+        <span class="pill evidenced docpill">Evidenced</span>
+        <h3>Maintain register of granted access rights</h3>
+      </div>
+      <div class="muted small"><span class="mono">REQ-CIR2690-11.2.2-05</span> · Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</div>
+      <p>A register of granted access rights exists and was reconciled on 2026-09-01.</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>Ingrid Solberg, external consultant, 2026-09-15 · valid until 2027-09-01</dd>
+        <dt>Documents</dt><dd><span class="mono">evidence/access-rights-register.md</span> <span class="muted">(sha256 ecede3b86e80…)</span></dd>
+      </dl>
+    </article>
+    <article class="review">
+      <div class="review-head">
+        <span class="pill evidenced docpill">Evidenced</span>
+        <h3>Regular log review for unusual trends</h3>
+      </div>
+      <div class="muted small"><span class="mono">REQ-CIR2690-3.2.4-01</span> · Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</div>
+      <p>Weekly log reviews are defined and the last four are recorded.</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>Ingrid Solberg, external consultant, 2026-09-15 · valid until 2027-09-15</dd>
+        <dt>Documents</dt><dd><span class="mono">evidence/log-review-procedure.md</span> <span class="muted">(sha256 3255b57ebe85…)</span></dd>
+      </dl>
+    </article>
+    <article class="review">
+      <div class="review-head">
+        <span class="pill evidenced docpill">Evidenced</span>
+        <h3>Establish backup plans</h3>
+      </div>
+      <div class="muted small"><span class="mono">REQ-CIR2690-4.2.2-01</span> · Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</div>
+      <p>A backup and recovery plan exists per service, reviewed in August 2026.</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>Ingrid Solberg, external consultant, 2026-09-15 · valid until 2027-09-15</dd>
+        <dt>Documents</dt><dd><span class="mono">evidence/backup-plan.md</span> <span class="muted">(sha256 7f5dc28e720e…)</span></dd>
+      </dl>
+    </article>
+    <article class="review">
+      <div class="review-head">
+        <span class="pill evidenced docpill">Evidenced</span>
+        <h3>Recovery times in backup plans</h3>
+      </div>
+      <div class="muted small"><span class="mono">REQ-CIR2690-4.2.2-02</span> · Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</div>
+      <p>The plan states a recovery time for every service.</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>Ingrid Solberg, external consultant, 2026-09-15 · valid until 2027-09-15</dd>
+        <dt>Documents</dt><dd><span class="mono">evidence/backup-plan.md</span> <span class="muted">(sha256 7f5dc28e720e…)</span></dd>
+      </dl>
+    </article>
+  </section>
+  
 
   
   <section aria-labelledby="systems">
@@ -558,9 +687,30 @@
   </section>
 
   <section aria-labelledby="assessed">
-    <h2 id="assessed">Checked requirements (21)</h2>
+    <h2 id="assessed">Checked requirements (30)</h2>
     <div class="table-wrap"><table>
       <tr><th>Requirement</th><th>Provision</th><th>Verdict</th><th>Reason</th></tr>
+      
+      <tr>
+        <td><span class="mono">REQ-CIR2690-1.1.2-01</span><br>Annual and event-driven policy review by management</td>
+        <td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2</td>
+        <td><span class="pill evidenced">evidenced</span></td>
+        <td>document review by Ingrid Solberg, external consultant on 2026-09-15: The policy requires annual and event-driven management review; the June 2026 minutes show a review triggered by the risk assessment and an incident.</td>
+      </tr>
+      
+      <tr>
+        <td><span class="mono">REQ-CIR2690-1.1.2-02</span><br>Documentation of review results</td>
+        <td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2</td>
+        <td><span class="pill evidenced">evidenced</span></td>
+        <td>document review by Ingrid Solberg, external consultant on 2026-09-15: The results of the June 2026 review are minuted, with the decisions taken.</td>
+      </tr>
+      
+      <tr>
+        <td><span class="mono">REQ-CIR2690-11.2.2-05</span><br>Maintain register of granted access rights</td>
+        <td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td>
+        <td><span class="pill evidenced">evidenced</span></td>
+        <td>document review by Ingrid Solberg, external consultant on 2026-09-15: A register of granted access rights exists and was reconciled on 2026-09-01.</td>
+      </tr>
       
       <tr>
         <td><span class="mono">REQ-CIR2690-11.3.2-01</span><br>Strong authentication for privileged accounts</td>
@@ -619,6 +769,13 @@
       </tr>
       
       <tr>
+        <td><span class="mono">REQ-CIR2690-3.2.4-01</span><br>Regular log review for unusual trends</td>
+        <td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td>
+        <td><span class="pill evidenced">evidenced</span></td>
+        <td>document review by Ingrid Solberg, external consultant on 2026-09-15: Weekly log reviews are defined and the last four are recorded.</td>
+      </tr>
+      
+      <tr>
         <td><span class="mono">REQ-CIR2690-3.2.5-01</span><br>Maintain and back up logs</td>
         <td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.5</td>
         <td><span class="pill partially_evidenced">partially evidenced</span></td>
@@ -630,6 +787,20 @@
         <td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.1</td>
         <td><span class="pill partially_evidenced">partially evidenced</span></td>
         <td>all checks passed, but together they cover only part of the requirement</td>
+      </tr>
+      
+      <tr>
+        <td><span class="mono">REQ-CIR2690-4.2.2-01</span><br>Establish backup plans</td>
+        <td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td>
+        <td><span class="pill evidenced">evidenced</span></td>
+        <td>document review by Ingrid Solberg, external consultant on 2026-09-15: A backup and recovery plan exists per service, reviewed in August 2026.</td>
+      </tr>
+      
+      <tr>
+        <td><span class="mono">REQ-CIR2690-4.2.2-02</span><br>Recovery times in backup plans</td>
+        <td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td>
+        <td><span class="pill evidenced">evidenced</span></td>
+        <td>document review by Ingrid Solberg, external consultant on 2026-09-15: The plan states a recovery time for every service.</td>
       </tr>
       
       <tr>
@@ -661,6 +832,13 @@
       </tr>
       
       <tr>
+        <td><span class="mono">REQ-NIS2-21.2.A</span><br>Risk analysis and information system security policies</td>
+        <td>Directive (EU) 2022/2555, Art. 21(2)(a)</td>
+        <td><span class="pill partially_evidenced">partially evidenced</span></td>
+        <td>document review by Ingrid Solberg, external consultant on 2026-09-15: A board-approved policy covers risk management and security principles. The risk assessment it refers to was not provided, so only the policy half is evidenced.</td>
+      </tr>
+      
+      <tr>
         <td><span class="mono">REQ-NIS2-21.2.B</span><br>Incident handling</td>
         <td>Directive (EU) 2022/2555, Art. 21(2)(b)</td>
         <td><span class="pill partially_evidenced">partially evidenced</span></td>
@@ -675,10 +853,24 @@
       </tr>
       
       <tr>
+        <td><span class="mono">REQ-NIS2-21.2.D</span><br>Supply chain security</td>
+        <td>Directive (EU) 2022/2555, Art. 21(2)(d)</td>
+        <td><span class="pill partially_evidenced">partially evidenced</span></td>
+        <td>document review by Ingrid Solberg, external consultant on 2026-09-15: Suppliers are registered and assessed, but one supplier&#39;s contract has no security clauses yet.</td>
+      </tr>
+      
+      <tr>
         <td><span class="mono">REQ-NIS2-21.2.E</span><br>Secure acquisition, development and maintenance; vulnerability handling</td>
         <td>Directive (EU) 2022/2555, Art. 21(2)(e)</td>
         <td><span class="pill partially_evidenced">partially evidenced</span></td>
         <td>all checks passed, but together they cover only part of the requirement</td>
+      </tr>
+      
+      <tr>
+        <td><span class="mono">REQ-NIS2-21.2.G</span><br>Cyber hygiene and training</td>
+        <td>Directive (EU) 2022/2555, Art. 21(2)(g)</td>
+        <td><span class="pill partially_evidenced">partially evidenced</span></td>
+        <td>document review by Ingrid Solberg, external consultant on 2026-09-15: All staff completed security training in 2026 and phishing simulations run quarterly. Basic cyber hygiene practices are taught but not set out as a practice.</td>
       </tr>
       
       <tr>
@@ -711,137 +903,119 @@
       
     </table></div>
     <details>
-      <summary>Not checked by this tool (64 requirements)</summary>
+      <summary>Not checked by this tool (55 requirements)</summary>
       <div class="table-wrap" style="margin-top:10px"><table>
         <tr><th>Requirement</th><th>Provision</th><th>Reason</th></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-1.1.2-01</span><br>Annual and event-driven policy review by management</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.2.2-01</span><br>Assign and revoke access rights on principles</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-1.1.2-02</span><br>Documentation of review results</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.2.2-02</span><br>Modify access rights on employment change</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.2.2-01</span><br>Assign and revoke access rights on principles</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.2.2-03</span><br>Authorisation of access by relevant persons</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.2.2-02</span><br>Modify access rights on employment change</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.2.2-04</span><br>Control third-party access rights</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.2.2-03</span><br>Authorisation of access by relevant persons</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.2.2-06</span><br>Log access rights management</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.2.2-04</span><br>Control third-party access rights</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.3.2-02</span><br>Dedicated system administration accounts</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.2.2-05</span><br>Maintain register of granted access rights</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.3.2-04</span><br>Administration accounts limited to administration systems</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.2.2-06</span><br>Log access rights management</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.6.2-02</span><br>Controlled allocation of secret authentication information</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.3.2-02</span><br>Dedicated system administration accounts</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.6.2-05</span><br>Termination of inactive sessions</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.3.2-04</span><br>Administration accounts limited to administration systems</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-11.6.2-06</span><br>Separate credentials for privileged accounts</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.6.2-02</span><br>Controlled allocation of secret authentication information</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-12.4.1-02</span><br>Traceable recording of inventory changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 12.4.1</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.6.2-05</span><br>Termination of inactive sessions</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.1-01</span><br>Monitoring and logging procedures and tools</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.1</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-11.6.2-06</span><br>Separate credentials for privileged accounts</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.1-02</span><br>Respond to detected events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.1</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-12.4.1-02</span><br>Traceable recording of inventory changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 12.4.1</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-01</span><br>Maintain, document and review logs</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.1-01</span><br>Monitoring and logging procedures and tools</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.1</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-02</span><br>List of assets subject to logging</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.1-02</span><br>Respond to detected events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.1</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-03</span><br>Log network traffic</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-01</span><br>Maintain, document and review logs</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-04</span><br>Log user account and permission changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-02</span><br>List of assets subject to logging</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-05</span><br>Log system and application access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-03</span><br>Log network traffic</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-06</span><br>Log authentication-related events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-04</span><br>Log user account and permission changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-07</span><br>Log privileged and administrative access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-05</span><br>Log system and application access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-08</span><br>Log critical configuration and backup file access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-06</span><br>Log authentication-related events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-09</span><br>Log security tool events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-07</span><br>Log privileged and administrative access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-10</span><br>Log system resource use and performance</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-08</span><br>Log critical configuration and backup file access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-11</span><br>Log physical access to facilities</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-09</span><br>Log security tool events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-12</span><br>Log network equipment and device access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-10</span><br>Log system resource use and performance</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-13</span><br>Log logging service state changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-11</span><br>Log physical access to facilities</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.3-14</span><br>Log environmental events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-12</span><br>Log network equipment and device access</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.4-02</span><br>Alarm thresholds defined where appropriate</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-13</span><br>Log logging service state changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.4-03</span><br>Alarm triggered on threshold exceedance</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.3-14</span><br>Log environmental events</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.4-04</span><br>Timely qualified response to alarms</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.4-01</span><br>Regular log review for unusual trends</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-3.2.5-02</span><br>Protect logs from unauthorised access or changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.5</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.4-02</span><br>Alarm thresholds defined where appropriate</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-4.2.1-02</span><br>Sufficient resources for redundancy</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.1</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.4-03</span><br>Alarm triggered on threshold exceedance</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-4.2.2-03</span><br>Completeness and accuracy of backups</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.4-04</span><br>Timely qualified response to alarms</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-4.2.2-04</span><br>Safe offsite storage of backups</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-3.2.5-02</span><br>Protect logs from unauthorised access or changes</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.5</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-4.2.2-06</span><br>Restoring data from backups</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.1-02</span><br>Sufficient resources for redundancy</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.1</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-4.2.2-07</span><br>Backup retention periods</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.2-01</span><br>Establish backup plans</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-4.2.3-01</span><br>Regular backup integrity checks</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.2-02</span><br>Recovery times in backup plans</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.10.1-01</span><br>Obtain technical vulnerability information</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.2-03</span><br>Completeness and accuracy of backups</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.10.1-02</span><br>Evaluate exposure to vulnerabilities</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.2-04</span><br>Safe offsite storage of backups</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.10.2-01</span><br>Monitor vulnerability information through appropriate channels</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.2-06</span><br>Restoring data from backups</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.10.2-02</span><br>Vulnerability scans at planned intervals</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.2-07</span><br>Backup retention periods</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.10.2-04</span><br>Compatibility with related management procedures</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-4.2.3-01</span><br>Regular backup integrity checks</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.3</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.10.2-05</span><br>Vulnerability disclosure procedure</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.10.1-01</span><br>Obtain technical vulnerability information</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.6.1-01</span><br>Establish coherent security patch procedures</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.10.1-02</span><br>Evaluate exposure to vulnerabilities</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.6.1-03</span><br>Test patches before production deployment</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.10.2-01</span><br>Monitor vulnerability information through appropriate channels</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.6.1-04</span><br>Trusted sources and integrity checking</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.10.2-02</span><br>Vulnerability scans at planned intervals</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.6.1-05</span><br>Compensating measures when patch unavailable</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.10.2-04</span><br>Compatibility with related management procedures</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.6.2-01</span><br>Non-application of patches only when justified</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.2</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.10.2-05</span><br>Vulnerability disclosure procedure</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-6.6.2-02</span><br>Document reasons for not patching</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.6.1-01</span><br>Establish coherent security patch procedures</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-7.3-01</span><br>Review policy and procedures at planned intervals</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 7.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.6.1-03</span><br>Test patches before production deployment</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-7.3-02</span><br>Update policy and procedures where appropriate</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 7.3</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.6.1-04</span><br>Trusted sources and integrity checking</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-9.2-01</span><br>Define cryptographic measures per asset classification</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.6.1-05</span><br>Compensating measures when patch unavailable</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1</td><td>no checks implemented yet</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-9.2-02</span><br>Approve protocols, algorithms and usage practices</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.6.2-01</span><br>Non-application of patches only when justified</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.2</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-CIR2690-9.2-03</span><br>Establish key management approach</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2</td><td>no automated check yet: needs a document review</td></tr>
         
-        <tr><td><span class="mono">REQ-CIR2690-6.6.2-02</span><br>Document reasons for not patching</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.2</td><td>no checks implemented yet</td></tr>
-        
-        <tr><td><span class="mono">REQ-CIR2690-7.3-01</span><br>Review policy and procedures at planned intervals</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 7.3</td><td>no checks implemented yet</td></tr>
-        
-        <tr><td><span class="mono">REQ-CIR2690-7.3-02</span><br>Update policy and procedures where appropriate</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 7.3</td><td>no checks implemented yet</td></tr>
-        
-        <tr><td><span class="mono">REQ-CIR2690-9.2-01</span><br>Define cryptographic measures per asset classification</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2</td><td>no checks implemented yet</td></tr>
-        
-        <tr><td><span class="mono">REQ-CIR2690-9.2-02</span><br>Approve protocols, algorithms and usage practices</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2</td><td>no checks implemented yet</td></tr>
-        
-        <tr><td><span class="mono">REQ-CIR2690-9.2-03</span><br>Establish key management approach</td><td>Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2</td><td>no checks implemented yet</td></tr>
-        
-        <tr><td><span class="mono">REQ-NIS2-21.2.A</span><br>Risk analysis and information system security policies</td><td>Directive (EU) 2022/2555, Art. 21(2)(a)</td><td>organisational requirement: needs audit, not automated checks</td></tr>
-        
-        <tr><td><span class="mono">REQ-NIS2-21.2.D</span><br>Supply chain security</td><td>Directive (EU) 2022/2555, Art. 21(2)(d)</td><td>organisational requirement: needs audit, not automated checks</td></tr>
-        
-        <tr><td><span class="mono">REQ-NIS2-21.2.F</span><br>Assessing the effectiveness of risk-management measures</td><td>Directive (EU) 2022/2555, Art. 21(2)(f)</td><td>organisational requirement: needs audit, not automated checks</td></tr>
-        
-        <tr><td><span class="mono">REQ-NIS2-21.2.G</span><br>Cyber hygiene and training</td><td>Directive (EU) 2022/2555, Art. 21(2)(g)</td><td>organisational requirement: needs audit, not automated checks</td></tr>
+        <tr><td><span class="mono">REQ-NIS2-21.2.F</span><br>Assessing the effectiveness of risk-management measures</td><td>Directive (EU) 2022/2555, Art. 21(2)(f)</td><td>organisational requirement: needs a document review or an audit</td></tr>
         
       </table></div>
     </details>
@@ -858,7 +1032,8 @@
       <dt>SSH</dt><dd>The remote login used by administrators to manage servers.</dd>
       <dt>CVE</dt><dd>A publicly known software flaw with a catalogue number.</dd>
       <dt>Partially evidenced</dt><dd>A check passed, but it covers only part of what the requirement asks for.</dd>
-      <dt>Not checked</dt><dd>No automated check covers the requirement. It needs other evidence, such as an audit.</dd>
+      <dt>Not checked</dt><dd>No automated check covers the requirement, and no document review is recorded for it. It needs other evidence, such as an audit.</dd>
+      <dt>Document review</dt><dd>A named reviewer judged the requirement from the organisation's documents. The tool verified the review but did not judge the documents.</dd>
     </dl>
   </section>
 
@@ -870,6 +1045,7 @@
       <li>Each check covers only part of the obligations it maps to, so the best possible verdict is <i>partially evidenced</i>.</li>
       <li>Thresholds (log retention, backup age, password length and so on) come from the organisation's own profile, not from the law, which leaves them open.</li>
       <li>Severity, effort, the actions and the "found / should be" lines are written by hand for each check and filled in from the scan's own values.</li>
+      <li>Requirements without automated checks can be judged by a named reviewer from the organisation's documents. The reviewer's decision, date, reasons and the documents' hashes are recorded; a review that has expired, is dated after the scan or whose document is missing counts as not assessed. No model is involved.</li>
       
     </ul>
   </section>

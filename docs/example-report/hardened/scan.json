@@ -1,28 +1,29 @@
 {
   "tool": "nis2scan 0.1.0",
   "target": "nordmsp-lab",
-  "started_at": "2026-09-26T01:32:48.747857+00:00",
+  "started_at": "2026-09-26T11:44:52.973866+00:00",
   "profile_sha256": "3ff459e2e0235cee7a4cb33f341754de058a92c2a528f5fbcf8ae7b4e481a11d",
   "evidence_sha256": {
-    "asset_inventory/documents": "7f2c19482bc42772b6d882f0d8e439ad37f802cd9efd820f081ab54b55d6d1df",
-    "backup_detect/borg": "e2393525484d1cac47a64c9594707af2e72378f27981f3e6911b647c7f5d3a89",
-    "backup_detect/restic": "a6cf8c1cee252eac234366d4c2c6c4ef5a64fa57bd6f94e01c8d476228985ddd",
-    "backup_snapshots/borg": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
-    "backup_snapshots/restic": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
-    "docker_services/nis2lab": "a462a5b9bd8f07c4e688b0b84670dfa3c17a0b8fbaa8dff845a14514dc314936",
-    "http_probe/portal": "53607204b297969a330358addd2b798475599e0b04a8b27fe6f1f7daf3cffd42",
-    "idp_config/keycloak": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
-    "idp_default_admin/keycloak": "b64983c1f90d4970603a35c5eadc86624a70404c397dbd9b4e9027c14461b161",
-    "idp_detect/keycloak": "56271461d2a7a6c26336df77892719553d6bc84ffa17fb6b9a7315b95861ec3b",
-    "image_vulnerabilities/nis2lab": "968b16cc7cc4c11fcfb7c33799017334855250cbde4468facbdfa191f2b67d94",
-    "ir_plan/documents": "9d3a771cb13df2ccf89a87a0212a3a77489ea462736d8a534ac1d58dc9b671d4",
-    "log_retention/elasticsearch": "0d15065516bd6ab6dda648514c340fc8d19a784e90f38e2c27298c0d13865fca",
-    "log_retention/loki": "a984ff30cfc662a0d278aeb0814bdada06bbb1afa2a393b3aa69ebca89f7937d",
-    "logs_detect/elasticsearch": "6bc17419c630781ac60c9f190c4a3baa7f1667b9419496b4818df5856b71a4ad",
-    "logs_detect/loki": "7e9b8c1399fb5cab2853f7bd9485f06b174bafd722f084da5c07edf45267a802",
-    "ssh_auth_methods/app-host": "8955b652b3097d37fd6310d4092c424495f51bffff2a679958ba0e891a5345bf",
-    "sshd_effective_config/app-host": "f02487f0c2a27fb704e186637f447b31b859e673c57826e5723711e09860eb0e",
-    "tls_probe/portal": "be5974de9996ae09896627cff985b4e53b74d58e6f04a9d4137ac3d33cd57818"
+    "asset_inventory/documents": "867911b8deab91ac5ce94f32a1c03ae80dfd202182cd4193f492f9fc55d6238a",
+    "backup_detect/borg": "fc78d29af24ed785026304eaa8a2974dc512523e86921ba506e22502dcb19b5e",
+    "backup_detect/restic": "92467613c92f26efc90f80de3dda952ff6c89f531187d5d305aa524529b4e07c",
+    "backup_snapshots/borg": "ad14bc65d3e980ff1f63b24ae2a2f895d44d3fecf2f0ca19df8217d2bb452a98",
+    "backup_snapshots/restic": "d6a26d1289a0ae9181d93ba0eb4cf151d9aa757e836b9239d5be921737c4026f",
+    "docker_services/nis2lab": "b8e458b8ad3926b6da6b969c13c95887eb2d4070934d4d321a8c3a0d0c02c754",
+    "evidence_register/documents": "b5996a38853dd26f23e02a57812b40fad1dfd9ff045557e0be567778e6c2946a",
+    "http_probe/portal": "f17f2a08df3414f07f06c2c382d21177b1eee099cca951a063402c0158266d3e",
+    "idp_config/keycloak": "8969f13b94bae1becb5b84b818c36fcdc66970d9f36063254542b6b78219adf4",
+    "idp_default_admin/keycloak": "729c8cd582c48f72650a07116d92392075c82671b3d14b520e603fcab0696880",
+    "idp_detect/keycloak": "468355e829735da92380991349f6ba2aaecac4947c840eb444e3045f279c243f",
+    "image_vulnerabilities/nis2lab": "1511bc4b25f64ade474e6afea9660cc2c8b04ad2ac26465ffd38ec7782c50b87",
+    "ir_plan/documents": "ce283fca82110c6a7afae95cbde797e323fb0aa9a44576c61520ed27558ccb93",
+    "log_retention/elasticsearch": "4ec8cfde128e2ff94f63a92f5fd9ef27114d97633d9f0fd969077670017eb661",
+    "log_retention/loki": "0164906f48911b0bdd659e90d3916bc7da3f83251487500c917945a66695a0e5",
+    "logs_detect/elasticsearch": "6aed7251547ce8a6ca73664e8b7485df7b1f3f9cfb730858a1303e11077af0f0",
+    "logs_detect/loki": "6b5ec1d9e600e18d718067869607c5874ebcf49b0918b2ab9331fded176b2ba0",
+    "ssh_auth_methods/app-host": "bed3cd6d4ea4adaed8da10dc47d08467cdd67946dd5522a1669b2de6d0274574",
+    "sshd_effective_config/app-host": "1aa44101047e85146a85221faf11039baafcbb1cf8fceff3133ba685ea73a9f1",
+    "tls_probe/portal": "5a3b9174ab5fe5204ad34bb97ea0cbec453275417803794054a1e86b9e60e866"
   },
   "assets": [
     {
@@ -93,5 +94,12 @@
     "valid_until": "2027-12-31",
     "active_tests": true,
     "notes": ""
+  },
+  "document_review": {
+    "register": "evidence-register.yaml",
+    "sha256": "4ac4f4b85e1016bb18bf949587ccd35d47ab1d77e7f0465886c8a421f3b95cf4",
+    "reviews": 9,
+    "applied": 9,
+    "problems": []
   }
 }

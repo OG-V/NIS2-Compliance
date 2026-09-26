@@ -63,6 +63,10 @@ class Comparison:
     still_passing: int = 0
     measures: list[MeasureChange] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
+    # Requirements with evidence, by basis (checks, document), and document-review verdicts.
+    before_by_basis: dict[str, int] = field(default_factory=dict)
+    after_by_basis: dict[str, int] = field(default_factory=dict)
+    review_change: str = ""  # one sentence on how the document reviews changed, if any
 
 
 def _severities(data: ReportData) -> dict[str, int]:
@@ -122,6 +126,38 @@ def _warnings(before: ReportData, after: ReportData) -> list[str]:
     return warnings
 
 
+REVIEW_WORDS = [
+    ("evidenced", "evidenced"),
+    ("partially_evidenced", "partially evidenced"),
+    ("not_satisfied", "not satisfied"),
+    ("not_assessed", "no longer valid"),
+]
+
+
+def _reviewed(data: ReportData) -> dict[str, int]:
+    """Verdicts resting on a document review, counted by verdict."""
+    counts: dict[str, int] = {}
+    for v in data.verdicts + data.not_assessed:
+        if v.get("basis") == "document":
+            counts[v["verdict"]] = counts.get(v["verdict"], 0) + 1
+    return counts
+
+
+def _review_change(before: dict[str, int], after: dict[str, int]) -> str:
+    if not (before or after):
+        return ""
+
+    def words(counts):
+        parts = [f"{counts[k]} {w}" for k, w in REVIEW_WORDS if counts.get(k)]
+        if len(parts) > 1:
+            return ", ".join(parts[:-1]) + " and " + parts[-1]
+        return parts[0] if parts else "none"
+
+    if before == after:
+        return f"Document reviews: unchanged ({words(after)})."
+    return f"Document reviews: {words(before)} before; {words(after)} now."
+
+
 def compare(before: ReportData, after: ReportData) -> Comparison:
     result = Comparison(
         target=after.target,
@@ -134,6 +170,9 @@ def compare(before: ReportData, after: ReportData) -> Comparison:
         before_failing=sum(f["status"] == FAIL for f in before.findings),
         warnings=_warnings(before, after),
         multi_asset=before.multi_asset or after.multi_asset,
+        before_by_basis=before.evidence_by_basis,
+        after_by_basis=after.evidence_by_basis,
+        review_change=_review_change(_reviewed(before), _reviewed(after)),
     )
     for b, a in _pairs(before, after):
         latest = a or b

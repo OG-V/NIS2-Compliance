@@ -36,6 +36,11 @@ def test_weak_to_hardened_fixes_everything(runs):
     access = next(m for m in c.measures if m.point == "21(2)(i)")
     assert (access.before, access.after) == ("not_satisfied", "partially_evidenced")
     assert (access.before_not_satisfied, access.after_not_satisfied) == (8, 0)
+    # Document reviews are compared too, in their own colour, as in the gap report.
+    assert c.review_change == (
+        "Document reviews: 4 not satisfied before; 6 evidenced and 3 partially evidenced now."
+    )
+    assert (c.before_by_basis["document"], c.after_by_basis["document"]) == (0, 9)
 
 
 def test_reversed_order_shows_regressions_and_warns(runs):
@@ -101,3 +106,23 @@ def test_render_comparison(runs, tmp_path):
     assert "Default admin credentials are rejected" in html  # fixed items show the goal
     assert "<script" not in html and "<link" not in html and 'src="' not in html
     assert len(json.loads(json_path.read_text())["fixed"]) == 19
+
+
+def test_comparison_shows_evidence_by_basis(runs, tmp_path):
+    weak, hardened = runs
+    html = render_comparison(weak, hardened, tmp_path / "diff.html")[0].read_text()
+    assert "<b>21</b> partially evidenced by checks" in html
+    assert "<b>9</b> evidenced by document review" in html
+    assert "6 evidenced and 3 partially evidenced now" in html
+
+
+def test_review_change_wording():
+    from nis2scan.report.compare import _review_change
+
+    assert _review_change({}, {}) == ""
+    assert _review_change({"evidenced": 2}, {"evidenced": 2}) == (
+        "Document reviews: unchanged (2 evidenced)."
+    )
+    assert _review_change({}, {"not_assessed": 1}) == (
+        "Document reviews: none before; 1 no longer valid now."
+    )

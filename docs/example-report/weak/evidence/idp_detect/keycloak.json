@@ -1,5 +1,5 @@
 {
-  "_collected_at": "2026-09-26T01:31:59.322618+00:00",
+  "_collected_at": "2026-09-26T11:43:38.234769+00:00",
   "detail": "issuer http://127.0.0.1:18081/realms/nordmsp",
   "label": "Keycloak",
   "method": "OpenID configuration",

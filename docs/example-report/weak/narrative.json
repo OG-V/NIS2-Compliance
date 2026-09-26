@@ -3,11 +3,11 @@
   "model": "claude-opus-5-5",
   "effort": "medium",
   "prompt_version": "2026-09-25.2",
-  "created_at": "2026-09-26T01:35:47.845658+00:00",
+  "created_at": "2026-09-26T11:49:10.339366+00:00",
   "attempts": 2,
   "violations": [],
   "narrative": {
-    "executive_summary": "The scan found gaps across every area it tested: all 17 checks failed, 21 requirements were not satisfied and 64 could not be assessed by this scan. The most serious gap is that the admin console accepts the default admin/admin login, which could give anyone full control. Other urgent gaps: the newest backups are 559 and 481 days old, two staff accounts lack multi-factor authentication, SSH allows password and direct root login, the web server still accepts outdated TLS versions, and running software contains fixable critical vulnerabilities.",
+    "executive_summary": "All 17 automated checks failed, leaving 25 requirements not satisfied and 60 not assessed. The most severe gap is that the admin console accepts the default admin/admin login, so anyone who tries it gains administrative access. High-severity gaps follow: the only backups are 560 and 482 days old; two staff accounts, including an admin, have no multi-factor authentication; the SSH server offers password login and allows direct root login; the web server still accepts outdated TLS versions; and running software images contain fixable critical vulnerabilities, including one image whose operating system is at end of support. Further gaps cover the asset inventory, backup encryption, incident reporting, account lockout, password length, log retention and certificates.",
     "executive_summary_finding_ids": [
       "CHK-IDP-004",
       "CHK-BAK-001",
@@ -24,11 +24,11 @@
           "REQ-NIS2-21.2.I",
           "REQ-CIR2690-11.6.2-03"
         ],
-        "why_it_matters": "The rules require access control policies and require that login credentials are changed initially. The scan logged into the admin console with the username admin and password admin and was let in. Default credentials are widely known, so anyone who can reach the console could take full administrative control of the system.",
+        "why_it_matters": "The rules require access control and that login credentials are changed from their initial values. The scan logged in to the admin console with the username admin and password admin and was let in. Default credentials are widely known, so anyone who reaches the console can take full administrative control of the system.",
         "remediation": [
-          "Change the admin console password immediately to a unique, strong secret.",
-          "Ensure the default admin/admin combination is rejected, then re-run the check to confirm the login is refused.",
-          "Review console activity for signs that the default login was already misused."
+          "Change the admin account password on the admin console immediately so that admin/admin is rejected.",
+          "Check whether any other accounts still use initial or default passwords and change them.",
+          "Repeat the test to confirm the default login is no longer accepted."
         ]
       },
       {
@@ -37,11 +37,11 @@
           "REQ-NIS2-21.2.C",
           "REQ-CIR2690-4.2.1-01"
         ],
-        "why_it_matters": "The rules require backup management and that backup copies of data are maintained. Each backup system holds a single snapshot: the newest borg backup is 559 days old and the newest restic backup is 481 days old, far beyond the maximum age the profile allows. If data were lost now, most recent work could not be restored.",
+        "why_it_matters": "The rules require backup management and that backup copies of data are maintained. Each backup system holds a single snapshot: the newest borg backup is 560 days old and the newest restic backup is 482 days old, far beyond the maximum age the profile allows. If data were lost today, only very old copies could be restored, and most recent work would be gone.",
         "remediation": [
-          "Find out why scheduled backups for borg and restic stopped running and fix the cause.",
-          "Restore a regular backup schedule so the newest snapshot always stays within the profile's maximum age.",
-          "Set up an alert when backups stop, and re-run the check to confirm fresh snapshots exist."
+          "Find out why scheduled backups in borg and restic stopped running and fix the cause.",
+          "Restore regular automatic backups so a new snapshot is always within the profile's maximum age.",
+          "Set up an alert when no fresh snapshot has been created, and test a restore."
         ]
       },
       {
@@ -51,11 +51,11 @@
           "REQ-CIR2690-11.3.2-01",
           "REQ-CIR2690-11.7.1-01"
         ],
-        "why_it_matters": "The rules call for multi-factor authentication, especially for privileged and administration accounts. The accounts kari.admin and ola.tech have no second factor, and new accounts are not required to enrol one. A single stolen password would be enough to access these accounts, one of which appears to be an administrator.",
+        "why_it_matters": "The rules call for multi-factor authentication, especially for privileged and administration accounts. The accounts kari.admin and ola.tech have no second factor, and new accounts are not required to set one up. A stolen or guessed password alone is enough to take over these accounts, including one that appears to be an administrator.",
         "remediation": [
-          "Enrol a second factor for kari.admin and ola.tech.",
-          "Turn on the identity provider setting that forces new users to enrol multi-factor authentication.",
-          "Re-run the check to confirm no accounts remain without multi-factor authentication."
+          "Enrol kari.admin and ola.tech in multi-factor authentication.",
+          "Change the identity provider setting so every new user must enrol a second factor.",
+          "Review accounts regularly so the list of users without MFA stays empty."
         ]
       },
       {
@@ -65,11 +65,11 @@
           "REQ-CIR2690-11.6.2-01",
           "REQ-CIR2690-11.7.2-01"
         ],
-        "why_it_matters": "The rules require that the strength of authentication matches the importance of what is being accessed. The SSH server, used for remote administration, accepts plain passwords alongside keys. Passwords can be guessed or stolen, which weakens protection of a sensitive entry point.",
+        "why_it_matters": "The rules require authentication strength that fits the importance of the system. The SSH server accepts passwords as well as keys. Passwords can be guessed or stolen, so offering them weakens remote access to the server.",
         "remediation": [
-          "Configure the SSH server to stop offering password, keyboard-interactive and none authentication, keeping only public key login.",
-          "Make sure all administrators have working keys before the change.",
-          "Re-run the check to confirm password authentication is no longer offered."
+          "Disable password authentication in the SSH server configuration so only publickey is offered.",
+          "Make sure keyboard-interactive and none are also not offered.",
+          "Confirm that all administrators have working keys before making the change."
         ]
       },
       {
@@ -78,11 +78,10 @@
           "REQ-NIS2-21.2.I",
           "REQ-CIR2690-11.3.2-03"
         ],
-        "why_it_matters": "The rules require administration privileges to be individualised and restricted. SSH currently allows direct login as root (PermitRootLogin is 'yes'). This means attackers can target the most powerful account directly, and actions cannot be traced to an individual person.",
+        "why_it_matters": "The rules require administration privileges to be individualised and restricted. The SSH setting PermitRootLogin is 'yes', so anyone can try to log in directly as the all-powerful root account. This hides who did what and gives attackers a single, well-known target.",
         "remediation": [
-          "Set PermitRootLogin to 'no' in the SSH server configuration.",
-          "Have administrators log in with personal accounts and raise privileges only when needed.",
-          "Re-run the check to confirm root login is disabled."
+          "Set PermitRootLogin to 'no' in the SSH configuration.",
+          "Have administrators log in with their own named accounts and raise privileges only when needed."
         ]
       },
       {
@@ -90,10 +89,10 @@
         "requirement_ids": [
           "REQ-NIS2-21.2.H"
         ],
-        "why_it_matters": "The rules require policies on the use of cryptography. The server still accepts the outdated TLSv1 and TLSv1.1 versions in addition to TLSv1.2. Older versions have known weaknesses, so connections could be downgraded and traffic exposed.",
+        "why_it_matters": "The rules require policies on cryptography and encryption. The server still accepts TLSv1 and TLSv1.1, although the profile sets TLSv1.2 as the minimum. Older versions have known weaknesses and could allow traffic to be read or tampered with.",
         "remediation": [
-          "Configure the server to refuse TLSv1 and TLSv1.1, keeping TLSv1.2 as the minimum.",
-          "Re-run the check to confirm only permitted versions are accepted."
+          "Configure the server to refuse TLSv1 and TLSv1.1 so TLSv1.2 is the lowest version accepted.",
+          "Re-scan to confirm only permitted versions are offered."
         ]
       },
       {
@@ -104,12 +103,11 @@
           "REQ-CIR2690-6.10.2-03",
           "REQ-CIR2690-6.6.1-02"
         ],
-        "why_it_matters": "The rules require vulnerability handling, addressing critical vulnerabilities without undue delay, and applying security patches within a reasonable time. Of 8 running images scanned, several contain critical vulnerabilities for which fixes exist: nginx:1.20 (17), quay.io/keycloak/keycloak:26.3 (5), elasticsearch:8.19.10 (3), nis2lab-backup (3) and grafana/loki:3.5.1 (2). No risks have been formally accepted, and nginx:1.20 runs on an operating system that is no longer supported. Known, fixable flaws are a common route for attackers.",
+        "why_it_matters": "The rules require vulnerabilities to be managed, critical ones addressed without undue delay and security patches applied in reasonable time. Of 8 running images scanned, five contain critical vulnerabilities for which a fix exists: nginx:1.20 (17), quay.io/keycloak/keycloak:26.3 (5), elasticsearch:8.19.10 (3), nis2lab-backup (3) and grafana/loki:3.5.1 (2). None has been formally accepted as a risk, and nginx:1.20 runs on an operating system at end of support. Attackers actively look for such known, fixable flaws.",
         "remediation": [
-          "Update each listed image to a release that contains the available fixes and redeploy.",
+          "Update each listed image to a version that includes the available fixes and redeploy it.",
           "Replace nginx:1.20 with an image whose operating system is still supported.",
-          "Where a fix cannot be applied yet, record a formal risk acceptance.",
-          "Re-run the scan to confirm no fixable critical vulnerabilities remain."
+          "Where a fix cannot be applied promptly, record a formal risk acceptance, and re-scan until no fixable critical vulnerabilities remain."
         ]
       },
       {
@@ -118,10 +116,10 @@
           "REQ-NIS2-21.2.I",
           "REQ-CIR2690-12.4.1-01"
         ],
-        "why_it_matters": "The rules require a complete, accurate and up-to-date asset inventory. Five running services are missing from it: backup, backup-borg, legacy-web, logs and search. Services that are not inventoried tend to be forgotten, left unpatched and unmonitored.",
+        "why_it_matters": "The rules require a complete, accurate and up-to-date asset inventory. Five running services are missing from it: backup, backup-borg, legacy-web, logs and search. Services that are not recorded tend not to be patched, monitored or owned, which leaves blind spots.",
         "remediation": [
           "Add backup, backup-borg, legacy-web, logs and search to the asset inventory with an owner, or shut down any that are no longer needed.",
-          "Re-run the check to confirm no undeclared services remain."
+          "Compare the inventory with running services regularly."
         ]
       },
       {
@@ -130,11 +128,10 @@
           "REQ-NIS2-21.2.C",
           "REQ-CIR2690-4.2.2-05"
         ],
-        "why_it_matters": "The rules require appropriate access controls on backup copies. The borg backup repository is not encrypted. Anyone who obtains a copy of the backups could read all the data in them.",
+        "why_it_matters": "The rules require appropriate access controls on backup copies. The borg backup repository is not encrypted, so anyone who gets hold of the backup storage can read all the data in it.",
         "remediation": [
           "Create an encrypted borg repository and move backups into it.",
-          "Store the encryption key securely and separately from the backups.",
-          "Re-run the check to confirm no unencrypted backup sets remain."
+          "Store the encryption key securely and separately from the backups, then remove the unencrypted repository."
         ]
       },
       {
@@ -142,11 +139,10 @@
         "requirement_ids": [
           "REQ-NIS2-23.4"
         ],
-        "why_it_matters": "The law requires staged reporting of significant incidents to the CSIRT, starting with an early warning within 24 hours. The incident response plan (incident-response.md) does not mention the 24h early warning, the 72h incident notification, the one-month final report or the CSIRT contact. During an incident staff may miss mandatory reporting steps.",
+        "why_it_matters": "The Directive requires significant incidents to be reported to the CSIRT in stages, starting with an early warning within 24 hours. The incident response plan does not mention the 24h early warning, the 72h incident notification, the one-month final report or the CSIRT contact. In a real incident staff may miss legal reporting deadlines.",
         "remediation": [
-          "Add the 24h early warning, 72h incident notification and one-month final report stages to incident-response.md.",
-          "Add the CSIRT contact details to the plan.",
-          "Re-run the check to confirm all stages are mentioned."
+          "Update incident-response.md to describe the 24h early warning, 72h incident notification and one-month final report.",
+          "Add the CSIRT contact details and who is responsible for each report."
         ]
       },
       {
@@ -155,10 +151,10 @@
           "REQ-NIS2-21.2.I",
           "REQ-CIR2690-11.6.2-04"
         ],
-        "why_it_matters": "The rules require blocking users after a predefined number of unsuccessful log-in attempts. Account lockout is disabled, so attackers can try unlimited passwords against any account.",
+        "why_it_matters": "The rules require users to be blocked after a predefined number of failed logins. Account lockout is switched off, so an attacker can try unlimited passwords against any account.",
         "remediation": [
-          "Enable account lockout in the identity provider and set a maximum number of failed attempts.",
-          "Re-run the check to confirm lockout is enabled."
+          "Enable account lockout in the identity provider and set a maximum number of attempts.",
+          "Define how locked accounts are reset."
         ]
       },
       {
@@ -168,10 +164,10 @@
           "REQ-CIR2690-11.6.2-01",
           "REQ-CIR2690-11.7.2-01"
         ],
-        "why_it_matters": "The rules require authentication strength that fits the asset being accessed. There is no password policy and no minimum length, while the profile expects a minimum length of at least 12. Very short passwords are easy to guess.",
+        "why_it_matters": "The rules require authentication strength suited to the asset. There is no password policy and the minimum length is 0, while the profile expects a minimum length of at least 12. Very short passwords are easy to guess.",
         "remediation": [
           "Create a password policy in the identity provider with a minimum length of at least 12.",
-          "Re-run the check to confirm the policy is enforced."
+          "Require users with shorter passwords to change them."
         ]
       },
       {
@@ -180,11 +176,11 @@
           "REQ-NIS2-21.2.B",
           "REQ-CIR2690-3.2.5-01"
         ],
-        "why_it_matters": "The rules require incident handling and keeping logs for a predefined period. Both elasticsearch (ILM policy logs-7d) and loki (retention_period 1w) delete logs after 7 days, while the profile expects at least 90 days. Incidents are often found late, and the evidence needed to investigate would already be gone.",
+        "why_it_matters": "The rules require logs to be kept for a predefined period to support incident handling. Both elasticsearch and loki delete logs after 7 days, while the profile expects at least 90. Incidents are often discovered late, and by then the evidence would be gone.",
         "remediation": [
-          "Change the elasticsearch ILM policy so logs are kept at least 90 days.",
-          "Change the loki retention_period setting so logs are kept at least 90 days.",
-          "Re-run the check to confirm the new retention on both systems."
+          "Change the elasticsearch ILM policy logs-7d so logs are kept at least 90 days.",
+          "Change the loki limits_config.retention_period to at least 90 days.",
+          "Make sure the logs are also backed up."
         ]
       },
       {
@@ -192,11 +188,10 @@
         "requirement_ids": [
           "REQ-NIS2-21.2.H"
         ],
-        "why_it_matters": "The rules require policies on the use of cryptography. The server's certificate expired on 2025-01-01. Users see security warnings and learn to ignore them, and encrypted connections can no longer be properly trusted.",
+        "why_it_matters": "The rules require policies on the use of cryptography. The server's certificate expired on 2025-01-01. Visitors get security warnings, and users become used to ignoring them, which makes impersonation of the service easier.",
         "remediation": [
-          "Replace the expired certificate with a valid one.",
-          "Set up automatic renewal or expiry alerts so the certificate is renewed well before it expires.",
-          "Re-run the check to confirm the certificate is valid."
+          "Issue and install a new valid certificate on the server.",
+          "Set up renewal and monitoring so the certificate is replaced well before it expires."
         ]
       },
       {
@@ -204,11 +199,10 @@
         "requirement_ids": [
           "REQ-NIS2-21.2.H"
         ],
-        "why_it_matters": "The rules require policies on the use of encryption. The website answers over plain, unencrypted HTTP without redirecting to HTTPS, and sends no Strict-Transport-Security header. Visitors may use an unencrypted connection that can be read or altered.",
+        "why_it_matters": "The rules require policies on encryption. The site answers plain HTTP without redirecting to HTTPS and does not send a Strict-Transport-Security header. Users may use the site unencrypted, exposing their data and logins.",
         "remediation": [
-          "Configure the web server to redirect all plain HTTP requests to HTTPS.",
-          "Add the Strict-Transport-Security header to HTTPS responses.",
-          "Re-run the check to confirm both settings."
+          "Configure the web server to redirect all HTTP requests to HTTPS.",
+          "Add the Strict-Transport-Security header to HTTPS responses."
         ]
       },
       {
@@ -216,7 +210,7 @@
         "requirement_ids": [
           "REQ-NIS2-21.2.B"
         ],
-        "why_it_matters": "The rules require incident handling. The incident response plan was last reviewed on 2023-02-14, 1320 days ago, while the profile expects a review at least every 365 days. An outdated plan may list wrong contacts, systems or steps.",
+        "why_it_matters": "Incident handling depends on a current plan. The incident response plan was last reviewed on 2023-02-14, 1320 days ago, while the profile expects a review at least every 365 days. Contacts, systems and procedures in it are likely outdated.",
         "remediation": [
           "Review and update incident-response.md and record the new review date.",
           "Schedule reviews so the plan is never older than 365 days."
@@ -227,10 +221,9 @@
         "requirement_ids": [
           "REQ-NIS2-21.2.I"
         ],
-        "why_it_matters": "The rules require access control policies. SSH allows 10 authentication attempts per connection, while the profile expects at most 4. More attempts per connection make password-guessing easier.",
+        "why_it_matters": "Access control should limit guessing. The SSH setting MaxAuthTries is 10, while the profile expects at most 4, giving attackers more guesses per connection.",
         "remediation": [
-          "Set MaxAuthTries to 4 or lower in the SSH server configuration.",
-          "Re-run the check to confirm the new value."
+          "Set MaxAuthTries to 4 or lower in the SSH configuration."
         ]
       }
     ]

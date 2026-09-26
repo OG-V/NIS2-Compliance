@@ -7,9 +7,24 @@
     "quote": "The network and information system security policy shall be reviewed and, where appropriate, updated by management bodies at least annually and when significant incidents or significant changes to operations or risks occur.",
     "testability": "documentary",
     "review_status": "reviewed",
-    "verdict": "not_assessed",
+    "verdict": "not_satisfied",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: The policy has not been reviewed since it was written in February 2023.",
+    "basis": "document",
+    "document_review": {
+      "requirement": "REQ-CIR2690-1.1.2-01",
+      "documents": [
+        {
+          "path": "evidence/information-security-policy.md",
+          "sha256": "5aa73f1b4f3c0004ae660cda752d13b1b134f6e0ea52ba17969c30a188ee1dc2"
+        }
+      ],
+      "verdict": "not_satisfied",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "rationale": "The policy has not been reviewed since it was written in February 2023.",
+      "valid_until": "2027-09-15"
+    }
   },
   {
     "requirement_id": "REQ-CIR2690-1.1.2-02",
@@ -21,7 +36,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.2.2-01",
@@ -33,7 +50,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.2.2-02",
@@ -45,7 +64,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "organisational requirement: needs a document review or an audit",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.2.2-03",
@@ -57,7 +78,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "organisational requirement: needs a document review or an audit",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.2.2-04",
@@ -69,7 +92,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.2.2-05",
@@ -81,7 +106,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.2.2-06",
@@ -93,7 +120,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.3.2-01",
@@ -107,7 +136,9 @@
     "check_ids": [
       "CHK-IDP-001"
     ],
-    "reason": "failed: CHK-IDP-001"
+    "reason": "failed: CHK-IDP-001",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.3.2-02",
@@ -119,7 +150,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.3.2-03",
@@ -133,7 +166,9 @@
     "check_ids": [
       "CHK-SSH-002"
     ],
-    "reason": "failed: CHK-SSH-002"
+    "reason": "failed: CHK-SSH-002",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.3.2-04",
@@ -145,7 +180,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.6.2-01",
@@ -160,7 +197,9 @@
       "CHK-IDP-003",
       "CHK-SSH-001"
     ],
-    "reason": "failed: CHK-IDP-003, CHK-SSH-001"
+    "reason": "failed: CHK-IDP-003, CHK-SSH-001",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.6.2-02",
@@ -172,7 +211,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "organisational requirement: needs a document review or an audit",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.6.2-03",
@@ -186,7 +227,9 @@
     "check_ids": [
       "CHK-IDP-004"
     ],
-    "reason": "failed: CHK-IDP-004"
+    "reason": "failed: CHK-IDP-004",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.6.2-04",
@@ -200,7 +243,9 @@
     "check_ids": [
       "CHK-IDP-002"
     ],
-    "reason": "failed: CHK-IDP-002"
+    "reason": "failed: CHK-IDP-002",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.6.2-05",
@@ -212,7 +257,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.6.2-06",
@@ -224,7 +271,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.7.1-01",
@@ -238,7 +287,9 @@
     "check_ids": [
       "CHK-IDP-001"
     ],
-    "reason": "failed: CHK-IDP-001"
+    "reason": "failed: CHK-IDP-001",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-11.7.2-01",
@@ -253,7 +304,9 @@
       "CHK-IDP-003",
       "CHK-SSH-001"
     ],
-    "reason": "failed: CHK-IDP-003, CHK-SSH-001"
+    "reason": "failed: CHK-IDP-003, CHK-SSH-001",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-12.4.1-01",
@@ -267,7 +320,9 @@
     "check_ids": [
       "CHK-AST-001"
     ],
-    "reason": "failed: CHK-AST-001"
+    "reason": "failed: CHK-AST-001",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-12.4.1-02",
@@ -279,7 +334,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.1-01",
@@ -291,7 +348,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.1-02",
@@ -303,7 +362,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "organisational requirement: needs a document review or an audit",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-01",
@@ -315,7 +376,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-02",
@@ -327,7 +390,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-03",
@@ -339,7 +404,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-04",
@@ -351,7 +418,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-05",
@@ -363,7 +432,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-06",
@@ -375,7 +446,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-07",
@@ -387,7 +460,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-08",
@@ -399,7 +474,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-09",
@@ -411,7 +488,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-10",
@@ -423,7 +502,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-11",
@@ -435,7 +516,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-12",
@@ -447,7 +530,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-13",
@@ -459,7 +544,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.3-14",
@@ -471,7 +558,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.4-01",
@@ -483,7 +572,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "organisational requirement: needs a document review or an audit",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.4-02",
@@ -495,7 +586,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.4-03",
@@ -507,7 +600,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.4-04",
@@ -519,7 +614,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "organisational requirement: needs a document review or an audit",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.5-01",
@@ -533,7 +630,9 @@
     "check_ids": [
       "CHK-LOG-001"
     ],
-    "reason": "failed: CHK-LOG-001 on loki, CHK-LOG-001 on elasticsearch"
+    "reason": "failed: CHK-LOG-001 on loki, CHK-LOG-001 on elasticsearch",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.5-02",
@@ -545,7 +644,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-4.2.1-01",
@@ -559,7 +660,9 @@
     "check_ids": [
       "CHK-BAK-001"
     ],
-    "reason": "failed: CHK-BAK-001 on restic, CHK-BAK-001 on borg"
+    "reason": "failed: CHK-BAK-001 on restic, CHK-BAK-001 on borg",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-4.2.1-02",
@@ -571,7 +674,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "organisational requirement: needs a document review or an audit",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-4.2.2-01",
@@ -581,9 +686,19 @@
     "quote": "Based on the results of the risk assessment carried out pursuant to point 2.1 and the business continuity plan, the relevant entities shall lay down backup plans which include the following:",
     "testability": "documentary",
     "review_status": "reviewed",
-    "verdict": "not_assessed",
+    "verdict": "not_satisfied",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: No backup plan exists; the IT lead confirmed backups are set up ad hoc.",
+    "basis": "document",
+    "document_review": {
+      "requirement": "REQ-CIR2690-4.2.2-01",
+      "documents": [],
+      "verdict": "not_satisfied",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "rationale": "No backup plan exists; the IT lead confirmed backups are set up ad hoc.",
+      "valid_until": "2027-09-15"
+    }
   },
   {
     "requirement_id": "REQ-CIR2690-4.2.2-02",
@@ -595,7 +710,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-4.2.2-03",
@@ -607,7 +724,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-4.2.2-04",
@@ -619,7 +738,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-4.2.2-05",
@@ -633,7 +754,9 @@
     "check_ids": [
       "CHK-BAK-002"
     ],
-    "reason": "failed: CHK-BAK-002 on borg"
+    "reason": "failed: CHK-BAK-002 on borg",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-4.2.2-06",
@@ -645,7 +768,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-4.2.2-07",
@@ -657,7 +782,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-4.2.3-01",
@@ -669,7 +796,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.10.1-01",
@@ -681,7 +810,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "organisational requirement: needs a document review or an audit",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.10.1-02",
@@ -693,7 +824,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.10.1-03",
@@ -707,7 +840,9 @@
     "check_ids": [
       "CHK-VUL-001"
     ],
-    "reason": "failed: CHK-VUL-001"
+    "reason": "failed: CHK-VUL-001",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.10.2-01",
@@ -719,7 +854,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "organisational requirement: needs a document review or an audit",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.10.2-02",
@@ -731,7 +868,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.10.2-03",
@@ -745,7 +884,9 @@
     "check_ids": [
       "CHK-VUL-001"
     ],
-    "reason": "failed: CHK-VUL-001"
+    "reason": "failed: CHK-VUL-001",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.10.2-04",
@@ -757,7 +898,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.10.2-05",
@@ -769,7 +912,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.6.1-01",
@@ -781,7 +926,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.6.1-02",
@@ -795,7 +942,9 @@
     "check_ids": [
       "CHK-VUL-001"
     ],
-    "reason": "failed: CHK-VUL-001"
+    "reason": "failed: CHK-VUL-001",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.6.1-03",
@@ -807,7 +956,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "organisational requirement: needs a document review or an audit",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.6.1-04",
@@ -819,7 +970,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.6.1-05",
@@ -831,7 +984,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.6.2-01",
@@ -843,7 +998,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "organisational requirement: needs a document review or an audit",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-6.6.2-02",
@@ -855,7 +1012,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-7.3-01",
@@ -867,7 +1026,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-7.3-02",
@@ -879,7 +1040,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-9.2-01",
@@ -891,7 +1054,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-9.2-02",
@@ -903,7 +1068,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-CIR2690-9.2-03",
@@ -915,7 +1082,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "no checks implemented yet"
+    "reason": "no automated check yet: needs a document review",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-NIS2-21.2.A",
@@ -925,9 +1094,24 @@
     "quote": "policies on risk analysis and information system security",
     "testability": "organisational",
     "review_status": "reviewed",
-    "verdict": "not_assessed",
+    "verdict": "not_satisfied",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: The only policy is a three-line list of rules from 2023, not approved by management, with no risk analysis behind it.",
+    "basis": "document",
+    "document_review": {
+      "requirement": "REQ-NIS2-21.2.A",
+      "documents": [
+        {
+          "path": "evidence/information-security-policy.md",
+          "sha256": "5aa73f1b4f3c0004ae660cda752d13b1b134f6e0ea52ba17969c30a188ee1dc2"
+        }
+      ],
+      "verdict": "not_satisfied",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "rationale": "The only policy is a three-line list of rules from 2023, not approved by management, with no risk analysis behind it.",
+      "valid_until": "2027-09-15"
+    }
   },
   {
     "requirement_id": "REQ-NIS2-21.2.B",
@@ -942,7 +1126,9 @@
       "CHK-DOC-002",
       "CHK-LOG-001"
     ],
-    "reason": "failed: CHK-DOC-002, CHK-LOG-001 on loki, CHK-LOG-001 on elasticsearch"
+    "reason": "failed: CHK-DOC-002, CHK-LOG-001 on loki, CHK-LOG-001 on elasticsearch",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-NIS2-21.2.C",
@@ -957,7 +1143,9 @@
       "CHK-BAK-001",
       "CHK-BAK-002"
     ],
-    "reason": "failed: CHK-BAK-001 on restic, CHK-BAK-001 on borg, CHK-BAK-002 on borg"
+    "reason": "failed: CHK-BAK-001 on restic, CHK-BAK-001 on borg, CHK-BAK-002 on borg",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-NIS2-21.2.D",
@@ -969,7 +1157,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "organisational requirement: needs a document review or an audit",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-NIS2-21.2.E",
@@ -983,7 +1173,9 @@
     "check_ids": [
       "CHK-VUL-001"
     ],
-    "reason": "failed: CHK-VUL-001"
+    "reason": "failed: CHK-VUL-001",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-NIS2-21.2.F",
@@ -995,7 +1187,9 @@
     "review_status": "reviewed",
     "verdict": "not_assessed",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "organisational requirement: needs a document review or an audit",
+    "basis": "none",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-NIS2-21.2.G",
@@ -1005,9 +1199,19 @@
     "quote": "basic cyber hygiene practices and cybersecurity training",
     "testability": "organisational",
     "review_status": "reviewed",
-    "verdict": "not_assessed",
+    "verdict": "not_satisfied",
     "check_ids": [],
-    "reason": "organisational requirement: needs audit, not automated checks"
+    "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: No training records exist; staff have had no security training since 2022.",
+    "basis": "document",
+    "document_review": {
+      "requirement": "REQ-NIS2-21.2.G",
+      "documents": [],
+      "verdict": "not_satisfied",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "rationale": "No training records exist; staff have had no security training since 2022.",
+      "valid_until": "2027-09-15"
+    }
   },
   {
     "requirement_id": "REQ-NIS2-21.2.H",
@@ -1023,7 +1227,9 @@
       "CHK-TLS-002",
       "CHK-TLS-003"
     ],
-    "reason": "failed: CHK-TLS-001, CHK-TLS-002, CHK-TLS-003"
+    "reason": "failed: CHK-TLS-001, CHK-TLS-002, CHK-TLS-003",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-NIS2-21.2.I",
@@ -1043,7 +1249,9 @@
       "CHK-SSH-002",
       "CHK-SSH-003"
     ],
-    "reason": "failed: CHK-AST-001, CHK-IDP-002, CHK-IDP-003, CHK-IDP-004, CHK-SSH-001, CHK-SSH-002, CHK-SSH-003"
+    "reason": "failed: CHK-AST-001, CHK-IDP-002, CHK-IDP-003, CHK-IDP-004, CHK-SSH-001, CHK-SSH-002, CHK-SSH-003",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-NIS2-21.2.J",
@@ -1057,7 +1265,9 @@
     "check_ids": [
       "CHK-IDP-001"
     ],
-    "reason": "failed: CHK-IDP-001"
+    "reason": "failed: CHK-IDP-001",
+    "basis": "checks",
+    "document_review": null
   },
   {
     "requirement_id": "REQ-NIS2-23.4",
@@ -1071,6 +1281,8 @@
     "check_ids": [
       "CHK-DOC-001"
     ],
-    "reason": "failed: CHK-DOC-001"
+    "reason": "failed: CHK-DOC-001",
+    "basis": "checks",
+    "document_review": null
   }
 ]

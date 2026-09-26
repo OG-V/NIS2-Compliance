@@ -1,10 +1,10 @@
 {
-  "_collected_at": "2026-09-26T01:31:59.812327+00:00",
+  "_collected_at": "2026-09-26T11:43:38.673180+00:00",
   "certificate": {
     "issuer": "CN=portal.nordmsp.lab,O=NordMSP (lab)",
     "not_after": "2025-01-01T00:00:00+00:00",
     "not_before": "2024-01-01T00:00:00+00:00",
-    "sha256": "6711ed306a683a3276fc0c54d9c6885e4da70b5b7c1650992c61e99df6f6bdde",
+    "sha256": "76474a89cbd58182a284096cf3a88f903993b87825eff36112cbba71b31fc5cc",
     "subject": "CN=portal.nordmsp.lab,O=NordMSP (lab)"
   },
   "endpoint": "127.0.0.1:18443",

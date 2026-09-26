@@ -1,23 +1,23 @@
 {
-  "_collected_at": "2026-09-26T01:31:57.973887+00:00",
+  "_collected_at": "2026-09-26T11:43:36.930399+00:00",
   "compose_project": "nis2lab",
   "services": [
     {
       "container": "nis2lab-backup-1",
       "image": "nis2lab-backup",
-      "image_id": "sha256:1618c1d9cc7733894a3156d15ce6c672f9446c99b3b4dff72e809035c7dd45e1",
+      "image_id": "sha256:dab29918920d83c6b7150ea4217121773cea5e2b2854d2db47ecec63b259a7fe",
       "service": "backup"
     },
     {
       "container": "nis2lab-backup-borg-1",
       "image": "nis2lab-backup-borg",
-      "image_id": "sha256:f66f4f6465bd7883986e03c6cad4a2359168352f9392566cfc09980d68c7dfd6",
+      "image_id": "sha256:de5db8b1b5a3d70f5e212bd3996b982cd8a328bf27b99c2551d58895f7e08013",
       "service": "backup-borg"
     },
     {
       "container": "nis2lab-host-1",
       "image": "nis2lab-host",
-      "image_id": "sha256:0c9ab247cced73785d0d7d502cbe7cb8f1598a7dea5cd52a41c70e7db0f42c46",
+      "image_id": "sha256:bbbffc10b09de23d9a0fb556595f8f1b6cbc10986ea0a5734e3dce5e84989229",
       "service": "host"
     },
     {

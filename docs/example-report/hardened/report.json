@@ -1,6 +1,6 @@
 {
   "target": "nordmsp-lab",
-  "started_at": "2026-09-26T01:32:48.747857+00:00",
+  "started_at": "2026-09-26T11:44:52.973866+00:00",
   "tool": "nis2scan 0.1.0",
   "profile_sha256": "3ff459e2e0235cee7a4cb33f341754de058a92c2a528f5fbcf8ae7b4e481a11d",
   "check_counts": {
@@ -10,21 +10,23 @@
     "not_applicable": 0
   },
   "verdict_counts": {
-    "evidenced": 0,
-    "partially_evidenced": 21,
+    "evidenced": 6,
+    "partially_evidenced": 24,
     "not_satisfied": 0,
-    "not_assessed": 64
+    "not_assessed": 55
   },
   "articles": [
     {
       "point": "21(2)(a)",
       "title": "Risk analysis and information system security policies",
-      "verdict": "not_assessed",
+      "verdict": "partially_evidenced",
       "detailed": 2,
       "detailed_not_satisfied": 0,
-      "detailed_assessed": 0,
+      "detailed_assessed": 2,
+      "detailed_documented": 2,
       "short_title": "Risk analysis and security policies",
-      "icon": "policy"
+      "icon": "policy",
+      "by_document": true
     },
     {
       "point": "21(2)(b)",
@@ -32,9 +34,11 @@
       "verdict": "partially_evidenced",
       "detailed": 22,
       "detailed_not_satisfied": 0,
-      "detailed_assessed": 1,
+      "detailed_assessed": 2,
+      "detailed_documented": 1,
       "short_title": "Incident handling",
-      "icon": "incident"
+      "icon": "incident",
+      "by_document": false
     },
     {
       "point": "21(2)(c)",
@@ -42,19 +46,23 @@
       "verdict": "partially_evidenced",
       "detailed": 10,
       "detailed_not_satisfied": 0,
-      "detailed_assessed": 2,
+      "detailed_assessed": 4,
+      "detailed_documented": 2,
       "short_title": "Business continuity and backups",
-      "icon": "backup"
+      "icon": "backup",
+      "by_document": false
     },
     {
       "point": "21(2)(d)",
       "title": "Supply chain security",
-      "verdict": "not_assessed",
+      "verdict": "partially_evidenced",
       "detailed": 0,
       "detailed_not_satisfied": 0,
       "detailed_assessed": 0,
+      "detailed_documented": 0,
       "short_title": "Supply chain security",
-      "icon": "supply"
+      "icon": "supply",
+      "by_document": true
     },
     {
       "point": "21(2)(e)",
@@ -63,8 +71,10 @@
       "detailed": 15,
       "detailed_not_satisfied": 0,
       "detailed_assessed": 3,
+      "detailed_documented": 0,
       "short_title": "Secure development and vulnerability handling",
-      "icon": "code"
+      "icon": "code",
+      "by_document": false
     },
     {
       "point": "21(2)(f)",
@@ -73,18 +83,22 @@
       "detailed": 2,
       "detailed_not_satisfied": 0,
       "detailed_assessed": 0,
+      "detailed_documented": 0,
       "short_title": "Checking that the measures work",
-      "icon": "gauge"
+      "icon": "gauge",
+      "by_document": false
     },
     {
       "point": "21(2)(g)",
       "title": "Cyber hygiene and training",
-      "verdict": "not_assessed",
+      "verdict": "partially_evidenced",
       "detailed": 0,
       "detailed_not_satisfied": 0,
       "detailed_assessed": 0,
+      "detailed_documented": 0,
       "short_title": "Cyber hygiene and training",
-      "icon": "training"
+      "icon": "training",
+      "by_document": true
     },
     {
       "point": "21(2)(h)",
@@ -93,8 +107,10 @@
       "detailed": 3,
       "detailed_not_satisfied": 0,
       "detailed_assessed": 0,
+      "detailed_documented": 0,
       "short_title": "Cryptography and encryption",
-      "icon": "lock"
+      "icon": "lock",
+      "by_document": false
     },
     {
       "point": "21(2)(i)",
@@ -102,9 +118,11 @@
       "verdict": "partially_evidenced",
       "detailed": 20,
       "detailed_not_satisfied": 0,
-      "detailed_assessed": 8,
+      "detailed_assessed": 9,
+      "detailed_documented": 1,
       "short_title": "Access control and asset management",
-      "icon": "access"
+      "icon": "access",
+      "by_document": false
     },
     {
       "point": "21(2)(j)",
@@ -112,9 +130,11 @@
       "verdict": "partially_evidenced",
       "detailed": 18,
       "detailed_not_satisfied": 0,
-      "detailed_assessed": 7,
+      "detailed_assessed": 8,
+      "detailed_documented": 1,
       "short_title": "Multi-factor authentication",
-      "icon": "mfa"
+      "icon": "mfa",
+      "by_document": false
     },
     {
       "point": "23(4)",
@@ -123,8 +143,10 @@
       "detailed": 0,
       "detailed_not_satisfied": 0,
       "detailed_assessed": 0,
+      "detailed_documented": 0,
       "short_title": "Reporting incidents to the CSIRT",
-      "icon": "report"
+      "icon": "report",
+      "by_document": false
     }
   ],
   "gaps": [],
@@ -151,11 +173,11 @@
       },
       "evidence_ref": "evidence/asset_inventory/documents.json",
       "message": "All 7 running services are inventoried",
-      "collected_at": "2026-09-26T01:32:48.849335Z",
+      "collected_at": "2026-09-26T11:44:53.082696Z",
       "finding_id": "CHK-AST-001",
       "title": "Every running service is in the asset inventory",
       "severity": "medium",
-      "evidence_sha256": "7f2c19482bc42772b6d882f0d8e439ad37f802cd9efd820f081ab54b55d6d1df",
+      "evidence_sha256": "867911b8deab91ac5ce94f32a1c03ae80dfd202182cd4193f492f9fc55d6238a",
       "action": "Add every running service to the asset inventory",
       "effort": "quick",
       "why": "Unknown services go unpatched and unmonitored.",
@@ -184,7 +206,7 @@
             "undeclared_services": []
           },
           "evidence_ref": "evidence/asset_inventory/documents.json",
-          "evidence_sha256": "7f2c19482bc42772b6d882f0d8e439ad37f802cd9efd820f081ab54b55d6d1df",
+          "evidence_sha256": "867911b8deab91ac5ce94f32a1c03ae80dfd202182cd4193f492f9fc55d6238a",
           "found": null,
           "should": null
         }
@@ -198,7 +220,7 @@
       "status": "pass",
       "observed": {
         "snapshots": 1,
-        "newest": "2026-09-26T01:32:21+00:00",
+        "newest": "2026-09-26T11:44:14+00:00",
         "age_hours": 0.0
       },
       "expected": {
@@ -206,11 +228,11 @@
       },
       "evidence_ref": "evidence/backup_snapshots/borg.json",
       "message": "Newest backup is within the allowed age",
-      "collected_at": "2026-09-26T01:32:50.050427Z",
+      "collected_at": "2026-09-26T11:44:54.340441Z",
       "finding_id": "CHK-BAK-001",
       "title": "A recent backup snapshot exists",
       "severity": "high",
-      "evidence_sha256": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
+      "evidence_sha256": "ad14bc65d3e980ff1f63b24ae2a2f895d44d3fecf2f0ca19df8217d2bb452a98",
       "action": "Restart automatic backups",
       "effort": "change",
       "why": "Without recent backups, ransomware or failure causes permanent data loss.",
@@ -225,14 +247,14 @@
           "message": "Newest backup is within the allowed age",
           "observed": {
             "snapshots": 1,
-            "newest": "2026-09-26T01:32:21+00:00",
+            "newest": "2026-09-26T11:44:14+00:00",
             "age_hours": 0.0
           },
           "expected": {
             "max_age_hours": 26
           },
           "evidence_ref": "evidence/backup_snapshots/borg.json",
-          "evidence_sha256": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
+          "evidence_sha256": "ad14bc65d3e980ff1f63b24ae2a2f895d44d3fecf2f0ca19df8217d2bb452a98",
           "found": null,
           "should": null
         },
@@ -242,14 +264,14 @@
           "message": "Newest backup is within the allowed age",
           "observed": {
             "snapshots": 1,
-            "newest": "2026-09-26T01:32:21.340426+00:00",
+            "newest": "2026-09-26T11:44:13.913159+00:00",
             "age_hours": 0.0
           },
           "expected": {
             "max_age_hours": 26
           },
           "evidence_ref": "evidence/backup_snapshots/restic.json",
-          "evidence_sha256": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
+          "evidence_sha256": "d6a26d1289a0ae9181d93ba0eb4cf151d9aa757e836b9239d5be921737c4026f",
           "found": null,
           "should": null
         }
@@ -263,7 +285,7 @@
       "status": "pass",
       "observed": {
         "snapshots": 1,
-        "newest": "2026-09-26T01:32:21.340426+00:00",
+        "newest": "2026-09-26T11:44:13.913159+00:00",
         "age_hours": 0.0
       },
       "expected": {
@@ -271,11 +293,11 @@
       },
       "evidence_ref": "evidence/backup_snapshots/restic.json",
       "message": "Newest backup is within the allowed age",
-      "collected_at": "2026-09-26T01:32:49.521665Z",
+      "collected_at": "2026-09-26T11:44:53.766097Z",
       "finding_id": "CHK-BAK-001",
       "title": "A recent backup snapshot exists",
       "severity": "high",
-      "evidence_sha256": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
+      "evidence_sha256": "d6a26d1289a0ae9181d93ba0eb4cf151d9aa757e836b9239d5be921737c4026f",
       "action": "Restart automatic backups",
       "effort": "change",
       "why": "Without recent backups, ransomware or failure causes permanent data loss.",
@@ -290,14 +312,14 @@
           "message": "Newest backup is within the allowed age",
           "observed": {
             "snapshots": 1,
-            "newest": "2026-09-26T01:32:21+00:00",
+            "newest": "2026-09-26T11:44:14+00:00",
             "age_hours": 0.0
           },
           "expected": {
             "max_age_hours": 26
           },
           "evidence_ref": "evidence/backup_snapshots/borg.json",
-          "evidence_sha256": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
+          "evidence_sha256": "ad14bc65d3e980ff1f63b24ae2a2f895d44d3fecf2f0ca19df8217d2bb452a98",
           "found": null,
           "should": null
         },
@@ -307,14 +329,14 @@
           "message": "Newest backup is within the allowed age",
           "observed": {
             "snapshots": 1,
-            "newest": "2026-09-26T01:32:21.340426+00:00",
+            "newest": "2026-09-26T11:44:13.913159+00:00",
             "age_hours": 0.0
           },
           "expected": {
             "max_age_hours": 26
           },
           "evidence_ref": "evidence/backup_snapshots/restic.json",
-          "evidence_sha256": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
+          "evidence_sha256": "d6a26d1289a0ae9181d93ba0eb4cf151d9aa757e836b9239d5be921737c4026f",
           "found": null,
           "should": null
         }
@@ -335,11 +357,11 @@
       },
       "evidence_ref": "evidence/backup_snapshots/borg.json",
       "message": "The backups are encrypted",
-      "collected_at": "2026-09-26T01:32:50.050427Z",
+      "collected_at": "2026-09-26T11:44:54.340441Z",
       "finding_id": "CHK-BAK-002",
       "title": "Backup copies are encrypted",
       "severity": "medium",
-      "evidence_sha256": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
+      "evidence_sha256": "ad14bc65d3e980ff1f63b24ae2a2f895d44d3fecf2f0ca19df8217d2bb452a98",
       "action": "Encrypt the backups",
       "effort": "change",
       "why": "Unencrypted backups hand a full copy of the data to anyone who reaches the backup storage, bypassing every access control on the live systems.",
@@ -360,7 +382,7 @@
             "unencrypted_sets": []
           },
           "evidence_ref": "evidence/backup_snapshots/borg.json",
-          "evidence_sha256": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
+          "evidence_sha256": "ad14bc65d3e980ff1f63b24ae2a2f895d44d3fecf2f0ca19df8217d2bb452a98",
           "found": null,
           "should": null
         },
@@ -376,7 +398,7 @@
             "unencrypted_sets": []
           },
           "evidence_ref": "evidence/backup_snapshots/restic.json",
-          "evidence_sha256": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
+          "evidence_sha256": "d6a26d1289a0ae9181d93ba0eb4cf151d9aa757e836b9239d5be921737c4026f",
           "found": null,
           "should": null
         }
@@ -397,11 +419,11 @@
       },
       "evidence_ref": "evidence/backup_snapshots/restic.json",
       "message": "The backups are encrypted",
-      "collected_at": "2026-09-26T01:32:49.521665Z",
+      "collected_at": "2026-09-26T11:44:53.766097Z",
       "finding_id": "CHK-BAK-002",
       "title": "Backup copies are encrypted",
       "severity": "medium",
-      "evidence_sha256": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
+      "evidence_sha256": "d6a26d1289a0ae9181d93ba0eb4cf151d9aa757e836b9239d5be921737c4026f",
       "action": "Encrypt the backups",
       "effort": "change",
       "why": "Unencrypted backups hand a full copy of the data to anyone who reaches the backup storage, bypassing every access control on the live systems.",
@@ -422,7 +444,7 @@
             "unencrypted_sets": []
           },
           "evidence_ref": "evidence/backup_snapshots/borg.json",
-          "evidence_sha256": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
+          "evidence_sha256": "ad14bc65d3e980ff1f63b24ae2a2f895d44d3fecf2f0ca19df8217d2bb452a98",
           "found": null,
           "should": null
         },
@@ -438,7 +460,7 @@
             "unencrypted_sets": []
           },
           "evidence_ref": "evidence/backup_snapshots/restic.json",
-          "evidence_sha256": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
+          "evidence_sha256": "d6a26d1289a0ae9181d93ba0eb4cf151d9aa757e836b9239d5be921737c4026f",
           "found": null,
           "should": null
         }
@@ -464,11 +486,11 @@
       },
       "evidence_ref": "evidence/ir_plan/documents.json",
       "message": "Plan mentions every reporting stage and the CSIRT",
-      "collected_at": "2026-09-26T01:32:50.050634Z",
+      "collected_at": "2026-09-26T11:44:54.340639Z",
       "finding_id": "CHK-DOC-001",
       "title": "Incident response plan covers the NIS2 reporting stages",
       "severity": "medium",
-      "evidence_sha256": "9d3a771cb13df2ccf89a87a0212a3a77489ea462736d8a534ac1d58dc9b671d4",
+      "evidence_sha256": "ce283fca82110c6a7afae95cbde797e323fb0aa9a44576c61520ed27558ccb93",
       "action": "Add the NIS2 reporting deadlines and the CSIRT contact to the incident plan",
       "effort": "change",
       "why": "Missing a reporting deadline is itself a breach of Art. 23, separate from the incident.",
@@ -494,7 +516,7 @@
             ]
           },
           "evidence_ref": "evidence/ir_plan/documents.json",
-          "evidence_sha256": "9d3a771cb13df2ccf89a87a0212a3a77489ea462736d8a534ac1d58dc9b671d4",
+          "evidence_sha256": "ce283fca82110c6a7afae95cbde797e323fb0aa9a44576c61520ed27558ccb93",
           "found": null,
           "should": null
         }
@@ -516,11 +538,11 @@
       },
       "evidence_ref": "evidence/ir_plan/documents.json",
       "message": "Plan was reviewed 25 days ago",
-      "collected_at": "2026-09-26T01:32:50.050634Z",
+      "collected_at": "2026-09-26T11:44:54.340639Z",
       "finding_id": "CHK-DOC-002",
       "title": "Incident response plan has been reviewed recently",
       "severity": "low",
-      "evidence_sha256": "9d3a771cb13df2ccf89a87a0212a3a77489ea462736d8a534ac1d58dc9b671d4",
+      "evidence_sha256": "ce283fca82110c6a7afae95cbde797e323fb0aa9a44576c61520ed27558ccb93",
       "action": "Review the incident response plan and record the review date",
       "effort": "change",
       "why": "A stale plan lists wrong contacts and outdated systems when it is needed.",
@@ -542,7 +564,7 @@
             "max_review_age_days": 365
           },
           "evidence_ref": "evidence/ir_plan/documents.json",
-          "evidence_sha256": "9d3a771cb13df2ccf89a87a0212a3a77489ea462736d8a534ac1d58dc9b671d4",
+          "evidence_sha256": "ce283fca82110c6a7afae95cbde797e323fb0aa9a44576c61520ed27558ccb93",
           "found": null,
           "should": null
         }
@@ -564,11 +586,11 @@
       },
       "evidence_ref": "evidence/idp_config/keycloak.json",
       "message": "All 2 accounts have or must enrol MFA",
-      "collected_at": "2026-09-26T01:32:50.257880Z",
+      "collected_at": "2026-09-26T11:44:54.829032Z",
       "finding_id": "CHK-IDP-001",
       "title": "Every staff account has MFA enrolled or is forced to enrol",
       "severity": "high",
-      "evidence_sha256": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
+      "evidence_sha256": "8969f13b94bae1becb5b84b818c36fcdc66970d9f36063254542b6b78219adf4",
       "action": "Turn on two-factor login for every account",
       "effort": "change",
       "why": "Staff accounts reach customer systems; a stolen password alone must not be enough.",
@@ -590,7 +612,7 @@
             "users_without_mfa": []
           },
           "evidence_ref": "evidence/idp_config/keycloak.json",
-          "evidence_sha256": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
+          "evidence_sha256": "8969f13b94bae1becb5b84b818c36fcdc66970d9f36063254542b6b78219adf4",
           "found": null,
           "should": null
         }
@@ -611,11 +633,11 @@
       },
       "evidence_ref": "evidence/idp_config/keycloak.json",
       "message": "Accounts lock after 5 failed logins",
-      "collected_at": "2026-09-26T01:32:50.257880Z",
+      "collected_at": "2026-09-26T11:44:54.829032Z",
       "finding_id": "CHK-IDP-002",
       "title": "Accounts are locked after repeated failed logins",
       "severity": "medium",
-      "evidence_sha256": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
+      "evidence_sha256": "8969f13b94bae1becb5b84b818c36fcdc66970d9f36063254542b6b78219adf4",
       "action": "Turn on protection against password guessing",
       "effort": "quick",
       "why": "Limits online password guessing against staff accounts.",
@@ -636,7 +658,7 @@
             "lockout_enabled": true
           },
           "evidence_ref": "evidence/idp_config/keycloak.json",
-          "evidence_sha256": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
+          "evidence_sha256": "8969f13b94bae1becb5b84b818c36fcdc66970d9f36063254542b6b78219adf4",
           "found": null,
           "should": null
         }
@@ -657,11 +679,11 @@
       },
       "evidence_ref": "evidence/idp_config/keycloak.json",
       "message": "Password policy requires 12 characters",
-      "collected_at": "2026-09-26T01:32:50.257880Z",
+      "collected_at": "2026-09-26T11:44:54.829032Z",
       "finding_id": "CHK-IDP-003",
       "title": "Password policy enforces the profile's minimum length",
       "severity": "medium",
-      "evidence_sha256": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
+      "evidence_sha256": "8969f13b94bae1becb5b84b818c36fcdc66970d9f36063254542b6b78219adf4",
       "action": "Set a minimum password length",
       "effort": "quick",
       "why": "Short passwords weaken the first factor even when MFA is in place.",
@@ -682,7 +704,7 @@
             "min_length_at_least": 12
           },
           "evidence_ref": "evidence/idp_config/keycloak.json",
-          "evidence_sha256": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
+          "evidence_sha256": "8969f13b94bae1becb5b84b818c36fcdc66970d9f36063254542b6b78219adf4",
           "found": null,
           "should": null
         }
@@ -703,11 +725,11 @@
       },
       "evidence_ref": "evidence/idp_default_admin/keycloak.json",
       "message": "Default admin credentials are rejected",
-      "collected_at": "2026-09-26T01:32:50.287337Z",
+      "collected_at": "2026-09-26T11:44:54.861679Z",
       "finding_id": "CHK-IDP-004",
       "title": "Default admin credentials are rejected",
       "severity": "critical",
-      "evidence_sha256": "b64983c1f90d4970603a35c5eadc86624a70404c397dbd9b4e9027c14461b161",
+      "evidence_sha256": "729c8cd582c48f72650a07116d92392075c82671b3d14b520e603fcab0696880",
       "action": "Change the default admin password",
       "effort": "quick",
       "why": "Default admin credentials give anyone full control of every staff identity.",
@@ -728,7 +750,7 @@
             "accepted": false
           },
           "evidence_ref": "evidence/idp_default_admin/keycloak.json",
-          "evidence_sha256": "b64983c1f90d4970603a35c5eadc86624a70404c397dbd9b4e9027c14461b161",
+          "evidence_sha256": "729c8cd582c48f72650a07116d92392075c82671b3d14b520e603fcab0696880",
           "found": null,
           "should": null
         }
@@ -749,11 +771,11 @@
       },
       "evidence_ref": "evidence/log_retention/elasticsearch.json",
       "message": "Logs are kept for 180 days",
-      "collected_at": "2026-09-26T01:32:50.445680Z",
+      "collected_at": "2026-09-26T11:44:55.114949Z",
       "finding_id": "CHK-LOG-001",
       "title": "Central logs are kept at least as long as the profile requires",
       "severity": "medium",
-      "evidence_sha256": "0d15065516bd6ab6dda648514c340fc8d19a784e90f38e2c27298c0d13865fca",
+      "evidence_sha256": "4ec8cfde128e2ff94f63a92f5fd9ef27114d97633d9f0fd969077670017eb661",
       "action": "Keep logs for as long as the policy requires",
       "effort": "quick",
       "why": "Logs deleted too early make an incident impossible to investigate or report.",
@@ -774,7 +796,7 @@
             "min_retention_days": 90
           },
           "evidence_ref": "evidence/log_retention/elasticsearch.json",
-          "evidence_sha256": "0d15065516bd6ab6dda648514c340fc8d19a784e90f38e2c27298c0d13865fca",
+          "evidence_sha256": "4ec8cfde128e2ff94f63a92f5fd9ef27114d97633d9f0fd969077670017eb661",
           "found": null,
           "should": null
         },
@@ -790,7 +812,7 @@
             "min_retention_days": 90
           },
           "evidence_ref": "evidence/log_retention/loki.json",
-          "evidence_sha256": "a984ff30cfc662a0d278aeb0814bdada06bbb1afa2a393b3aa69ebca89f7937d",
+          "evidence_sha256": "0164906f48911b0bdd659e90d3916bc7da3f83251487500c917945a66695a0e5",
           "found": null,
           "should": null
         }
@@ -811,11 +833,11 @@
       },
       "evidence_ref": "evidence/log_retention/loki.json",
       "message": "Logs are kept for 180 days",
-      "collected_at": "2026-09-26T01:32:50.407533Z",
+      "collected_at": "2026-09-26T11:44:54.987879Z",
       "finding_id": "CHK-LOG-001",
       "title": "Central logs are kept at least as long as the profile requires",
       "severity": "medium",
-      "evidence_sha256": "a984ff30cfc662a0d278aeb0814bdada06bbb1afa2a393b3aa69ebca89f7937d",
+      "evidence_sha256": "0164906f48911b0bdd659e90d3916bc7da3f83251487500c917945a66695a0e5",
       "action": "Keep logs for as long as the policy requires",
       "effort": "quick",
       "why": "Logs deleted too early make an incident impossible to investigate or report.",
@@ -836,7 +858,7 @@
             "min_retention_days": 90
           },
           "evidence_ref": "evidence/log_retention/elasticsearch.json",
-          "evidence_sha256": "0d15065516bd6ab6dda648514c340fc8d19a784e90f38e2c27298c0d13865fca",
+          "evidence_sha256": "4ec8cfde128e2ff94f63a92f5fd9ef27114d97633d9f0fd969077670017eb661",
           "found": null,
           "should": null
         },
@@ -852,7 +874,7 @@
             "min_retention_days": 90
           },
           "evidence_ref": "evidence/log_retention/loki.json",
-          "evidence_sha256": "a984ff30cfc662a0d278aeb0814bdada06bbb1afa2a393b3aa69ebca89f7937d",
+          "evidence_sha256": "0164906f48911b0bdd659e90d3916bc7da3f83251487500c917945a66695a0e5",
           "found": null,
           "should": null
         }
@@ -878,11 +900,11 @@
       },
       "evidence_ref": "evidence/ssh_auth_methods/app-host.json",
       "message": "Server offers only publickey",
-      "collected_at": "2026-09-26T01:32:50.507228Z",
+      "collected_at": "2026-09-26T11:44:55.174342Z",
       "finding_id": "CHK-SSH-001",
       "title": "SSH does not offer password authentication",
       "severity": "high",
-      "evidence_sha256": "8955b652b3097d37fd6310d4092c424495f51bffff2a679958ba0e891a5345bf",
+      "evidence_sha256": "bed3cd6d4ea4adaed8da10dc47d08467cdd67946dd5522a1669b2de6d0274574",
       "action": "Allow only key-based server logins, not passwords",
       "effort": "quick",
       "why": "Password logins on an admin host can be brute-forced or phished.",
@@ -908,7 +930,7 @@
             ]
           },
           "evidence_ref": "evidence/ssh_auth_methods/app-host.json",
-          "evidence_sha256": "8955b652b3097d37fd6310d4092c424495f51bffff2a679958ba0e891a5345bf",
+          "evidence_sha256": "bed3cd6d4ea4adaed8da10dc47d08467cdd67946dd5522a1669b2de6d0274574",
           "found": null,
           "should": null
         }
@@ -928,11 +950,11 @@
       },
       "evidence_ref": "evidence/sshd_effective_config/app-host.json",
       "message": "PermitRootLogin is 'no'",
-      "collected_at": "2026-09-26T01:32:50.576216Z",
+      "collected_at": "2026-09-26T11:44:55.252310Z",
       "finding_id": "CHK-SSH-002",
       "title": "Direct root login over SSH is disabled",
       "severity": "high",
-      "evidence_sha256": "f02487f0c2a27fb704e186637f447b31b859e673c57826e5723711e09860eb0e",
+      "evidence_sha256": "1aa44101047e85146a85221faf11039baafcbb1cf8fceff3133ba685ea73a9f1",
       "action": "Stop direct administrator (root) logins to the server",
       "effort": "quick",
       "why": "Shared root logins remove individual accountability and give an attacker full control.",
@@ -952,7 +974,7 @@
             "permitrootlogin": "no"
           },
           "evidence_ref": "evidence/sshd_effective_config/app-host.json",
-          "evidence_sha256": "f02487f0c2a27fb704e186637f447b31b859e673c57826e5723711e09860eb0e",
+          "evidence_sha256": "1aa44101047e85146a85221faf11039baafcbb1cf8fceff3133ba685ea73a9f1",
           "found": null,
           "should": null
         }
@@ -972,11 +994,11 @@
       },
       "evidence_ref": "evidence/sshd_effective_config/app-host.json",
       "message": "MaxAuthTries is 3",
-      "collected_at": "2026-09-26T01:32:50.576216Z",
+      "collected_at": "2026-09-26T11:44:55.252310Z",
       "finding_id": "CHK-SSH-003",
       "title": "SSH limits authentication attempts per connection",
       "severity": "low",
-      "evidence_sha256": "f02487f0c2a27fb704e186637f447b31b859e673c57826e5723711e09860eb0e",
+      "evidence_sha256": "1aa44101047e85146a85221faf11039baafcbb1cf8fceff3133ba685ea73a9f1",
       "action": "Limit login attempts per connection to the server",
       "effort": "quick",
       "why": "Slows guessing, but is a minor control compared with key-only auth.",
@@ -996,7 +1018,7 @@
             "maxauthtries_at_most": 4
           },
           "evidence_ref": "evidence/sshd_effective_config/app-host.json",
-          "evidence_sha256": "f02487f0c2a27fb704e186637f447b31b859e673c57826e5723711e09860eb0e",
+          "evidence_sha256": "1aa44101047e85146a85221faf11039baafcbb1cf8fceff3133ba685ea73a9f1",
           "found": null,
           "should": null
         }
@@ -1019,11 +1041,11 @@
       },
       "evidence_ref": "evidence/tls_probe/portal.json",
       "message": "Server only accepts TLSv1.2, TLSv1.3",
-      "collected_at": "2026-09-26T01:32:50.583813Z",
+      "collected_at": "2026-09-26T11:44:55.261252Z",
       "finding_id": "CHK-TLS-001",
       "title": "TLS versions below the profile minimum are refused",
       "severity": "high",
-      "evidence_sha256": "be5974de9996ae09896627cff985b4e53b74d58e6f04a9d4137ac3d33cd57818",
+      "evidence_sha256": "5a3b9174ab5fe5204ad34bb97ea0cbec453275417803794054a1e86b9e60e866",
       "action": "Switch off outdated encryption versions on the website",
       "effort": "quick",
       "why": "Legacy TLS allows downgrade attacks on traffic to a public service.",
@@ -1046,7 +1068,7 @@
             "min_version": "TLSv1.2"
           },
           "evidence_ref": "evidence/tls_probe/portal.json",
-          "evidence_sha256": "be5974de9996ae09896627cff985b4e53b74d58e6f04a9d4137ac3d33cd57818",
+          "evidence_sha256": "5a3b9174ab5fe5204ad34bb97ea0cbec453275417803794054a1e86b9e60e866",
           "found": null,
           "should": null
         }
@@ -1059,8 +1081,8 @@
       "asset": "portal",
       "status": "pass",
       "observed": {
-        "not_before": "2026-09-26T01:32:20+00:00",
-        "not_after": "2027-09-26T01:32:20+00:00",
+        "not_before": "2026-09-26T11:44:12+00:00",
+        "not_after": "2027-09-26T11:44:12+00:00",
         "days_left": 364
       },
       "expected": {
@@ -1068,11 +1090,11 @@
       },
       "evidence_ref": "evidence/tls_probe/portal.json",
       "message": "Certificate valid for 364 more days",
-      "collected_at": "2026-09-26T01:32:50.583813Z",
+      "collected_at": "2026-09-26T11:44:55.261252Z",
       "finding_id": "CHK-TLS-002",
       "title": "Certificate is valid and not about to expire",
       "severity": "medium",
-      "evidence_sha256": "be5974de9996ae09896627cff985b4e53b74d58e6f04a9d4137ac3d33cd57818",
+      "evidence_sha256": "5a3b9174ab5fe5204ad34bb97ea0cbec453275417803794054a1e86b9e60e866",
       "action": "Renew the website's certificate",
       "effort": "quick",
       "why": "An invalid certificate trains users to click through warnings, which makes interception easier.",
@@ -1086,15 +1108,15 @@
           "status": "pass",
           "message": "Certificate valid for 364 more days",
           "observed": {
-            "not_before": "2026-09-26T01:32:20+00:00",
-            "not_after": "2027-09-26T01:32:20+00:00",
+            "not_before": "2026-09-26T11:44:12+00:00",
+            "not_after": "2027-09-26T11:44:12+00:00",
             "days_left": 364
           },
           "expected": {
             "min_days_remaining": 14
           },
           "evidence_ref": "evidence/tls_probe/portal.json",
-          "evidence_sha256": "be5974de9996ae09896627cff985b4e53b74d58e6f04a9d4137ac3d33cd57818",
+          "evidence_sha256": "5a3b9174ab5fe5204ad34bb97ea0cbec453275417803794054a1e86b9e60e866",
           "found": null,
           "should": null
         }
@@ -1117,11 +1139,11 @@
       },
       "evidence_ref": "evidence/http_probe/portal.json",
       "message": "HTTP redirects to HTTPS and HSTS is set",
-      "collected_at": "2026-09-26T01:32:50.586980Z",
+      "collected_at": "2026-09-26T11:44:55.264607Z",
       "finding_id": "CHK-TLS-003",
       "title": "Plain HTTP redirects to HTTPS and HSTS is set",
       "severity": "medium",
-      "evidence_sha256": "53607204b297969a330358addd2b798475599e0b04a8b27fe6f1f7daf3cffd42",
+      "evidence_sha256": "f17f2a08df3414f07f06c2c382d21177b1eee099cca951a063402c0158266d3e",
       "action": "Send all website traffic over HTTPS",
       "effort": "quick",
       "why": "Without a redirect and HSTS, users can be kept on unencrypted HTTP.",
@@ -1144,7 +1166,7 @@
             "hsts": true
           },
           "evidence_ref": "evidence/http_probe/portal.json",
-          "evidence_sha256": "53607204b297969a330358addd2b798475599e0b04a8b27fe6f1f7daf3cffd42",
+          "evidence_sha256": "f17f2a08df3414f07f06c2c382d21177b1eee099cca951a063402c0158266d3e",
           "found": null,
           "should": null
         }
@@ -1173,11 +1195,11 @@
       },
       "evidence_ref": "evidence/image_vulnerabilities/nis2lab.json",
       "message": "No unaccepted fixable CRITICAL vulnerabilities, 3 covered by accepted risk exceptions",
-      "collected_at": "2026-09-26T01:33:10.557326Z",
+      "collected_at": "2026-09-26T11:45:17.102670Z",
       "finding_id": "CHK-VUL-001",
       "title": "No unaccepted, fixable vulnerability at the failing severity in running images",
       "severity": "high",
-      "evidence_sha256": "968b16cc7cc4c11fcfb7c33799017334855250cbde4468facbdfa191f2b67d94",
+      "evidence_sha256": "1511bc4b25f64ade474e6afea9660cc2c8b04ad2ac26465ffd38ec7782c50b87",
       "action": "Update software that has known critical flaws",
       "effort": "project",
       "why": "Known, fixable critical vulnerabilities are the most common way in.",
@@ -1206,7 +1228,7 @@
             "only_with_fix": true
           },
           "evidence_ref": "evidence/image_vulnerabilities/nis2lab.json",
-          "evidence_sha256": "968b16cc7cc4c11fcfb7c33799017334855250cbde4468facbdfa191f2b67d94",
+          "evidence_sha256": "1511bc4b25f64ade474e6afea9660cc2c8b04ad2ac26465ffd38ec7782c50b87",
           "found": null,
           "should": null
         }
@@ -1215,6 +1237,91 @@
     }
   ],
   "verdicts": [
+    {
+      "requirement_id": "REQ-CIR2690-1.1.2-01",
+      "title": "Annual and event-driven policy review by management",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2",
+      "nis2_article": "21(2)(a)",
+      "quote": "The network and information system security policy shall be reviewed and, where appropriate, updated by management bodies at least annually and when significant incidents or significant changes to operations or risks occur.",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: The policy requires annual and event-driven management review; the June 2026 minutes show a review triggered by the risk assessment and an incident.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-CIR2690-1.1.2-01",
+        "documents": [
+          {
+            "path": "evidence/information-security-policy.md",
+            "sha256": "a5ea16860385d88ab2a13dab50fa2a14ed5e307c45359e4efa6e62ee4b5d748a"
+          },
+          {
+            "path": "evidence/policy-review-2026-06.md",
+            "sha256": "3384c606186d44607f5c424183ccdaa50cb61d887324390eeea18d2b5257dfdd"
+          }
+        ],
+        "verdict": "evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "The policy requires annual and event-driven management review; the June 2026 minutes show a review triggered by the risk assessment and an incident.",
+        "valid_until": "2027-06-30"
+      }
+    },
+    {
+      "requirement_id": "REQ-CIR2690-1.1.2-02",
+      "title": "Documentation of review results",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2",
+      "nis2_article": "21(2)(a)",
+      "quote": "The result of the reviews shall be documented.",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: The results of the June 2026 review are minuted, with the decisions taken.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-CIR2690-1.1.2-02",
+        "documents": [
+          {
+            "path": "evidence/policy-review-2026-06.md",
+            "sha256": "3384c606186d44607f5c424183ccdaa50cb61d887324390eeea18d2b5257dfdd"
+          }
+        ],
+        "verdict": "evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "The results of the June 2026 review are minuted, with the decisions taken.",
+        "valid_until": "2027-06-30"
+      }
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.2.2-05",
+      "title": "Maintain register of granted access rights",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "maintain a register of access rights granted",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: A register of granted access rights exists and was reconciled on 2026-09-01.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-CIR2690-11.2.2-05",
+        "documents": [
+          {
+            "path": "evidence/access-rights-register.md",
+            "sha256": "ecede3b86e8070a5d0f22f14ce67eadba6927fc1e4671a57ece457630f39eb4a"
+          }
+        ],
+        "verdict": "evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "A register of granted access rights exists and was reconciled on 2026-09-01.",
+        "valid_until": "2027-09-01"
+      }
+    },
     {
       "requirement_id": "REQ-CIR2690-11.3.2-01",
       "title": "Strong authentication for privileged accounts",
@@ -1227,7 +1334,9 @@
       "check_ids": [
         "CHK-IDP-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.3.2-03",
@@ -1241,7 +1350,9 @@
       "check_ids": [
         "CHK-SSH-002"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.6.2-01",
@@ -1256,7 +1367,9 @@
         "CHK-IDP-003",
         "CHK-SSH-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.6.2-03",
@@ -1270,7 +1383,9 @@
       "check_ids": [
         "CHK-IDP-004"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.6.2-04",
@@ -1284,7 +1399,9 @@
       "check_ids": [
         "CHK-IDP-002"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.7.1-01",
@@ -1298,7 +1415,9 @@
       "check_ids": [
         "CHK-IDP-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.7.2-01",
@@ -1313,7 +1432,9 @@
         "CHK-IDP-003",
         "CHK-SSH-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-12.4.1-01",
@@ -1327,7 +1448,36 @@
       "check_ids": [
         "CHK-AST-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.4-01",
+      "title": "Regular log review for unusual trends",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4",
+      "nis2_article": "21(2)(b)",
+      "quote": "The logs shall be regularly reviewed for any unusual or unwanted trends.",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: Weekly log reviews are defined and the last four are recorded.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-CIR2690-3.2.4-01",
+        "documents": [
+          {
+            "path": "evidence/log-review-procedure.md",
+            "sha256": "3255b57ebe854f1c64fb2aa79e08a5bbdb122e18c2d635e4dbdfe19eab9cc7e3"
+          }
+        ],
+        "verdict": "evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "Weekly log reviews are defined and the last four are recorded.",
+        "valid_until": "2027-09-15"
+      }
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.5-01",
@@ -1341,7 +1491,9 @@
       "check_ids": [
         "CHK-LOG-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-4.2.1-01",
@@ -1355,7 +1507,63 @@
       "check_ids": [
         "CHK-BAK-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-01",
+      "title": "Establish backup plans",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+      "nis2_article": "21(2)(c)",
+      "quote": "Based on the results of the risk assessment carried out pursuant to point 2.1 and the business continuity plan, the relevant entities shall lay down backup plans which include the following:",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: A backup and recovery plan exists per service, reviewed in August 2026.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-CIR2690-4.2.2-01",
+        "documents": [
+          {
+            "path": "evidence/backup-plan.md",
+            "sha256": "7f5dc28e720eaa46c795a4fe5382369d57116e9ca27ccb647c3e8834a33ae26f"
+          }
+        ],
+        "verdict": "evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "A backup and recovery plan exists per service, reviewed in August 2026.",
+        "valid_until": "2027-09-15"
+      }
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-02",
+      "title": "Recovery times in backup plans",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+      "nis2_article": "21(2)(c)",
+      "quote": "(a) recovery times;",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: The plan states a recovery time for every service.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-CIR2690-4.2.2-02",
+        "documents": [
+          {
+            "path": "evidence/backup-plan.md",
+            "sha256": "7f5dc28e720eaa46c795a4fe5382369d57116e9ca27ccb647c3e8834a33ae26f"
+          }
+        ],
+        "verdict": "evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "The plan states a recovery time for every service.",
+        "valid_until": "2027-09-15"
+      }
     },
     {
       "requirement_id": "REQ-CIR2690-4.2.2-05",
@@ -1369,7 +1577,9 @@
       "check_ids": [
         "CHK-BAK-002"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.10.1-03",
@@ -1383,7 +1593,9 @@
       "check_ids": [
         "CHK-VUL-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.10.2-03",
@@ -1397,7 +1609,9 @@
       "check_ids": [
         "CHK-VUL-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.6.1-02",
@@ -1411,7 +1625,36 @@
       "check_ids": [
         "CHK-VUL-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.A",
+      "title": "Risk analysis and information system security policies",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(a)",
+      "nis2_article": "21(2)(a)",
+      "quote": "policies on risk analysis and information system security",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "partially_evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: A board-approved policy covers risk management and security principles. The risk assessment it refers to was not provided, so only the policy half is evidenced.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-NIS2-21.2.A",
+        "documents": [
+          {
+            "path": "evidence/information-security-policy.md",
+            "sha256": "a5ea16860385d88ab2a13dab50fa2a14ed5e307c45359e4efa6e62ee4b5d748a"
+          }
+        ],
+        "verdict": "partially_evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "A board-approved policy covers risk management and security principles. The risk assessment it refers to was not provided, so only the policy half is evidenced.",
+        "valid_until": "2027-09-15"
+      }
     },
     {
       "requirement_id": "REQ-NIS2-21.2.B",
@@ -1426,7 +1669,9 @@
         "CHK-DOC-002",
         "CHK-LOG-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-NIS2-21.2.C",
@@ -1441,7 +1686,36 @@
         "CHK-BAK-001",
         "CHK-BAK-002"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.D",
+      "title": "Supply chain security",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(d)",
+      "nis2_article": "21(2)(d)",
+      "quote": "supply chain security, including security-related aspects concerning the relationships between each entity and its direct suppliers or service providers",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "partially_evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: Suppliers are registered and assessed, but one supplier's contract has no security clauses yet.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-NIS2-21.2.D",
+        "documents": [
+          {
+            "path": "evidence/supplier-register.md",
+            "sha256": "c770beed4a4304ffc0c1204c8e0a50e163fdd19a0b6266be2590a26d70652751"
+          }
+        ],
+        "verdict": "partially_evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "Suppliers are registered and assessed, but one supplier's contract has no security clauses yet.",
+        "valid_until": "2027-03-31"
+      }
     },
     {
       "requirement_id": "REQ-NIS2-21.2.E",
@@ -1455,7 +1729,36 @@
       "check_ids": [
         "CHK-VUL-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.G",
+      "title": "Cyber hygiene and training",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(g)",
+      "nis2_article": "21(2)(g)",
+      "quote": "basic cyber hygiene practices and cybersecurity training",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "partially_evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: All staff completed security training in 2026 and phishing simulations run quarterly. Basic cyber hygiene practices are taught but not set out as a practice.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-NIS2-21.2.G",
+        "documents": [
+          {
+            "path": "evidence/security-training-2026.md",
+            "sha256": "ac911c25667e86b564f440353bd8a2c8fa96a6ee2aee7eca2403135ad2ba22b3"
+          }
+        ],
+        "verdict": "partially_evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "All staff completed security training in 2026 and phishing simulations run quarterly. Basic cyber hygiene practices are taught but not set out as a practice.",
+        "valid_until": "2027-05-31"
+      }
     },
     {
       "requirement_id": "REQ-NIS2-21.2.H",
@@ -1471,7 +1774,9 @@
         "CHK-TLS-002",
         "CHK-TLS-003"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-NIS2-21.2.I",
@@ -1491,7 +1796,9 @@
         "CHK-SSH-002",
         "CHK-SSH-003"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-NIS2-21.2.J",
@@ -1505,7 +1812,9 @@
       "check_ids": [
         "CHK-IDP-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-NIS2-23.4",
@@ -1519,34 +1828,12 @@
       "check_ids": [
         "CHK-DOC-001"
       ],
-      "reason": "all checks passed, but together they cover only part of the requirement"
+      "reason": "all checks passed, but together they cover only part of the requirement",
+      "basis": "checks",
+      "document_review": null
     }
   ],
   "not_assessed": [
-    {
-      "requirement_id": "REQ-CIR2690-1.1.2-01",
-      "title": "Annual and event-driven policy review by management",
-      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2",
-      "nis2_article": "21(2)(a)",
-      "quote": "The network and information system security policy shall be reviewed and, where appropriate, updated by management bodies at least annually and when significant incidents or significant changes to operations or risks occur.",
-      "testability": "documentary",
-      "review_status": "reviewed",
-      "verdict": "not_assessed",
-      "check_ids": [],
-      "reason": "no checks implemented yet"
-    },
-    {
-      "requirement_id": "REQ-CIR2690-1.1.2-02",
-      "title": "Documentation of review results",
-      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2",
-      "nis2_article": "21(2)(a)",
-      "quote": "The result of the reviews shall be documented.",
-      "testability": "documentary",
-      "review_status": "reviewed",
-      "verdict": "not_assessed",
-      "check_ids": [],
-      "reason": "no checks implemented yet"
-    },
     {
       "requirement_id": "REQ-CIR2690-11.2.2-01",
       "title": "Assign and revoke access rights on principles",
@@ -1557,7 +1844,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.2.2-02",
@@ -1569,7 +1858,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
+      "reason": "organisational requirement: needs a document review or an audit",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.2.2-03",
@@ -1581,7 +1872,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
+      "reason": "organisational requirement: needs a document review or an audit",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.2.2-04",
@@ -1593,19 +1886,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
-    },
-    {
-      "requirement_id": "REQ-CIR2690-11.2.2-05",
-      "title": "Maintain register of granted access rights",
-      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
-      "nis2_article": "21(2)(i), (j)",
-      "quote": "maintain a register of access rights granted",
-      "testability": "documentary",
-      "review_status": "reviewed",
-      "verdict": "not_assessed",
-      "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.2.2-06",
@@ -1617,7 +1900,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.3.2-02",
@@ -1629,7 +1914,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.3.2-04",
@@ -1641,7 +1928,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.6.2-02",
@@ -1653,7 +1942,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
+      "reason": "organisational requirement: needs a document review or an audit",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.6.2-05",
@@ -1665,7 +1956,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-11.6.2-06",
@@ -1677,7 +1970,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-12.4.1-02",
@@ -1689,7 +1984,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.1-01",
@@ -1701,7 +1998,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.1-02",
@@ -1713,7 +2012,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
+      "reason": "organisational requirement: needs a document review or an audit",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-01",
@@ -1725,7 +2026,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-02",
@@ -1737,7 +2040,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-03",
@@ -1749,7 +2054,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-04",
@@ -1761,7 +2068,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-05",
@@ -1773,7 +2082,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-06",
@@ -1785,7 +2096,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-07",
@@ -1797,7 +2110,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-08",
@@ -1809,7 +2124,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-09",
@@ -1821,7 +2138,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-10",
@@ -1833,7 +2152,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-11",
@@ -1845,7 +2166,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-12",
@@ -1857,7 +2180,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-13",
@@ -1869,7 +2194,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.3-14",
@@ -1881,19 +2208,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
-    },
-    {
-      "requirement_id": "REQ-CIR2690-3.2.4-01",
-      "title": "Regular log review for unusual trends",
-      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4",
-      "nis2_article": "21(2)(b)",
-      "quote": "The logs shall be regularly reviewed for any unusual or unwanted trends.",
-      "testability": "organisational",
-      "review_status": "reviewed",
-      "verdict": "not_assessed",
-      "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.4-02",
@@ -1905,7 +2222,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.4-03",
@@ -1917,7 +2236,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.4-04",
@@ -1929,7 +2250,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
+      "reason": "organisational requirement: needs a document review or an audit",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-3.2.5-02",
@@ -1941,7 +2264,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-4.2.1-02",
@@ -1953,31 +2278,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
-    },
-    {
-      "requirement_id": "REQ-CIR2690-4.2.2-01",
-      "title": "Establish backup plans",
-      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
-      "nis2_article": "21(2)(c)",
-      "quote": "Based on the results of the risk assessment carried out pursuant to point 2.1 and the business continuity plan, the relevant entities shall lay down backup plans which include the following:",
-      "testability": "documentary",
-      "review_status": "reviewed",
-      "verdict": "not_assessed",
-      "check_ids": [],
-      "reason": "no checks implemented yet"
-    },
-    {
-      "requirement_id": "REQ-CIR2690-4.2.2-02",
-      "title": "Recovery times in backup plans",
-      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
-      "nis2_article": "21(2)(c)",
-      "quote": "(a) recovery times;",
-      "testability": "documentary",
-      "review_status": "reviewed",
-      "verdict": "not_assessed",
-      "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "organisational requirement: needs a document review or an audit",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-4.2.2-03",
@@ -1989,7 +2292,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-4.2.2-04",
@@ -2001,7 +2306,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-4.2.2-06",
@@ -2013,7 +2320,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-4.2.2-07",
@@ -2025,7 +2334,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-4.2.3-01",
@@ -2037,7 +2348,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.10.1-01",
@@ -2049,7 +2362,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
+      "reason": "organisational requirement: needs a document review or an audit",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.10.1-02",
@@ -2061,7 +2376,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.10.2-01",
@@ -2073,7 +2390,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
+      "reason": "organisational requirement: needs a document review or an audit",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.10.2-02",
@@ -2085,7 +2404,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.10.2-04",
@@ -2097,7 +2418,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.10.2-05",
@@ -2109,7 +2432,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.6.1-01",
@@ -2121,7 +2446,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.6.1-03",
@@ -2133,7 +2460,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
+      "reason": "organisational requirement: needs a document review or an audit",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.6.1-04",
@@ -2145,7 +2474,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.6.1-05",
@@ -2157,7 +2488,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.6.2-01",
@@ -2169,7 +2502,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
+      "reason": "organisational requirement: needs a document review or an audit",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-6.6.2-02",
@@ -2181,7 +2516,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-7.3-01",
@@ -2193,7 +2530,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-7.3-02",
@@ -2205,7 +2544,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-9.2-01",
@@ -2217,7 +2558,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-9.2-02",
@@ -2229,7 +2572,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-CIR2690-9.2-03",
@@ -2241,31 +2586,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "no checks implemented yet"
-    },
-    {
-      "requirement_id": "REQ-NIS2-21.2.A",
-      "title": "Risk analysis and information system security policies",
-      "provision": "Directive (EU) 2022/2555, Art. 21(2)(a)",
-      "nis2_article": "21(2)(a)",
-      "quote": "policies on risk analysis and information system security",
-      "testability": "organisational",
-      "review_status": "reviewed",
-      "verdict": "not_assessed",
-      "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
-    },
-    {
-      "requirement_id": "REQ-NIS2-21.2.D",
-      "title": "Supply chain security",
-      "provision": "Directive (EU) 2022/2555, Art. 21(2)(d)",
-      "nis2_article": "21(2)(d)",
-      "quote": "supply chain security, including security-related aspects concerning the relationships between each entity and its direct suppliers or service providers",
-      "testability": "organisational",
-      "review_status": "reviewed",
-      "verdict": "not_assessed",
-      "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
+      "reason": "no automated check yet: needs a document review",
+      "basis": "none",
+      "document_review": null
     },
     {
       "requirement_id": "REQ-NIS2-21.2.F",
@@ -2277,19 +2600,9 @@
       "review_status": "reviewed",
       "verdict": "not_assessed",
       "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
-    },
-    {
-      "requirement_id": "REQ-NIS2-21.2.G",
-      "title": "Cyber hygiene and training",
-      "provision": "Directive (EU) 2022/2555, Art. 21(2)(g)",
-      "nis2_article": "21(2)(g)",
-      "quote": "basic cyber hygiene practices and cybersecurity training",
-      "testability": "organisational",
-      "review_status": "reviewed",
-      "verdict": "not_assessed",
-      "check_ids": [],
-      "reason": "organisational requirement: needs audit, not automated checks"
+      "reason": "organisational requirement: needs a document review or an audit",
+      "basis": "none",
+      "document_review": null
     }
   ],
   "multi_asset": true,
@@ -2362,6 +2675,266 @@
     "valid_until": "2027-12-31",
     "active_tests": true,
     "notes": ""
+  },
+  "document_review": {
+    "register": "evidence-register.yaml",
+    "sha256": "4ac4f4b85e1016bb18bf949587ccd35d47ab1d77e7f0465886c8a421f3b95cf4",
+    "reviews": 9,
+    "applied": 9,
+    "problems": []
+  },
+  "reviews": [
+    {
+      "requirement_id": "REQ-NIS2-21.2.A",
+      "title": "Risk analysis and information system security policies",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(a)",
+      "nis2_article": "21(2)(a)",
+      "quote": "policies on risk analysis and information system security",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "partially_evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: A board-approved policy covers risk management and security principles. The risk assessment it refers to was not provided, so only the policy half is evidenced.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-NIS2-21.2.A",
+        "documents": [
+          {
+            "path": "evidence/information-security-policy.md",
+            "sha256": "a5ea16860385d88ab2a13dab50fa2a14ed5e307c45359e4efa6e62ee4b5d748a"
+          }
+        ],
+        "verdict": "partially_evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "A board-approved policy covers risk management and security principles. The risk assessment it refers to was not provided, so only the policy half is evidenced.",
+        "valid_until": "2027-09-15"
+      }
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.D",
+      "title": "Supply chain security",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(d)",
+      "nis2_article": "21(2)(d)",
+      "quote": "supply chain security, including security-related aspects concerning the relationships between each entity and its direct suppliers or service providers",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "partially_evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: Suppliers are registered and assessed, but one supplier's contract has no security clauses yet.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-NIS2-21.2.D",
+        "documents": [
+          {
+            "path": "evidence/supplier-register.md",
+            "sha256": "c770beed4a4304ffc0c1204c8e0a50e163fdd19a0b6266be2590a26d70652751"
+          }
+        ],
+        "verdict": "partially_evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "Suppliers are registered and assessed, but one supplier's contract has no security clauses yet.",
+        "valid_until": "2027-03-31"
+      }
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.G",
+      "title": "Cyber hygiene and training",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(g)",
+      "nis2_article": "21(2)(g)",
+      "quote": "basic cyber hygiene practices and cybersecurity training",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "partially_evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: All staff completed security training in 2026 and phishing simulations run quarterly. Basic cyber hygiene practices are taught but not set out as a practice.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-NIS2-21.2.G",
+        "documents": [
+          {
+            "path": "evidence/security-training-2026.md",
+            "sha256": "ac911c25667e86b564f440353bd8a2c8fa96a6ee2aee7eca2403135ad2ba22b3"
+          }
+        ],
+        "verdict": "partially_evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "All staff completed security training in 2026 and phishing simulations run quarterly. Basic cyber hygiene practices are taught but not set out as a practice.",
+        "valid_until": "2027-05-31"
+      }
+    },
+    {
+      "requirement_id": "REQ-CIR2690-1.1.2-01",
+      "title": "Annual and event-driven policy review by management",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2",
+      "nis2_article": "21(2)(a)",
+      "quote": "The network and information system security policy shall be reviewed and, where appropriate, updated by management bodies at least annually and when significant incidents or significant changes to operations or risks occur.",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: The policy requires annual and event-driven management review; the June 2026 minutes show a review triggered by the risk assessment and an incident.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-CIR2690-1.1.2-01",
+        "documents": [
+          {
+            "path": "evidence/information-security-policy.md",
+            "sha256": "a5ea16860385d88ab2a13dab50fa2a14ed5e307c45359e4efa6e62ee4b5d748a"
+          },
+          {
+            "path": "evidence/policy-review-2026-06.md",
+            "sha256": "3384c606186d44607f5c424183ccdaa50cb61d887324390eeea18d2b5257dfdd"
+          }
+        ],
+        "verdict": "evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "The policy requires annual and event-driven management review; the June 2026 minutes show a review triggered by the risk assessment and an incident.",
+        "valid_until": "2027-06-30"
+      }
+    },
+    {
+      "requirement_id": "REQ-CIR2690-1.1.2-02",
+      "title": "Documentation of review results",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2",
+      "nis2_article": "21(2)(a)",
+      "quote": "The result of the reviews shall be documented.",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: The results of the June 2026 review are minuted, with the decisions taken.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-CIR2690-1.1.2-02",
+        "documents": [
+          {
+            "path": "evidence/policy-review-2026-06.md",
+            "sha256": "3384c606186d44607f5c424183ccdaa50cb61d887324390eeea18d2b5257dfdd"
+          }
+        ],
+        "verdict": "evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "The results of the June 2026 review are minuted, with the decisions taken.",
+        "valid_until": "2027-06-30"
+      }
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.2.2-05",
+      "title": "Maintain register of granted access rights",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "maintain a register of access rights granted",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: A register of granted access rights exists and was reconciled on 2026-09-01.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-CIR2690-11.2.2-05",
+        "documents": [
+          {
+            "path": "evidence/access-rights-register.md",
+            "sha256": "ecede3b86e8070a5d0f22f14ce67eadba6927fc1e4671a57ece457630f39eb4a"
+          }
+        ],
+        "verdict": "evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "A register of granted access rights exists and was reconciled on 2026-09-01.",
+        "valid_until": "2027-09-01"
+      }
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.4-01",
+      "title": "Regular log review for unusual trends",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4",
+      "nis2_article": "21(2)(b)",
+      "quote": "The logs shall be regularly reviewed for any unusual or unwanted trends.",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: Weekly log reviews are defined and the last four are recorded.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-CIR2690-3.2.4-01",
+        "documents": [
+          {
+            "path": "evidence/log-review-procedure.md",
+            "sha256": "3255b57ebe854f1c64fb2aa79e08a5bbdb122e18c2d635e4dbdfe19eab9cc7e3"
+          }
+        ],
+        "verdict": "evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "Weekly log reviews are defined and the last four are recorded.",
+        "valid_until": "2027-09-15"
+      }
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-01",
+      "title": "Establish backup plans",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+      "nis2_article": "21(2)(c)",
+      "quote": "Based on the results of the risk assessment carried out pursuant to point 2.1 and the business continuity plan, the relevant entities shall lay down backup plans which include the following:",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: A backup and recovery plan exists per service, reviewed in August 2026.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-CIR2690-4.2.2-01",
+        "documents": [
+          {
+            "path": "evidence/backup-plan.md",
+            "sha256": "7f5dc28e720eaa46c795a4fe5382369d57116e9ca27ccb647c3e8834a33ae26f"
+          }
+        ],
+        "verdict": "evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "A backup and recovery plan exists per service, reviewed in August 2026.",
+        "valid_until": "2027-09-15"
+      }
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-02",
+      "title": "Recovery times in backup plans",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+      "nis2_article": "21(2)(c)",
+      "quote": "(a) recovery times;",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "evidenced",
+      "check_ids": [],
+      "reason": "document review by Ingrid Solberg, external consultant on 2026-09-15: The plan states a recovery time for every service.",
+      "basis": "document",
+      "document_review": {
+        "requirement": "REQ-CIR2690-4.2.2-02",
+        "documents": [
+          {
+            "path": "evidence/backup-plan.md",
+            "sha256": "7f5dc28e720eaa46c795a4fe5382369d57116e9ca27ccb647c3e8834a33ae26f"
+          }
+        ],
+        "verdict": "evidenced",
+        "reviewed_by": "Ingrid Solberg, external consultant",
+        "reviewed_on": "2026-09-15",
+        "rationale": "The plan states a recovery time for every service.",
+        "valid_until": "2027-09-15"
+      }
+    }
+  ],
+  "evidence_by_basis": {
+    "checks": 21,
+    "document": 9
   },
   "narrative": null
 }
