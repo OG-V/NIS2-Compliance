@@ -246,12 +246,30 @@ A repository or server holds backup sets (restic: per host and paths; Veeam: per
 job; cloud: per protected resource). Every set must have a recent backup and be
 encrypted; the worst set decides.
 
+**Desktop app.** `nis2scan app` is a guided interface for consultants, in six steps:
+authorisation, systems, documents and reviews, access check, scan, report. It is a local
+web page in a browser's app mode (its own window, no address bar), served by a small
+standard-library HTTP server, so it adds no dependencies. It is a front end, not a
+second implementation: the access check calls onboarding per system, the scan calls
+`run_scan` with a context that reports each collector as it runs, and the report is the
+same rendered HTML. Everything for one client lives in an engagement folder:
+`target.yaml`, `secrets.env` (readable only by its owner, never shown again), document
+suggestions and `results/`. Forms are validated with the target model the scanner uses,
+and reviews go through the same `Review` validation and are appended to the register
+without rewriting it, so the reviewer's comments survive. The server binds to 127.0.0.1
+and requires a same-site cookie set from a one-time launch token, and checks the `Host`
+header and a JSON content type, so another website in the consultant's browser cannot
+drive the scanner (a cross-site form or DNS rebinding) or read results. On Windows with WSL,
+a desktop shortcut starts the app inside WSL, where the scanner's tools run, and opens an
+Edge app window on the Windows side. The app stops when the window has been closed and
+no task is running.
+
 **Planned but not built:** checks that logs are actually shipped centrally and that
 authentication events are logged. The lab's Loki instance receives no logs, so only
 retention is checked.
 
-**Out of scope for v1:** a web dashboard (the Mini SOC project already demonstrates
-FastAPI/React; v1 ships a CLI and a static HTML report), cloud accounts, the Q&A/RAG
+**Out of scope for v1:** a hosted, multi-user web service (the desktop app runs locally
+for one consultant; v1 ships it alongside the CLI and the static HTML report), cloud accounts, the Q&A/RAG
 stretch goal, and any claim about national transposition law.
 
 ## 7. Tech stack
@@ -266,6 +284,8 @@ stretch goal, and any claim about national transposition law.
   configurable with `--model`/`--effort`; structured outputs; an optional `llm` extra, so
   the scanner runs without an API key
 - Report: Jinja2, rendering a self-contained static HTML file plus JSON
+- Desktop app: the standard library's HTTP server and plain HTML, CSS and JavaScript (no
+  build step, no network access), shown in a browser's app mode
 
 ## 8. Milestones
 

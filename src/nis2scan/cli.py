@@ -584,3 +584,39 @@ def diff(
 
 if __name__ == "__main__":
     app()
+
+
+@app.command("app")
+def desktop_app(
+    port: Annotated[int, typer.Option(help="Local port (0 picks a free one).")] = 0,
+    window: Annotated[
+        bool, typer.Option(help="Open the app window (off: print the link only).")
+    ] = True,
+    install_shortcut: Annotated[
+        bool, typer.Option("--install-shortcut", help="Add a shortcut to the Windows desktop.")
+    ] = False,
+) -> None:
+    """Open the guided desktop interface for running an engagement."""
+    from nis2scan.app import desktop
+    from nis2scan.app.server import serve
+    from nis2scan.app.workspace import WorkspaceError
+
+    if install_shortcut:
+        try:
+            console.print(f"Shortcut created: [bold]{desktop.install_shortcut()}[/]")
+        except WorkspaceError as exc:
+            console.print(f"[red]{exc}[/]")
+            raise typer.Exit(code=2) from None
+        return
+    server, _, url = serve(port, exit_when_closed=window)
+    if window:
+        console.print(f"Opening the NIS2 Evidence Console ({desktop.open_window(url)}).")
+        console.print("[dim]The app stops when its window is closed.[/]")
+    else:
+        console.print(f"NIS2 Evidence Console: {url}\n[dim]Stop with Ctrl+C.[/]")
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        server.server_close()
