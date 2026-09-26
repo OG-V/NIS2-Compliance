@@ -169,7 +169,7 @@ h3 { font-size: 14px; margin: 0; font-weight: 620; }
 .grid .wide { grid-column: 1 / -1; }
 .field label { display: block; font-size: 12.5px; font-weight: 600; color: #344054; margin-bottom: 6px; }
 .field label .req { color: var(--red); margin-left: 2px; }
-.field .help { font-size: 12px; color: var(--faint); margin-top: 5px; }
+.help, .field .help { font-size: 12px; color: var(--faint); margin-top: 5px; }
 .field .err { font-size: 12px; color: var(--red); margin-top: 5px; animation: rise .25s var(--ease); }
 .input, select.input, textarea.input {
   width: 100%; height: 38px; padding: 0 12px; border: 1px solid #d0d5dd; border-radius: 8px; background: #fff;
@@ -371,6 +371,9 @@ details.adv .grid { margin-top: 12px; }
 .review { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-top: 10px; background: #fff; animation: rise .35s var(--ease) both; }
 .review .top { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .review .top b { flex: 1; min-width: 200px; }
+.review-actions { display: flex; gap: 2px; opacity: .55; transition: opacity .2s; }
+.review:hover .review-actions, .review-actions:focus-within { opacity: 1; }
+.review.removing { animation: collapse .25s ease-in forwards; }
 .review p { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
 .suggestion { border: 1px solid #d9e2f7; border-left: 3px solid var(--accent); border-radius: 10px; padding: 12px 14px; margin-top: 10px; background: #fbfcff; animation: rise .35s var(--ease) both; }
 .suggestion blockquote { margin: 8px 0; padding: 6px 12px; border-left: 3px solid #cfd8ee; color: #344054; font-size: 13px; background: #fff; border-radius: 0 6px 6px 0; }

@@ -159,7 +159,14 @@ class App:
         return {"register": register.create(_folder(body))}
 
     def register_review(self, body) -> dict:
-        register.add_review(_folder(body), body["entry"])
+        if body.get("replace"):
+            register.update_review(_folder(body), body["replace"], body["entry"])
+        else:
+            register.add_review(_folder(body), body["entry"])
+        return register.state(_folder(body))
+
+    def register_delete(self, body) -> dict:
+        register.delete_review(_folder(body), body["requirement"])
         return register.state(_folder(body))
 
     def suggestions(self, q) -> dict:
@@ -232,6 +239,7 @@ POST = {
     "/api/diff": App.diff,
     "/api/register/create": App.register_create,
     "/api/register/review": App.register_review,
+    "/api/register/delete": App.register_delete,
     "/api/settings": App.settings,
     "/api/reveal": App.reveal,
     "/api/mkdir": App.mkdir,
