@@ -11,7 +11,8 @@ recovery point decides its age: `lastRecoveryPoint` where the item type reports 
 otherwise `lastBackupTime` unless the last backup failed. Azure Backup always encrypts
 backup data at rest (with platform-managed or customer-managed keys), so every set is
 encrypted; the vault's key setting is kept in the evidence.
-Built from the Azure REST API reference; see the design doc for its verification.
+Sign-in, permissions and vault listing are verified against a live subscription; reading
+protected items is tested on documented responses only (the vault held none).
 """
 
 from __future__ import annotations

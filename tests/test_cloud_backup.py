@@ -190,3 +190,22 @@ def test_azure_needs_its_settings():
         CollectorError, match="needs subscription, tenant, client_id and client_secret_env"
     ):
         ADAPTERS["azure-backup"].fetch(BackupTarget(subscription="x"), secrets)
+
+
+def test_azure_live_vault_without_protected_items():
+    raw = json.loads((FIXTURES / "azure" / "live-empty-vault.json").read_text())
+    repo = ADAPTERS["azure-backup"].normalize(raw)
+    assert repo.sets == []
+    age, encryption = checks(repo)
+    assert (age.status, age.message) == ("fail", "No backup snapshots exist")
+    assert (encryption.status, encryption.message) == ("error", "No backup sets were found")
+
+
+def test_aws_live_dynamodb_backup():
+    raw = json.loads((FIXTURES / "aws" / "live-dynamodb.json").read_text())
+    (table,) = ADAPTERS["aws-backup"].normalize(raw).sets
+    assert (table.name, table.encrypted) == ("DynamoDB table/nis2scan-test", True)
+    # The CLI prints local time with its offset; the instant is what counts.
+    assert table.newest.time == datetime(2026, 9, 26, 0, 30, 57, 426000, tzinfo=UTC)
+    age, encryption = checks(ADAPTERS["aws-backup"].normalize(raw))
+    assert age.status == "pass" and encryption.status == "pass"

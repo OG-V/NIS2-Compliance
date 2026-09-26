@@ -9,7 +9,8 @@ backup:ListRecoveryPointsByBackupVault.
 Each protected resource is a backup set: its newest COMPLETED recovery point decides
 its age, and that point's IsEncrypted its encryption. Partial, expired or deleting
 points do not count as backups.
-Built from the AWS Backup API reference; not yet run against a live account.
+Verified against a live account (an on-demand DynamoDB backup). The CLI prints times in
+the scanning host's local zone with its offset; the instant is what is compared.
 """
 
 from __future__ import annotations
