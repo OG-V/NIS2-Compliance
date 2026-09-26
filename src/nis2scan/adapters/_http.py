@@ -18,10 +18,11 @@ TIMEOUT = 15
 
 
 class HttpError(CollectorError):
-    def __init__(self, url: str, status: int, body: str = ""):
+    def __init__(self, url: str, status: int, body: str = "", headers: Message | None = None):
         super().__init__(f"HTTP {status} from {url}" + (f": {body[:200]}" if body else ""))
         self.status = status
         self.body = body
+        self.headers = headers  # e.g. to recognise a product from its Server header
 
 
 def basic_auth(username: str, password: str) -> dict[str, str]:
@@ -55,7 +56,7 @@ def request(
         with urllib.request.urlopen(req, timeout=TIMEOUT, context=context) as resp:
             return json.load(resp), resp.headers
     except urllib.error.HTTPError as exc:
-        raise HttpError(url, exc.code, exc.read().decode(errors="replace")) from None
+        raise HttpError(url, exc.code, exc.read().decode(errors="replace"), exc.headers) from None
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
         raise CollectorError(f"cannot reach {url}: {exc}") from None
 

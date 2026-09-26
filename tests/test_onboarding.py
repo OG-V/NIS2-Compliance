@@ -33,7 +33,7 @@ def lab(tmp_path, monkeypatch):
     monkeypatch.setattr(
         ob,
         "log_detect",
-        lambda logs: {"product": stores[logs.name], "method": "test", "detail": ""},
+        lambda logs, secret: {"product": stores[logs.name], "method": "test", "detail": ""},
     )
     for adapter in ob.LOG_ADAPTERS.values():
         monkeypatch.setattr(adapter, "check_access", lambda logs, secret: None)

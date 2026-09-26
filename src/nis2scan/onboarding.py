@@ -147,12 +147,13 @@ def _identity(system: System, idp, target: Target, probe: bool) -> None:
 
 
 def _log_store(system: System, logs, target: Target, probe: bool) -> None:
-    system.access.append(_url_access(logs.url, f"Network access to {logs.url}", probe))
+    if logs.url:
+        system.access.append(_url_access(logs.url, f"Network access to {logs.url}", probe))
     if logs.product != "auto":
         product, system.identified_by = logs.product, "set in the target file"
     elif probe:
         try:
-            found = log_detect(logs)
+            found = log_detect(logs, target.secret)
             product, system.identified_by = (
                 found["product"],
                 f"identified from its {found['method']}",

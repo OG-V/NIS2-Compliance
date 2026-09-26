@@ -1,0 +1,21 @@
+{
+  "_source": "Built from the Azure REST API reference (Workspaces - List, Sentinel Onboarding States - List, Tables - List By Workspace). Not recorded from a live subscription.",
+  "workspaces": [
+    {"id": "/subscriptions/00000000-0000-0000-0000-00000000bbbb/resourceGroups/rg-sec/providers/Microsoft.OperationalInsights/workspaces/law-sentinel", "name": "law-sentinel", "location": "norwayeast", "properties": {"retentionInDays": 90, "sku": {"name": "PerGB2018"}}},
+    {"id": "/subscriptions/00000000-0000-0000-0000-00000000bbbb/resourceGroups/rg-app/providers/Microsoft.OperationalInsights/workspaces/law-app", "name": "law-app", "location": "norwayeast", "properties": {"retentionInDays": 30, "sku": {"name": "PerGB2018"}}}
+  ],
+  "onboardingStates": {
+    "law-sentinel": [{"id": ".../onboardingStates/default", "name": "default", "properties": {"customerManagedKey": false}}],
+    "law-app": []
+  },
+  "tables": {
+    "law-sentinel": [
+      {"name": "SecurityEvent", "properties": {"plan": "Analytics", "retentionInDays": 90, "totalRetentionInDays": 90, "retentionInDaysAsDefault": true, "totalRetentionInDaysAsDefault": true}},
+      {"name": "SigninLogs", "properties": {"plan": "Analytics", "retentionInDays": 90, "totalRetentionInDays": 730, "retentionInDaysAsDefault": true, "totalRetentionInDaysAsDefault": false}},
+      {"name": "Syslog", "properties": {"plan": "Analytics", "retentionInDays": 30, "totalRetentionInDays": 30, "retentionInDaysAsDefault": false, "totalRetentionInDaysAsDefault": false}}
+    ],
+    "law-app": [
+      {"name": "AppTraces", "properties": {"plan": "Analytics", "retentionInDays": 30, "totalRetentionInDays": 30, "retentionInDaysAsDefault": true, "totalRetentionInDaysAsDefault": true}}
+    ]
+  }
+}

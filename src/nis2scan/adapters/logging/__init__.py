@@ -67,8 +67,9 @@ class LogAdapter:
     needs: ClassVar[tuple[str, ...]] = ()
     access: ClassVar[str] = ""
 
-    def recognise(self, logs: LogsTarget) -> str | None:
-        """Without credentials: a description of what identified the product, or None."""
+    def recognise(self, logs: LogsTarget, secret) -> str | None:
+        """A description of what identified the product, or None. Most products are
+        recognised without credentials; cloud services only once signed in."""
         raise NotImplementedError
 
     def check_access(self, logs: LogsTarget, secret) -> None:
@@ -90,4 +91,4 @@ def adapter(cls: type[LogAdapter]) -> type[LogAdapter]:
 
 
 # Imported for their @adapter registrations.
-from nis2scan.adapters.logging import elasticsearch, loki  # noqa: F401
+from nis2scan.adapters.logging import elasticsearch, loki, sentinel, splunk  # noqa: F401

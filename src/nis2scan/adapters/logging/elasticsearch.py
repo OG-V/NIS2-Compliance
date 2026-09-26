@@ -51,7 +51,9 @@ class Elasticsearch(LogAdapter):
         "and the index privileges monitor and view_index_metadata on the log indices"
     )
 
-    def recognise(self, logs: LogsTarget) -> str | None:
+    def recognise(self, logs: LogsTarget, secret) -> str | None:
+        if not logs.url:
+            return None
         try:
             root = get_json(f"{logs.url.rstrip('/')}/")
         except HttpError as exc:

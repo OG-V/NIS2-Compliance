@@ -25,7 +25,9 @@ class Loki(LogAdapter):
     label = "Grafana Loki"
     access = "Read access to Loki's /config endpoint (no credentials unless a proxy requires them)"
 
-    def recognise(self, logs: LogsTarget) -> str | None:
+    def recognise(self, logs: LogsTarget, secret) -> str | None:
+        if not logs.url:
+            return None
         try:
             info = get_json(f"{logs.url.rstrip('/')}/loki/api/v1/status/buildinfo")
         except CollectorError:

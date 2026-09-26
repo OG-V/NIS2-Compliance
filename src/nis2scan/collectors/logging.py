@@ -9,7 +9,7 @@ from nis2scan.config import LogsTarget
 from nis2scan.registry import CollectorError, Context, collector
 
 
-def detect(logs: LogsTarget) -> dict:
+def detect(logs: LogsTarget, secret) -> dict:
     if logs.product != "auto":
         if logs.product not in ADAPTERS:
             raise CollectorError(
@@ -17,17 +17,17 @@ def detect(logs: LogsTarget) -> dict:
             )
         return {"product": logs.product, "method": "configured", "detail": ""}
     for adapter in ADAPTERS.values():
-        if how := adapter.recognise(logs):
+        if how := adapter.recognise(logs, secret):
             return {"product": adapter.product, "method": how, "detail": ""}
     raise CollectorError(
-        f"could not recognise the log store at {logs.url}; set `product:` in the target "
+        f"could not recognise the log store {logs.name}; set `product:` in the target "
         f"(supported: {', '.join(sorted(ADAPTERS))})"
     )
 
 
 @collector("logs_detect", requires="logs")
 def logs_detect(ctx: Context, logs: LogsTarget) -> dict:
-    found = detect(logs)
+    found = detect(logs, ctx.target.secret)
     return {**found, "label": ADAPTERS[found["product"]].label}
 
 
