@@ -195,6 +195,13 @@ API token created by a Read-only Administrator"). With probing it checks each it
 ports, Docker containers, product detection, a single read-only request with each
 credential, and documents on disk. It can write the list as a Markdown checklist to send.
 
+**Self-signed servers.** Splunk and Veeam usually present self-signed certificates, and
+Splunk's default certificate is issued by a CA shared by every installation, so trusting
+that CA would trust any Splunk server. A target can instead pin the server's certificate
+by its SHA-256 fingerprint, checked on the connection that carries the requests, or name a
+certificate file to trust. Certificate checks cannot be switched off. When onboarding meets
+an untrusted certificate, it shows the fingerprint to confirm with the client.
+
 **Products.** Identity providers are read through product adapters behind a neutral
 evidence model ([ADR 0006](adr/0006-product-adapters.md)): Keycloak (verified on the lab),
 Okta (verified on a live developer org) and Microsoft Entra ID (verified on a live free
@@ -204,7 +211,11 @@ account that created a tenant, are marked external: their MFA happens where the 
 product cannot see it, so they are listed rather than counted as lacking MFA. The product is detected from the
 provider's OpenID configuration, or set with `product:` in the target, and the report
 lists every system with its product and how it was identified. Log stores follow the same
-pattern: Grafana Loki and Elasticsearch, both verified on the lab, which runs one of each.
+pattern: Grafana Loki and Elasticsearch, both verified on the lab, which runs one of each;
+Splunk, verified on a local Splunk Enterprise 10.4 container with the built-in `user` role
+(its own `history`, `summary` and `_*` indexes are not the organisation's logs and are left
+out); and Microsoft Sentinel, verified on a live workspace (workspace default and per-table
+retention, long-term retention counted as kept).
 Each adapter lists every retention scope (Loki's global period and per-stream overrides;
 Elasticsearch's indices under ILM policies and data streams under their own lifecycle
 or ILM), and the check judges the shortest. Backups too: restic and BorgBackup, both

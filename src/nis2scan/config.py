@@ -76,17 +76,38 @@ class IdpTarget(Asset):
 
 
 class LogsTarget(Asset):
-    """A log store. `product` is detected from `url` unless it is set."""
+    """A log store. `product` is detected unless it is set.
 
-    url: str
-    product: str = "auto"  # or loki, elasticsearch
-    username: str | None = None  # Elasticsearch
-    password_env: str | None = None  # Elasticsearch
+    Self-hosted stores are reached at `url`; Microsoft Sentinel through its Azure
+    subscription and Log Analytics workspace.
+    """
+
+    url: str | None = None
+    product: str = "auto"  # or loki, elasticsearch, splunk, sentinel
+    username: str | None = None  # Elasticsearch, Splunk
+    password_env: str | None = None  # Elasticsearch, Splunk
     api_key_env: str | None = None  # Elasticsearch, instead of username and password
-    indices: str = "*"  # Elasticsearch: which indices and data streams hold logs
+    token_env: str | None = None  # Splunk authentication token, instead of a password
+    indices: str = "*"  # Elasticsearch and Splunk: which indices hold logs
+    ca_file: Path | None = None  # certificate to trust for a self-signed server (Splunk)
+    tls_fingerprint: str | None = None  # or pin the server's certificate (SHA-256)
+    # Microsoft Sentinel: the Log Analytics workspace, read with an Entra app registration.
+    subscription: str | None = None
+    workspace: str | None = None  # workspace name; all Sentinel workspaces if left out
+    tenant: str | None = None
+    client_id: str | None = None
+    client_secret_env: str | None = None
+
+    @model_validator(mode="after")
+    def _where(self):
+        if not (self.url or self.subscription):
+            raise ValueError("a log store needs url, or subscription (Microsoft Sentinel)")
+        return self
 
     def _default_name(self) -> str:
-        return self.url
+        if self.url:
+            return self.url
+        return f"sentinel-{self.workspace or (self.subscription or 'unknown')[:8]}"
 
 
 class BackupTarget(Asset):
@@ -104,6 +125,7 @@ class BackupTarget(Asset):
     url: str | None = None  # a backup server's API, e.g. https://vbr.example:9419 (Veeam)
     username: str | None = None  # for a backup server's API
     ca_file: Path | None = None  # certificate to trust for a self-signed server
+    tls_fingerprint: str | None = None  # or pin the server's certificate (SHA-256)
     api_version: str = "1.1-rev0"  # Veeam REST API version header (VBR 12.0 and later)
     # AWS Backup: a region, and either a named AWS CLI profile or access keys in secrets.
     region: str | None = None
@@ -261,9 +283,9 @@ def load_target(path: Path) -> Target:
             target._env |= parse_env_file(env_file.read_text())
     if target.documents:
         target.documents.dir = base / target.documents.dir
-    for backup in target.backup:
-        if backup.ca_file:
-            backup.ca_file = base / backup.ca_file
+    for asset in (*target.backup, *target.logs):
+        if asset.ca_file:
+            asset.ca_file = base / asset.ca_file
     return target
 
 

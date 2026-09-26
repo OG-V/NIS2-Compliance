@@ -1,0 +1,21 @@
+{
+  "_source": "Recorded from a live Microsoft Sentinel workspace on 2026-09-26 with the nis2scan Sentinel adapter: default retention 30 days, one table (Alert) given 60 days in total. Subscription ID replaced.",
+  "subscription": "00000000-0000-0000-0000-000000000002",
+  "workspaces": [
+    {
+      "name": "nis2scan",
+      "retentionInDays": 30,
+      "sentinel": true,
+      "tables": {
+        "Alert": {
+          "plan": "Analytics",
+          "retentionInDays": 30,
+          "totalRetentionInDays": 60,
+          "retentionInDaysAsDefault": true,
+          "totalRetentionInDaysAsDefault": false
+        }
+      },
+      "tables_on_default": 841
+    }
+  ]
+}

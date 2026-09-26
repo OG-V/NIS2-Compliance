@@ -177,9 +177,9 @@ def target(**kw):
 
 
 def test_configured_product_skips_detection():
-    assert detect(target(product="elasticsearch"))["method"] == "configured"
-    with pytest.raises(CollectorError, match="unknown log store 'splunk'"):
-        detect(target(product="splunk"))
+    assert detect(target(product="elasticsearch"), None)["method"] == "configured"
+    with pytest.raises(CollectorError, match="unknown log store 'graylog'"):
+        detect(target(product="graylog"), None)
 
 
 def test_secured_elasticsearch_is_recognised_by_its_auth_error(monkeypatch):
@@ -188,7 +188,7 @@ def test_secured_elasticsearch_is_recognised_by_its_auth_error(monkeypatch):
 
     monkeypatch.setattr(loki_module, "get_json", refuse)
     monkeypatch.setattr(es_module, "get_json", refuse)
-    assert detect(target())["product"] == "elasticsearch"
+    assert detect(target(), None)["product"] == "elasticsearch"
 
 
 def test_opensearch_is_not_taken_for_elasticsearch(monkeypatch):
@@ -203,7 +203,7 @@ def test_opensearch_is_not_taken_for_elasticsearch(monkeypatch):
     monkeypatch.setattr(loki_module, "get_json", root)
     monkeypatch.setattr(es_module, "get_json", root)
     with pytest.raises(CollectorError, match="could not recognise the log store"):
-        detect(target())
+        detect(target(), None)
 
 
 def test_elasticsearch_needs_credentials():

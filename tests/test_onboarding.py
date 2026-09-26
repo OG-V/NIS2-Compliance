@@ -33,7 +33,7 @@ def lab(tmp_path, monkeypatch):
     monkeypatch.setattr(
         ob,
         "log_detect",
-        lambda logs: {"product": stores[logs.name], "method": "test", "detail": ""},
+        lambda logs, secret: {"product": stores[logs.name], "method": "test", "detail": ""},
     )
     for adapter in ob.LOG_ADAPTERS.values():
         monkeypatch.setattr(adapter, "check_access", lambda logs, secret: None)
@@ -155,3 +155,13 @@ def test_backup_server_access(lab, monkeypatch):
     assert vbr.product == "Veeam Backup & Replication" and vbr.ready
     assert vbr.access[0].what == "Network access to https://vbr01:9419"
     assert "Veeam Backup Viewer role" in vbr.access[1].what
+
+
+def test_untrusted_certificate_shows_its_fingerprint(monkeypatch):
+    monkeypatch.setattr(ob, "server_fingerprint", lambda host, port: f"AB:CD from {host}:{port}")
+    note = ob._refusal(
+        CollectorError("cannot reach https://splunk01:8089/x: [SSL: CERTIFICATE_VERIFY_FAILED]"),
+        "https://splunk01:8089",
+    )
+    assert "fingerprint is AB:CD from splunk01:8089" in note and "tls_fingerprint" in note
+    assert ob._refusal(CollectorError("HTTP 401"), "https://s:8089") == "refused: HTTP 401"

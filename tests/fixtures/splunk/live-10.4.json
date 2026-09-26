@@ -1,0 +1,43 @@
+{
+  "_source": "Recorded from a local Splunk Enterprise 10.4.3 container on 2026-09-26 with the nis2scan Splunk adapter (built-in user role, pinned certificate): the default indexes plus security (30 days), firewall (90 days, 100 MB cap) and audit_archive (archived after 30 days). Server address replaced.",
+  "server": "https://splunk.example:8089",
+  "pattern": "*",
+  "indexes": {
+    "audit_archive": {
+      "frozenTimePeriodInSecs": 2592000,
+      "maxTotalDataSizeMB": 500000,
+      "currentDBSizeMB": "1",
+      "coldToFrozenDir": "/opt/splunk/var/frozen/audit",
+      "coldToFrozenScript": "",
+      "disabled": false,
+      "datatype": "event"
+    },
+    "firewall": {
+      "frozenTimePeriodInSecs": 7776000,
+      "maxTotalDataSizeMB": 100,
+      "currentDBSizeMB": "1",
+      "coldToFrozenDir": "",
+      "coldToFrozenScript": "",
+      "disabled": false,
+      "datatype": "event"
+    },
+    "main": {
+      "frozenTimePeriodInSecs": 188697600,
+      "maxTotalDataSizeMB": 500000,
+      "currentDBSizeMB": "1",
+      "coldToFrozenDir": "",
+      "coldToFrozenScript": "",
+      "disabled": false,
+      "datatype": "event"
+    },
+    "security": {
+      "frozenTimePeriodInSecs": 2592000,
+      "maxTotalDataSizeMB": 500000,
+      "currentDBSizeMB": "1",
+      "coldToFrozenDir": "",
+      "coldToFrozenScript": "",
+      "disabled": false,
+      "datatype": "event"
+    }
+  }
+}

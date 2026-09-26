@@ -294,7 +294,7 @@ def test_veeam_is_recognised_with_its_account(fake_veeam):
 
 
 def test_veeam_trusts_a_given_certificate(fake_veeam, monkeypatch):
-    monkeypatch.setattr(veeam, "trust", lambda ca_file: f"context for {ca_file}")
+    monkeypatch.setattr(veeam, "trust", lambda ca_file, pinned: f"context for {ca_file}")
     ADAPTERS["veeam"].check_access(
         BackupTarget(**{**VBR.model_dump(), "ca_file": "/certs/vbr.pem"}), secret
     )

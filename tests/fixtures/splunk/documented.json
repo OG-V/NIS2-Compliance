@@ -1,0 +1,11 @@
+{
+  "_source": "Built from the Splunk REST API reference (data/indexes, output_mode=json). Not recorded from a live server.",
+  "entry": [
+    {"name": "main", "content": {"frozenTimePeriodInSecs": 188697600, "maxTotalDataSizeMB": 500000, "currentDBSizeMB": 1200, "coldToFrozenDir": "", "coldToFrozenScript": "", "disabled": false, "datatype": "event"}},
+    {"name": "security", "content": {"frozenTimePeriodInSecs": 7776000, "maxTotalDataSizeMB": 5000, "currentDBSizeMB": 4700, "coldToFrozenDir": "", "coldToFrozenScript": "", "disabled": false, "datatype": "event"}},
+    {"name": "firewall", "content": {"frozenTimePeriodInSecs": 2592000, "maxTotalDataSizeMB": 500000, "currentDBSizeMB": 800, "coldToFrozenDir": "", "coldToFrozenScript": "", "disabled": false, "datatype": "event"}},
+    {"name": "audit_archive", "content": {"frozenTimePeriodInSecs": 2592000, "maxTotalDataSizeMB": 500000, "currentDBSizeMB": 90, "coldToFrozenDir": "/archive/audit", "coldToFrozenScript": "", "disabled": false, "datatype": "event"}},
+    {"name": "old_app", "content": {"frozenTimePeriodInSecs": 86400, "maxTotalDataSizeMB": 500000, "currentDBSizeMB": 0, "coldToFrozenDir": "", "coldToFrozenScript": "", "disabled": true, "datatype": "event"}},
+    {"name": "_internal", "content": {"frozenTimePeriodInSecs": 2592000, "maxTotalDataSizeMB": 500000, "currentDBSizeMB": 300, "coldToFrozenDir": "", "coldToFrozenScript": "", "disabled": false, "datatype": "event"}}
+  ]
+}
