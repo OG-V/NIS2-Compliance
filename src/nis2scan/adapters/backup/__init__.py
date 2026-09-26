@@ -71,7 +71,7 @@ def run(
     if not shutil.which(argv[0]):
         raise CollectorError(f"{argv[0]} is not installed on the scanning host")
     env = {**os.environ, **local_env}
-    if backup.password_env:
+    if backup.password_env and argv[0] in PASSWORD_VARIABLES:
         env[PASSWORD_VARIABLES[argv[0]]] = secret(backup.password_env)
     try:
         proc = subprocess.run(
@@ -116,4 +116,4 @@ def adapter(cls: type[BackupAdapter]) -> type[BackupAdapter]:
 
 
 # Imported for their @adapter registrations.
-from nis2scan.adapters.backup import borg, restic, veeam  # noqa: F401
+from nis2scan.adapters.backup import aws, azure, borg, restic, veeam  # noqa: F401
