@@ -385,6 +385,21 @@ def report(
     console.print(f"Report written to [bold]{html_path}[/] and {json_path.name}")
 
 
+@app.command("evidence-template")
+def evidence_template(
+    catalog: Annotated[Path, typer.Option(help="Requirement catalog.")] = Path(
+        "catalog/requirements"
+    ),
+) -> None:
+    """Print an evidence register to fill in: every requirement no automated check covers."""
+    from nis2scan.evidence import template
+    from nis2scan.registry import CHECKS, load_all
+
+    load_all()
+    checked = {r for c in CHECKS.values() for r in c.meta.requirements}
+    typer.echo(template(load_requirements(catalog), checked), nl=False)
+
+
 @app.command()
 def onboard(
     target: Annotated[Path, typer.Option(help="Target description file.")] = Path(

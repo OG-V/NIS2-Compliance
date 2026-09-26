@@ -9,6 +9,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from nis2scan import __version__
+from nis2scan import evidence as document_evidence
 from nis2scan.config import ASSET_SECTIONS, Asset, Profile, Target, slug
 from nis2scan.models import (
     CheckStatus,
@@ -35,6 +36,7 @@ class ScanResult:
     evidence: dict[tuple[str, str], dict | Exception]  # keyed by (collector, asset name)
     assets: list[dict] = field(default_factory=list)  # every asset, with its product if known
     engagement: dict | None = None
+    document_review: dict | None = None  # the evidence register's summary, if any
 
 
 def run_scan(
@@ -60,10 +62,36 @@ def run_scan(
         for check_id in sorted(CHECKS)
         for finding in _run_check(check_id, target, profile, ctx, now)
     ]
-    verdicts = [_verdict(req, findings) for req in requirements]
+    decisions, review_summary = _document_reviews(target, ctx, requirements, today)
+    verdicts = [_verdict(req, findings, decisions.get(req.id)) for req in requirements]
     assets = inventory(target, ctx)
     engagement = target.engagement.model_dump(mode="json") if target.engagement else None
-    return ScanResult(target.name, now, findings, verdicts, ctx.evidence(), assets, engagement)
+    return ScanResult(
+        target.name, now, findings, verdicts, ctx.evidence(), assets, engagement, review_summary
+    )
+
+
+def _document_reviews(target: Target, ctx: Context, requirements: list[Requirement], today):
+    """Decisions from the evidence register, and a summary for scan.json (ADR 0007)."""
+    docs = target.documents
+    if not (docs and docs.evidence_register):
+        return {}, None
+    try:
+        register = ctx.collect("evidence_register", docs)
+    except Exception as exc:  # noqa: BLE001 - an unreadable register is reported, not fatal
+        return {}, {"register": docs.evidence_register, "applied": 0, "problems": [str(exc)]}
+    checked = {r for c in CHECKS.values() for r in c.meta.requirements}
+    decisions, problems = document_evidence.apply(
+        register, {r.id for r in requirements}, checked, today
+    )
+    summary = {
+        "register": docs.evidence_register,
+        "sha256": register.get("sha256"),
+        "reviews": len(register["reviews"]),
+        "applied": len(decisions),
+        "problems": problems,
+    }
+    return decisions, summary
 
 
 def inventory(target: Target, ctx: Context) -> list[dict]:
@@ -149,16 +177,22 @@ def _assets_checked(findings: list[Finding], finding: Finding) -> set[str | None
     return {f.asset for f in findings if f.check_id == finding.check_id}
 
 
-def _verdict(req: Requirement, findings: list[Finding]) -> RequirementVerdict:
+def _verdict(
+    req: Requirement, findings: list[Finding], review: document_evidence.Decision | None = None
+) -> RequirementVerdict:
     checks = [c.meta for c in CHECKS.values() if req.id in c.meta.requirements]
     relevant = [f for f in findings if f.check_id in {c.id for c in checks}]
     verdict = rollup(checks, relevant)
+    basis, document_review = ("checks" if checks else "none"), None
 
-    if not checks:
+    if not checks and review:
+        verdict, reason = review.verdict, review.reason
+        basis, document_review = "document", review.review
+    elif not checks:
         reason = (
-            "organisational requirement: needs audit, not automated checks"
+            "organisational requirement: needs a document review or an audit"
             if req.testability == Testability.ORGANISATIONAL
-            else "no checks implemented yet"
+            else "no automated check yet: needs a document review"
         )
     elif verdict == Verdict.NOT_SATISFIED:
         failing = [f for f in relevant if f.status == CheckStatus.FAIL]
@@ -186,6 +220,8 @@ def _verdict(req: Requirement, findings: list[Finding]) -> RequirementVerdict:
         verdict=verdict,
         check_ids=[c.id for c in checks],
         reason=reason,
+        basis=basis,
+        document_review=document_review,
     )
 
 
@@ -225,6 +261,7 @@ def write_results(result: ScanResult, out_dir: Path, profile_path: Path) -> Path
             "evidence_sha256": evidence_hashes,
             "assets": result.assets,
             "engagement": result.engagement,
+            "document_review": result.document_review,
         },
     )
     return run_dir

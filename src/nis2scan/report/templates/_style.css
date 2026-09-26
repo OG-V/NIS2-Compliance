@@ -6,6 +6,7 @@
     --amber: #8a5a00; --amber-bg: #fdf1d6; --amber-dot: #d99a1e;
     --green: #1e6b3a; --green-bg: #e3f2e7; --green-dot: #2f8f52;
     --grey: #5d6573; --grey-bg: #eceef0; --grey-dot: #cfd3d9;
+    --doc: #1f5fa8; --doc-bg: #e3edf9; --doc-dot: #3c7fd0;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -17,6 +18,7 @@
       --amber: #ffcc66; --amber-bg: #3a2e12; --amber-dot: #c98f1c;
       --green: #7fd69a; --green-bg: #173222; --green-dot: #3fa665;
       --grey: #a2a9b5; --grey-bg: #262b34; --grey-dot: #3b424e;
+      --doc: #8fb8f2; --doc-bg: #1b2a40; --doc-dot: #4f8fe0;
     }
   }
   * { box-sizing: border-box; }
@@ -155,3 +157,12 @@
     main { gap: 28px; }
     .panel, .gap, .measure, .fix-list li { break-inside: avoid; }
   }
+
+  .doc { background: var(--doc-dot); }
+  .dots i.doc { background: var(--doc-dot); }
+  .pill.docpill { background: var(--doc-bg); color: var(--doc); }
+  .review { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--doc-dot); border-radius: 12px; padding: 16px 20px; display: grid; gap: 8px; }
+  .review-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+  .review .kv { margin-top: 2px; }
+  .review.review-ns { border-left-color: var(--red-dot); }
+  .review.review-na { border-left-color: var(--amber-dot); }

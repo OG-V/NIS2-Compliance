@@ -18,6 +18,9 @@
 {%- set errors = d.check_counts.error %}
 {%- set n_req = d.verdict_counts.values()|sum %}
 {%- set n_ev = d.verdict_counts.partially_evidenced + d.verdict_counts.evidenced %}
+{%- set n_doc = d.evidence_by_basis.get("document", 0) %}  {#- evidenced by document review #}
+{%- set n_chk = n_ev - n_doc %}  {#- by checks (derived, so runs without a basis still count) #}
+{%- set doc_failed = d.reviews|selectattr("verdict", "equalto", "not_satisfied")|list|length %}
 {%- set sev_counts = {} %}
 {%- for s in ["critical", "high", "medium", "low"] %}{% set _ = sev_counts.update({s: d.gaps|selectattr("severity", "equalto", s)|list|length}) %}{% endfor %}
 {%- set urgent = d.gaps|selectattr("severity", "in", ["critical", "high"])|list or d.gaps[:3] %}
@@ -51,12 +54,16 @@
       <p class="headline">
         {%- if fails == 0 and errors == 0 %}
         <span class="ok">All {{ total_checks }} checks passed.</span>
-        <small>They give partial evidence for {{ n_ev }} of {{ n_req }} legal requirements. The other {{ d.verdict_counts.not_assessed }} need other evidence, such as an audit.</small>
+        <small>
+          {%- if n_doc or doc_failed %}They give partial evidence for {{ n_chk }} of {{ n_req }} legal requirements, and document review evidences {{ n_doc }} more{% if doc_failed %} but finds {{ doc_failed }} not satisfied{% endif %}. The other {{ d.verdict_counts.not_assessed }} need other evidence, such as an audit.
+          {%- else %}They give partial evidence for {{ n_ev }} of {{ n_req }} legal requirements. The other {{ d.verdict_counts.not_assessed }} need other evidence, such as an audit.{% endif -%}
+        </small>
         {%- else %}
         {%- if fails == total_checks %}<em>All {{ total_checks }} checks failed.</em>{% elif fails %}<em>{{ fails }} of {{ total_checks }} checks failed.</em>{% else %}No check failed.{% endif %}
         {%- if sev_counts.critical %} {{ sev_counts.critical }} {{ "problem is" if sev_counts.critical == 1 else "problems are" }} critical{% if sev_counts.high %} and {{ sev_counts.high }} {{ "is" if sev_counts.high == 1 else "are" }} high severity{% endif %}.
         {%- elif sev_counts.high %} {{ sev_counts.high }} {{ "problem is" if sev_counts.high == 1 else "problems are" }} high severity.{% endif %}
         {%- if errors %} {{ errors }} {{ "check" if errors == 1 else "checks" }} could not run.{% endif %}
+        {%- if doc_failed %}<small>Document review found {{ doc_failed }} more {{ "requirement" if doc_failed == 1 else "requirements" }} not satisfied.</small>{% endif %}
         {%- endif %}
       </p>
       <div class="glance">
@@ -64,12 +71,16 @@
           <div class="label">{{ n_req }} legal requirements · one square each</div>
           <div class="units" role="img" aria-label="{{ d.verdict_counts.not_satisfied }} not satisfied, {{ n_ev }} with evidence, {{ d.verdict_counts.not_assessed }} not checked">
             {%- for _ in range(d.verdict_counts.not_satisfied) %}<i class="u ns"></i>{% endfor %}
-            {%- for _ in range(n_ev) %}<i class="u ev"></i>{% endfor %}
+            {%- for _ in range(n_chk) %}<i class="u ev"></i>{% endfor %}
+            {%- for _ in range(n_doc) %}<i class="u doc"></i>{% endfor %}
             {%- for _ in range(d.verdict_counts.not_assessed) %}<i class="u"></i>{% endfor -%}
           </div>
           <div class="legend">
             <span><i class="ns"></i><b>{{ d.verdict_counts.not_satisfied }}</b> not satisfied</span>
-            <span><i class="ev"></i><b>{{ n_ev }}</b> partially evidenced</span>
+            <span><i class="ev"></i><b>{{ n_chk }}</b> partially evidenced{% if n_doc or d.reviews %} by checks{% endif %}</span>
+            {%- if n_doc or d.reviews %}
+            <span><i class="doc"></i><b>{{ n_doc }}</b> evidenced by document review</span>
+            {%- endif %}
             <span><i style="background:var(--grey-dot)"></i><b>{{ d.verdict_counts.not_assessed }}</b> not checked by this tool</span>
           </div>
         </div>
@@ -144,24 +155,26 @@
     </div>
     <div class="map">
       {%- for a in d.articles %}
-      {%- set ok = a.detailed_assessed - a.detailed_not_satisfied %}
+      {%- set ok = a.detailed_assessed - a.detailed_not_satisfied - a.detailed_documented %}
       <div class="measure{{ ' bad' if a.verdict == 'not_satisfied' }}">
         <div class="measure-top">
           <div class="ico {{ a.verdict }}"><svg viewBox="0 0 24 24" aria-hidden="true">{{ ui.ICONS[a.icon]|safe }}</svg></div>
           <span class="pill {{ a.verdict }}">{{ ui.STATUS[a.verdict] }}</span>
         </div>
-        <div><h3>{{ a.short_title }}</h3><div class="art">Art. {{ a.point }}</div></div>
+        <div><h3>{{ a.short_title }}</h3><div class="art">Art. {{ a.point }}{% if a.by_document %} · by document review{% endif %}</div></div>
         {%- if a.detailed %}
         <div class="dots" aria-hidden="true">
           {%- for _ in range(a.detailed_not_satisfied) %}<i class="ns"></i>{% endfor %}
           {%- for _ in range(ok) %}<i class="ev"></i>{% endfor %}
+          {%- for _ in range(a.detailed_documented) %}<i class="doc"></i>{% endfor %}
           {%- for _ in range(a.detailed - a.detailed_assessed) %}<i></i>{% endfor -%}
         </div>
         <div class="detail">{{ a.detailed }} detailed requirements
           {%- if not a.detailed_assessed %}, none checked yet
           {%- else %}:
           {%- if a.detailed_not_satisfied %} <b>{{ a.detailed_not_satisfied }} failing</b>{% if ok or a.detailed > a.detailed_assessed %} ·{% endif %}{% endif %}
-          {%- if ok %} {{ ok }} with evidence{% if a.detailed > a.detailed_assessed %} ·{% endif %}{% endif %}
+          {%- if ok %} {{ ok }} with evidence{% if a.detailed_documented or a.detailed > a.detailed_assessed %} ·{% endif %}{% endif %}
+          {%- if a.detailed_documented %} {{ a.detailed_documented }} by document review{% if a.detailed > a.detailed_assessed %} ·{% endif %}{% endif %}
           {%- if a.detailed > a.detailed_assessed %} {{ a.detailed - a.detailed_assessed }} not checked{% endif %}
           {%- endif %}</div>
         {%- else %}
@@ -242,6 +255,37 @@
     {% endfor %}
   </section>
 
+  {% if d.reviews or d.document_review %}
+  {%- set REVIEW_LABEL = {"not_satisfied": "Not satisfied", "not_assessed": "Not determinable", "partially_evidenced": "Partly evidenced", "evidenced": "Evidenced"} %}
+  <section aria-labelledby="reviews">
+    <div class="sec-head">
+      <h2 id="reviews">Document review ({{ d.reviews|length }})</h2>
+      <p class="muted small">Requirements no automated check covers, judged by a named reviewer from the organisation's documents. The tool records each decision and verifies it: the documents exist and are hashed, the review is dated and in force, and it names its reasons. It does not judge the documents itself.</p>
+    </div>
+    {%- if d.document_review and d.document_review.problems %}
+    <div class="note"><b>Register entries not applied:</b>
+      <ul style="margin:6px 0 0;padding-left:20px">{% for p in d.document_review.problems %}<li>{{ p }}</li>{% endfor %}</ul>
+    </div>
+    {%- endif %}
+    {%- for v in d.reviews %}
+    {%- set r = v.document_review %}
+    <article class="review{{ ' review-ns' if v.verdict == 'not_satisfied' else (' review-na' if v.verdict == 'not_assessed') }}">
+      <div class="review-head">
+        <span class="pill {{ v.verdict }}{{ ' docpill' if v.verdict in ['evidenced', 'partially_evidenced'] }}">{{ REVIEW_LABEL[v.verdict] }}</span>
+        <h3>{{ v.title }}</h3>
+      </div>
+      <div class="muted small"><span class="mono">{{ v.requirement_id }}</span> · {{ v.provision }}</div>
+      {%- if v.verdict == "not_assessed" %}<p class="small"><b>Not applied:</b> {{ v.reason.split(":")[0] }}.</p>{% endif %}
+      <p>{{ r.rationale }}</p>
+      <dl class="kv">
+        <dt>Reviewed by</dt><dd>{{ r.reviewed_by }}, {{ r.reviewed_on }}{% if r.valid_until %} · valid until {{ r.valid_until }}{% endif %}</dd>
+        <dt>Documents</dt><dd>{% for doc in r.documents %}<span class="mono">{{ doc.path }}</span>{% if doc.sha256 %} <span class="muted">(sha256 {{ doc.sha256[:12] }}…)</span>{% else %} <b>missing</b>{% endif %}{{ "<br>"|safe if not loop.last }}{% else %}<span class="muted">none: the reviewer found no document to review</span>{% endfor %}</dd>
+      </dl>
+    </article>
+    {%- endfor %}
+  </section>
+  {% endif %}
+
   {% if d.assets %}
   {%- set KIND = {"web": "Web endpoint", "ssh": "SSH host", "idp": "Identity provider", "logs": "Log store", "backup": "Backup repository", "docker": "Docker project", "documents": "Documents"} %}
   <section aria-labelledby="systems">
@@ -313,7 +357,10 @@
       <dt>SSH</dt><dd>The remote login used by administrators to manage servers.</dd>
       <dt>CVE</dt><dd>A publicly known software flaw with a catalogue number.</dd>
       <dt>Partially evidenced</dt><dd>A check passed, but it covers only part of what the requirement asks for.</dd>
-      <dt>Not checked</dt><dd>No automated check covers the requirement. It needs other evidence, such as an audit.</dd>
+      <dt>Not checked</dt><dd>No automated check covers the requirement, and no document review is recorded for it. It needs other evidence, such as an audit.</dd>
+      {%- if d.reviews %}
+      <dt>Document review</dt><dd>A named reviewer judged the requirement from the organisation's documents. The tool verified the review but did not judge the documents.</dd>
+      {%- endif %}
     </dl>
   </section>
 
@@ -325,6 +372,7 @@
       <li>Each check covers only part of the obligations it maps to, so the best possible verdict is <i>partially evidenced</i>.</li>
       <li>Thresholds (log retention, backup age, password length and so on) come from the organisation's own profile, not from the law, which leaves them open.</li>
       <li>Severity, effort, the actions and the "found / should be" lines are written by hand for each check and filled in from the scan's own values.</li>
+      {% if d.reviews %}<li>Requirements without automated checks can be judged by a named reviewer from the organisation's documents. The reviewer's decision, date, reasons and the documents' hashes are recorded; a review that has expired, is dated after the scan or whose document is missing counts as not assessed. No model is involved.</li>{% endif %}
       {% if narrative and narrative.status == "accepted" %}<li>Narrative text is AI-drafted from this report's findings. It was accepted only after a validator confirmed that every gap is covered, every citation refers to a real failing finding, and no number or standard appears that is not in the data.</li>{% endif %}
     </ul>
   </section>

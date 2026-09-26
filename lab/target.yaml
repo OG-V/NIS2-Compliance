@@ -54,3 +54,4 @@ documents:
   ir_plan: incident-response.md
   asset_inventory: assets.yaml
   risk_exceptions: risk-exceptions.yaml   # optional
+  evidence_register: evidence-register.yaml   # document reviews by a named reviewer (ADR 0007)

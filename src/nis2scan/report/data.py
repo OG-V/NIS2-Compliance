@@ -16,6 +16,8 @@ from nis2scan.registry import CHECKS, COLLECTORS, load_all
 from nis2scan.report.plain import explain
 
 SEVERITY_ORDER = ["critical", "high", "medium", "low"]
+# Document reviews, most urgent first: failed, then not determinable, then evidenced.
+REVIEW_ORDER = ["not_satisfied", "not_assessed", "partially_evidenced", "evidenced"]
 # How a check's assets are named in the report, by target section.
 ASSET_KINDS = {
     "web": "web endpoints",
@@ -135,8 +137,10 @@ class ArticleRow:
     detailed: int = 0  # CIR requirements under this point in the catalog
     detailed_not_satisfied: int = 0
     detailed_assessed: int = 0
+    detailed_documented: int = 0  # evidenced (fully or in part) by document review
     short_title: str = ""
     icon: str = ""
+    by_document: bool = False  # the NIS2-level verdict rests on a document review
 
 
 # Evidence paths are not useful to the model, and the presentation fields are
@@ -185,6 +189,10 @@ class ReportData:
     multi_asset: bool = False  # some check ran on more than one asset
     assets: list[dict] = field(default_factory=list)  # from scan.json; empty in older runs
     engagement: dict | None = None  # the agreed scope, from scan.json
+    document_review: dict | None = None  # the evidence register's summary, from scan.json
+    reviews: list[dict] = field(default_factory=list)  # verdicts resting on a document review
+    # Requirements evidenced (fully or in part) by checks and by document review.
+    evidence_by_basis: dict[str, int] = field(default_factory=dict)
 
     def narrative_input(self) -> dict:
         """The only information the narrative model is given."""
@@ -297,7 +305,12 @@ def load_run(run_dir: Path) -> ReportData:
             for point in nis2_points(v.nis2_article):
                 short, icon = MEASURES.get(point, (v.title, "policy"))
                 articles[point] = ArticleRow(
-                    point, v.title, v.verdict.value, short_title=short, icon=icon
+                    point,
+                    v.title,
+                    v.verdict.value,
+                    short_title=short,
+                    icon=icon,
+                    by_document=v.basis == "document",
                 )
     for v in verdicts:
         if v.requirement_id.startswith("REQ-NIS2-"):
@@ -308,6 +321,10 @@ def load_run(run_dir: Path) -> ReportData:
                 row.detailed += 1
                 row.detailed_assessed += v.verdict != Verdict.NOT_ASSESSED
                 row.detailed_not_satisfied += v.verdict == Verdict.NOT_SATISFIED
+                row.detailed_documented += v.basis == "document" and v.verdict in (
+                    Verdict.EVIDENCED,
+                    Verdict.PARTIALLY_EVIDENCED,
+                )
 
     return ReportData(
         target=scan["target"],
@@ -330,4 +347,16 @@ def load_run(run_dir: Path) -> ReportData:
         multi_asset=any(len(fs) > 1 for fs in by_check.values()),
         assets=scan.get("assets", []),
         engagement=scan.get("engagement"),
+        document_review=scan.get("document_review"),
+        reviews=sorted(
+            (v.model_dump(mode="json") for v in verdicts if v.basis == "document"),
+            key=lambda v: (REVIEW_ORDER.index(v["verdict"]), v["requirement_id"]),
+        ),
+        evidence_by_basis={
+            basis: sum(
+                v.basis == basis and v.verdict in (Verdict.EVIDENCED, Verdict.PARTIALLY_EVIDENCED)
+                for v in verdicts
+            )
+            for basis in ("checks", "document")
+        },
     )

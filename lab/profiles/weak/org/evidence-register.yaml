@@ -1,0 +1,32 @@
+# Evidence register: requirements judged by reviewing NordMSP's documents.
+# Each entry is a person's decision; nis2scan verifies and records it (ADR 0007).
+# Fictional, like the rest of the lab.
+reviews:
+  - requirement: REQ-NIS2-21.2.A
+    documents: [evidence/information-security-policy.md]
+    verdict: not_satisfied
+    reviewed_by: Ingrid Solberg, external consultant
+    reviewed_on: 2026-09-15
+    valid_until: 2027-09-15
+    rationale: >-
+      The only policy is a three-line list of rules from 2023, not approved by management,
+      with no risk analysis behind it.
+  - requirement: REQ-CIR2690-1.1.2-01
+    documents: [evidence/information-security-policy.md]
+    verdict: not_satisfied
+    reviewed_by: Ingrid Solberg, external consultant
+    reviewed_on: 2026-09-15
+    valid_until: 2027-09-15
+    rationale: The policy has not been reviewed since it was written in February 2023.
+  - requirement: REQ-CIR2690-4.2.2-01
+    verdict: not_satisfied
+    reviewed_by: Ingrid Solberg, external consultant
+    reviewed_on: 2026-09-15
+    valid_until: 2027-09-15
+    rationale: No backup plan exists; the IT lead confirmed backups are set up ad hoc.
+  - requirement: REQ-NIS2-21.2.G
+    verdict: not_satisfied
+    reviewed_by: Ingrid Solberg, external consultant
+    reviewed_on: 2026-09-15
+    valid_until: 2027-09-15
+    rationale: No training records exist; staff have had no security training since 2022.

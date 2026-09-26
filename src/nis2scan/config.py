@@ -169,6 +169,7 @@ class DocumentsTarget(Asset):
     ir_plan: str
     asset_inventory: str
     risk_exceptions: str | None = None  # accepted vulnerability risks, optional
+    evidence_register: str | None = None  # document reviews (nis2scan.evidence), optional
 
     def _default_name(self) -> str:
         return "documents"
