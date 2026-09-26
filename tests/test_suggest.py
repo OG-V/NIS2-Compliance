@@ -51,8 +51,8 @@ class FakeClient:
         )
 
 
-def s(req, excerpt=EXCERPT, addresses="Restore testing."):
-    return Suggestion(requirement_id=req, excerpt=excerpt, addresses=addresses)
+def s(req, *excerpts, addresses="Restore testing."):
+    return Suggestion(requirement_id=req, excerpts=list(excerpts or [EXCERPT]), addresses=addresses)
 
 
 # --- reading documents ------------------------------------------------------------------
@@ -104,11 +104,11 @@ def test_only_verified_suggestions_are_accepted():
     accepted, rejected = verify(
         [
             s("REQ-CIR2690-4.2.3-01"),
-            s("REQ-CIR2690-4.2.3-01"),  # duplicate
             s("REQ-NIS2-21.2.H"),  # covered by the TLS checks
             s("REQ-MADE-UP"),
             s("REQ-CIR2690-4.2.2-06", "Restores are tested every week without fail."),
-            s("REQ-CIR2690-4.2.2-01", "Backup and Recovery Plan"),
+            s("REQ-CIR2690-4.2.2-01", "Backup and Recovery Plan"),  # the title
+            s("REQ-CIR2690-4.2.2-02", "Recovery time"),
             # whitespace and typographic differences are tolerated
             s(
                 "REQ-CIR2690-4.2.2-04",
@@ -123,12 +123,45 @@ def test_only_verified_suggestions_are_accepted():
         "REQ-CIR2690-4.2.2-04",
     ]
     assert [r["reason"] for r in rejected] == [
-        "requirement already suggested",
         "not an unchecked requirement in the catalog",
         "not an unchecked requirement in the catalog",
         "excerpt is not verbatim in the document",
+        "excerpt is a title or heading, not content",
         "excerpt too short to show anything",
     ]
+
+
+def test_short_sentences_and_table_rows_are_content():
+    policy = "# IT security rules\n\nVersion 1.0\n\n- Use strong passwords.\n- Lock your screen\n"
+    table = "| Service | Backup |\n|---|---|\n| Customer portal | nightly, restic |\n"
+    ok = [
+        ("Use strong passwords.", policy),
+        ("Lock your screen", policy),  # a list item, not a heading
+        ("Customer portal | nightly, restic", table),
+    ]
+    for excerpt, text in ok:
+        accepted, rejected = verify([s("REQ-NIS2-21.2.G", excerpt)], text, {"REQ-NIS2-21.2.G"})
+        assert accepted and not rejected, (excerpt, rejected)
+    for excerpt in ("IT security rules", "Version 1.0"):
+        _, rejected = verify([s("REQ-NIS2-21.2.G", excerpt)], policy, {"REQ-NIS2-21.2.G"})
+        assert rejected[0]["reason"] in (
+            "excerpt is a title or heading, not content",
+            "excerpt too short to show anything",
+        ), excerpt
+
+
+def test_several_excerpts_are_kept_and_repeats_merged():
+    second = "Backups are encrypted and kept off the production network."
+    accepted, rejected = verify(
+        [
+            s("REQ-CIR2690-4.2.3-01", EXCERPT, "Restores are tested daily by robots."),
+            s("REQ-CIR2690-4.2.3-01", second, EXCERPT),  # e.g. from a second chunk
+        ],
+        TEXT,
+        {"REQ-CIR2690-4.2.3-01"},
+    )
+    assert len(accepted) == 1 and accepted[0]["excerpts"] == [EXCERPT, second]
+    assert [r["excerpt"] for r in rejected] == ["Restores are tested daily by robots."]
 
 
 def test_suggest_sends_the_catalog_as_a_cached_block_and_records_usage():
@@ -175,7 +208,12 @@ def test_drafts_are_commented_and_need_a_reviewer():
             [
                 Suggestions(
                     suggestions=[
-                        s("REQ-CIR2690-4.2.3-01", addresses='The "quarterly" restore tests.')
+                        s(
+                            "REQ-CIR2690-4.2.3-01",
+                            EXCERPT,
+                            "Backups are encrypted and kept off the production network.",
+                            addresses='The "quarterly" restore tests.',
+                        )
                     ]
                 )
             ]
@@ -186,6 +224,7 @@ def test_drafts_are_commented_and_need_a_reviewer():
     )
     text = draft_entries(result, "evidence/backup-plan.md", {r.id: r.title for r in UNCHECKED})
     assert "by claude-opus-5-5" in text and "Not reviewed" in text
+    assert text.count("#   # Excerpt: ") == 2
     assert yaml.safe_load("reviews:\n" + text) == {"reviews": None}  # all commented out
     # Uncommented as it stands, the entry is refused: the verdict is the reviewer's.
     entry = "\n".join(line[2:] for line in text.splitlines() if line.startswith(("# -", "#   ")))
