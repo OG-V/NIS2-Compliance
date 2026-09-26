@@ -53,7 +53,7 @@ or `not_assessed`, and the report says how much it could and could not assess.
 | **Demo lab** | The `weak` profile fails 17 of 17 checks, and document review fails 4 more requirements (25 not satisfied). The `hardened` profile passes 17 of 17 checks and 9 document reviews (30 requirements evidenced, 21 of them by checks). Both are reproducible with one command. |
 | **Extraction quality** (gold set: 20 provisions, 55 obligations) | Quotes verbatim: 100%. Obligations found: 100%. Invented numbers or durations: 0. Open values mislabelled as stated: 0%. |
 | **Run-to-run stability** | Two runs agree on 19/20 provision structures, clause overlap 0.99. |
-| **Evidence suggestions** (gold set: 9 documents, 1 of them a decoy with an injected instruction) | Recall 1.00, precision 0.89. No excerpt outside the document, and no suggestions for the decoy. |
+| **Evidence suggestions** (gold set: 9 documents, 1 of them a decoy with an injected instruction) | Recall 1.00, precision 0.91. No excerpt outside the document, and no suggestions for the decoy. |
 | **Narrative grounding** | Every citation, every number and full gap coverage are checked by code, and IDs are kept out of the prose. A draft that fails twice is not shown. |
 | **Catalog** | 85 requirements (11 from NIS2, 74 from CIR 2024/2690), all reviewed, with every quote verified against EUR-Lex. |
 | **Tests** | 409 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |

@@ -124,8 +124,10 @@ Requirement verdict roll-up (deterministic, `nis2scan.models.rollup`):
 5. **Evidence suggestions (optional, `nis2scan suggest`).** For requirements no check
    covers, a model reads one client document (text, Word or PDF) and points to passages
    that bear on them. The list of unchecked requirements is sent as a cached block, so
-   each further document costs little. Code rejects unknown or checked IDs, duplicates
-   and excerpts not found verbatim in the document. What remains is printed as
+   each further document costs little. Code rejects unknown or checked IDs, and each
+   excerpt that is not verbatim in the document or is only a title or heading. A
+   suggestion may quote several passages, and repeats of a requirement are merged. What
+   remains is printed as
    commented-out register entries without a verdict, for the reviewer (ADR 0007).
 
 ## 5. Known hard parts (why "AI extracts rules from legal text" is messier than it sounds)

@@ -38,7 +38,8 @@ dated, not correct.
 requirements a document may bear on. It is a single structured request per document,
 not an agent: the input and output are bounded, so the result can be verified and
 scored. Code accepts a suggestion only if its ID is an unchecked catalog requirement
-and its excerpt appears verbatim in the document; the rest are kept with a reason.
+and at least one of its excerpts appears verbatim in the document and is content, not
+a title or heading; everything rejected is kept with a reason.
 Accepted suggestions are printed as commented-out register entries marked "not
 reviewed", with the verdict, reviewer and date left empty, so the register refuses
 them until a person completes them. The model saves the reviewer the search, never

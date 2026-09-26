@@ -1,0 +1,48 @@
+{
+  "document": "lab/profiles/hardened/org/evidence/log-review-procedure.md",
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "prompt_version": "2026-09-26.2",
+  "created_at": "2026-09-26T10:34:43.741915+00:00",
+  "accepted": [
+    {
+      "requirement_id": "REQ-CIR2690-3.2.4-01",
+      "excerpts": [
+        "The on-call engineer reviews the central logs weekly for unusual trends (failed logins,\nprivilege changes, backup failures) and records each review in the operations log."
+      ],
+      "addresses": "Shows weekly review of central logs for unusual trends; it does not describe alarm thresholds or the response to findings."
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-01",
+      "excerpts": [
+        "The on-call engineer reviews the central logs weekly for unusual trends (failed logins,\nprivilege changes, backup failures) and records each review in the operations log.",
+        "Last four reviews: 2026-08-28, 2026-09-04, 2026-09-11, 2026-09-18 (no findings)."
+      ],
+      "addresses": "Shows logs are maintained centrally and reviewed, with reviews recorded; it does not show how logs are documented or which procedure under 3.2.1 governs them."
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-06",
+      "excerpts": [
+        "The on-call engineer reviews the central logs weekly for unusual trends (failed logins,\nprivilege changes, backup failures) and records each review in the operations log."
+      ],
+      "addresses": "Implies that failed login events are present in the central logs; it does not state the full scope of authentication events logged."
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-04",
+      "excerpts": [
+        "The on-call engineer reviews the central logs weekly for unusual trends (failed logins,\nprivilege changes, backup failures) and records each review in the operations log."
+      ],
+      "addresses": "Implies privilege changes are captured in the logs; it does not mention logging of user creation, modification or deletion."
+    }
+  ],
+  "rejected": [],
+  "usage": [
+    {
+      "input_tokens": 148,
+      "output_tokens": 591,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 9397
+    }
+  ],
+  "error": null
+}

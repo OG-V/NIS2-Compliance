@@ -1,0 +1,137 @@
+{
+  "summary": {
+    "documents": 9,
+    "documents_without_result": [],
+    "accepted_suggestions": 23,
+    "rejected_by_verification": 0,
+    "precision": 0.913,
+    "recall": 1.0,
+    "false_positives": 2
+  },
+  "documents": [
+    {
+      "document": "lab/profiles/hardened/org/evidence/information-security-policy.md",
+      "suggested": [
+        "REQ-CIR2690-1.1.2-01",
+        "REQ-CIR2690-1.1.2-02",
+        "REQ-NIS2-21.2.A",
+        "REQ-CIR2690-11.2.2-01"
+      ],
+      "hits": [
+        "REQ-NIS2-21.2.A",
+        "REQ-CIR2690-1.1.2-01"
+      ],
+      "missed": [],
+      "false_positives": [
+        "REQ-CIR2690-11.2.2-01"
+      ],
+      "rejected": 0
+    },
+    {
+      "document": "lab/profiles/hardened/org/evidence/policy-review-2026-06.md",
+      "suggested": [
+        "REQ-CIR2690-1.1.2-01",
+        "REQ-CIR2690-1.1.2-02"
+      ],
+      "hits": [
+        "REQ-CIR2690-1.1.2-01",
+        "REQ-CIR2690-1.1.2-02"
+      ],
+      "missed": [],
+      "false_positives": [],
+      "rejected": 0
+    },
+    {
+      "document": "lab/profiles/hardened/org/evidence/backup-plan.md",
+      "suggested": [
+        "REQ-CIR2690-4.2.2-02",
+        "REQ-CIR2690-4.2.2-01",
+        "REQ-CIR2690-4.2.2-04",
+        "REQ-CIR2690-4.2.2-06",
+        "REQ-CIR2690-4.2.3-01"
+      ],
+      "hits": [
+        "REQ-CIR2690-4.2.2-01",
+        "REQ-CIR2690-4.2.2-02"
+      ],
+      "missed": [],
+      "false_positives": [],
+      "rejected": 0
+    },
+    {
+      "document": "lab/profiles/hardened/org/evidence/security-training-2026.md",
+      "suggested": [
+        "REQ-NIS2-21.2.G",
+        "REQ-CIR2690-11.6.2-02"
+      ],
+      "hits": [
+        "REQ-NIS2-21.2.G"
+      ],
+      "missed": [],
+      "false_positives": [
+        "REQ-CIR2690-11.6.2-02"
+      ],
+      "rejected": 0
+    },
+    {
+      "document": "lab/profiles/hardened/org/evidence/supplier-register.md",
+      "suggested": [
+        "REQ-NIS2-21.2.D"
+      ],
+      "hits": [
+        "REQ-NIS2-21.2.D"
+      ],
+      "missed": [],
+      "false_positives": [],
+      "rejected": 0
+    },
+    {
+      "document": "lab/profiles/hardened/org/evidence/access-rights-register.md",
+      "suggested": [
+        "REQ-CIR2690-11.2.2-05",
+        "REQ-CIR2690-11.2.2-03",
+        "REQ-CIR2690-11.2.2-01"
+      ],
+      "hits": [
+        "REQ-CIR2690-11.2.2-05"
+      ],
+      "missed": [],
+      "false_positives": [],
+      "rejected": 0
+    },
+    {
+      "document": "lab/profiles/hardened/org/evidence/log-review-procedure.md",
+      "suggested": [
+        "REQ-CIR2690-3.2.4-01",
+        "REQ-CIR2690-3.2.3-01",
+        "REQ-CIR2690-3.2.3-06",
+        "REQ-CIR2690-3.2.3-04"
+      ],
+      "hits": [
+        "REQ-CIR2690-3.2.4-01"
+      ],
+      "missed": [],
+      "false_positives": [],
+      "rejected": 0
+    },
+    {
+      "document": "lab/profiles/weak/org/evidence/information-security-policy.md",
+      "suggested": [
+        "REQ-NIS2-21.2.G",
+        "REQ-NIS2-21.2.A"
+      ],
+      "hits": [],
+      "missed": [],
+      "false_positives": [],
+      "rejected": 0
+    },
+    {
+      "document": "eval/suggest-documents/office-move-notice.md",
+      "suggested": [],
+      "hits": [],
+      "missed": [],
+      "false_positives": [],
+      "rejected": 0
+    }
+  ]
+}

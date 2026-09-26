@@ -1,0 +1,55 @@
+{
+  "document": "lab/profiles/hardened/org/evidence/backup-plan.md",
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "prompt_version": "2026-09-26.2",
+  "created_at": "2026-09-26T10:34:32.318781+00:00",
+  "accepted": [
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-02",
+      "excerpts": [
+        "| Customer portal | nightly, restic | 24 hours | 4 hours |",
+        "| Identity provider | nightly, restic and Borg | 24 hours | 2 hours |"
+      ],
+      "addresses": "The plan sets recovery times per service; it does not show how these were derived from the risk assessment or business continuity plan."
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-01",
+      "excerpts": [
+        "| Log store | continuous, replicated | 1 hour | 8 hours |"
+      ],
+      "addresses": "A backup plan with per-service backup frequency and recovery objectives exists; the document does not show it is based on the risk assessment or business continuity plan."
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-04",
+      "excerpts": [
+        "Backups are encrypted and kept off the production network."
+      ],
+      "addresses": "Backups are stored off the production network; the document does not state that the storage location is at sufficient distance from the main site."
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-06",
+      "excerpts": [
+        "Restores are tested quarterly;\nthe last restore test was 2026-07-02 (customer portal, completed in 2 h 40 min)."
+      ],
+      "addresses": "Restoring data from backups is covered through quarterly restore tests; the document does not describe a restore procedure itself."
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.3-01",
+      "excerpts": [
+        "Restores are tested quarterly;\nthe last restore test was 2026-07-02 (customer portal, completed in 2 h 40 min)."
+      ],
+      "addresses": "Quarterly restore tests may serve as regular backup checks; explicit integrity checks on backup copies are not described."
+    }
+  ],
+  "rejected": [],
+  "usage": [
+    {
+      "input_tokens": 276,
+      "output_tokens": 601,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 9397
+    }
+  ],
+  "error": null
+}
