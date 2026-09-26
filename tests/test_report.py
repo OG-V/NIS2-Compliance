@@ -61,16 +61,20 @@ def test_article_overview_counts_cir_detail(weak):
     _, data = weak
     rows = {a.point: a for a in data.articles}
     assert rows["21(2)(c)"].verdict == "not_satisfied"
-    # 4.2.1-01 via the backup age check, 4.2.2-05 via the backup encryption check
-    assert rows["21(2)(c)"].detailed_not_satisfied == 2
-    assert rows["21(2)(a)"].verdict == "not_assessed"
+    # 4.2.1-01 and 4.2.2-05 via the backup checks; 4.2.2-01 by document review (no plan)
+    assert rows["21(2)(c)"].detailed_not_satisfied == 3
+    # Risk policy: failed by document review (a three-line list of rules from 2023)
+    assert rows["21(2)(a)"].verdict == "not_satisfied" and rows["21(2)(a)"].by_document
 
 
 def test_hardened_has_no_gaps(tmp_path):
     data = load_run(scan_run(tmp_path, "hardened"))
     assert data.gaps == []
     assert data.verdict_counts["not_satisfied"] == 0
-    assert data.verdict_counts["partially_evidenced"] == 21
+    # 21 by checks and 3 by document review; 6 fully evidenced by document review
+    assert data.verdict_counts["partially_evidenced"] == 24
+    assert data.verdict_counts["evidenced"] == 6
+    assert data.evidence_by_basis == {"checks": 21, "document": 9}
 
 
 def test_narrative_input_excludes_evidence_paths(weak):
@@ -160,7 +164,9 @@ def test_render_leads_with_the_result_and_what_to_fix_first(weak):
     html = render(data, run)[0].read_text()
     assert "All 17 checks failed." in html
     assert "1 problem is critical and 6 are high severity." in html
-    assert html.count('<i class="u ns">') == 21 and html.count('<i class="u">') == 64
+    # 21 by the checks and 4 by document review
+    assert html.count('<i class="u ns">') == 25 and html.count('<i class="u">') == 60
+    assert "Document review found 4 more requirements not satisfied." in html
     fix_first = html[html.index('id="fix-first"') : html.index('id="measures"')]
     assert fix_first.count("<li>") == 7  # the critical and high-severity gaps
     assert fix_first.index("Change the default admin password") < fix_first.index(

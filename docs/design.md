@@ -148,9 +148,13 @@ Requirement verdict roll-up (deterministic, `nis2scan.models.rollup`):
   ("retention_days 7"). Claude Opus 5.5 keeps the same facts in plain language (18 field
   names down to 1, [comparison](../eval/results/2026-09-25-opus-5-5.md)) under the same
   validator. The model changed; the validator was not loosened.
-- **Most of Art. 21 is organisational** (policies, training, supply chain). These get
-  `testability: organisational` and are reported as `NOT_ASSESSED`. Showing that honestly
-  is a feature: the report states coverage, not just pass rate.
+- **Most of Art. 21 is organisational** (policies, training, supply chain). No check can
+  judge a policy, and no model may. A named reviewer judges these from the organisation's
+  documents and records the decision in an evidence register; the tool hashes the
+  documents, enforces who, when, why and until when, and never lets a review overrule a
+  check ([ADR 0007](adr/0007-document-evidence.md)). Without a review they stay
+  `NOT_ASSESSED`, and the report shows document-based evidence apart from check-based
+  evidence: it states coverage and its basis, not just a pass rate.
 - **Declared ≠ actual.** Reading `sshd_config` is not the same as proving password auth is
   refused. Where cheap, checks probe live behaviour (TLS handshake, SSH auth methods offered)
   rather than only parsing config.

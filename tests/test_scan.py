@@ -41,11 +41,20 @@ def scan(lab_profile: str, target_path: Path = ROOT / "lab" / "target.yaml"):
 )
 def test_verdicts(lab_profile, technical_verdict):
     result = scan(lab_profile)
+    reviewed = {
+        r["requirement"]: r["verdict"]
+        for r in load_evidence(lab_profile, "evidence_register")["reviews"]
+    }
     for v in result.verdicts:
-        if v.testability == Kind.ORGANISATIONAL:
-            assert v.verdict == Verdict.NOT_ASSESSED, v.requirement_id
+        if v.requirement_id in reviewed:  # organisational: the reviewer's decision
+            assert (v.basis, v.verdict) == ("document", reviewed[v.requirement_id]), v.reason
+        elif v.testability == Kind.ORGANISATIONAL:
+            assert (v.basis, v.verdict) == ("none", Verdict.NOT_ASSESSED), v.requirement_id
         else:
-            assert v.verdict == technical_verdict, (v.requirement_id, v.reason)
+            assert (v.basis, v.verdict) == ("checks", technical_verdict), (
+                v.requirement_id,
+                v.reason,
+            )
 
 
 def test_missing_target_section_is_not_applicable(tmp_path):

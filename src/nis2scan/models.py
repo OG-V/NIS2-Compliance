@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from datetime import date, datetime
 from enum import StrEnum
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -133,6 +133,9 @@ class RequirementVerdict(BaseModel):
     verdict: Verdict
     check_ids: list[str]
     reason: str
+    # What the verdict rests on. None in runs from before document reviews existed.
+    basis: Literal["checks", "document", "none"] | None = None
+    document_review: dict[str, Any] | None = None  # the register entry, with document hashes
 
 
 def rollup(checks: list[CheckMeta], findings: list[Finding]) -> Verdict:

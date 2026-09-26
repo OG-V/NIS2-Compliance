@@ -1,0 +1,75 @@
+# Evidence register: requirements judged by reviewing NordMSP's documents.
+# Each entry is a person's decision; nis2scan verifies and records it (ADR 0007).
+# Fictional, like the rest of the lab.
+reviews:
+  - requirement: REQ-NIS2-21.2.A
+    documents: [evidence/information-security-policy.md]
+    verdict: partially_evidenced
+    reviewed_by: Ingrid Solberg, external consultant
+    reviewed_on: 2026-09-15
+    valid_until: 2027-09-15
+    rationale: >-
+      A board-approved policy covers risk management and security principles. The risk
+      assessment it refers to was not provided, so only the policy half is evidenced.
+  - requirement: REQ-CIR2690-1.1.2-01
+    documents: [evidence/information-security-policy.md, evidence/policy-review-2026-06.md]
+    verdict: evidenced
+    reviewed_by: Ingrid Solberg, external consultant
+    reviewed_on: 2026-09-15
+    valid_until: 2027-06-30
+    rationale: >-
+      The policy requires annual and event-driven management review; the June 2026
+      minutes show a review triggered by the risk assessment and an incident.
+  - requirement: REQ-CIR2690-1.1.2-02
+    documents: [evidence/policy-review-2026-06.md]
+    verdict: evidenced
+    reviewed_by: Ingrid Solberg, external consultant
+    reviewed_on: 2026-09-15
+    valid_until: 2027-06-30
+    rationale: The results of the June 2026 review are minuted, with the decisions taken.
+  - requirement: REQ-CIR2690-4.2.2-01
+    documents: [evidence/backup-plan.md]
+    verdict: evidenced
+    reviewed_by: Ingrid Solberg, external consultant
+    reviewed_on: 2026-09-15
+    valid_until: 2027-09-15
+    rationale: A backup and recovery plan exists per service, reviewed in August 2026.
+  - requirement: REQ-CIR2690-4.2.2-02
+    documents: [evidence/backup-plan.md]
+    verdict: evidenced
+    reviewed_by: Ingrid Solberg, external consultant
+    reviewed_on: 2026-09-15
+    valid_until: 2027-09-15
+    rationale: The plan states a recovery time for every service.
+  - requirement: REQ-NIS2-21.2.G
+    documents: [evidence/security-training-2026.md]
+    verdict: partially_evidenced
+    reviewed_by: Ingrid Solberg, external consultant
+    reviewed_on: 2026-09-15
+    valid_until: 2027-05-31
+    rationale: >-
+      All staff completed security training in 2026 and phishing simulations run
+      quarterly. Basic cyber hygiene practices are taught but not set out as a practice.
+  - requirement: REQ-NIS2-21.2.D
+    documents: [evidence/supplier-register.md]
+    verdict: partially_evidenced
+    reviewed_by: Ingrid Solberg, external consultant
+    reviewed_on: 2026-09-15
+    valid_until: 2027-03-31
+    rationale: >-
+      Suppliers are registered and assessed, but one supplier's contract has no security
+      clauses yet.
+  - requirement: REQ-CIR2690-11.2.2-05
+    documents: [evidence/access-rights-register.md]
+    verdict: evidenced
+    reviewed_by: Ingrid Solberg, external consultant
+    reviewed_on: 2026-09-15
+    valid_until: 2027-09-01
+    rationale: A register of granted access rights exists and was reconciled on 2026-09-01.
+  - requirement: REQ-CIR2690-3.2.4-01
+    documents: [evidence/log-review-procedure.md]
+    verdict: evidenced
+    reviewed_by: Ingrid Solberg, external consultant
+    reviewed_on: 2026-09-15
+    valid_until: 2027-09-15
+    rationale: Weekly log reviews are defined and the last four are recorded.

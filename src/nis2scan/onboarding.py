@@ -14,6 +14,8 @@ from dataclasses import dataclass, field
 from datetime import date
 from urllib.parse import urlparse
 
+import yaml
+
 from nis2scan.adapters._http import server_fingerprint
 from nis2scan.adapters.backup import ADAPTERS as BACKUP_ADAPTERS
 from nis2scan.adapters.identity import ADAPTERS
@@ -21,9 +23,10 @@ from nis2scan.adapters.identity.detect import LABELS, detect
 from nis2scan.adapters.logging import ADAPTERS as LOG_ADAPTERS
 from nis2scan.collectors._docker import docker
 from nis2scan.collectors.backup import detect as backup_detect
+from nis2scan.collectors.evidence import evidence_register as collect_register
 from nis2scan.collectors.logging import detect as log_detect
 from nis2scan.config import Target
-from nis2scan.registry import CollectorError
+from nis2scan.registry import CollectorError, Context
 
 OK, MISSING, OPTIONAL, UNVERIFIED = "ok", "missing", "optional", "not checked"
 KINDS = {
@@ -313,8 +316,27 @@ def plan(target: Target, probe: bool = True) -> list[System]:
                     f"Risk exception register: {docs.risk_exceptions}", OK if exists else OPTIONAL
                 )
             )
+        if docs.evidence_register:
+            s.access.append(_evidence_register(docs))
         systems.append(s)
     return systems
+
+
+def _evidence_register(docs) -> Access:
+    """The reviewer's register: present, and which entries would not apply as written."""
+    what = f"Evidence register (document reviews): {docs.evidence_register}"
+    if not (docs.dir / docs.evidence_register).exists():
+        return Access(what, OPTIONAL, "none yet: `nis2scan evidence-template` starts one")
+    try:
+        register = collect_register(Context(Target(name="onboarding")), docs)
+    except (OSError, ValueError, yaml.YAMLError) as exc:
+        return Access(what, MISSING, f"cannot be read: {exc}")
+    missing = [d["path"] for r in register["reviews"] for d in r["documents"] if not d["sha256"]]
+    problems = register["problems"] + [f"document not found: {m}" for m in missing]
+    note = f"{len(register['reviews'])} reviews"
+    if problems:
+        return Access(what, MISSING, f"{note}; {'; '.join(problems)}")
+    return Access(what, OK, note)
 
 
 def authorisation(target: Target, today: date) -> Access:
