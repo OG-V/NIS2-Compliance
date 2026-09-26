@@ -139,7 +139,7 @@ class Sentinel(LogAdapter):
             default = ws["retentionInDays"]
             scopes.append(
                 LogScope(
-                    name=f"workspace {ws['name']} (tables on its default)",
+                    name=f"workspace {ws['name']}, tables on its default",
                     retention_days=default,
                     source=f"workspace retention {default} days",
                 )

@@ -134,7 +134,7 @@ def test_sentinel_workspace_and_tables(fake_azure):
     scopes = {s.name: s.retention_days for s in store.scopes}
     # Only the workspace with Sentinel; tables on the default are covered by it.
     assert scopes == {
-        "workspace law-sentinel (tables on its default)": 90,
+        "workspace law-sentinel, tables on its default": 90,
         "table law-sentinel/SigninLogs": 730,  # long-term retention counts
         "table law-sentinel/Syslog": 30,
     }
@@ -153,7 +153,7 @@ def test_sentinel_check_names_the_short_table(fake_azure):
 def test_sentinel_named_workspace_is_read_even_without_sentinel(fake_azure):
     named = LogsTarget(**{**SENTINEL_TARGET.model_dump(), "workspace": "law-app"})
     store = ADAPTERS["sentinel"].normalize(ADAPTERS["sentinel"].fetch(named, secret))
-    assert [s.name for s in store.scopes] == ["workspace law-app (tables on its default)"]
+    assert [s.name for s in store.scopes] == ["workspace law-app, tables on its default"]
     with pytest.raises(CollectorError, match="no workspace named 'nope'"):
         ADAPTERS["sentinel"].fetch(
             LogsTarget(**{**SENTINEL_TARGET.model_dump(), "workspace": "nope"}), secret
@@ -185,12 +185,12 @@ def test_sentinel_live_workspace():
     raw = json.loads((FIXTURES / "sentinel" / "live-workspace.json").read_text())
     store = ADAPTERS["sentinel"].normalize(raw)
     assert {s.name: s.retention_days for s in store.scopes} == {
-        "workspace nis2scan (tables on its default)": 30,
+        "workspace nis2scan, tables on its default": 30,
         "table nis2scan/Alert": 60,
     }
     assert raw["workspaces"][0]["tables_on_default"] == 841
     result = check(store)
     assert (result.status, result.message) == (
         "fail",
-        "Logs are deleted after 30 days (workspace nis2scan (tables on its default))",
+        "Logs are deleted after 30 days (workspace nis2scan, tables on its default)",
     )
