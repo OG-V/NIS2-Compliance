@@ -121,6 +121,12 @@ Requirement verdict roll-up (deterministic, `nis2scan.models.rollup`):
    standard absent from *that gap's own* data, or claims (non-)compliance or
    certification. One retry gets the validator's objections. A draft that fails twice is
    not shown, and the report says why.
+5. **Evidence suggestions (optional, `nis2scan suggest`).** For requirements no check
+   covers, a model reads one client document (text, Word or PDF) and points to passages
+   that bear on them. The list of unchecked requirements is sent as a cached block, so
+   each further document costs little. Code rejects unknown or checked IDs, duplicates
+   and excerpts not found verbatim in the document. What remains is printed as
+   commented-out register entries without a verdict, for the reviewer (ADR 0007).
 
 ## 5. Known hard parts (why "AI extracts rules from legal text" is messier than it sounds)
 

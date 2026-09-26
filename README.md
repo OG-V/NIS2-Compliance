@@ -36,7 +36,8 @@ them, and the result is a gap report that non-engineers can read.
    organisation's documents and records the decision in an evidence register. The tool
    hashes the documents, requires a reviewer, date and rationale, and never lets a review
    overrule a check or outlive its validity ([ADR 0007](docs/adr/0007-document-evidence.md)).
-   `nis2scan evidence-template` starts the register from the catalog.
+   `nis2scan evidence-template` starts the register from the catalog, and
+   `nis2scan suggest` drafts entries for a document, with no verdict, for the reviewer.
 6. **Shows progress between scans.** `nis2scan diff` compares two scans of the same target:
    what was fixed, what is still open and what is new
    ([example](docs/example-report/#example-reports)).
@@ -52,9 +53,10 @@ or `not_assessed`, and the report says how much it could and could not assess.
 | **Demo lab** | The `weak` profile fails 17 of 17 checks, and document review fails 4 more requirements (25 not satisfied). The `hardened` profile passes 17 of 17 checks and 9 document reviews (30 requirements evidenced, 21 of them by checks). Both are reproducible with one command. |
 | **Extraction quality** (gold set: 20 provisions, 55 obligations) | Quotes verbatim: 100%. Obligations found: 100%. Invented numbers or durations: 0. Open values mislabelled as stated: 0%. |
 | **Run-to-run stability** | Two runs agree on 19/20 provision structures, clause overlap 0.99. |
+| **Evidence suggestions** (gold set: 9 documents, 1 of them a decoy with an injected instruction) | Recall 1.00, precision 0.89. No excerpt outside the document, and no suggestions for the decoy. |
 | **Narrative grounding** | Every citation, every number and full gap coverage are checked by code, and IDs are kept out of the prose. A draft that fails twice is not shown. |
 | **Catalog** | 85 requirements (11 from NIS2, 74 from CIR 2024/2690), all reviewed, with every quote verified against EUR-Lex. |
-| **Tests** | 394 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
+| **Tests** | 409 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
 
 Each figure has a write-up in [`eval/results/`](eval/results/), including what went
 wrong and what was changed: three extraction prompt versions, a narrative prompt revision
@@ -67,6 +69,7 @@ and a model comparison.
 | Extraction (offline) | Drafts requirements from one Annex provision at a time | A schema-validated output. Quotes are checked verbatim against the cited provision. A "stated" value must appear in the text. A human reviews every record. Reviewed work is never re-extracted. |
 | Verdicts (runtime) | Nothing | [ADR 0001](docs/adr/0001-no-llm-in-verdict-path.md). A test fails if the checks package imports an LLM client. |
 | Narrative (runtime) | Explains each failing check and suggests remediation | It sees only the gap data. A deterministic validator checks coverage, citations, per-gap grounding of numbers and standards, and bans compliance claims ([ADR 0005](docs/adr/0005-deterministic-evaluation.md)). |
+| Evidence suggestions (optional) | Points to passages in a client document that bear on requirements no check covers | Only unchecked catalog IDs are accepted, and each excerpt must appear verbatim in the document. The output is a commented-out register entry with no verdict, which the register refuses until a named reviewer completes it. Scored against a gold set. |
 | Evaluation | Nothing | The gold set and metrics are mechanical rules. No LLM grades an LLM. |
 
 ```
@@ -95,6 +98,7 @@ The AI features are optional and need an Anthropic API key (`pip install -e '.[l
 nis2scan report out/<run> --narrate     # add the validated AI narrative
 nis2scan extract --provision 11.7.1        # draft requirements from an Annex point
 nis2scan evaluate eval/runs/<run>          # score extractions against the gold set
+nis2scan suggest org/evidence/*.md --base org   # draft register entries for documents
 ```
 
 Drafted requirements go to `catalog/requirements/cir-2024-2690/`, and scans ignore them
