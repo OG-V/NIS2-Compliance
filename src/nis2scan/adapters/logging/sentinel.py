@@ -63,6 +63,12 @@ def _sentinel_enabled(workspace: dict, headers: dict) -> bool:
     return bool(states)
 
 
+def _on_default(table: dict) -> bool:
+    return table.get("retentionInDaysAsDefault", True) and table.get(
+        "totalRetentionInDaysAsDefault", True
+    )
+
+
 def _in_scope(logs: LogsTarget, headers: dict) -> list[dict]:
     """The named workspace, or every workspace with Sentinel enabled."""
     workspaces = _workspaces(logs, headers)
@@ -91,7 +97,7 @@ class Sentinel(LogAdapter):
             names = [w["name"] for w in _workspaces(logs, headers) if _sentinel_enabled(w, headers)]
         except CollectorError:
             return None
-        return f"Sentinel enabled on workspace {', '.join(names)}" if names else None
+        return f"Sentinel onboarding state (workspace {', '.join(names)})" if names else None
 
     def check_access(self, logs: LogsTarget, secret) -> None:
         _workspaces(logs, _headers(logs, secret))
@@ -101,6 +107,9 @@ class Sentinel(LogAdapter):
         result = []
         for ws in _in_scope(logs, headers):
             tables = get_all(f"{ARM}{ws['id']}/tables?api-version={TABLES_API}", headers)
+            # A workspace has hundreds of tables, nearly all on its default: record the
+            # ones with their own settings, and how many follow the default.
+            custom = [t for t in tables if not _on_default(t.get("properties") or {})]
             result.append(
                 {
                     "name": ws["name"],
@@ -117,8 +126,9 @@ class Sentinel(LogAdapter):
                                 "totalRetentionInDaysAsDefault",
                             )
                         }
-                        for t in tables
+                        for t in custom
                     },
+                    "tables_on_default": len(tables) - len(custom),
                 }
             )
         return {"subscription": logs.subscription, "workspaces": result}
@@ -135,9 +145,7 @@ class Sentinel(LogAdapter):
                 )
             )
             for name, t in sorted(ws["tables"].items()):
-                if t.get("retentionInDaysAsDefault", True) and t.get(
-                    "totalRetentionInDaysAsDefault", True
-                ):
+                if _on_default(t):
                     continue  # follows the workspace default above
                 total = t.get("totalRetentionInDays") or t.get("retentionInDays")
                 scopes.append(

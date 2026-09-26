@@ -163,7 +163,10 @@ def test_sentinel_named_workspace_is_read_even_without_sentinel(fake_azure):
 def test_sentinel_is_recognised_after_signing_in(fake_azure):
     for other in ("loki", "elasticsearch", "splunk"):
         assert ADAPTERS[other].recognise(SENTINEL_TARGET, secret) is None  # no url
-    assert detect(SENTINEL_TARGET, secret)["method"] == "Sentinel enabled on workspace law-sentinel"
+    assert (
+        detect(SENTINEL_TARGET, secret)["method"]
+        == "Sentinel onboarding state (workspace law-sentinel)"
+    )
 
 
 def test_sentinel_needs_its_settings():
@@ -176,3 +179,18 @@ def test_sentinel_needs_its_settings():
 def test_a_log_store_needs_a_place():
     with pytest.raises(ValueError, match="needs url, or subscription"):
         LogsTarget()
+
+
+def test_sentinel_live_workspace():
+    raw = json.loads((FIXTURES / "sentinel" / "live-workspace.json").read_text())
+    store = ADAPTERS["sentinel"].normalize(raw)
+    assert {s.name: s.retention_days for s in store.scopes} == {
+        "workspace nis2scan (tables on its default)": 30,
+        "table nis2scan/Alert": 60,
+    }
+    assert raw["workspaces"][0]["tables_on_default"] == 841
+    result = check(store)
+    assert (result.status, result.message) == (
+        "fail",
+        "Logs are deleted after 30 days (workspace nis2scan (tables on its default))",
+    )
