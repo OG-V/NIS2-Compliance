@@ -18,6 +18,8 @@ dependencies = [
 
 [project.optional-dependencies]
 llm = ["anthropic>=1.8,<2"]
+# Reading client PDFs for evidence suggestions (Word and text need nothing extra).
+docs = ["pypdf>=5"]
 # ruff is pinned to a minor version: its default rule set changes between releases,
 # and CI must enforce the same rules as local development.
 dev = ["pytest>=8", "ruff>=0.16,<0.17"]
