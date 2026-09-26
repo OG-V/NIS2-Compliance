@@ -1,0 +1,33 @@
+{
+  "_collected_at": "2026-09-26T11:44:54.340441+00:00",
+  "backup": {
+    "repository": "borg list (docker exec nis2lab-backup-borg-1)",
+    "sets": [
+      {
+        "encrypted": true,
+        "name": "repository",
+        "snapshots": [
+          {
+            "host": null,
+            "name": "nordmsp-2026-09-26T11:44:14",
+            "paths": [],
+            "time": "2026-09-26T11:44:14Z"
+          }
+        ]
+      }
+    ]
+  },
+  "product": "borg",
+  "raw": {
+    "archives": [
+      {
+        "id": "ca77f3af3c0c8bbbe476141e7aad8f50c789a5f94021bd2698ee870f901758c4",
+        "name": "nordmsp-2026-09-26T11:44:14",
+        "start": "2026-09-26T11:44:14.000000",
+        "time": "2026-09-26T11:44:14.000000"
+      }
+    ],
+    "encryption": "repokey-blake2",
+    "source": "borg list (docker exec nis2lab-backup-borg-1)"
+  }
+}

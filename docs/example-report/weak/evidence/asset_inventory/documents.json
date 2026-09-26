@@ -1,0 +1,20 @@
+{
+  "_collected_at": "2026-09-26T11:43:36.930421+00:00",
+  "declared": [
+    "host",
+    "idp",
+    "web"
+  ],
+  "document": "assets.yaml",
+  "running": [
+    "backup",
+    "backup-borg",
+    "host",
+    "idp",
+    "legacy-web",
+    "logs",
+    "search",
+    "web"
+  ],
+  "sha256": "49f2d9f23e581248b37d1a672343b74e39b864d0ab99cb46e3b7e26eda276c02"
+}

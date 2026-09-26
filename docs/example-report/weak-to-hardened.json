@@ -1,18 +1,18 @@
 {
   "target": "nordmsp-lab",
-  "before_started_at": "2026-09-26T01:31:57.863818+00:00",
-  "after_started_at": "2026-09-26T01:32:48.747857+00:00",
+  "before_started_at": "2026-09-26T11:43:36.779829+00:00",
+  "after_started_at": "2026-09-26T11:44:52.973866+00:00",
   "before_verdicts": {
     "evidenced": 0,
     "partially_evidenced": 0,
-    "not_satisfied": 21,
-    "not_assessed": 64
+    "not_satisfied": 25,
+    "not_assessed": 60
   },
   "after_verdicts": {
-    "evidenced": 0,
-    "partially_evidenced": 21,
+    "evidenced": 6,
+    "partially_evidenced": 24,
     "not_satisfied": 0,
-    "not_assessed": 64
+    "not_assessed": 55
   },
   "before_severities": {
     "critical": 1,
@@ -52,7 +52,7 @@
       "topic": "Business continuity and backups",
       "before": "fail",
       "after": "pass",
-      "before_text": "The newest backup was taken on 15 March 2025, 559 days ago.",
+      "before_text": "The newest backup was taken on 15 March 2025, 560 days ago.",
       "after_text": "Newest backup is within the allowed age"
     },
     {
@@ -65,7 +65,7 @@
       "topic": "Business continuity and backups",
       "before": "fail",
       "after": "pass",
-      "before_text": "The newest backup was taken on 1 June 2025, 481 days ago.",
+      "before_text": "The newest backup was taken on 1 June 2025, 482 days ago.",
       "after_text": "Newest backup is within the allowed age"
     },
     {
@@ -286,9 +286,9 @@
       "point": "21(2)(a)",
       "short_title": "Risk analysis and security policies",
       "icon": "policy",
-      "before": "not_assessed",
-      "after": "not_assessed",
-      "before_not_satisfied": 0,
+      "before": "not_satisfied",
+      "after": "partially_evidenced",
+      "before_not_satisfied": 1,
       "after_not_satisfied": 0
     },
     {
@@ -306,7 +306,7 @@
       "icon": "backup",
       "before": "not_satisfied",
       "after": "partially_evidenced",
-      "before_not_satisfied": 2,
+      "before_not_satisfied": 3,
       "after_not_satisfied": 0
     },
     {
@@ -314,7 +314,7 @@
       "short_title": "Supply chain security",
       "icon": "supply",
       "before": "not_assessed",
-      "after": "not_assessed",
+      "after": "partially_evidenced",
       "before_not_satisfied": 0,
       "after_not_satisfied": 0
     },
@@ -340,8 +340,8 @@
       "point": "21(2)(g)",
       "short_title": "Cyber hygiene and training",
       "icon": "training",
-      "before": "not_assessed",
-      "after": "not_assessed",
+      "before": "not_satisfied",
+      "after": "partially_evidenced",
       "before_not_satisfied": 0,
       "after_not_satisfied": 0
     },
@@ -382,5 +382,14 @@
       "after_not_satisfied": 0
     }
   ],
-  "warnings": []
+  "warnings": [],
+  "before_by_basis": {
+    "checks": 0,
+    "document": 0
+  },
+  "after_by_basis": {
+    "checks": 21,
+    "document": 9
+  },
+  "review_change": "Document reviews: 4 not satisfied before; 6 evidenced and 3 partially evidenced now."
 }

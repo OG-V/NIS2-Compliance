@@ -1,0 +1,138 @@
+{
+  "_collected_at": "2026-09-26T11:45:17.110607+00:00",
+  "problems": [],
+  "register": "evidence-register.yaml",
+  "reviews": [
+    {
+      "documents": [
+        {
+          "path": "evidence/information-security-policy.md",
+          "sha256": "a5ea16860385d88ab2a13dab50fa2a14ed5e307c45359e4efa6e62ee4b5d748a"
+        }
+      ],
+      "rationale": "A board-approved policy covers risk management and security principles. The risk assessment it refers to was not provided, so only the policy half is evidenced.",
+      "requirement": "REQ-NIS2-21.2.A",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "valid_until": "2027-09-15",
+      "verdict": "partially_evidenced"
+    },
+    {
+      "documents": [
+        {
+          "path": "evidence/information-security-policy.md",
+          "sha256": "a5ea16860385d88ab2a13dab50fa2a14ed5e307c45359e4efa6e62ee4b5d748a"
+        },
+        {
+          "path": "evidence/policy-review-2026-06.md",
+          "sha256": "3384c606186d44607f5c424183ccdaa50cb61d887324390eeea18d2b5257dfdd"
+        }
+      ],
+      "rationale": "The policy requires annual and event-driven management review; the June 2026 minutes show a review triggered by the risk assessment and an incident.",
+      "requirement": "REQ-CIR2690-1.1.2-01",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "valid_until": "2027-06-30",
+      "verdict": "evidenced"
+    },
+    {
+      "documents": [
+        {
+          "path": "evidence/policy-review-2026-06.md",
+          "sha256": "3384c606186d44607f5c424183ccdaa50cb61d887324390eeea18d2b5257dfdd"
+        }
+      ],
+      "rationale": "The results of the June 2026 review are minuted, with the decisions taken.",
+      "requirement": "REQ-CIR2690-1.1.2-02",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "valid_until": "2027-06-30",
+      "verdict": "evidenced"
+    },
+    {
+      "documents": [
+        {
+          "path": "evidence/backup-plan.md",
+          "sha256": "7f5dc28e720eaa46c795a4fe5382369d57116e9ca27ccb647c3e8834a33ae26f"
+        }
+      ],
+      "rationale": "A backup and recovery plan exists per service, reviewed in August 2026.",
+      "requirement": "REQ-CIR2690-4.2.2-01",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "valid_until": "2027-09-15",
+      "verdict": "evidenced"
+    },
+    {
+      "documents": [
+        {
+          "path": "evidence/backup-plan.md",
+          "sha256": "7f5dc28e720eaa46c795a4fe5382369d57116e9ca27ccb647c3e8834a33ae26f"
+        }
+      ],
+      "rationale": "The plan states a recovery time for every service.",
+      "requirement": "REQ-CIR2690-4.2.2-02",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "valid_until": "2027-09-15",
+      "verdict": "evidenced"
+    },
+    {
+      "documents": [
+        {
+          "path": "evidence/security-training-2026.md",
+          "sha256": "ac911c25667e86b564f440353bd8a2c8fa96a6ee2aee7eca2403135ad2ba22b3"
+        }
+      ],
+      "rationale": "All staff completed security training in 2026 and phishing simulations run quarterly. Basic cyber hygiene practices are taught but not set out as a practice.",
+      "requirement": "REQ-NIS2-21.2.G",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "valid_until": "2027-05-31",
+      "verdict": "partially_evidenced"
+    },
+    {
+      "documents": [
+        {
+          "path": "evidence/supplier-register.md",
+          "sha256": "c770beed4a4304ffc0c1204c8e0a50e163fdd19a0b6266be2590a26d70652751"
+        }
+      ],
+      "rationale": "Suppliers are registered and assessed, but one supplier's contract has no security clauses yet.",
+      "requirement": "REQ-NIS2-21.2.D",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "valid_until": "2027-03-31",
+      "verdict": "partially_evidenced"
+    },
+    {
+      "documents": [
+        {
+          "path": "evidence/access-rights-register.md",
+          "sha256": "ecede3b86e8070a5d0f22f14ce67eadba6927fc1e4671a57ece457630f39eb4a"
+        }
+      ],
+      "rationale": "A register of granted access rights exists and was reconciled on 2026-09-01.",
+      "requirement": "REQ-CIR2690-11.2.2-05",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "valid_until": "2027-09-01",
+      "verdict": "evidenced"
+    },
+    {
+      "documents": [
+        {
+          "path": "evidence/log-review-procedure.md",
+          "sha256": "3255b57ebe854f1c64fb2aa79e08a5bbdb122e18c2d635e4dbdfe19eab9cc7e3"
+        }
+      ],
+      "rationale": "Weekly log reviews are defined and the last four are recorded.",
+      "requirement": "REQ-CIR2690-3.2.4-01",
+      "reviewed_by": "Ingrid Solberg, external consultant",
+      "reviewed_on": "2026-09-15",
+      "valid_until": "2027-09-15",
+      "verdict": "evidenced"
+    }
+  ],
+  "sha256": "4ac4f4b85e1016bb18bf949587ccd35d47ab1d77e7f0465886c8a421f3b95cf4"
+}

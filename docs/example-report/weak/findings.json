@@ -1,0 +1,414 @@
+[
+  {
+    "check_id": "CHK-AST-001",
+    "target": "nordmsp-lab",
+    "asset": "documents",
+    "status": "fail",
+    "observed": {
+      "undeclared_services": [
+        "backup",
+        "backup-borg",
+        "legacy-web",
+        "logs",
+        "search"
+      ],
+      "running": [
+        "backup",
+        "backup-borg",
+        "host",
+        "idp",
+        "legacy-web",
+        "logs",
+        "search",
+        "web"
+      ]
+    },
+    "expected": {
+      "undeclared_services": []
+    },
+    "evidence_ref": "evidence/asset_inventory/documents.json",
+    "message": "Not in the inventory: backup, backup-borg, legacy-web, logs, search",
+    "collected_at": "2026-09-26T11:43:36.930421Z"
+  },
+  {
+    "check_id": "CHK-BAK-001",
+    "target": "nordmsp-lab",
+    "asset": "restic",
+    "status": "fail",
+    "observed": {
+      "snapshots": 1,
+      "newest": "2025-06-01T02:00:00+00:00",
+      "age_hours": 11577.7
+    },
+    "expected": {
+      "max_age_hours": 26
+    },
+    "evidence_ref": "evidence/backup_snapshots/restic.json",
+    "message": "Newest backup is 482 days old",
+    "collected_at": "2026-09-26T11:43:37.594136Z"
+  },
+  {
+    "check_id": "CHK-BAK-001",
+    "target": "nordmsp-lab",
+    "asset": "borg",
+    "status": "fail",
+    "observed": {
+      "snapshots": 1,
+      "newest": "2025-03-15T03:00:00+00:00",
+      "age_hours": 13448.7
+    },
+    "expected": {
+      "max_age_hours": 26
+    },
+    "evidence_ref": "evidence/backup_snapshots/borg.json",
+    "message": "Newest backup is 560 days old",
+    "collected_at": "2026-09-26T11:43:38.223255Z"
+  },
+  {
+    "check_id": "CHK-BAK-002",
+    "target": "nordmsp-lab",
+    "asset": "restic",
+    "status": "pass",
+    "observed": {
+      "unencrypted_sets": [],
+      "sets": 1
+    },
+    "expected": {
+      "unencrypted_sets": []
+    },
+    "evidence_ref": "evidence/backup_snapshots/restic.json",
+    "message": "The backups are encrypted",
+    "collected_at": "2026-09-26T11:43:37.594136Z"
+  },
+  {
+    "check_id": "CHK-BAK-002",
+    "target": "nordmsp-lab",
+    "asset": "borg",
+    "status": "fail",
+    "observed": {
+      "unencrypted_sets": [
+        "repository"
+      ],
+      "sets": 1
+    },
+    "expected": {
+      "unencrypted_sets": []
+    },
+    "evidence_ref": "evidence/backup_snapshots/borg.json",
+    "message": "The backups are not encrypted",
+    "collected_at": "2026-09-26T11:43:38.223255Z"
+  },
+  {
+    "check_id": "CHK-DOC-001",
+    "target": "nordmsp-lab",
+    "asset": "documents",
+    "status": "fail",
+    "observed": {
+      "document": "incident-response.md",
+      "missing": [
+        "24h early warning",
+        "72h incident notification",
+        "one-month final report",
+        "CSIRT contact"
+      ]
+    },
+    "expected": {
+      "mentions": [
+        "24h early warning",
+        "72h incident notification",
+        "one-month final report",
+        "CSIRT contact"
+      ]
+    },
+    "evidence_ref": "evidence/ir_plan/documents.json",
+    "message": "Plan does not mention: 24h early warning, 72h incident notification, one-month final report, CSIRT contact",
+    "collected_at": "2026-09-26T11:43:38.223462Z"
+  },
+  {
+    "check_id": "CHK-DOC-002",
+    "target": "nordmsp-lab",
+    "asset": "documents",
+    "status": "fail",
+    "observed": {
+      "document": "incident-response.md",
+      "last_reviewed": "2023-02-14",
+      "age_days": 1320
+    },
+    "expected": {
+      "max_review_age_days": 365
+    },
+    "evidence_ref": "evidence/ir_plan/documents.json",
+    "message": "Plan was last reviewed 1320 days ago",
+    "collected_at": "2026-09-26T11:43:38.223462Z"
+  },
+  {
+    "check_id": "CHK-IDP-001",
+    "target": "nordmsp-lab",
+    "asset": "keycloak",
+    "status": "fail",
+    "observed": {
+      "new_users_must_enrol_mfa": false,
+      "users_without_mfa": [
+        "kari.admin",
+        "ola.tech"
+      ]
+    },
+    "expected": {
+      "new_users_must_enrol_mfa": true,
+      "users_without_mfa": []
+    },
+    "evidence_ref": "evidence/idp_config/keycloak.json",
+    "message": "2 account(s) without MFA: kari.admin, ola.tech; new accounts are not required to enrol a second factor",
+    "collected_at": "2026-09-26T11:43:38.296597Z"
+  },
+  {
+    "check_id": "CHK-IDP-002",
+    "target": "nordmsp-lab",
+    "asset": "keycloak",
+    "status": "fail",
+    "observed": {
+      "lockout_enabled": false,
+      "max_attempts": null
+    },
+    "expected": {
+      "lockout_enabled": true
+    },
+    "evidence_ref": "evidence/idp_config/keycloak.json",
+    "message": "Accounts are never locked after failed logins",
+    "collected_at": "2026-09-26T11:43:38.296597Z"
+  },
+  {
+    "check_id": "CHK-IDP-003",
+    "target": "nordmsp-lab",
+    "asset": "keycloak",
+    "status": "fail",
+    "observed": {
+      "password_policy": "no password policy",
+      "min_length": 0
+    },
+    "expected": {
+      "min_length_at_least": 12
+    },
+    "evidence_ref": "evidence/idp_config/keycloak.json",
+    "message": "Password policy: no minimum length is set",
+    "collected_at": "2026-09-26T11:43:38.296597Z"
+  },
+  {
+    "check_id": "CHK-IDP-004",
+    "target": "nordmsp-lab",
+    "asset": "keycloak",
+    "status": "fail",
+    "observed": {
+      "username_tried": "admin",
+      "result": "HTTP 200"
+    },
+    "expected": {
+      "accepted": false
+    },
+    "evidence_ref": "evidence/idp_default_admin/keycloak.json",
+    "message": "Admin console accepts admin/admin",
+    "collected_at": "2026-09-26T11:43:38.327214Z"
+  },
+  {
+    "check_id": "CHK-LOG-001",
+    "target": "nordmsp-lab",
+    "asset": "loki",
+    "status": "fail",
+    "observed": {
+      "retention_days": 7,
+      "source": "limits_config.retention_period 1w"
+    },
+    "expected": {
+      "min_retention_days": 90
+    },
+    "evidence_ref": "evidence/log_retention/loki.json",
+    "message": "Logs are deleted after 7 days",
+    "collected_at": "2026-09-26T11:43:38.439899Z"
+  },
+  {
+    "check_id": "CHK-LOG-001",
+    "target": "nordmsp-lab",
+    "asset": "elasticsearch",
+    "status": "fail",
+    "observed": {
+      "retention_days": 7,
+      "source": "ILM policy logs-7d deletes after 7d"
+    },
+    "expected": {
+      "min_retention_days": 90
+    },
+    "evidence_ref": "evidence/log_retention/elasticsearch.json",
+    "message": "Logs are deleted after 7 days",
+    "collected_at": "2026-09-26T11:43:38.512931Z"
+  },
+  {
+    "check_id": "CHK-SSH-001",
+    "target": "nordmsp-lab",
+    "asset": "app-host",
+    "status": "fail",
+    "observed": {
+      "auth_methods_offered": [
+        "password",
+        "publickey"
+      ]
+    },
+    "expected": {
+      "not_offered": [
+        "password",
+        "keyboard-interactive",
+        "none"
+      ]
+    },
+    "evidence_ref": "evidence/ssh_auth_methods/app-host.json",
+    "message": "Server offers password authentication",
+    "collected_at": "2026-09-26T11:43:38.586347Z"
+  },
+  {
+    "check_id": "CHK-SSH-002",
+    "target": "nordmsp-lab",
+    "asset": "app-host",
+    "status": "fail",
+    "observed": {
+      "permitrootlogin": "yes"
+    },
+    "expected": {
+      "permitrootlogin": "no"
+    },
+    "evidence_ref": "evidence/sshd_effective_config/app-host.json",
+    "message": "PermitRootLogin is 'yes'",
+    "collected_at": "2026-09-26T11:43:38.665218Z"
+  },
+  {
+    "check_id": "CHK-SSH-003",
+    "target": "nordmsp-lab",
+    "asset": "app-host",
+    "status": "fail",
+    "observed": {
+      "maxauthtries": 10
+    },
+    "expected": {
+      "maxauthtries_at_most": 4
+    },
+    "evidence_ref": "evidence/sshd_effective_config/app-host.json",
+    "message": "MaxAuthTries is 10",
+    "collected_at": "2026-09-26T11:43:38.665218Z"
+  },
+  {
+    "check_id": "CHK-TLS-001",
+    "target": "nordmsp-lab",
+    "asset": "portal",
+    "status": "fail",
+    "observed": {
+      "accepted_versions": [
+        "TLSv1",
+        "TLSv1.1",
+        "TLSv1.2"
+      ]
+    },
+    "expected": {
+      "min_version": "TLSv1.2"
+    },
+    "evidence_ref": "evidence/tls_probe/portal.json",
+    "message": "Server accepts TLSv1, TLSv1.1",
+    "collected_at": "2026-09-26T11:43:38.673180Z"
+  },
+  {
+    "check_id": "CHK-TLS-002",
+    "target": "nordmsp-lab",
+    "asset": "portal",
+    "status": "fail",
+    "observed": {
+      "not_before": "2024-01-01T00:00:00+00:00",
+      "not_after": "2025-01-01T00:00:00+00:00",
+      "days_left": -634
+    },
+    "expected": {
+      "min_days_remaining": 14
+    },
+    "evidence_ref": "evidence/tls_probe/portal.json",
+    "message": "Certificate expired on 2025-01-01",
+    "collected_at": "2026-09-26T11:43:38.673180Z"
+  },
+  {
+    "check_id": "CHK-TLS-003",
+    "target": "nordmsp-lab",
+    "asset": "portal",
+    "status": "fail",
+    "observed": {
+      "http_status": 200,
+      "location": null,
+      "hsts": null
+    },
+    "expected": {
+      "http_redirects_to_https": true,
+      "hsts": true
+    },
+    "evidence_ref": "evidence/http_probe/portal.json",
+    "message": "HTTP does not redirect to HTTPS; no Strict-Transport-Security header",
+    "collected_at": "2026-09-26T11:43:38.675924Z"
+  },
+  {
+    "check_id": "CHK-VUL-001",
+    "target": "nordmsp-lab",
+    "asset": "nis2lab",
+    "status": "fail",
+    "observed": {
+      "images_scanned": 8,
+      "failing": {
+        "elasticsearch:8.19.10": [
+          "CVE-2025-14813",
+          "CVE-2026-75595",
+          "CVE-2026-8763"
+        ],
+        "grafana/loki:3.5.1": [
+          "CVE-2025-68121",
+          "CVE-2026-33186"
+        ],
+        "nginx:1.20": [
+          "CVE-2021-22945",
+          "CVE-2021-46848",
+          "CVE-2022-1586",
+          "CVE-2022-1587",
+          "CVE-2022-1664",
+          "CVE-2022-27404",
+          "CVE-2022-29155",
+          "CVE-2022-32207",
+          "CVE-2022-32221",
+          "CVE-2022-37434",
+          "CVE-2023-38545",
+          "CVE-2024-37371",
+          "CVE-2024-45491",
+          "CVE-2024-45492",
+          "CVE-2024-56171",
+          "CVE-2026-33845",
+          "CVE-2026-42010"
+        ],
+        "nis2lab-backup": [
+          "CVE-2025-68121",
+          "CVE-2026-31789",
+          "CVE-2026-33186"
+        ],
+        "quay.io/keycloak/keycloak:26.3": [
+          "CVE-2025-14813",
+          "CVE-2026-18963",
+          "CVE-2026-75595",
+          "CVE-2026-84939",
+          "CVE-2026-8763"
+        ]
+      },
+      "accepted_risks": [],
+      "os_end_of_support": [
+        "nginx:1.20"
+      ]
+    },
+    "expected": {
+      "severities": [
+        "CRITICAL"
+      ],
+      "only_with_fix": true
+    },
+    "evidence_ref": "evidence/image_vulnerabilities/nis2lab.json",
+    "message": "Fixable CRITICAL vulnerabilities in nginx:1.20 (17), quay.io/keycloak/keycloak:26.3 (5), elasticsearch:8.19.10 (3), nis2lab-backup (3), grafana/loki:3.5.1 (2)",
+    "collected_at": "2026-09-26T11:43:47.626136Z"
+  }
+]

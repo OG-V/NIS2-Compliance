@@ -13,6 +13,7 @@
     --amber: #8a5a00; --amber-bg: #fdf1d6; --amber-dot: #d99a1e;
     --green: #1e6b3a; --green-bg: #e3f2e7; --green-dot: #2f8f52;
     --grey: #5d6573; --grey-bg: #eceef0; --grey-dot: #cfd3d9;
+    --doc: #1f5fa8; --doc-bg: #e3edf9; --doc-dot: #3c7fd0;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -24,6 +25,7 @@
       --amber: #ffcc66; --amber-bg: #3a2e12; --amber-dot: #c98f1c;
       --green: #7fd69a; --green-bg: #173222; --green-dot: #3fa665;
       --grey: #a2a9b5; --grey-bg: #262b34; --grey-dot: #3b424e;
+      --doc: #8fb8f2; --doc-bg: #1b2a40; --doc-dot: #4f8fe0;
     }
   }
   * { box-sizing: border-box; }
@@ -162,6 +164,15 @@
     main { gap: 28px; }
     .panel, .gap, .measure, .fix-list li { break-inside: avoid; }
   }
+
+  .doc { background: var(--doc-dot); }
+  .dots i.doc { background: var(--doc-dot); }
+  .pill.docpill { background: var(--doc-bg); color: var(--doc); }
+  .review { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--doc-dot); border-radius: 12px; padding: 16px 20px; display: grid; gap: 8px; }
+  .review-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+  .review .kv { margin-top: 2px; }
+  .review.review-ns { border-left-color: var(--red-dot); }
+  .review.review-na { border-left-color: var(--amber-dot); }
   .pair { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: start; }
   @media (max-width: 760px) { .pair { grid-template-columns: 1fr; } .pair > .arrow { display: none; } }
   .arrow { align-self: center; font-size: 28px; color: var(--faint); }
@@ -184,8 +195,8 @@
     <div class="label">NIS2 progress report</div>
     <h1>nordmsp-lab</h1>
     <div class="meta">
-      <span>Before <b>2026-09-26 01:31 UTC</b> <span class="mono">weak</span></span>
-      <span>After <b>2026-09-26 01:32 UTC</b> <span class="mono">hardened</span></span>
+      <span>Before <b>2026-09-26 11:43 UTC</b> <span class="mono">weak</span></span>
+      <span>After <b>2026-09-26 11:44 UTC</b> <span class="mono">hardened</span></span>
     </div>
     <p class="disclaimer">
       This compares the technical evidence from two scans. Like each scan's own report, it is
@@ -200,22 +211,24 @@
     <h2 id="glance" hidden>At a glance</h2>
     <div class="panel">
       <p class="headline"><span class="ok">All 19 problems fixed.</span> No new problems.
-        <small>Requirements not satisfied: 21 before, 0 now.
-          Partially evidenced: 0 before, 21 now.</small>
+        <small>Requirements not satisfied: 25 before, 0 now.
+          With evidence: 0 before, 30 now. Document reviews: 4 not satisfied before; 6 evidenced and 3 partially evidenced now.</small>
       </p>
       <div class="pair">
-        <div><div class="label" style="margin-bottom:10px">Before</div><div class="units" role="img" aria-label="21 not satisfied, 0 with evidence, 64 not checked"><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i></div>
+        <div><div class="label" style="margin-bottom:10px">Before</div><div class="units" role="img" aria-label="25 not satisfied, 0 with evidence, 60 not checked"><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u ns"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i></div>
   <div class="legend">
-    <span><i class="ns"></i><b>21</b> not satisfied</span>
-    <span><i class="ev"></i><b>0</b> partially evidenced</span>
-    <span><i style="background:var(--grey-dot)"></i><b>64</b> not checked</span>
+    <span><i class="ns"></i><b>25</b> not satisfied</span>
+    <span><i class="ev"></i><b>0</b> partially evidenced by checks</span>
+    <span><i class="doc"></i><b>0</b> evidenced by document review</span>
+    <span><i style="background:var(--grey-dot)"></i><b>60</b> not checked</span>
   </div></div>
         <div class="arrow" aria-hidden="true">→</div>
-        <div><div class="label" style="margin-bottom:10px">Now</div><div class="units" role="img" aria-label="0 not satisfied, 21 with evidence, 64 not checked"><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i></div>
+        <div><div class="label" style="margin-bottom:10px">Now</div><div class="units" role="img" aria-label="0 not satisfied, 30 with evidence, 55 not checked"><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u ev"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u doc"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i><i class="u"></i></div>
   <div class="legend">
     <span><i class="ns"></i><b>0</b> not satisfied</span>
-    <span><i class="ev"></i><b>21</b> partially evidenced</span>
-    <span><i style="background:var(--grey-dot)"></i><b>64</b> not checked</span>
+    <span><i class="ev"></i><b>21</b> partially evidenced by checks</span>
+    <span><i class="doc"></i><b>9</b> evidenced by document review</span>
+    <span><i style="background:var(--grey-dot)"></i><b>55</b> not checked</span>
   </div></div>
       </div>
       <div>
@@ -236,14 +249,16 @@
       <p class="muted small">How the status of each measure changed between the two scans.</p>
     </div>
     <div class="map">
-      <div class="measure">
+      <div class="measure good">
         <div class="measure-top">
-          <div class="ico not_assessed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <div class="ico partially_evidenced"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
         </div>
         <div><h3>Risk analysis and security policies</h3><div class="art">Art. 21(2)(a)</div></div>
         <div class="transition">
-          <span>Both scans</span><span class="pill not_assessed">Not checked</span>
+          <span>Before</span><span class="pill not_satisfied">Problems found</span>
+          <span>Now</span><span class="pill partially_evidenced">Evidence found</span>
         </div>
+        <div class="detail">Detailed requirements failing: 1 before, 0 now</div>
       </div>
       <div class="measure good">
         <div class="measure-top">
@@ -265,15 +280,16 @@
           <span>Before</span><span class="pill not_satisfied">Problems found</span>
           <span>Now</span><span class="pill partially_evidenced">Evidence found</span>
         </div>
-        <div class="detail">Detailed requirements failing: 2 before, 0 now</div>
+        <div class="detail">Detailed requirements failing: 3 before, 0 now</div>
       </div>
       <div class="measure">
         <div class="measure-top">
-          <div class="ico not_assessed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></div>
+          <div class="ico partially_evidenced"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></div>
         </div>
         <div><h3>Supply chain security</h3><div class="art">Art. 21(2)(d)</div></div>
         <div class="transition">
-          <span>Both scans</span><span class="pill not_assessed">Not checked</span>
+          <span>Before</span><span class="pill not_assessed">Not checked</span>
+          <span>Now</span><span class="pill partially_evidenced">Evidence found</span>
         </div>
       </div>
       <div class="measure good">
@@ -296,13 +312,14 @@
           <span>Both scans</span><span class="pill not_assessed">Not checked</span>
         </div>
       </div>
-      <div class="measure">
+      <div class="measure good">
         <div class="measure-top">
-          <div class="ico not_assessed"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg></div>
+          <div class="ico partially_evidenced"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg></div>
         </div>
         <div><h3>Cyber hygiene and training</h3><div class="art">Art. 21(2)(g)</div></div>
         <div class="transition">
-          <span>Both scans</span><span class="pill not_assessed">Not checked</span>
+          <span>Before</span><span class="pill not_satisfied">Problems found</span>
+          <span>Now</span><span class="pill partially_evidenced">Evidence found</span>
         </div>
       </div>
       <div class="measure good">
@@ -378,7 +395,7 @@
         <b>A recent backup snapshot exists</b>
         <span class="muted small">Business continuity and backups · <span class="mono">CHK-BAK-001</span> · on <b>borg</b> · high severity</span>
         <dl class="ba">
-          <dt>Before</dt><dd>The newest backup was taken on 15 March 2025, 559 days ago.</dd>
+          <dt>Before</dt><dd>The newest backup was taken on 15 March 2025, 560 days ago.</dd>
           <dt>Now</dt><dd>Newest backup is within the allowed age</dd>
         </dl>
       </div>
@@ -389,7 +406,7 @@
         <b>A recent backup snapshot exists</b>
         <span class="muted small">Business continuity and backups · <span class="mono">CHK-BAK-001</span> · on <b>restic</b> · high severity</span>
         <dl class="ba">
-          <dt>Before</dt><dd>The newest backup was taken on 1 June 2025, 481 days ago.</dd>
+          <dt>Before</dt><dd>The newest backup was taken on 1 June 2025, 482 days ago.</dd>
           <dt>Now</dt><dd>Newest backup is within the allowed age</dd>
         </dl>
       </div>

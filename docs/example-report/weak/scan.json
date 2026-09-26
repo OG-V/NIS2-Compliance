@@ -1,0 +1,105 @@
+{
+  "tool": "nis2scan 0.1.0",
+  "target": "nordmsp-lab",
+  "started_at": "2026-09-26T11:43:36.779829+00:00",
+  "profile_sha256": "3ff459e2e0235cee7a4cb33f341754de058a92c2a528f5fbcf8ae7b4e481a11d",
+  "evidence_sha256": {
+    "asset_inventory/documents": "6336dbfbbbba573b16dd3b89fbcc4318beecc195a1f64d9e108bff05d3dc6d98",
+    "backup_detect/borg": "479cccc8e21543c2a341ee94a725b59e357394cfb5763e196e92d235e21a1b1c",
+    "backup_detect/restic": "d5cc71d7f86404490efb0e03337b62c1d8b7d133615c0e21b13a66c3905cd3b5",
+    "backup_snapshots/borg": "0db576d5b773964041612dff36c5dfe8b8cd05c6285144b48b564cd64144d0b1",
+    "backup_snapshots/restic": "7fd8f335fc72015508b1c47c751dbd22b92f5092a44cf1d10a310e0da0d88cde",
+    "docker_services/nis2lab": "214b406aa47398b80a17d85fb4ff737619a23ae13b0b2ca2587e02fd8c5a9b07",
+    "evidence_register/documents": "928c932b6ec4ed68d4c51bcda2a702ba339f62eb0024f3e6f02e186734616a25",
+    "http_probe/portal": "c94a28239ab90e0889378eaef3ded1b7d535bbe832576626c7f8e6cfa7c0583c",
+    "idp_config/keycloak": "71dea08e87fd2c8f02b6988c1f1c0dae5e967563f78f8ed21d4677915ee768cb",
+    "idp_default_admin/keycloak": "6eb069bcff6aa69486c6320420d5a1d6ed53d02e3fecd7f4bb86c2bb35d012b0",
+    "idp_detect/keycloak": "2f08b1dbf0a9e7df740dc868bd6d9ff180579b9be38207dc3b24f9a5cb3dff97",
+    "image_vulnerabilities/nis2lab": "f784062a9ff26a6ab35024956707e768b3eeca6cfe14e13e61cad81a67967688",
+    "ir_plan/documents": "efe275ec27cdff2565202b336a315274c4d4399489a5ddc8f25bb6f5f8929ca8",
+    "log_retention/elasticsearch": "036f0adfac7f0873d7fa60d5bc8ebd4d43318341c68db173a5a159de1e51d5e0",
+    "log_retention/loki": "bdfee719c892f3bfd25790592bb01b96fff414c1d46671b70356091549255e15",
+    "logs_detect/elasticsearch": "100e8a92c26afcfbacc6526cdff98a1ed980b161aac1b83e7bc213ae34fd1c3d",
+    "logs_detect/loki": "d88a26e3515b747b8fc338af8dc2e8519280d6acd3d1b3f876496009005df775",
+    "ssh_auth_methods/app-host": "be7f1f741b1efc0cac6365b906e3be062566be4be7ea2435d8256d27a95dddfa",
+    "sshd_effective_config/app-host": "4cffeaa6c7b6086ffa1bbcd3853eb5bcbbf289db1bf3e22291d1986c0335aca5",
+    "tls_probe/portal": "4a975f9a886e1a20e6e12fd9af0ac98e23625446ae830f21959cc5dc8dc9d7a5"
+  },
+  "assets": [
+    {
+      "section": "web",
+      "name": "portal",
+      "product": null
+    },
+    {
+      "section": "ssh",
+      "name": "app-host",
+      "product": null
+    },
+    {
+      "section": "idp",
+      "name": "keycloak",
+      "product": "keycloak",
+      "label": "Keycloak",
+      "method": "OpenID configuration",
+      "detail": "issuer http://127.0.0.1:18081/realms/nordmsp"
+    },
+    {
+      "section": "logs",
+      "name": "loki",
+      "product": "loki",
+      "label": "Grafana Loki",
+      "method": "build-info endpoint (Loki 3.5.1)",
+      "detail": ""
+    },
+    {
+      "section": "logs",
+      "name": "elasticsearch",
+      "product": "elasticsearch",
+      "label": "Elasticsearch",
+      "method": "authentication error (security_exception)",
+      "detail": ""
+    },
+    {
+      "section": "backup",
+      "name": "restic",
+      "product": "restic",
+      "label": "restic",
+      "method": "restic 0.18.0 found in container nis2lab-backup-1",
+      "detail": ""
+    },
+    {
+      "section": "backup",
+      "name": "borg",
+      "product": "borg",
+      "label": "BorgBackup",
+      "method": "borg 1.4.4 found in container nis2lab-backup-borg-1",
+      "detail": ""
+    },
+    {
+      "section": "docker",
+      "name": "nis2lab",
+      "product": null
+    },
+    {
+      "section": "documents",
+      "name": "documents",
+      "product": null
+    }
+  ],
+  "engagement": {
+    "client": "NordMSP AS (fictional lab)",
+    "authorised_by": "Lab owner",
+    "authorised_on": "2026-09-01",
+    "valid_until": "2027-12-31",
+    "active_tests": true,
+    "notes": ""
+  },
+  "document_review": {
+    "register": "evidence-register.yaml",
+    "sha256": "ea69b3ead70646ef9c08b6ce5e528ec698b0f153aab1d2c796b2a66c5ce28c04",
+    "reviews": 4,
+    "applied": 4,
+    "problems": []
+  }
+}
