@@ -4,7 +4,7 @@ Runs `aws backup list-backup-vaults` and `aws backup list-recovery-points-by-bac
 on the scanning host (the CLI follows the pages itself). Credentials come from a named
 CLI profile, or from access keys in the target's secrets, passed in the environment.
 The IAM identity needs only backup:ListBackupVaults and
-backup:ListRecoveryPointsByBackupVault (e.g. the AWSBackupAuditAccess managed policy).
+backup:ListRecoveryPointsByBackupVault.
 
 Each protected resource is a backup set: its newest COMPLETED recovery point decides
 its age, and that point's IsEncrypted its encryption. Partial, expired or deleting
@@ -59,9 +59,8 @@ class AwsBackup(BackupAdapter):
     product = "aws-backup"
     label = "AWS Backup"
     access = (
-        "An AWS IAM identity allowed backup:ListBackupVaults and "
-        "backup:ListRecoveryPointsByBackupVault in the region (for example the "
-        "AWSBackupAuditAccess policy), as a CLI profile or an access key"
+        "An AWS IAM identity allowed only backup:ListBackupVaults and "
+        "backup:ListRecoveryPointsByBackupVault, as a CLI profile or an access key"
     )
 
     def recognise(self, backup: BackupTarget, secret) -> str | None:

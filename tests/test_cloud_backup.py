@@ -181,7 +181,7 @@ def test_azure_signs_in_for_resource_manager(fake_azure):
 def test_azure_is_recognised_by_its_subscription(fake_azure):
     assert (
         ADAPTERS["azure-backup"].recognise(AZ_TARGET, secrets)
-        == "Azure subscription Contoso production"
+        == "subscription 'Contoso production' reachable in Azure"
     )
 
 

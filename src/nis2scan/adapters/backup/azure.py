@@ -77,7 +77,7 @@ class AzureBackup(BackupAdapter):
             )
         except CollectorError:
             return None
-        return f"Azure subscription {sub.get('displayName', backup.subscription)}"
+        return f"subscription '{sub.get('displayName', backup.subscription)}' reachable in Azure"
 
     def check_access(self, backup: BackupTarget, secret) -> None:
         self._vaults(backup, _headers(backup, secret))

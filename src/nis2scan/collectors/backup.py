@@ -17,13 +17,13 @@ def detect(backup: BackupTarget, secret) -> dict:
             )
         return {"product": backup.product, "method": "configured", "detail": ""}
     for adapter in ADAPTERS.values():
-        if version := adapter.recognise(backup, secret):
-            where = f"container {backup.container}" if backup.container else "the scanning host"
-            return {
-                "product": adapter.product,
-                "method": f"{version} found in {where}",
-                "detail": "",
-            }
+        if found := adapter.recognise(backup, secret):
+            # Command-line tools say where they were found; services describe themselves.
+            if backup.container:
+                found = f"{found} found in container {backup.container}"
+            elif backup.repository:
+                found = f"{found} found on the scanning host"
+            return {"product": adapter.product, "method": found, "detail": ""}
     raise CollectorError(
         f"no supported backup tool found for {backup.name}; set `product:` in the target "
         f"(supported: {', '.join(sorted(ADAPTERS))})"
