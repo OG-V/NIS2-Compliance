@@ -35,6 +35,7 @@ its product's settings. These interpretations are documented in the adapter and 
 and they need review like the requirement catalog does. Adapters are verified against a
 live system where one is available (Keycloak, Loki, Elasticsearch, restic and Borg on the
 lab, Okta on a developer org, Entra ID on a free tenant, AWS Backup on a live account,
-Azure Backup's sign-in and vault listing on a live subscription). Veeam Backup &
+Azure Backup's sign-in and vault listing and Microsoft Sentinel on a live subscription,
+Splunk on a local test container). Veeam Backup &
 Replication is, so far, built from documentation only.
 Otherwise they are marked as built from documentation only.
