@@ -57,6 +57,7 @@ the running lab.
 | (c) backups | Newest Borg archive; repository encryption | 2025-03-15 (stale); none | at start-up, then daily; repokey-blake2 |
 | (i) asset management | Running services vs `org/assets.yaml` | `logs`, `search`, `backup`, `backup-borg`, `legacy-web` undeclared | all declared |
 | (e) vulnerability handling | Fixable CRITICAL CVEs in running images (Trivy) | nginx 1.20 (Debian 11, end of support), Keycloak 26.3, Loki 3.5.1, Elasticsearch 8.19, restic 0.18.0 | current releases; restic rebuilt with OS updates; 3 Keycloak CVEs and 1 Elasticsearch CVE, all in bundled libraries, under time-limited risk exceptions |
+| (a), (c), (d), (g) and CIR 1.1.2, 3.2.4, 4.2.2, 11.2.2 | Evidence register (`org/evidence-register.yaml`), judged by a fictional consultant from the documents in `org/evidence/` | 4 reviews, all not satisfied: a three-line policy from 2023; no backup plan; no training records | 9 reviews: 6 evidenced, 3 partially evidenced (policy with review minutes, backup plan with recovery times, training records, supplier and access registers, log reviews) |
 | Art. 23 reporting | `org/incident-response.md` | no 24h/72h/1-month steps, no CSIRT, reviewed 2023 | complete, reviewed 2026-09-01 |
 
 Each row is encoded as a test: `tests/test_checks.py` evaluates every check against

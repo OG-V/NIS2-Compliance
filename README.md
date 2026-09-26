@@ -31,7 +31,13 @@ them, and the result is a gap report that non-engineers can read.
    each system needs and tests that it works, and can write it as a checklist. The target
    records who authorised the scan and until when. Scans outside that window are refused,
    and active tests (such as trying a default admin password) run only if allowed.
-5. **Shows progress between scans.** `nis2scan diff` compares two scans of the same target:
+5. **Records human judgement where no check can reach.** Most of NIS2 is organisational:
+   policies, training, suppliers, plans. A named reviewer judges those from the
+   organisation's documents and records the decision in an evidence register. The tool
+   hashes the documents, requires a reviewer, date and rationale, and never lets a review
+   overrule a check or outlive its validity ([ADR 0007](docs/adr/0007-document-evidence.md)).
+   `nis2scan evidence-template` starts the register from the catalog.
+6. **Shows progress between scans.** `nis2scan diff` compares two scans of the same target:
    what was fixed, what is still open and what is new
    ([example](docs/example-report/#example-reports)).
 
@@ -43,12 +49,12 @@ or `not_assessed`, and the report says how much it could and could not assess.
 
 | | |
 |---|---|
-| **Demo lab** | The `weak` profile fails 17 of 17 checks (21 requirements not satisfied). The `hardened` profile passes 17 of 17. Both are reproducible with one command. |
+| **Demo lab** | The `weak` profile fails 17 of 17 checks, and document review fails 4 more requirements (25 not satisfied). The `hardened` profile passes 17 of 17 checks and 9 document reviews (30 requirements evidenced, 21 of them by checks). Both are reproducible with one command. |
 | **Extraction quality** (gold set: 20 provisions, 55 obligations) | Quotes verbatim: 100%. Obligations found: 100%. Invented numbers or durations: 0. Open values mislabelled as stated: 0%. |
 | **Run-to-run stability** | Two runs agree on 19/20 provision structures, clause overlap 0.99. |
 | **Narrative grounding** | Every citation, every number and full gap coverage are checked by code, and IDs are kept out of the prose. A draft that fails twice is not shown. |
 | **Catalog** | 85 requirements (11 from NIS2, 74 from CIR 2024/2690), all reviewed, with every quote verified against EUR-Lex. |
-| **Tests** | 378 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
+| **Tests** | 394 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
 
 Each figure has a write-up in [`eval/results/`](eval/results/), including what went
 wrong and what was changed: three extraction prompt versions, a narrative prompt revision
@@ -99,7 +105,7 @@ until a human reviews them ([review workflow](catalog/README.md)).
 | Path | Contents |
 |---|---|
 | [`docs/design.md`](docs/design.md) | Design, the traceability model, known hard parts, scope as built |
-| [`docs/adr/`](docs/adr/) | Decision records: no LLM in verdicts, extraction source, lab target, risk exceptions, deterministic evaluation, product adapters |
+| [`docs/adr/`](docs/adr/) | Decision records: no LLM in verdicts, extraction source, lab target, risk exceptions, deterministic evaluation, product adapters, document evidence |
 | [`docs/check-mapping.md`](docs/check-mapping.md) | Which check evidences which legal requirement (generated, kept in sync by a test) |
 | [`lab/`](lab/) | Demo target: a fictional managed service provider in `weak` and `hardened` profiles, with an answer key |
 | [`sources/`](sources/) | NIS2 and CIR 2024/2690 texts from EUR-Lex, hash-pinned |
@@ -109,8 +115,10 @@ until a human reviews them ([review workflow](catalog/README.md)).
 
 ## Limitations
 
-- **Evidence, not compliance.** Most of NIS2 is organisational. 65 of 85 requirements have
-  no automated check and are reported as not assessed.
+- **Evidence, not compliance.** Most of NIS2 is organisational. 64 of 85 requirements have
+  no automated check. They are not assessed unless a named reviewer records a document
+  review, and a review is a person's judgement, recorded and verified by the tool, not
+  made by it.
 - **Demo target.** The lab is a small Docker stack, not a production estate. A target can
   list many web endpoints and hosts, and the network-based checks work on any of them.
   Identity providers (Keycloak, Okta, Microsoft Entra ID), log stores (Loki,
