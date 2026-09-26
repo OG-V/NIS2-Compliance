@@ -6,8 +6,11 @@ or earlier once the index reaches `maxTotalDataSizeMB`. Frozen data is deleted, 
 - kept indefinitely, if frozen data is archived;
 - otherwise deleted after its frozen period, and possibly sooner when near its size
   cap, which the evidence notes (the time that happens after cannot be known).
-Splunk's internal indexes (names starting with "_") are left out unless the target's
-`indices` pattern asks for them. Uses GET /services/data/indexes with a token or user.
+Splunk's own indexes are left out unless the target's `indices` pattern names them:
+internal ones (names starting with "_") and three built-in ones without the prefix,
+`history` (Splunk's search history, kept 7 days by default), `summary` (derived summary
+data) and `splunklogger`. None of them hold the organisation's logs; counting `history`
+would fail every default installation on its 7 days. Uses GET /services/data/indexes with a token or user.
 Built from the Splunk REST API reference.
 """
 
@@ -22,7 +25,15 @@ from nis2scan.config import LogsTarget
 from nis2scan.registry import CollectorError
 
 NEAR_CAP = 0.9  # an index this full of its size cap is already, or soon, cut by size
+SPLUNK_OWN = {"history", "summary", "splunklogger"}  # built-in, not the organisation's logs
 DAY = 86_400
+
+
+def _splunks_own(name: str, pattern: str) -> bool:
+    """Splunk's own indexes, unless the pattern names them explicitly."""
+    own = name.startswith("_") or name in SPLUNK_OWN
+    asked = pattern == name or (name.startswith("_") and pattern.startswith("_"))
+    return own and not asked
 
 
 def _auth(logs: LogsTarget, secret) -> dict[str, str]:
@@ -34,7 +45,7 @@ def _auth(logs: LogsTarget, secret) -> dict[str, str]:
 
 
 def _get(logs: LogsTarget, secret, path: str) -> Any:
-    context = trust(str(logs.ca_file) if logs.ca_file else None)
+    context = trust(logs.ca_file, logs.tls_fingerprint)
     return get_json(f"{logs.url.rstrip('/')}{path}", _auth(logs, secret), context)
 
 
@@ -43,20 +54,20 @@ class Splunk(LogAdapter):
     product = "splunk"
     label = "Splunk"
     access = (
-        "A Splunk authentication token (or user) whose role can read the settings of the "
-        "log indexes, for the management API on port 8089, and the server's certificate "
-        "if it is self-signed"
+        "A Splunk account (or authentication token) with the built-in user role, which "
+        "can read index settings, for the management API on port 8089; and the server "
+        "certificate's fingerprint, confirmed with the client, if it is self-signed"
     )
 
     def recognise(self, logs: LogsTarget, secret) -> str | None:
         if not logs.url:
             return None
-        context = trust(str(logs.ca_file) if logs.ca_file else None)
+        context = trust(logs.ca_file, logs.tls_fingerprint)
         try:
             get_json(f"{logs.url.rstrip('/')}/services/server/info?output_mode=json", None, context)
         except HttpError as exc:
             server = (exc.headers.get("Server") or "") if exc.headers else ""
-            return "its Server header (Splunkd)" if "Splunkd" in server else None
+            return "Server header (Splunkd)" if "Splunkd" in server else None
         except CollectorError:
             return None
         return None
@@ -79,7 +90,7 @@ class Splunk(LogAdapter):
             e["name"]: {k: (e.get("content") or {}).get(k) for k in keep}
             for e in listing.get("entry", [])
             if fnmatch.fnmatch(e["name"], logs.indices)
-            and (not e["name"].startswith("_") or logs.indices.startswith("_"))
+            and not _splunks_own(e["name"], logs.indices)
         }
         return {"server": logs.url.rstrip("/"), "pattern": logs.indices, "indexes": indexes}
 

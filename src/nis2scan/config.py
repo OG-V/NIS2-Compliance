@@ -90,6 +90,7 @@ class LogsTarget(Asset):
     token_env: str | None = None  # Splunk authentication token, instead of a password
     indices: str = "*"  # Elasticsearch and Splunk: which indices hold logs
     ca_file: Path | None = None  # certificate to trust for a self-signed server (Splunk)
+    tls_fingerprint: str | None = None  # or pin the server's certificate (SHA-256)
     # Microsoft Sentinel: the Log Analytics workspace, read with an Entra app registration.
     subscription: str | None = None
     workspace: str | None = None  # workspace name; all Sentinel workspaces if left out
@@ -124,6 +125,7 @@ class BackupTarget(Asset):
     url: str | None = None  # a backup server's API, e.g. https://vbr.example:9419 (Veeam)
     username: str | None = None  # for a backup server's API
     ca_file: Path | None = None  # certificate to trust for a self-signed server
+    tls_fingerprint: str | None = None  # or pin the server's certificate (SHA-256)
     api_version: str = "1.1-rev0"  # Veeam REST API version header (VBR 12.0 and later)
     # AWS Backup: a region, and either a named AWS CLI profile or access keys in secrets.
     region: str | None = None

@@ -100,7 +100,7 @@ def test_splunk_is_recognised_by_its_server_header(monkeypatch):
     monkeypatch.setattr(splunk_module, "get_json", refuse)
     for other in ("loki", "elasticsearch"):
         monkeypatch.setattr(ADAPTERS[other], "recognise", lambda logs, secret: None)
-    assert detect(SPLUNK_TARGET, secret)["method"] == "its Server header (Splunkd)"
+    assert detect(SPLUNK_TARGET, secret)["method"] == "Server header (Splunkd)"
 
 
 # --- Microsoft Sentinel ------------------------------------------------------------------
@@ -194,3 +194,44 @@ def test_sentinel_live_workspace():
         "fail",
         "Logs are deleted after 30 days (workspace nis2scan, tables on its default)",
     )
+
+
+SPLUNK_LIVE = json.loads((FIXTURES / "splunk" / "live-10.4.json").read_text())
+
+
+def test_splunk_live_server():
+    store = ADAPTERS["splunk"].normalize(SPLUNK_LIVE)
+    assert {s.name: s.retention_days for s in store.scopes} == {
+        "index audit_archive": None,
+        "index firewall": 90,
+        "index main": 2184,
+        "index security": 30,
+    }
+    result = check(store)
+    assert (result.status, result.message) == (
+        "fail",
+        "Logs are deleted after 30 days (index security)",
+    )
+
+
+@pytest.mark.parametrize(
+    "name, pattern, own",
+    [
+        ("history", "*", True),  # Splunk's search history, 7 days by default
+        ("summary", "*", True),
+        ("_internal", "*", True),
+        ("_internal", "_*", False),
+        ("history", "history", False),  # asked for by name
+        ("security", "*", False),
+    ],
+)
+def test_splunks_own_indexes(name, pattern, own):
+    assert splunk_module._splunks_own(name, pattern) is own
+
+
+def test_pinned_fingerprints_are_normalised():
+    from nis2scan.adapters._http import Tls, normalise_fingerprint, trust
+
+    assert normalise_fingerprint(" AB:cd:EF ") == "abcdef"
+    assert trust() is None  # no pin and no file: the system's CAs, never "no checks"
+    assert trust(None, "AB:CD") == Tls(None, "AB:CD")

@@ -34,7 +34,7 @@ class _Session:
         if not (backup.url and backup.username and backup.password_env):
             raise CollectorError("Veeam needs url, username and password_env set in the target")
         self.base = backup.url.rstrip("/")
-        self.context = trust(str(backup.ca_file) if backup.ca_file else None)
+        self.context = trust(backup.ca_file, backup.tls_fingerprint)
         self.version = {"x-api-version": backup.api_version}
         body, _ = request(
             f"{self.base}/api/oauth2/token",

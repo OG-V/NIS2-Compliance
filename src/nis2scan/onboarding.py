@@ -14,6 +14,7 @@ from dataclasses import dataclass, field
 from datetime import date
 from urllib.parse import urlparse
 
+from nis2scan.adapters._http import server_fingerprint
 from nis2scan.adapters.backup import ADAPTERS as BACKUP_ADAPTERS
 from nis2scan.adapters.identity import ADAPTERS
 from nis2scan.adapters.identity.detect import LABELS, detect
@@ -146,6 +147,21 @@ def _identity(system: System, idp, target: Target, probe: bool) -> None:
             credential.status, credential.note = MISSING, f"refused: {exc}"
 
 
+def _refusal(exc: Exception, url: str | None) -> str:
+    """Why access failed; for an untrusted certificate, the fingerprint to confirm."""
+    if url and "CERTIFICATE_VERIFY_FAILED" in str(exc):
+        parsed = urlparse(url)
+        try:
+            presented = server_fingerprint(parsed.hostname, parsed.port or 443)
+        except (OSError, ValueError):
+            return f"refused: {exc}"
+        return (
+            f"its certificate is not trusted. Its SHA-256 fingerprint is {presented}: "
+            "confirm it with the client, then set it as tls_fingerprint (or give ca_file)"
+        )
+    return f"refused: {exc}"
+
+
 def _log_store(system: System, logs, target: Target, probe: bool) -> None:
     if logs.url:
         system.access.append(_url_access(logs.url, f"Network access to {logs.url}", probe))
@@ -179,7 +195,7 @@ def _log_store(system: System, logs, target: Target, probe: bool) -> None:
         except KeyError as exc:
             credential.status, credential.note = MISSING, str(exc).strip("'")
         except CollectorError as exc:
-            credential.status, credential.note = MISSING, f"refused: {exc}"
+            credential.status, credential.note = MISSING, _refusal(exc, logs.url)
 
 
 def _backup(system: System, backup, target: Target, probe: bool) -> None:
@@ -220,7 +236,7 @@ def _backup(system: System, backup, target: Target, probe: bool) -> None:
         except KeyError as exc:
             credential.status, credential.note = MISSING, str(exc).strip("'")
         except CollectorError as exc:
-            credential.status, credential.note = MISSING, f"refused: {exc}"
+            credential.status, credential.note = MISSING, _refusal(exc, backup.url)
 
 
 def plan(target: Target, probe: bool = True) -> list[System]:
