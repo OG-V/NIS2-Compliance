@@ -1,6 +1,0 @@
-{
-  "_collected_at": "2026-09-26T01:31:59.311775+00:00",
-  "document": "incident-response.md",
-  "sha256": "e8d2b83df5ae334057ce92446536a97aaa3e4937b0af5732340432c689f19aed",
-  "text": "# NordMSP \u2014 Incident Response Plan\n\nVersion 0.3 \u00b7 Owner: IT \u00b7 Last reviewed: 2023-02-14\n\n## Purpose\nDescribe what to do when something goes wrong with our systems.\n\n## Procedure\n1. Whoever notices the problem tells the IT lead.\n2. IT investigates and fixes the issue.\n3. Customers are informed if needed.\n\n## Contacts\n- IT lead: see the staff wiki\n"
-}

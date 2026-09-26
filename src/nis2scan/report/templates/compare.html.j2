@@ -25,16 +25,24 @@
 </head>
 <body>
 {%- import "_shared.j2" as ui %}
-{%- macro units(v) -%}
+{#- As in the gap report: evidence from checks and from document review in their own colours. #}
+{%- set show_doc = c.review_change != "" %}
+{%- macro units(v, by_basis) -%}
   {%- set ev = v.partially_evidenced + v.evidenced -%}
+  {%- set n_doc = by_basis.get("document", 0) -%}
+  {%- set n_chk = ev - n_doc -%}
   <div class="units" role="img" aria-label="{{ v.not_satisfied }} not satisfied, {{ ev }} with evidence, {{ v.not_assessed }} not checked">
     {%- for _ in range(v.not_satisfied) %}<i class="u ns"></i>{% endfor %}
-    {%- for _ in range(ev) %}<i class="u ev"></i>{% endfor %}
+    {%- for _ in range(n_chk) %}<i class="u ev"></i>{% endfor %}
+    {%- for _ in range(n_doc) %}<i class="u doc"></i>{% endfor %}
     {%- for _ in range(v.not_assessed) %}<i class="u"></i>{% endfor -%}
   </div>
   <div class="legend">
     <span><i class="ns"></i><b>{{ v.not_satisfied }}</b> not satisfied</span>
-    <span><i class="ev"></i><b>{{ ev }}</b> partially evidenced</span>
+    <span><i class="ev"></i><b>{{ n_chk }}</b> partially evidenced{% if show_doc %} by checks{% endif %}</span>
+    {%- if show_doc %}
+    <span><i class="doc"></i><b>{{ n_doc }}</b> evidenced by document review</span>
+    {%- endif %}
     <span><i style="background:var(--grey-dot)"></i><b>{{ v.not_assessed }}</b> not checked</span>
   </div>
 {%- endmacro %}
@@ -94,12 +102,13 @@
         {%- if n_new %} <em>{{ n_new }} new {{ "problem" if n_new == 1 else "problems" }}.</em>{% else %} No new problems.{% endif %}
         {%- endif %}
         <small>Requirements not satisfied: {{ c.before_verdicts.not_satisfied }} before, {{ c.after_verdicts.not_satisfied }} now.
-          Partially evidenced: {{ c.before_verdicts.partially_evidenced + c.before_verdicts.evidenced }} before, {{ c.after_verdicts.partially_evidenced + c.after_verdicts.evidenced }} now.</small>
+          {% if show_doc %}With evidence{% else %}Partially evidenced{% endif %}: {{ c.before_verdicts.partially_evidenced + c.before_verdicts.evidenced }} before, {{ c.after_verdicts.partially_evidenced + c.after_verdicts.evidenced }} now.
+          {%- if show_doc %} {{ c.review_change }}{% endif %}</small>
       </p>
       <div class="pair">
-        <div><div class="label" style="margin-bottom:10px">Before</div>{{ units(c.before_verdicts) }}</div>
+        <div><div class="label" style="margin-bottom:10px">Before</div>{{ units(c.before_verdicts, c.before_by_basis) }}</div>
         <div class="arrow" aria-hidden="true">→</div>
-        <div><div class="label" style="margin-bottom:10px">Now</div>{{ units(c.after_verdicts) }}</div>
+        <div><div class="label" style="margin-bottom:10px">Now</div>{{ units(c.after_verdicts, c.after_by_basis) }}</div>
       </div>
       <div>
         <div class="label" style="margin-bottom:10px">Problems by severity, before → now</div>
