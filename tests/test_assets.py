@@ -174,7 +174,8 @@ def test_diff_compares_per_asset(tmp_path):
 
 
 def test_runs_from_before_assets_still_compare(tmp_path):
-    old = load_run(ROOT / "docs" / "example-report" / "weak")  # findings have no asset field
+    # The weak example as it was before assets were named: findings have no asset field.
+    old = load_run(ROOT / "tests" / "fixtures" / "legacy-run")
     new = load_run(scan_run(tmp_path, "hardened"))
     c = compare(old, new)
     # Checks with one result on each side pair up whatever the asset is called.
