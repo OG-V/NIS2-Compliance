@@ -79,6 +79,24 @@ target system ──► collectors ──► checks ──► findings ──►
                                  (no LLM)                (no LLM)       (validated)
 ```
 
+## Desktop app
+
+For consultants who would rather not use a terminal, `nis2scan app` opens a guided
+interface in its own window. It walks through an engagement in six steps: the client's
+authorisation, the systems in scope, the documents and reviews, an access check, the scan
+and the report. Each client gets an engagement folder holding the target, credentials
+(kept in a private secrets file, never in the target or report), document reviews and
+every scan. The app runs the same code as the CLI, so a folder prepared in the app scans
+the same way from the command line.
+
+![The desktop app after a scan of the weak lab](docs/app/scan-complete.png)
+
+On Windows with WSL, `nis2scan app --install-shortcut` (or Settings in the app) puts a
+shortcut on the desktop that starts it without a console window. The app listens only on
+127.0.0.1, accepts requests only with the token it opened its window with, and stops when
+the window is closed. More screens: [scan in progress](docs/app/scan-progress.png),
+[access check](docs/app/access-check.png).
+
 ## Quick start
 
 ```bash
@@ -90,6 +108,7 @@ nis2scan onboard                        # access each system needs, and whether 
 nis2scan scan                           # evidence, findings and verdicts under out/
 nis2scan report out/<run>               # self-contained HTML gap report
 nis2scan diff out/<before> out/<after>  # progress between two scans
+nis2scan app                            # or all of the above in the desktop app
 ```
 
 The AI features are optional and need an Anthropic API key (`pip install -e '.[llm]'`):
@@ -115,7 +134,7 @@ until a human reviews them ([review workflow](catalog/README.md)).
 | [`sources/`](sources/) | NIS2 and CIR 2024/2690 texts from EUR-Lex, hash-pinned |
 | [`catalog/`](catalog/) | Reviewed requirements and the organisation's own thresholds (`profile.yaml`) |
 | [`eval/`](eval/) | Gold set, extraction runs and their results |
-| `src/nis2scan/` | `collectors/` and `checks/` (deterministic), `extract/` (LLM, offline), `report/` (HTML + narrative) |
+| `src/nis2scan/` | `collectors/` and `checks/` (deterministic), `extract/` (LLM, offline), `report/` (HTML + narrative), `app/` (desktop interface) |
 
 ## Limitations
 
