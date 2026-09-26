@@ -255,8 +255,15 @@ second implementation: the access check calls onboarding per system, the scan ca
 same rendered HTML. Everything for one client lives in an engagement folder:
 `target.yaml`, `secrets.env` (readable only by its owner, never shown again), document
 suggestions and `results/`. Forms are validated with the target model the scanner uses,
-and reviews go through the same `Review` validation and are appended to the register
-without rewriting it, so the reviewer's comments survive. The server binds to 127.0.0.1
+and reviews go through the same `Review` validation. The reviewer works document by
+document: the text on one side, the unchecked requirements as a checklist on the other,
+each ticked requirement with a verdict and a reason. AI suggestions for that document are
+optional; they only highlight passages and move requirements to the top of the list, and
+nothing is recorded until the reviewer ticks and saves. Saving one document can add,
+change or remove several reviews; all are validated before any is written, and each is
+changed in place in the register, so the reviewer's comments survive. A coverage view lists
+all requirements, and records those with no document at all as not satisfied in one step.
+The server binds to 127.0.0.1
 and requires a same-site cookie set from a one-time launch token, and checks the `Host`
 header and a JSON content type, so another website in the consultant's browser cannot
 drive the scanner (a cross-site form or DNS rebinding) or read results. On Windows with WSL,

@@ -202,6 +202,9 @@ async function go(step, { force = false } = {}) {
       return;
     }
   }
+  if (!force && S.step === "documents" && step !== "documents" && reviewChanges().length &&
+      !confirm("Leave this document without saving your changes?")) return;
+  if (step !== "documents") S.review = null;
   transitioning = true;
   const page = $("#main .page");
   if (page && !REDUCED) { page.classList.add("leave"); await sleep(150); }
@@ -213,6 +216,7 @@ async function go(step, { force = false } = {}) {
 }
 
 function render() {
+  $$("body > .gap-bar").forEach((x) => x.remove());
   renderRail();
   const view = VIEWS[S.step] || VIEWS.home;
   $("#main").innerHTML = view();
@@ -372,6 +376,7 @@ async function openFolder(path) {
     folder: r.folder, win: r.windows, exists: r.exists, raw: withLists(r.raw), savedJSON: "",
     problems: r.problems, secrets: r.secrets, pending: {}, runs: r.runs, access: null, accessView: null,
     scanView: { phase: "idle" }, register: null, suggestions: null, docFiles: [], run: r.runs[0]?.id || null,
+    review: null, docTab: r.raw.documents?.dir ? "review" : "setup",
     reportMode: "report",
   });
   S.savedJSON = r.exists ? JSON.stringify(S.raw) : "";
@@ -591,18 +596,24 @@ async function loadDocuments() {
   if (S.step === "documents") { renderDocTab(); renderRail(); }
 }
 VIEWS.documents = () => {
-  const tabs = [["setup", "Documents folder"], ["reviews", "Document reviews"], ["suggest", "AI suggestions"]];
-  return `<div class="page">${pageHead(3, "Documents and reviews",
-    "Most of NIS2 is organisational. Point the tool at the client's documents, then record your review of " +
-    "each requirement no automated check can reach.")}
-    <div class="tabs">${tabs.map(([k, l]) => `<button class="${S.docTab === k ? "on" : ""}" data-tab="${k}">${l}</button>`).join("")}</div>
-    <div id="docTab"></div>${actionbar("systems", "access")}</div>`;
+  const tabs = [["setup", "Documents folder"], ["review", "Review documents"], ["coverage", "Coverage"]];
+  const reading = S.docTab === "review" && S.review;
+  return `<div class="page ${reading ? "page-reading" : ""}">${reading ? "" : pageHead(3, "Documents and reviews",
+    "Most of NIS2 is organisational. Open each document the client provided and tick the requirements it " +
+    "gives evidence for. The scan records your decisions with your name and the documents' fingerprints.")}
+    ${reading ? "" : `<div class="tabs">${tabs.map(([k, l]) => `<button class="${S.docTab === k ? "on" : ""}" data-tab="${k}">${l}</button>`).join("")}</div>`}
+    <div id="docTab"></div>${reading ? readingBar() : actionbar("systems", "access")}</div>`;
 };
 afterRender.documents = () => renderDocTab();
 function renderDocTab() {
   const el = $("#docTab");
   if (!el) return;
-  el.innerHTML = { setup: docSetupHTML, reviews: reviewsHTML, suggest: suggestHTML }[S.docTab]();
+  el.innerHTML = { setup: docSetupHTML, review: reviewTabHTML, coverage: coverageHTML }[S.docTab]();
+  if (S.docTab === "review" && S.review) afterReading();
+  // The selection bar floats over the page, so it must not live inside the animated page.
+  $$("body > .gap-bar").forEach((x) => x.remove());
+  const bar = $("#docTab #gapBar");
+  if (bar) document.body.append(bar);
 }
 function docSetupHTML() {
   const dirField = S.schema.documents.find((f) => f.key === "dir");
@@ -622,62 +633,296 @@ function needsSavedDocs() {
     <div style="margin-top:8px"><button class="btn sm" data-act="saveDocs">Save</button></div></div></div>`;
   if (!S.register) return `<div class="card"><div class="skeleton" style="position:static;padding:0"><i class="w60"></i><i></i><i class="w40"></i></div></div>`;
   if (S.register.error) return `<div class="banner error">${icon("alert")}<div>${esc(S.register.error)}</div></div>`;
+  if (!S.register.exists) return `<div class="card"><div class="empty">
+    <p style="margin:0 0 10px">Reviews are kept in an evidence register in the documents folder. It lists the
+      ${S.register.requirements.length} requirements no automated check covers.</p>
+    <button class="btn primary" data-act="createRegister">${icon("plus")}Start the evidence register</button></div></div>`;
   return "";
 }
-function reviewsHTML() {
+
+// The reviewer's name is asked once and remembered on this computer.
+function reviewer() {
+  if (S.reviewer === undefined) {
+    try { S.reviewer = localStorage.getItem("reviewer") || ""; } catch { S.reviewer = ""; }
+  }
+  return S.reviewer;
+}
+function reviewerHTML() {
+  const R = S.register;
+  const done = R.reviews.length, total = R.requirements.length;
+  return `<div class="card reviewer-card"><div class="row">
+      <div class="field" style="flex:1;min-width:260px;margin:0"><label for="reviewerName">Reviewing as<span class="req">*</span></label>
+        <input class="input" id="reviewerName" value="${esc(reviewer())}" placeholder="Your name and role, e.g. Jane Smith, senior consultant"></div>
+      <div class="progress-block"><div class="small muted">${done} of ${total} requirements reviewed</div>
+        <div class="progress"><i style="width:${Math.round((100 * done) / (total || 1))}%"></i></div></div></div></div>`;
+}
+
+// --- review tab: pick a document -------------------------------------------------------------------
+function reviewableDocs() {
+  return S.docFiles.filter((d) => d !== S.raw.documents?.evidence_register);
+}
+function citing(path) {
+  return (S.register?.reviews || []).filter((r) => r.documents.some((d) => d.path === path));
+}
+function suggestionsFor(path) {
+  return (S.suggestions || []).find((d) => d.document === path);
+}
+function reviewTabHTML() {
+  const blocked = needsSavedDocs();
+  if (blocked) return blocked;
+  if (S.review) return readingHTML();
+  const cards = reviewableDocs().map((d) => {
+    const cites = citing(d).length;
+    const sug = suggestionsFor(d)?.accepted?.length || 0;
+    const parts = d.split("/");
+    const ext = (d.split(".").pop() || "").toUpperCase();
+    return `<button class="doc-card" data-doc-open="${esc(d)}">
+      <span class="doc-ic">${icon("file")}<small>${esc(ext.slice(0, 4))}</small></span>
+      <span class="grow"><b>${esc(parts.at(-1))}</b>${parts.length > 1 ? `<span class="faint small">${esc(parts.slice(0, -1).join("/"))}/</span>` : ""}
+        <span class="doc-badges">${cites ? `<span class="pill ok">${icon("check")}Evidence for ${cites}</span>` : `<span class="pill pending">Not reviewed</span>`}
+        ${sug ? `<span class="ai-note">${icon("sparkle")}${sug} suggested</span>` : ""}</span></span>
+      ${icon("arrow-right")}</button>`;
+  }).join("");
+  return `<div class="stagger">${reviewerHTML()}
+    <p class="section-title">${plural(reviewableDocs().length, "document")} in the folder</p>
+    <div class="doc-grid">${cards || '<div class="empty">No documents in the folder.</div>'}</div></div>`;
+}
+
+// --- review tab: one document --------------------------------------------------------------------------
+async function openDocument(path) {
+  if (S.review && reviewChanges().length && !confirm("Leave this document without saving your changes?")) return;
+  const doc = await api("/api/document?" + qs({ folder: S.folder, path }));
+  const R = S.register;
+  const items = {};
+  for (const req of R.requirements) {
+    const existing = R.reviews.find((r) => r.requirement === req.id);
+    const linked = !!existing?.documents.some((d) => d.path === path);
+    const item = { checked: linked, verdict: existing?.verdict || "", rationale: existing?.rationale || "",
+      valid_until: existing?.valid_until || "", existing };
+    item.orig = JSON.stringify([item.checked, item.verdict, item.rationale, item.valid_until]);
+    items[req.id] = item;
+  }
+  const sug = suggestionsFor(path);
+  S.review = { path, doc, items, filter: "", linked: Object.keys(items).filter((id) => items[id].checked),
+    suggested: (sug?.accepted || []).map((s) => s.requirement_id).filter((id) => items[id] && !items[id].checked) };
+  S.docTab = "review";
+  render();
+  $("#main").scrollTop = 0;
+}
+function readingBar() {
+  const docs = reviewableDocs();
+  const i = docs.indexOf(S.review.path);
+  const n = reviewChanges().length;
+  return `<div class="actionbar">
+    <button class="btn" data-act="closeDocument">${icon("arrow-left")}All documents</button>
+    <div class="grow"></div>
+    <span class="dirty ${n ? "" : "hidden"}" id="changeCount">${plural(n, "unsaved change")}</span>
+    <button class="btn" data-act="saveReview" ${n ? "" : "disabled"}>Save</button>
+    <button class="btn primary" data-act="saveNext">${i < docs.length - 1 ? "Save and open next document" : "Save and finish"}${icon("arrow-right")}</button></div>`;
+}
+function readingHTML() {
+  const { path, doc } = S.review;
+  const docs = reviewableDocs();
+  const i = docs.indexOf(path);
+  const sug = suggestionsFor(path);
+  const aiButton = sug ? `<span class="ai-note">${icon("sparkle")}${plural(sug.accepted.length, "suggestion")} from ${esc(sug.model || "AI")}</span>`
+    : `<button class="btn sm" data-act="askAI" ${S.info.api_key ? "" : 'disabled title="Add an Anthropic API key in Settings"'}>${icon("sparkle")}Ask AI which requirements this covers</button>`;
+  return `<div class="reading">
+    <div class="reading-head">
+      <div><div class="eyebrow">Document ${i + 1} of ${docs.length}</div><h1 class="doc-title">${esc(path.split("/").at(-1))}</h1>
+        <div class="small faint mono">${esc(path)} · sha256 ${esc(doc.sha256.slice(0, 12))}…</div></div>
+      <div class="grow"></div>${aiButton}
+      <button class="btn square" data-doc-open="${esc(docs[i - 1] || "")}" ${i > 0 ? "" : "disabled"} title="Previous document">${icon("arrow-left")}</button>
+      <button class="btn square" data-doc-open="${esc(docs[i + 1] || "")}" ${i < docs.length - 1 ? "" : "disabled"} title="Next document">${icon("arrow-right")}</button>
+    </div>
+    <div class="split">
+      <section class="paper" id="paper">${doc.error ? `<div class="banner warn">${icon("alert")}<div>${esc(doc.error)}. You can still record what it evidences.</div></div>` : highlighted(doc.text, sug)}
+        ${doc.truncated ? '<div class="faint small">The document is long; only its beginning is shown.</div>' : ""}</section>
+      <section class="checklist-pane">
+        <div class="field" style="margin:0 0 6px"><label for="reviewerName">Reviewing as<span class="req">*</span></label>
+          <input class="input" id="reviewerName" value="${esc(reviewer())}" placeholder="Your name and role"></div>
+        <p class="small muted" style="margin:4px 0 12px">Tick each requirement this document gives evidence for, then choose a verdict and say why.</p>
+        <input class="input" id="reqFilter" placeholder="Filter requirements, e.g. backup or 21.2.D" value="${esc(S.review.filter)}">
+        <div id="reqList">${reqListHTML()}</div>
+      </section>
+    </div></div>`;
+}
+function afterReading() {
+  const bar = $(".actionbar");
+  if (bar) bar.outerHTML = readingBar();
+}
+
+// Excerpts the AI suggested are marked in the text, matched with flexible whitespace.
+function highlighted(text, sug) {
+  const ranges = [];
+  for (const s of sug?.accepted || []) {
+    for (const ex of s.excerpts || [s.excerpt].filter(Boolean)) {
+      const words = ex.trim().split(/\s+/).map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+      const m = new RegExp(words.join("\\s+")).exec(text);
+      if (m) ranges.push([m.index, m.index + m[0].length, s.requirement_id]);
+    }
+  }
+  ranges.sort((a, b) => a[0] - b[0]);
+  const merged = [];  // overlapping passages become one highlight for several requirements
+  for (const [a, b, id] of ranges) {
+    const last = merged.at(-1);
+    if (last && a < last[1]) { last[1] = Math.max(last[1], b); last[2].add(id); }
+    else merged.push([a, b, new Set([id])]);
+  }
+  let out = "", at = 0;
+  for (const [a, b, ids] of merged) {
+    out += esc(text.slice(at, a)) + `<mark data-mark="${esc([...ids].join(" "))}">${esc(text.slice(a, b))}</mark>`;
+    at = b;
+  }
+  return `<div class="doc-text">${out + esc(text.slice(at))}</div>`;
+}
+
+function reqListHTML() {
+  const R = S.register, rv = S.review;
+  const byId = Object.fromEntries(R.requirements.map((r) => [r.id, r]));
+  const f = rv.filter.trim().toLowerCase();
+  const match = (r) => !f || `${r.id} ${r.title} ${r.article}`.toLowerCase().includes(f);
+  const pinned = new Set([...rv.linked, ...rv.suggested]);
+  const section = (title, ids, note) => {
+    const rows = ids.map((id) => byId[id]).filter(match);
+    return rows.length ? `<div class="req-section"><div class="req-section-title">${title}${note ? ` <span class="faint">${note}</span>` : ""}</div>
+      ${rows.map(reqItemHTML).join("")}</div>` : "";
+  };
+  const byArticle = {};
+  R.requirements.filter((r) => !pinned.has(r.id) && match(r)).forEach((r) => (byArticle[r.article] ||= []).push(r));
+  const groups = Object.keys(byArticle).sort().map((a) => {
+    const rows = byArticle[a];
+    const ticked = rows.filter((r) => rv.items[r.id].checked).length;
+    return `<details class="req-group" ${f || ticked ? "open" : ""}><summary><span>NIS2 Art. ${esc(a)}</span>
+      <span class="faint small">${rows.length}${ticked ? ` · ${ticked} ticked` : ""}</span></summary>${rows.map(reqItemHTML).join("")}</details>`;
+  }).join("");
+  const out = section("Evidenced by this document", rv.linked, "from earlier reviews") +
+    section(`${icon("sparkle")} Suggested by AI`, rv.suggested, "verify against the text") +
+    (groups ? `<div class="req-section"><div class="req-section-title">${pinned.size ? "Other requirements" : "Requirements"}</div>${groups}</div>` : "");
+  return out || `<div class="empty">No requirement matches “${esc(rv.filter)}”.</div>`;
+}
+const VERDICTS = [["evidenced", "Evidenced"], ["partially_evidenced", "Partially"], ["not_satisfied", "Not satisfied"]];
+function reqItemHTML(r) {
+  const it = S.review.items[r.id];
+  const ex = it.existing;
+  const others = ex ? ex.documents.map((d) => d.path).filter((p) => p !== S.review.path) : [];
+  const sug = suggestionsFor(S.review.path)?.accepted?.find((s) => s.requirement_id === r.id);
+  const status = ex ? `<span class="pill ${ex.counts_as}" title="${esc(ex.reason)}">${esc(ex.verdict.replace(/_/g, " "))}</span>` : "";
+  const changed = JSON.stringify([it.checked, it.verdict, it.rationale, it.valid_until]) !== it.orig;
+  return `<div class="req-item ${it.checked ? "on" : ""} ${changed ? "changed" : ""} ${it.error ? "invalid" : ""}" data-req="${esc(r.id)}">
+    <label class="req-row"><input type="checkbox" data-req-check="${esc(r.id)}" ${it.checked ? "checked" : ""}>
+      <span class="req-main"><b>${esc(r.title)}</b><span class="mono faint">${esc(r.id.replace("REQ-", ""))}</span></span>${status}</label>
+    ${sug && !it.checked ? `<div class="req-hint">${icon("sparkle")}<span>${esc(sug.addresses)}
+      <a href="#" data-show-mark="${esc(r.id)}">Show in document</a></span></div>` : ""}
+    ${it.checked ? `<div class="req-editor">
+      <div class="segmented">${VERDICTS.map(([v, l]) => `<button type="button" class="${it.verdict === v ? "on" : ""}" data-verdict="${esc(r.id)}" data-v="${v}">${l}</button>`).join("")}</div>
+      <textarea class="input" data-rationale="${esc(r.id)}" rows="2" placeholder="${esc(sug?.addresses ? "Why? AI note: " + sug.addresses : "Why? What the document shows, and what it does not.")}">${esc(it.rationale)}</textarea>
+      <div class="row small muted"><label>Valid until <input type="date" class="input input-sm" data-valid="${esc(r.id)}" value="${esc(it.valid_until)}"></label>
+        ${others.length ? `<span>Also cites ${others.map(esc).join(", ")}</span>` : ""}</div>
+      ${it.error ? `<div class="err">${esc(it.error)}</div>` : ""}</div>`
+    : ex && ex.documents.some((d) => d.path === S.review.path) ? `<div class="req-hint warn-hint">${icon("alert")}<span>${others.length
+        ? `Saving removes this document from the review; it keeps ${others.map(esc).join(", ")}.`
+        : ex.verdict === "not_satisfied" ? "Saving removes this document from the review." : "Saving deletes this review: no other document supports it."}</span></div>`
+    : ex && ex.documents.length === 0 ? `<div class="req-hint">Reviewed without a document: ${esc(ex.verdict.replace(/_/g, " "))}.</div>` : ""}
+  </div>`;
+}
+function rerenderReq(id) {
+  const el = $(`.req-item[data-req="${CSS.escape(id)}"]`);
+  const r = S.register.requirements.find((x) => x.id === id);
+  if (el && r) el.outerHTML = reqItemHTML(r);
+  updateChangeCount();
+}
+function updateChangeCount() {
+  const bar = $(".actionbar");
+  if (bar && S.review) bar.outerHTML = readingBar();
+}
+
+// What saving this document's checklist would change in the register.
+function reviewChanges() {
+  if (!S.review) return [];
+  const { path, items } = S.review;
+  const changes = [];
+  for (const [id, it] of Object.entries(items)) {
+    if (JSON.stringify([it.checked, it.verdict, it.rationale, it.valid_until]) === it.orig) continue;
+    const ex = it.existing;
+    const docs = (ex?.documents || []).map((d) => d.path).filter((p) => p !== path);
+    const base = { requirement: id, reviewed_by: reviewer(), reviewed_on: S.info.today };
+    if (it.checked) {
+      changes.push({ requirement: id, entry: { ...base, documents: [...docs, path], verdict: it.verdict,
+        rationale: it.rationale.trim(), valid_until: it.valid_until || null } });
+    } else if (ex) {
+      if (!docs.length && ex.verdict !== "not_satisfied") changes.push({ requirement: id, delete: true });
+      else changes.push({ requirement: id, entry: { ...base, documents: docs, verdict: ex.verdict,
+        rationale: ex.rationale, valid_until: ex.valid_until || null } });
+    }
+  }
+  return changes;
+}
+async function saveReview() {
+  const rv = S.review;
+  if (!reviewer().trim()) { $("#reviewerName")?.focus(); throw new Error("Enter your name and role as the reviewer."); }
+  let firstBad = null;
+  for (const [id, it] of Object.entries(rv.items)) {
+    const was = it.error;
+    it.error = it.checked && (!it.verdict ? "Choose a verdict." : !it.rationale.trim() ? "Say why: the rationale is part of the record." : "");
+    if (it.error && !firstBad) firstBad = id;
+    if (it.error || was) rerenderReq(id);
+  }
+  if (firstBad) {
+    $(`.req-item[data-req="${CSS.escape(firstBad)}"]`)?.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "center" });
+    throw new Error("Some ticked requirements need a verdict and a reason.");
+  }
+  const changes = reviewChanges();
+  if (!changes.length) return 0;
+  S.register = await api("/api/register/batch", { folder: S.folder, changes });
+  try { localStorage.setItem("reviewer", reviewer()); } catch { /* storage unavailable */ }
+  return changes.length;
+}
+
+// --- coverage tab ------------------------------------------------------------------------------------------
+function coverageHTML() {
   const blocked = needsSavedDocs();
   if (blocked) return blocked;
   const R = S.register;
-  if (!R.exists) return `<div class="card"><div class="empty">
-    <p style="margin:0 0 10px">No evidence register yet. It lists the ${R.requirements.length} requirements no automated check covers.</p>
-    <button class="btn primary" data-act="createRegister">${icon("plus")}Start an evidence register</button></div></div>`;
+  S.gapPick = S.gapPick || new Set();
+  const reviews = Object.fromEntries(R.reviews.map((r) => [r.requirement, r]));
   const counts = {};
   R.reviews.forEach((r) => (counts[r.counts_as] = (counts[r.counts_as] || 0) + 1));
-  const summary = ["evidenced", "partially_evidenced", "not_satisfied", "not_assessed"].filter((k) => counts[k])
+  const pills = ["evidenced", "partially_evidenced", "not_satisfied", "not_assessed"].filter((k) => counts[k])
     .map((k) => `<span class="pill ${k}">${counts[k]} ${k.replace(/_/g, " ")}</span>`).join(" ");
   const problems = R.problems.length ? `<div class="banner warn">${icon("alert")}<div><b>Entries that will not be applied</b>
     <ul>${R.problems.map((p) => `<li>${esc(p)}</li>`).join("")}</ul></div></div>` : "";
-  const list = R.reviews.map((r) => `<div class="review" data-review="${esc(r.requirement)}">
-    <div class="top"><b>${esc(r.title || r.requirement)}</b><span class="pill ${r.counts_as}">${esc(r.counts_as.replace(/_/g, " "))}</span>
-      <span class="review-actions"><button class="btn ghost sm" data-edit-review="${esc(r.requirement)}">Edit</button>
-      <button class="btn ghost sm danger" data-delete-review="${esc(r.requirement)}">Delete</button></span></div>
-    <div class="small faint mono">${esc(r.requirement)} · ${esc(r.documents.map((d) => d.path).join(", ") || "no documents")}</div>
-    <p>${esc(r.reason.charAt(0).toUpperCase() + r.reason.slice(1))}</p></div>`).join("");
-  return `${problems}<div class="card"><div class="card-head"><div class="ic">${icon("clipboard")}</div><div class="grow">
-    <h2>Evidence register</h2><p>${plural(R.reviews.length, "review")} of ${R.requirements.length} reviewable requirements. ${summary}</p></div>
-    <button class="btn primary" data-act="newReview">${icon("plus")}Record a review</button></div>
-    ${list || `<div class="empty">No reviews recorded yet.</div>`}</div>`;
-}
-function suggestHTML() {
-  const blocked = needsSavedDocs();
-  if (blocked) return blocked;
-  const keyNote = S.info.api_key ? "" : `<div class="banner warn">${icon("alert")}<div>Add an Anthropic API key in
-    Settings to use AI suggestions. <a href="#" data-act="settings">Open settings</a></div></div>`;
-  const R = S.register;
-  const docs = S.docFiles.filter((d) => /\.(md|txt|docx|pdf|rst)$/i.test(d)).filter((d) => d !== S.raw.documents.evidence_register);
-  const picks = docs.map((d) => `<label><input type="checkbox" value="${esc(d)}" class="sugDoc">${icon("file")}${esc(d)}</label>`).join("");
-  const reviewed = new Set((R.reviews || []).map((r) => r.requirement));
-  const results = (S.suggestions || []).map((doc) => {
-    const items = (doc.accepted || []).map((s) => `<div class="suggestion">
-      <div class="row between"><b>${esc(s.title || s.requirement_id)}</b>
-        ${reviewed.has(s.requirement_id) ? '<span class="pill ok">Reviewed</span>'
-          : `<button class="btn sm" data-suggest-review="${esc(s.requirement_id)}" data-doc="${esc(doc.document)}">Review this</button>`}</div>
-      <div class="small faint mono">${esc(s.requirement_id)}</div>
-      ${(s.excerpts || [s.excerpt]).filter(Boolean).map((x) => `<blockquote>${esc(x)}</blockquote>`).join("")}
-      <div class="small muted">${esc(s.addresses)}</div></div>`).join("");
-    return `<div class="card"><div class="card-head"><div class="ic">${icon("file")}</div><div class="grow">
-      <h2>${esc(doc.document)}</h2><p>${doc.error ? esc(doc.error) : plural(doc.accepted.length, "suggestion")}
-      ${doc.model ? ` · <span class="ai-note">${icon("sparkle")}Suggested by ${esc(doc.model)}, not reviewed</span>` : ""}</p></div></div>
-      ${items || '<div class="empty">Nothing in this document bears on an unchecked requirement.</div>'}</div>`;
+  const byArticle = {};
+  R.requirements.forEach((r) => (byArticle[r.article] ||= []).push(r));
+  const groups = Object.keys(byArticle).sort().map((a) => {
+    const rows = byArticle[a].map((r) => {
+      const rev = reviews[r.id];
+      if (rev) {
+        const docs = rev.documents.map((d) => d.path).join(", ") || "no document";
+        return `<div class="cov-row" data-review="${esc(r.id)}"><span class="status-ic ${rev.counts_as === "not_satisfied" ? "bad" : rev.counts_as === "not_assessed" ? "warn" : "ok"}">${icon(rev.counts_as === "not_satisfied" ? "x" : rev.counts_as === "not_assessed" ? "alert" : "check")}</span>
+          <div class="grow"><b>${esc(r.title)}</b><div class="sub">${esc(r.id.replace("REQ-", ""))} · ${esc(docs)} · ${esc(rev.reviewed_by)}, ${esc(rev.reviewed_on)}</div>
+          ${rev.counts_as !== rev.verdict ? `<div class="sub" style="color:var(--amber)">${esc(rev.reason)}</div>` : ""}</div>
+          <span class="pill ${rev.counts_as}">${esc(rev.counts_as.replace(/_/g, " "))}</span>
+          <span class="review-actions"><button class="btn ghost sm" data-edit-review="${esc(r.id)}">Edit</button>
+          <button class="btn ghost sm danger" data-delete-review="${esc(r.id)}">Delete</button></span></div>`;
+      }
+      return `<label class="cov-row open"><input type="checkbox" data-gap="${esc(r.id)}" ${S.gapPick.has(r.id) ? "checked" : ""}>
+        <div class="grow"><b>${esc(r.title)}</b><div class="sub">${esc(r.id.replace("REQ-", ""))} · not reviewed yet</div></div>
+        <span class="pill pending">open</span></label>`;
+    }).join("");
+    const done = byArticle[a].filter((r) => reviews[r.id]).length;
+    return `<details class="cov-group" open><summary><b>NIS2 Art. ${esc(a)}</b><span class="faint small">${done} of ${byArticle[a].length} reviewed</span></summary>${rows}</details>`;
   }).join("");
-  return `${keyNote}<div class="card"><div class="card-head"><div class="ic">${icon("sparkle")}</div><div class="grow">
-    <h2>Find evidence in documents</h2><p>The model points to passages that may bear on requirements no check covers.
-    Every excerpt is verified against the document. It never records a verdict: you do.</p></div></div>
-    ${picks ? `<div class="checklist">${picks}</div>
-      <div class="row between" style="margin-top:12px"><span class="small muted" id="sugStatus"></span>
-      <button class="btn primary" data-act="runSuggest" ${S.info.api_key ? "" : "disabled"}>${icon("sparkle")}Suggest evidence</button></div>`
-      : `<div class="empty">No readable documents (.md, .txt, .docx, .pdf) in the folder.</div>`}</div>
-    <div id="sugResults" class="stagger">${results}</div>`;
+  const n = S.gapPick.size;
+  return `${problems}${reviewerHTML()}
+    <div class="card"><div class="card-head"><div class="ic">${icon("clipboard")}</div><div class="grow">
+      <h2>Every requirement no check covers</h2><p>${pills || "No reviews yet."} Tick requirements for which the client
+      provided no document at all to record them as not satisfied in one step.</p></div></div>
+      ${groups}</div>
+    <div class="gap-bar ${n ? "on" : ""}" id="gapBar">
+      <b>${plural(n, "requirement")} selected</b>
+      <input class="input" id="gapWhy" value="The organisation provided no document that addresses this requirement.">
+      <button class="btn primary" data-act="markGaps">Record as not satisfied</button></div>`;
 }
 function reviewDrawer(prefill = {}, editing = null) {
   const R = S.register;
@@ -1001,19 +1246,53 @@ const ACTIONS = {
     toast(editing ? "Review updated. The change applies from the next scan." : "Review recorded. It applies from the next scan.");
     renderDocTab(); renderRail();
   })(),
-  runSuggest: (btn) => withBusy(btn, async () => {
-    const documents = $$(".sugDoc:checked").map((x) => x.value);
-    if (!documents.length) throw new Error("Choose at least one document.");
-    const status = $("#sugStatus");
-    const r = await runJob("suggest", { folder: S.folder, documents }, (e) => {
-      if (e.type === "document" && status) status.textContent = `Reading ${e.name} (${e.index} of ${e.total})…`;
-    });
+  closeDocument: () => {
+    if (reviewChanges().length && !confirm("Leave this document without saving your changes?")) return;
+    S.review = null; render();
+  },
+  saveReview: (btn) => withBusy(btn, async () => {
+    const n = await saveReview();
+    const path = S.review.path;
+    S.review = null;
+    await openDocument(path);
+    renderRail();
+    toast(n ? `${plural(n, "review")} saved. They apply from the next scan.` : "Nothing to save.");
+  })(),
+  saveNext: (btn) => withBusy(btn, async () => {
+    const n = await saveReview();
+    const docs = reviewableDocs();
+    const next = docs[docs.indexOf(S.review.path) + 1];
+    S.review = null;
+    renderRail();
+    if (n) toast(`${plural(n, "review")} saved.`);
+    if (next) await openDocument(next);
+    else { S.docTab = "coverage"; render(); toast("All documents seen. Check the coverage for anything left open."); }
+  })(),
+  askAI: (btn) => withBusy(btn, async () => {
+    const path = S.review.path;
+    btn.textContent = "Reading the document…";
+    const r = await runJob("suggest", { folder: S.folder, documents: [path] });
     const byDoc = Object.fromEntries((S.suggestions || []).map((d) => [d.document, d]));
     r.documents.forEach((d) => (byDoc[d.document] = d));
     S.suggestions = Object.values(byDoc);
+    const doc = r.documents[0];
+    if (doc.error) throw new Error(doc.error);
+    const items = S.review.items;
+    S.review.suggested = doc.accepted.map((x) => x.requirement_id).filter((id) => items[id] && !S.review.linked.includes(id));
     renderDocTab();
-    const n = r.documents.reduce((k, d) => k + d.accepted.length, 0);
-    toast(`${plural(n, "suggestion")} ready for your review.`);
+    toast(`${plural(doc.accepted.length, "suggestion")}: verify each against the text before ticking it.`);
+  })(),
+  markGaps: (btn) => withBusy(btn, async () => {
+    if (!reviewer().trim()) { $("#reviewerName")?.focus(); throw new Error("Enter your name and role as the reviewer."); }
+    const why = $("#gapWhy").value.trim();
+    if (!why) throw new Error("Give the reason.");
+    const changes = [...S.gapPick].map((id) => ({ requirement: id, entry: { requirement: id, documents: [],
+      verdict: "not_satisfied", reviewed_by: reviewer(), reviewed_on: S.info.today, rationale: why } }));
+    S.register = await api("/api/register/batch", { folder: S.folder, changes });
+    try { localStorage.setItem("reviewer", reviewer()); } catch { /* storage unavailable */ }
+    S.gapPick = new Set();
+    renderDocTab(); renderRail();
+    toast(`${plural(changes.length, "requirement")} recorded as not satisfied.`);
   })(),
   runAccess: async (btn) => {
     if (dirty() && !(await save(true))) { toast("Save your changes first.", "error"); return; }
@@ -1089,7 +1368,7 @@ function relToFolder(path) {
 
 // --- events ---------------------------------------------------------------------------------------------------------------------
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-act],[data-go],[data-open],[data-browse],[data-add],[data-remove],[data-product],[data-tab],[data-view-run],[data-suggest-review],[data-edit-review],[data-delete-review],#revVerdict button");
+  const t = e.target.closest("[data-act],[data-go],[data-open],[data-browse],[data-add],[data-remove],[data-product],[data-tab],[data-view-run],[data-edit-review],[data-delete-review],[data-doc-open],[data-verdict],[data-show-mark],#revVerdict button");
   if (!t) return;
   if (t.tagName === "A") e.preventDefault();
   if (t.dataset.act) return ACTIONS[t.dataset.act]?.(t);
@@ -1159,8 +1438,22 @@ document.addEventListener("click", (e) => {
       `<button class="btn" data-act="closeOverlay">Cancel</button><button class="btn primary" style="background:var(--red);border-color:var(--red)" data-act="confirmDelete">Delete review</button>`);
     return;
   }
-  if (t.dataset.suggestReview) {
-    reviewDrawer({ requirement: t.dataset.suggestReview, documents: [t.dataset.doc] });
+  if (t.dataset.docOpen !== undefined) {
+    if (t.dataset.docOpen) openDocument(t.dataset.docOpen).catch((err) => toast(err.message, "error"));
+    return;
+  }
+  if (t.dataset.verdict) {
+    const it = S.review.items[t.dataset.verdict];
+    it.verdict = t.dataset.v; it.error = "";
+    rerenderReq(t.dataset.verdict);
+    $(`[data-rationale="${CSS.escape(t.dataset.verdict)}"]`)?.focus();
+    return;
+  }
+  if (t.dataset.showMark) {
+    const mark = $(`mark[data-mark~="${CSS.escape(t.dataset.showMark)}"]`);
+    if (!mark) return toast("The passage is not in the displayed text.", "error");
+    mark.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "center" });
+    mark.classList.remove("flash"); void mark.offsetWidth; mark.classList.add("flash");
     return;
   }
   if (t.closest("#revVerdict")) {
@@ -1168,8 +1461,35 @@ document.addEventListener("click", (e) => {
   }
 });
 document.addEventListener("input", onInput);
+// The document review: reviewer, filter, rationale and dates are kept as they are typed.
+document.addEventListener("input", (e) => {
+  const el = e.target;
+  if (el.id === "reviewerName") { S.reviewer = el.value; $$("#reviewerName").forEach((x) => x !== el && (x.value = el.value)); }
+  if (!S.review) return;
+  if (el.id === "reqFilter") { S.review.filter = el.value; $("#reqList").innerHTML = reqListHTML(); }
+  if (el.dataset.rationale) {
+    const it = S.review.items[el.dataset.rationale];
+    it.rationale = el.value;
+    el.closest(".req-item").classList.toggle("changed", JSON.stringify([it.checked, it.verdict, it.rationale, it.valid_until]) !== it.orig);
+    updateChangeCount();
+  }
+  if (el.dataset.valid) { S.review.items[el.dataset.valid].valid_until = el.value; updateChangeCount(); }
+});
 document.addEventListener("change", async (e) => {
   if (e.target.matches("select[data-path], input[type=checkbox][data-path], input[type=date][data-path]")) onInput(e);
+  if (e.target.dataset.reqCheck) {
+    const id = e.target.dataset.reqCheck, it = S.review.items[id];
+    it.checked = e.target.checked; it.error = "";
+    if (it.checked && !it.verdict) it.verdict = "";
+    rerenderReq(id);
+    if (it.checked) $(`[data-req="${CSS.escape(id)}"] .req-editor`)?.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "nearest" });
+  }
+  if (e.target.dataset.gap) {
+    S.gapPick[e.target.checked ? "add" : "delete"](e.target.dataset.gap);
+    const bar = $("#gapBar");
+    bar.classList.toggle("on", S.gapPick.size > 0);
+    bar.querySelector("b").textContent = `${plural(S.gapPick.size, "requirement")} selected`;
+  }
   if (e.target.id === "runSelect") { S.run = e.target.value; S.reportMode = "report"; S.diffAgainst = null; render(); loadReport(); }
   if (e.target.id === "diffSelect" && e.target.value) {
     try {

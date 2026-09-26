@@ -235,3 +235,56 @@ def _write(path: Path, text: str, candidate: str | None, expected: list[dict], r
         data["reviews"] = expected
         candidate = yaml.safe_dump(data, sort_keys=False, allow_unicode=True)
     path.write_text(candidate)
+
+
+def apply_changes(folder: Path, changes: list[dict]) -> None:
+    """Several review changes from one document's review, checked first, then written.
+
+    Each change is {"requirement": id, "entry": review} to add or replace that
+    requirement's review, or {"requirement": id, "delete": true}. Every entry is validated
+    before anything is written, so a mistake in one leaves the register untouched.
+    """
+    docs = ws.target(folder).documents
+    if not (docs and docs.evidence_register):
+        raise ws.WorkspaceError("start an evidence register first")
+    _, existing = _register(docs.dir / docs.evidence_register)
+    reviewed = set(_ids(existing))
+    for change in changes:
+        req = change["requirement"]
+        if change.get("delete"):
+            if req not in reviewed:
+                raise ws.WorkspaceError(f"{req} has no review in the register")
+            continue
+        review, _ = _validated(folder, change["entry"])
+        if review.requirement != req:
+            raise ws.WorkspaceError(f"{req}: the review names {review.requirement}")
+    for change in changes:
+        req = change["requirement"]
+        if change.get("delete"):
+            delete_review(folder, req)
+        elif req in reviewed:
+            update_review(folder, req, change["entry"])
+        else:
+            add_review(folder, change["entry"])
+            reviewed.add(req)
+
+
+def document_text(folder: Path, path: str, limit: int = 300_000) -> dict:
+    """A document's text for reading in the app, with its fingerprint."""
+    import hashlib
+
+    from nis2scan.doctext import UnreadableDocument, extract_text
+
+    docs = ws.target(folder).documents
+    if not docs:
+        raise ws.WorkspaceError("choose the documents folder first")
+    base = docs.dir.resolve()
+    file = (base / path).resolve()
+    if not file.is_relative_to(base) or not file.is_file():
+        raise ws.WorkspaceError(f"{path} is not in the documents folder")
+    out = {"path": path, "sha256": hashlib.sha256(file.read_bytes()).hexdigest(), "text": ""}
+    try:
+        text = extract_text(file)
+    except UnreadableDocument as exc:
+        return out | {"error": str(exc)}
+    return out | {"text": text[:limit], "truncated": len(text) > limit}

@@ -203,6 +203,53 @@ def test_editing_a_register_the_app_did_not_lay_out(tmp_path):
     assert "REQ-NIS2-21.2.G" not in [r["requirement"] for r in register.state(folder)["reviews"]]
 
 
+def test_reviewing_one_document_changes_several_reviews_at_once(tmp_path):
+    folder = lab_engagement(tmp_path)
+    doc = "evidence/log-review-procedure.md"
+    add = REVIEW | {"documents": [doc]}
+    extend = REVIEW | {  # an existing review gains this document as well
+        "requirement": "REQ-CIR2690-3.2.3-01",
+        "documents": [doc],
+        "verdict": "partially_evidenced",
+        "rationale": "Logs are reviewed weekly; how long they are kept is not documented.",
+    }
+    register.apply_changes(
+        folder,
+        [
+            {"requirement": REVIEW["requirement"], "entry": add},
+            {"requirement": "REQ-CIR2690-3.2.3-01", "entry": extend},
+            {"requirement": "REQ-CIR2690-3.2.4-01", "delete": True},
+        ],
+    )
+    reviews = {r["requirement"]: r for r in register.state(folder)["reviews"]}
+    assert REVIEW["requirement"] in reviews and "REQ-CIR2690-3.2.3-01" in reviews
+    assert "REQ-CIR2690-3.2.4-01" not in reviews
+
+
+def test_one_bad_change_leaves_the_register_untouched(tmp_path):
+    folder = lab_engagement(tmp_path)
+    path = folder / "documents" / "evidence-register.yaml"
+    before = path.read_text()
+    with pytest.raises(ws.WorkspaceError, match="rationale"):
+        register.apply_changes(
+            folder,
+            [
+                {"requirement": REVIEW["requirement"], "entry": REVIEW},
+                {"requirement": "REQ-NIS2-21.2.G", "entry": REVIEW | {
+                    "requirement": "REQ-NIS2-21.2.G", "rationale": ""}},
+            ],
+        )  # fmt: skip
+    assert path.read_text() == before
+
+
+def test_documents_are_read_for_the_reviewer(tmp_path):
+    folder = lab_engagement(tmp_path)
+    doc = register.document_text(folder, "evidence/backup-plan.md")
+    assert "Backup and Recovery Plan" in doc["text"] and len(doc["sha256"]) == 64
+    with pytest.raises(ws.WorkspaceError, match="not in the documents folder"):
+        register.document_text(folder, "../target.yaml")
+
+
 def test_starting_a_register(tmp_path):
     folder = lab_engagement(tmp_path)
     raw = ws.read_raw(folder)

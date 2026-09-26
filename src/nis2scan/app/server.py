@@ -165,6 +165,13 @@ class App:
             register.add_review(_folder(body), body["entry"])
         return register.state(_folder(body))
 
+    def register_batch(self, body) -> dict:
+        register.apply_changes(_folder(body), body["changes"])
+        return register.state(_folder(body))
+
+    def document(self, q) -> dict:
+        return register.document_text(_folder(q), q["path"])
+
     def register_delete(self, body) -> dict:
         register.delete_review(_folder(body), body["requirement"])
         return register.state(_folder(body))
@@ -231,6 +238,7 @@ GET = {
     "/api/register": App.register_state,
     "/api/suggestions": App.suggestions,
     "/api/files": App.files,
+    "/api/document": App.document,
 }
 POST = {
     "/api/resolve": App.resolve,
@@ -240,6 +248,7 @@ POST = {
     "/api/register/create": App.register_create,
     "/api/register/review": App.register_review,
     "/api/register/delete": App.register_delete,
+    "/api/register/batch": App.register_batch,
     "/api/settings": App.settings,
     "/api/reveal": App.reveal,
     "/api/mkdir": App.mkdir,
