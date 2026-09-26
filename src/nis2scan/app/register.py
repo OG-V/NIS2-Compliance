@@ -101,8 +101,8 @@ def create(folder: Path) -> str:
     return name
 
 
-def add_review(folder: Path, entry: dict) -> None:
-    """Append one review, after the same validation the scanner applies."""
+def _validated(folder: Path, entry: dict) -> tuple[Review, Path]:
+    """A review checked as the scanner would check it, and the register's path."""
     target = ws.target(folder)
     docs = target.documents
     if not (docs and docs.evidence_register):
@@ -125,32 +125,113 @@ def add_review(folder: Path, entry: dict) -> None:
     missing = [d for d in review.documents if not (docs.dir / d).is_file()]
     if missing:
         raise ws.WorkspaceError(f"document not found: {', '.join(missing)}")
-    path = docs.dir / docs.evidence_register
+    return review, docs.dir / docs.evidence_register
+
+
+def _register(path: Path) -> tuple[str, list[dict]]:
     text = path.read_text() if path.exists() else "reviews:\n"
-    existing = (yaml.safe_load(text) or {}).get("reviews") or []
-    if any(r.get("requirement") == review.requirement for r in existing if isinstance(r, dict)):
+    reviews = (yaml.safe_load(text) or {}).get("reviews") or []
+    return text, [r for r in reviews if isinstance(r, dict)]
+
+
+def _ids(reviews: list[dict]) -> list[str]:
+    return [r.get("requirement") for r in reviews]
+
+
+def add_review(folder: Path, entry: dict) -> None:
+    """Append one review, after the same validation the scanner applies."""
+    review, path = _validated(folder, entry)
+    text, existing = _register(path)
+    if review.requirement in _ids(existing):
         raise ws.WorkspaceError(
             f"{review.requirement} is already reviewed in the register; "
             "two reviews of one requirement would cancel each other"
         )
     record = review.model_dump(mode="json", exclude_none=True)
-    _append(path, text, record, len(existing))
-
-
-def _append(path: Path, text: str, record: dict, count: int) -> None:
     items = re.findall(r"^([ \t]*)- requirement:", text, flags=re.MULTILINE)
-    indent = items[0] if items else "  "
+    candidate = text.rstrip("\n") + "\n" + _block(record, items[0] if items else "  ")
+    _write(path, text, candidate, [*existing, record], record)
+
+
+def update_review(folder: Path, requirement: str, entry: dict) -> None:
+    """Replace the review of `requirement`, e.g. after a new document or a new review date."""
+    review, path = _validated(folder, entry)
+    if review.requirement != requirement:
+        raise ws.WorkspaceError(
+            "a review cannot move to another requirement: delete it and record a new one"
+        )
+    text, existing = _register(path)
+    if requirement not in _ids(existing):
+        raise ws.WorkspaceError(f"{requirement} has no review in the register")
+    record = review.model_dump(mode="json", exclude_none=True)
+    expected = [record if r.get("requirement") == requirement else r for r in existing]
+    _write(path, text, _replace(text, requirement, record), expected, record)
+
+
+def delete_review(folder: Path, requirement: str) -> None:
+    """Remove the review of `requirement`; the next scan reports it as not assessed."""
+    docs = ws.target(folder).documents
+    if not (docs and docs.evidence_register):
+        raise ws.WorkspaceError("there is no evidence register")
+    path = docs.dir / docs.evidence_register
+    text, existing = _register(path)
+    if requirement not in _ids(existing):
+        raise ws.WorkspaceError(f"{requirement} has no review in the register")
+    expected = [r for r in existing if r.get("requirement") != requirement]
+    _write(path, text, _replace(text, requirement, None), expected)
+
+
+def _block(record: dict, indent: str) -> str:
     block = yaml.safe_dump([record], sort_keys=False, allow_unicode=True, width=88)
-    block = "".join(indent + line if line.strip() else line for line in block.splitlines(True))
-    candidate = text.rstrip("\n") + "\n" + block
-    try:
-        parsed = (yaml.safe_load(candidate) or {}).get("reviews") or []
-        ok = len(parsed) == count + 1 and parsed[-1]["requirement"] == record["requirement"]
-    except yaml.YAMLError:
-        ok = False
+    return "".join(indent + line if line.strip() else line for line in block.splitlines(True))
+
+
+def _replace(text: str, requirement: str, record: dict | None) -> str | None:
+    """The register with one entry's lines replaced (or removed); None if it cannot be found.
+
+    An entry runs from its `- requirement:` line to the next line indented no deeper than
+    that line (the next entry, a comment or the next key). Other lines are kept as written.
+    """
+    lines = text.splitlines(True)
+    head = re.compile(rf"^([ \t]*)- requirement:\s*['\"]?{re.escape(requirement)}['\"]?\s*$")
+    for i, line in enumerate(lines):
+        if match := head.match(line):
+            indent = match.group(1)
+            j = i + 1
+            while j < len(lines):
+                stripped = lines[j].strip()
+                if stripped and len(lines[j]) - len(lines[j].lstrip()) <= len(indent):
+                    break
+                j += 1
+            while j - 1 > i and not lines[j - 1].strip():  # trailing blank lines stay
+                j -= 1
+            new = _block(record, indent) if record else ""
+            return "".join(lines[:i]) + new + "".join(lines[j:])
+    return None
+
+
+def _write(path: Path, text: str, candidate: str | None, expected: list[dict], record=None):
+    """Write `candidate` if it parses to the expected reviews; else rewrite the file as data."""
+    ok = False
+    if candidate is not None:
+        try:
+            parsed = [
+                r
+                for r in (yaml.safe_load(candidate) or {}).get("reviews") or []
+                if isinstance(r, dict)
+            ]
+            ok = _ids(parsed) == _ids(expected)
+            if ok and record:
+                mine = next(r for r in parsed if r["requirement"] == record["requirement"])
+                ok = (
+                    Review.model_validate(mine).model_dump(mode="json", exclude_none=True) == record
+                )
+        except (yaml.YAMLError, ValidationError):
+            ok = False
     if not ok:  # an unusual layout: rewrite the file as data, keeping a copy of the original
-        shutil.copy2(path, path.with_suffix(path.suffix + ".bak"))
+        if path.exists():
+            shutil.copy2(path, path.with_suffix(path.suffix + ".bak"))
         data = yaml.safe_load(text) or {}
-        data["reviews"] = [*(data.get("reviews") or []), record]
+        data["reviews"] = expected
         candidate = yaml.safe_dump(data, sort_keys=False, allow_unicode=True)
     path.write_text(candidate)

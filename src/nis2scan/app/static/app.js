@@ -637,8 +637,10 @@ function reviewsHTML() {
     .map((k) => `<span class="pill ${k}">${counts[k]} ${k.replace(/_/g, " ")}</span>`).join(" ");
   const problems = R.problems.length ? `<div class="banner warn">${icon("alert")}<div><b>Entries that will not be applied</b>
     <ul>${R.problems.map((p) => `<li>${esc(p)}</li>`).join("")}</ul></div></div>` : "";
-  const list = R.reviews.map((r) => `<div class="review">
-    <div class="top"><b>${esc(r.title || r.requirement)}</b><span class="pill ${r.counts_as}">${esc(r.counts_as.replace(/_/g, " "))}</span></div>
+  const list = R.reviews.map((r) => `<div class="review" data-review="${esc(r.requirement)}">
+    <div class="top"><b>${esc(r.title || r.requirement)}</b><span class="pill ${r.counts_as}">${esc(r.counts_as.replace(/_/g, " "))}</span>
+      <span class="review-actions"><button class="btn ghost sm" data-edit-review="${esc(r.requirement)}">Edit</button>
+      <button class="btn ghost sm danger" data-delete-review="${esc(r.requirement)}">Delete</button></span></div>
     <div class="small faint mono">${esc(r.requirement)} · ${esc(r.documents.map((d) => d.path).join(", ") || "no documents")}</div>
     <p>${esc(r.reason.charAt(0).toUpperCase() + r.reason.slice(1))}</p></div>`).join("");
   return `${problems}<div class="card"><div class="card-head"><div class="ic">${icon("clipboard")}</div><div class="grow">
@@ -677,32 +679,36 @@ function suggestHTML() {
       : `<div class="empty">No readable documents (.md, .txt, .docx, .pdf) in the folder.</div>`}</div>
     <div id="sugResults" class="stagger">${results}</div>`;
 }
-function reviewDrawer(prefill = {}) {
+function reviewDrawer(prefill = {}, editing = null) {
   const R = S.register;
-  const reviewed = new Set(R.reviews.map((r) => r.requirement));
+  S.editing = editing;
+  const reviewed = new Set(R.reviews.map((r) => r.requirement).filter((id) => id !== editing));
   const byArticle = {};
   R.requirements.filter((r) => !reviewed.has(r.id)).forEach((r) => (byArticle[r.article] ||= []).push(r));
   const options = Object.keys(byArticle).sort().map((a) => `<optgroup label="NIS2 Art. ${esc(a)}">
     ${byArticle[a].map((r) => `<option value="${esc(r.id)}" ${r.id === prefill.requirement ? "selected" : ""}>${esc(r.title)} (${esc(r.id.replace("REQ-", ""))})</option>`).join("")}</optgroup>`).join("");
   const docs = S.docFiles.filter((d) => d !== S.raw.documents.evidence_register).map((d) => `<label>
     <input type="checkbox" class="revDoc" value="${esc(d)}" ${(prefill.documents || []).includes(d) ? "checked" : ""}>${esc(d)}</label>`).join("");
-  let reviewer = "";
-  try { reviewer = localStorage.getItem("reviewer") || ""; } catch { /* storage unavailable */ }
-  drawer("Record a document review", `
+  let reviewer = prefill.reviewed_by || "";
+  if (!reviewer) try { reviewer = localStorage.getItem("reviewer") || ""; } catch { /* storage unavailable */ }
+  const on = (v) => (prefill.verdict === v ? "on" : "");
+  drawer(editing ? "Edit document review" : "Record a document review", `
     <p class="muted small" style="margin-top:0">Your decision is recorded with your name and the documents' fingerprints.
       It applies to the next scan and counts only while it is valid.</p>
     <div class="grid" style="grid-template-columns:1fr">
-      <div class="field"><label>Requirement<span class="req">*</span></label><select class="input" id="revReq">${options}</select></div>
+      <div class="field"><label>Requirement<span class="req">*</span></label><select class="input" id="revReq" ${editing ? "disabled" : ""}>${options}</select>
+        ${editing ? `<div class="help">To review another requirement, delete this review and record a new one.</div>` : ""}</div>
       <div class="field"><label>Documents reviewed</label><div class="checklist">${docs || '<span class="faint small">No files in the folder</span>'}</div>
         <div class="help">Required unless you found no document that addresses the requirement.</div></div>
       <div class="field"><label>Verdict<span class="req">*</span></label><div class="segmented" id="revVerdict">
-        <button type="button" data-v="evidenced">Evidenced</button><button type="button" data-v="partially_evidenced">Partially evidenced</button>
-        <button type="button" data-v="not_satisfied">Not satisfied</button></div></div>
+        <button type="button" class="${on("evidenced")}" data-v="evidenced">Evidenced</button><button type="button" class="${on("partially_evidenced")}" data-v="partially_evidenced">Partially evidenced</button>
+        <button type="button" class="${on("not_satisfied")}" data-v="not_satisfied">Not satisfied</button></div></div>
       <div class="field"><label>Reviewed by<span class="req">*</span></label><input class="input" id="revBy" value="${esc(reviewer)}" placeholder="Your name and role"></div>
-      <div class="grid" style="padding:0"><div class="field"><label>Reviewed on<span class="req">*</span></label><input class="input" type="date" id="revOn" value="${esc(S.info.today)}"></div>
-      <div class="field"><label>Valid until</label><input class="input" type="date" id="revUntil"></div></div>
-      <div class="field"><label>Rationale<span class="req">*</span></label><textarea class="input" id="revWhy" placeholder="What the documents show, and what they do not."></textarea></div>
-    </div>`, `<button class="btn" data-act="closeOverlay">Cancel</button><button class="btn primary" data-act="submitReview">Record review</button>`);
+      <div class="grid" style="padding:0"><div class="field"><label>Reviewed on<span class="req">*</span></label><input class="input" type="date" id="revOn" value="${esc(editing ? S.info.today : prefill.reviewed_on || S.info.today)}"></div>
+      <div class="field"><label>Valid until</label><input class="input" type="date" id="revUntil" value="${esc(prefill.valid_until || "")}"></div></div>
+      ${editing ? `<div class="help" style="margin-top:-8px">Previously reviewed on ${esc(prefill.reviewed_on)}. Saving records today as the review date; change it if needed.</div>` : ""}
+      <div class="field"><label>Rationale<span class="req">*</span></label><textarea class="input" id="revWhy" placeholder="What the documents show, and what they do not.">${esc(prefill.rationale || "")}</textarea></div>
+    </div>`, `<button class="btn" data-act="closeOverlay">Cancel</button><button class="btn primary" data-act="submitReview">${editing ? "Save changes" : "Record review"}</button>`);
 }
 
 // --- access check ---------------------------------------------------------------------------------------------
@@ -968,6 +974,15 @@ const ACTIONS = {
     toast(`Started ${r.register}.`);
   })(),
   newReview: () => reviewDrawer(),
+  confirmDelete: (btn) => withBusy(btn, async () => {
+    const id = S.deleting;
+    await closeOverlay();
+    const card = $(`[data-review="${CSS.escape(id)}"]`);
+    if (card && !REDUCED) { card.classList.add("removing"); await sleep(230); }
+    S.register = await api("/api/register/delete", { folder: S.folder, requirement: id });
+    renderDocTab(); renderRail();
+    toast("Review deleted. The next scan reports the requirement as not assessed.");
+  })(),
   submitReview: (btn) => withBusy(btn, async () => {
     const entry = {
       requirement: $("#revReq").value,
@@ -979,10 +994,11 @@ const ACTIONS = {
       rationale: $("#revWhy").value.trim(),
     };
     if (!entry.verdict) throw new Error("Choose a verdict.");
-    S.register = await api("/api/register/review", { folder: S.folder, entry });
+    const editing = S.editing;
+    S.register = await api("/api/register/review", { folder: S.folder, entry, replace: editing });
     try { localStorage.setItem("reviewer", entry.reviewed_by); } catch { /* storage unavailable */ }
     await closeOverlay();
-    toast("Review recorded. It applies from the next scan.");
+    toast(editing ? "Review updated. The change applies from the next scan." : "Review recorded. It applies from the next scan.");
     renderDocTab(); renderRail();
   })(),
   runSuggest: (btn) => withBusy(btn, async () => {
@@ -1073,7 +1089,7 @@ function relToFolder(path) {
 
 // --- events ---------------------------------------------------------------------------------------------------------------------
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-act],[data-go],[data-open],[data-browse],[data-add],[data-remove],[data-product],[data-tab],[data-view-run],[data-suggest-review],#revVerdict button");
+  const t = e.target.closest("[data-act],[data-go],[data-open],[data-browse],[data-add],[data-remove],[data-product],[data-tab],[data-view-run],[data-suggest-review],[data-edit-review],[data-delete-review],#revVerdict button");
   if (!t) return;
   if (t.tagName === "A") e.preventDefault();
   if (t.dataset.act) return ACTIONS[t.dataset.act]?.(t);
@@ -1127,6 +1143,21 @@ document.addEventListener("click", (e) => {
   if (t.dataset.viewRun) {
     S.run = t.dataset.viewRun; S.reportMode = "report"; S.diffAgainst = null;
     return go("report");
+  }
+  if (t.dataset.editReview) {
+    const r = S.register.reviews.find((x) => x.requirement === t.dataset.editReview);
+    reviewDrawer({ ...r, documents: r.documents.map((d) => d.path) }, r.requirement);
+    return;
+  }
+  if (t.dataset.deleteReview) {
+    const r = S.register.reviews.find((x) => x.requirement === t.dataset.deleteReview);
+    S.deleting = r.requirement;
+    modal("Delete this review?", `<p style="margin-top:0"><b>${esc(r.title || r.requirement)}</b></p>
+      <p class="muted">The review by ${esc(r.reviewed_by)} on ${esc(r.reviewed_on)} is removed from the register.
+      From the next scan, this requirement is reported as not assessed until it is reviewed again.
+      Earlier reports keep the review they were made with.</p>`,
+      `<button class="btn" data-act="closeOverlay">Cancel</button><button class="btn primary" style="background:var(--red);border-color:var(--red)" data-act="confirmDelete">Delete review</button>`);
+    return;
   }
   if (t.dataset.suggestReview) {
     reviewDrawer({ requirement: t.dataset.suggestReview, documents: [t.dataset.doc] });

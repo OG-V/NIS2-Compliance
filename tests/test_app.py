@@ -149,6 +149,60 @@ def test_reviews_the_register_would_not_apply_are_refused(tmp_path, change, mess
     assert (folder / "documents" / "evidence-register.yaml").read_text() == before
 
 
+def test_editing_a_review_changes_only_its_entry(tmp_path):
+    folder = lab_engagement(tmp_path)
+    path = folder / "documents" / "evidence-register.yaml"
+    before = path.read_text()
+    change = REVIEW | {
+        "requirement": "REQ-NIS2-21.2.G",
+        "documents": ["evidence/security-training-2026.md"],
+        "verdict": "evidenced",
+        "valid_until": "2027-06-30",
+        "rationale": "Every staff member completed the course; a hygiene policy now exists.",
+    }
+    register.update_review(folder, "REQ-NIS2-21.2.G", change)
+    after = path.read_text()
+    assert after.startswith(before.split("  - requirement: REQ-NIS2-21.2.G")[0])  # header kept
+    assert "Fictional, like the rest of the lab." in after  # comments survive
+    reviews = {r["requirement"]: r for r in register.state(folder)["reviews"]}
+    assert len(reviews) == 9 and reviews["REQ-NIS2-21.2.G"]["verdict"] == "evidenced"
+    assert reviews["REQ-NIS2-21.2.G"]["reviewed_by"] == "Test Reviewer, consultant"
+    assert reviews["REQ-NIS2-21.2.D"]["reviewed_by"] == "Ingrid Solberg, external consultant"
+    assert not (path.with_suffix(".yaml.bak")).exists()  # edited in place, not rewritten
+
+
+def test_deleting_a_review(tmp_path):
+    folder = lab_engagement(tmp_path)
+    path = folder / "documents" / "evidence-register.yaml"
+    order = [r["requirement"] for r in register.state(folder)["reviews"]]
+    register.delete_review(folder, order[1])  # one in the middle, with a folded rationale
+    assert [r["requirement"] for r in register.state(folder)["reviews"]] == order[:1] + order[2:]
+    register.delete_review(folder, order[-1])  # the last one
+    assert [r["requirement"] for r in register.state(folder)["reviews"]] == order[:1] + order[2:-1]
+    assert register.state(folder)["problems"] == []
+    assert path.read_text().startswith("# Evidence register")
+    with pytest.raises(ws.WorkspaceError, match="has no review"):
+        register.delete_review(folder, order[1])
+
+
+def test_a_review_cannot_move_to_another_requirement(tmp_path):
+    folder = lab_engagement(tmp_path)
+    with pytest.raises(ws.WorkspaceError, match="cannot move"):
+        register.update_review(folder, "REQ-NIS2-21.2.G", REVIEW)
+    with pytest.raises(ws.WorkspaceError, match="has no review"):
+        register.update_review(folder, REVIEW["requirement"], REVIEW)
+
+
+def test_editing_a_register_the_app_did_not_lay_out(tmp_path):
+    folder = lab_engagement(tmp_path)
+    path = folder / "documents" / "evidence-register.yaml"
+    reviews = yaml.safe_load(path.read_text())["reviews"]
+    path.write_text(yaml.safe_dump({"reviews": reviews}, default_flow_style=True))  # one line
+    register.delete_review(folder, "REQ-NIS2-21.2.G")
+    assert path.with_suffix(".yaml.bak").exists()  # rewritten as data, original kept
+    assert "REQ-NIS2-21.2.G" not in [r["requirement"] for r in register.state(folder)["reviews"]]
+
+
 def test_starting_a_register(tmp_path):
     folder = lab_engagement(tmp_path)
     raw = ws.read_raw(folder)
