@@ -56,7 +56,7 @@ or `not_assessed`, and the report says how much it could and could not assess.
 | **Evidence suggestions** (gold set: 9 documents, 1 of them a decoy with an injected instruction) | Recall 1.00, precision 0.91. No excerpt outside the document, and no suggestions for the decoy. |
 | **Narrative grounding** | Every citation, every number and full gap coverage are checked by code, and IDs are kept out of the prose. A draft that fails twice is not shown. |
 | **Catalog** | 85 requirements (11 from NIS2, 74 from CIR 2024/2690), all reviewed, with every quote verified against EUR-Lex. |
-| **Tests** | 430 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
+| **Tests** | 436 tests, run in CI on Python 3.12 to 3.14 without Docker or an API key. |
 
 Each figure has a write-up in [`eval/results/`](eval/results/), including what went
 wrong and what was changed: three extraction prompt versions, a narrative prompt revision
