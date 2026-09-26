@@ -11,10 +11,11 @@
 # accepted suggestions; recall = must suggested / must. Suggestions that failed
 # verification (unknown ID, excerpt not in the document) are counted separately.
 #
-# Labels were drafted by Claude and must be verified by a human against the documents
-# and the requirement texts before the results are relied on.
-labelled_by: Claude (draft)
-status: draft
+# Labels were drafted by Claude and verified by a human (OG V, 2026-09-26) against the
+# documents and the requirement texts, since an LLM-drafted gold set evaluating an LLM
+# would be circular.
+labelled_by: Claude (draft), verified by OG V
+status: reviewed
 
 documents:
   lab/profiles/hardened/org/evidence/information-security-policy.md:
