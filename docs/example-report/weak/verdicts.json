@@ -1,0 +1,1076 @@
+[
+  {
+    "requirement_id": "REQ-CIR2690-1.1.2-01",
+    "title": "Annual and event-driven policy review by management",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2",
+    "nis2_article": "21(2)(a)",
+    "quote": "The network and information system security policy shall be reviewed and, where appropriate, updated by management bodies at least annually and when significant incidents or significant changes to operations or risks occur.",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-1.1.2-02",
+    "title": "Documentation of review results",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2",
+    "nis2_article": "21(2)(a)",
+    "quote": "The result of the reviews shall be documented.",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.2.2-01",
+    "title": "Assign and revoke access rights on principles",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "assign and revoke access rights based on the principles of need-to-know, least privilege and separation of duties",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.2.2-02",
+    "title": "Modify access rights on employment change",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "ensure that access rights are modified accordingly upon termination or change of employment",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.2.2-03",
+    "title": "Authorisation of access by relevant persons",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "ensure that access to network and information systems is authorised by the relevant persons",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.2.2-04",
+    "title": "Control third-party access rights",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "ensure that access rights appropriately address third-party access, such as visitors, suppliers and service providers, in particular by limiting access rights in scope and in duration",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.2.2-05",
+    "title": "Maintain register of granted access rights",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "maintain a register of access rights granted",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.2.2-06",
+    "title": "Log access rights management",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "apply logging to the management of access rights",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.3.2-01",
+    "title": "Strong authentication for privileged accounts",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "establish strong identification, authentication such as multi-factor authentication, and authorisation procedures for privileged accounts and system administration accounts;",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-IDP-001"
+    ],
+    "reason": "failed: CHK-IDP-001"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.3.2-02",
+    "title": "Dedicated system administration accounts",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "set up specific accounts to be used for system administration operations exclusively, such as installation, configuration, management or maintenance;",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.3.2-03",
+    "title": "Individualised and restricted administration privileges",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "individualise and restrict system administration privileges to the highest extent possible,",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-SSH-002"
+    ],
+    "reason": "failed: CHK-SSH-002"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.3.2-04",
+    "title": "Administration accounts limited to administration systems",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "provide that system administration accounts are only used to connect to system administration systems.",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.6.2-01",
+    "title": "Authentication strength matched to asset classification",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "ensure the strength of authentication is appropriate to the classification of the asset to be accessed",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-IDP-003",
+      "CHK-SSH-001"
+    ],
+    "reason": "failed: CHK-IDP-003, CHK-SSH-001"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.6.2-02",
+    "title": "Controlled allocation of secret authentication information",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "control the allocation to users and management of secret authentication information by a process that ensures the confidentiality of the information, including advising personnel on appropriate handling of authentication information",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.6.2-03",
+    "title": "Credential change at defined triggers",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "require the change of authentication credentials initially, at predefined intervals and upon suspicion that the credentials were compromised",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-IDP-004"
+    ],
+    "reason": "failed: CHK-IDP-004"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.6.2-04",
+    "title": "Credential reset and blocking after failed logins",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "require the reset of authentication credentials and the blocking of users after a predefined number of unsuccessful log-in attempts",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-IDP-002"
+    ],
+    "reason": "failed: CHK-IDP-002"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.6.2-05",
+    "title": "Termination of inactive sessions",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "terminate inactive sessions after a predefined period of inactivity",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.6.2-06",
+    "title": "Separate credentials for privileged accounts",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "require separate credentials to access privileged access or administrative accounts",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.7.1-01",
+    "title": "Multi-factor or continuous authentication for access",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.7.1",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "The relevant entities shall ensure that users are authenticated by multiple authentication factors or continuous authentication mechanisms for accessing the relevant entities\u2019 network and information systems, where appropriate, in accordance with the classification of the asset to be accessed.",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-IDP-001"
+    ],
+    "reason": "failed: CHK-IDP-001"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-11.7.2-01",
+    "title": "Authentication strength matched to asset classification",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.7.2",
+    "nis2_article": "21(2)(i), (j)",
+    "quote": "The relevant entities shall ensure that the strength of authentication is appropriate for the classification of the asset to be accessed.",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-IDP-003",
+      "CHK-SSH-001"
+    ],
+    "reason": "failed: CHK-IDP-003, CHK-SSH-001"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-12.4.1-01",
+    "title": "Maintain complete asset inventory",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 12.4.1",
+    "nis2_article": "21(2)(i)",
+    "quote": "The relevant entities shall develop and maintain a complete, accurate, up-to-date and consistent inventory of their assets.",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-AST-001"
+    ],
+    "reason": "failed: CHK-AST-001"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-12.4.1-02",
+    "title": "Traceable recording of inventory changes",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 12.4.1",
+    "nis2_article": "21(2)(i)",
+    "quote": "They shall record changes to the entries in the inventory in a traceable manner.",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.1-01",
+    "title": "Monitoring and logging procedures and tools",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.1",
+    "nis2_article": "21(2)(b)",
+    "quote": "The relevant entities shall lay down procedures and use tools to monitor and log activities on their network and information systems to detect events that could be considered as incidents",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.1-02",
+    "title": "Respond to detected events",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.1",
+    "nis2_article": "21(2)(b)",
+    "quote": "respond accordingly to mitigate the impact",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-01",
+    "title": "Maintain, document and review logs",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "Based on the procedures referred to in point 3.2.1, the relevant entities shall maintain, document, and review logs.",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-02",
+    "title": "List of assets subject to logging",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "The relevant entities shall establish a list of assets to be subject to logging based on the results of the risk assessment carried out pursuant to point 2.1.",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-03",
+    "title": "Log network traffic",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "relevant outbound and inbound network traffic",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-04",
+    "title": "Log user account and permission changes",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "creation, modification or deletion of users of the relevant entities\u2019 network and information systems and extension of the permissions",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-05",
+    "title": "Log system and application access",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "access to systems and applications",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-06",
+    "title": "Log authentication-related events",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "authentication-related events",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-07",
+    "title": "Log privileged and administrative access",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "all privileged access to systems and applications, and activities performed by administrative accounts",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-08",
+    "title": "Log critical configuration and backup file access",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "access or changes to critical configuration and backup files",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-09",
+    "title": "Log security tool events",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "event logs and logs from security tools, such as antivirus, intrusion detection systems or firewalls",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-10",
+    "title": "Log system resource use and performance",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "use of system resources, as well as their performance",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-11",
+    "title": "Log physical access to facilities",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "physical access to facilities",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-12",
+    "title": "Log network equipment and device access",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "access to and use of their network equipment and devices",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-13",
+    "title": "Log logging service state changes",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "activation, stopping and pausing of the various logs",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.3-14",
+    "title": "Log environmental events",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+    "nis2_article": "21(2)(b)",
+    "quote": "environmental events",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.4-01",
+    "title": "Regular log review for unusual trends",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4",
+    "nis2_article": "21(2)(b)",
+    "quote": "The logs shall be regularly reviewed for any unusual or unwanted trends.",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.4-02",
+    "title": "Alarm thresholds defined where appropriate",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4",
+    "nis2_article": "21(2)(b)",
+    "quote": "Where appropriate, the relevant entities shall lay down appropriate values for alarm thresholds.",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.4-03",
+    "title": "Alarm triggered on threshold exceedance",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4",
+    "nis2_article": "21(2)(b)",
+    "quote": "If the laid down values for alarm threshold are exceeded, an alarm shall be triggered, where appropriate, automatically.",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.4-04",
+    "title": "Timely qualified response to alarms",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4",
+    "nis2_article": "21(2)(b)",
+    "quote": "The relevant entities shall ensure that, in case of an alarm, a qualified and appropriate response is initiated in a timely manner.",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.5-01",
+    "title": "Maintain and back up logs",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.5",
+    "nis2_article": "21(2)(b)",
+    "quote": "The relevant entities shall maintain and back up logs for a predefined period",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-LOG-001"
+    ],
+    "reason": "failed: CHK-LOG-001 on loki, CHK-LOG-001 on elasticsearch"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-3.2.5-02",
+    "title": "Protect logs from unauthorised access or changes",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.5",
+    "nis2_article": "21(2)(b)",
+    "quote": "shall protect them from unauthorised access or changes",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-4.2.1-01",
+    "title": "Maintain backup copies of data",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.1",
+    "nis2_article": "21(2)(c)",
+    "quote": "The relevant entities shall maintain backup copies of data",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-BAK-001"
+    ],
+    "reason": "failed: CHK-BAK-001 on restic, CHK-BAK-001 on borg"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-4.2.1-02",
+    "title": "Sufficient resources for redundancy",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.1",
+    "nis2_article": "21(2)(c)",
+    "quote": "provide sufficient available resources, including facilities, network and information systems and staff, to ensure an appropriate level of redundancy",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-4.2.2-01",
+    "title": "Establish backup plans",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+    "nis2_article": "21(2)(c)",
+    "quote": "Based on the results of the risk assessment carried out pursuant to point 2.1 and the business continuity plan, the relevant entities shall lay down backup plans which include the following:",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-4.2.2-02",
+    "title": "Recovery times in backup plans",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+    "nis2_article": "21(2)(c)",
+    "quote": "(a) recovery times;",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-4.2.2-03",
+    "title": "Completeness and accuracy of backups",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+    "nis2_article": "21(2)(c)",
+    "quote": "(b) assurance that backup copies are complete and accurate, including configuration data and data stored in cloud computing service environment;",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-4.2.2-04",
+    "title": "Safe offsite storage of backups",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+    "nis2_article": "21(2)(c)",
+    "quote": "(c) storing backup copies (online or offline) in a safe location or locations, which are not in the same network as the system, and are at sufficient distance to escape any damage from a disaster at the main site;",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-4.2.2-05",
+    "title": "Access controls to backup copies",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+    "nis2_article": "21(2)(c)",
+    "quote": "(d) appropriate physical and logical access controls to backup copies, in accordance with the asset classification level;",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-BAK-002"
+    ],
+    "reason": "failed: CHK-BAK-002 on borg"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-4.2.2-06",
+    "title": "Restoring data from backups",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+    "nis2_article": "21(2)(c)",
+    "quote": "(e) restoring data from backup copies;",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-4.2.2-07",
+    "title": "Backup retention periods",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+    "nis2_article": "21(2)(c)",
+    "quote": "(f) retention periods based on business and regulatory requirements.",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-4.2.3-01",
+    "title": "Regular backup integrity checks",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.3",
+    "nis2_article": "21(2)(c)",
+    "quote": "The relevant entities shall perform regular integrity checks on the backup copies.",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.10.1-01",
+    "title": "Obtain technical vulnerability information",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1",
+    "nis2_article": "21(2)(e)",
+    "quote": "obtain information about technical vulnerabilities in their network and information systems",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.10.1-02",
+    "title": "Evaluate exposure to vulnerabilities",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1",
+    "nis2_article": "21(2)(e)",
+    "quote": "evaluate their exposure to such vulnerabilities",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.10.1-03",
+    "title": "Take measures to manage vulnerabilities",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1",
+    "nis2_article": "21(2)(e)",
+    "quote": "take appropriate measures to manage the vulnerabilities",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-VUL-001"
+    ],
+    "reason": "failed: CHK-VUL-001"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.10.2-01",
+    "title": "Monitor vulnerability information through appropriate channels",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2",
+    "nis2_article": "21(2)(e)",
+    "quote": "monitor information about vulnerabilities through appropriate channels, such as announcements of CSIRTs, competent authorities or information provided by suppliers or service providers",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.10.2-02",
+    "title": "Vulnerability scans at planned intervals",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2",
+    "nis2_article": "21(2)(e)",
+    "quote": "perform, where appropriate, vulnerability scans, and record evidence of the results of the scans, at planned intervals",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.10.2-03",
+    "title": "Address critical vulnerabilities without undue delay",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2",
+    "nis2_article": "21(2)(e)",
+    "quote": "address, without undue delay, vulnerabilities identified by the relevant entities as critical to their operations",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-VUL-001"
+    ],
+    "reason": "failed: CHK-VUL-001"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.10.2-04",
+    "title": "Compatibility with related management procedures",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2",
+    "nis2_article": "21(2)(e)",
+    "quote": "ensure that their vulnerability handling is compatible with their change management, security patch management, risk management and incident management procedures",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.10.2-05",
+    "title": "Vulnerability disclosure procedure",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2",
+    "nis2_article": "21(2)(e)",
+    "quote": "lay down a procedure for disclosing vulnerabilities in accordance with the applicable national coordinated vulnerability disclosure policy",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.6.1-01",
+    "title": "Establish coherent security patch procedures",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1",
+    "nis2_article": "21(2)(e)",
+    "quote": "The relevant entities shall specify and apply procedures, coherent with the change management procedures referred to in point 6.4.1 as well as with vulnerability management, risk management and other relevant management procedures, for ensuring that:",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.6.1-02",
+    "title": "Apply patches within reasonable time",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1",
+    "nis2_article": "21(2)(e)",
+    "quote": "security patches are applied within a reasonable time after they become available;",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-VUL-001"
+    ],
+    "reason": "failed: CHK-VUL-001"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.6.1-03",
+    "title": "Test patches before production deployment",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1",
+    "nis2_article": "21(2)(e)",
+    "quote": "security patches are tested before being applied in production systems;",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.6.1-04",
+    "title": "Trusted sources and integrity checking",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1",
+    "nis2_article": "21(2)(e)",
+    "quote": "security patches come from trusted sources and are checked for integrity;",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.6.1-05",
+    "title": "Compensating measures when patch unavailable",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1",
+    "nis2_article": "21(2)(e)",
+    "quote": "additional measures are implemented and residual risks are accepted in cases where a patch is not available or not applied pursuant to point 6.6.2.",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.6.2-01",
+    "title": "Non-application of patches only when justified",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.2",
+    "nis2_article": "21(2)(e)",
+    "quote": "the relevant entities may choose not to apply security patches when the disadvantages of applying the security patches outweigh the cybersecurity benefits",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-6.6.2-02",
+    "title": "Document reasons for not patching",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.2",
+    "nis2_article": "21(2)(e)",
+    "quote": "The relevant entities shall duly document and substantiate the reasons for any such decision.",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-7.3-01",
+    "title": "Review policy and procedures at planned intervals",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 7.3",
+    "nis2_article": "21(2)(f)",
+    "quote": "The relevant entities shall review and, where appropriate, update the policy and procedures at planned intervals and when significant incidents or significant changes to operations or risks.",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-7.3-02",
+    "title": "Update policy and procedures where appropriate",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 7.3",
+    "nis2_article": "21(2)(f)",
+    "quote": "update the policy and procedures at planned intervals and when significant incidents or significant changes to operations or risks",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-9.2-01",
+    "title": "Define cryptographic measures per asset classification",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2",
+    "nis2_article": "21(2)(h)",
+    "quote": "in accordance with the relevant entities\u2019 classification of assets, the type, strength and quality of the cryptographic measures required to protect the relevant entities\u2019 assets, including data at rest and data in transit",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-9.2-02",
+    "title": "Approve protocols, algorithms and usage practices",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2",
+    "nis2_article": "21(2)(h)",
+    "quote": "based on point (a), the protocols or families of protocols to be adopted, as well as cryptographic algorithms, cipher strength, cryptographic solutions and usage practices to be approved and required for use in the relevant entities, following, where appropriate, a cryptographic agility approach",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-CIR2690-9.2-03",
+    "title": "Establish key management approach",
+    "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2",
+    "nis2_article": "21(2)(h)",
+    "quote": "the relevant entities\u2019 approach to key management, including, where appropriate, methods for the following:",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "no checks implemented yet"
+  },
+  {
+    "requirement_id": "REQ-NIS2-21.2.A",
+    "title": "Risk analysis and information system security policies",
+    "provision": "Directive (EU) 2022/2555, Art. 21(2)(a)",
+    "nis2_article": "21(2)(a)",
+    "quote": "policies on risk analysis and information system security",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-NIS2-21.2.B",
+    "title": "Incident handling",
+    "provision": "Directive (EU) 2022/2555, Art. 21(2)(b)",
+    "nis2_article": "21(2)(b)",
+    "quote": "incident handling",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-DOC-002",
+      "CHK-LOG-001"
+    ],
+    "reason": "failed: CHK-DOC-002, CHK-LOG-001 on loki, CHK-LOG-001 on elasticsearch"
+  },
+  {
+    "requirement_id": "REQ-NIS2-21.2.C",
+    "title": "Business continuity and backup management",
+    "provision": "Directive (EU) 2022/2555, Art. 21(2)(c)",
+    "nis2_article": "21(2)(c)",
+    "quote": "business continuity, such as backup management and disaster recovery, and crisis management",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-BAK-001",
+      "CHK-BAK-002"
+    ],
+    "reason": "failed: CHK-BAK-001 on restic, CHK-BAK-001 on borg, CHK-BAK-002 on borg"
+  },
+  {
+    "requirement_id": "REQ-NIS2-21.2.D",
+    "title": "Supply chain security",
+    "provision": "Directive (EU) 2022/2555, Art. 21(2)(d)",
+    "nis2_article": "21(2)(d)",
+    "quote": "supply chain security, including security-related aspects concerning the relationships between each entity and its direct suppliers or service providers",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-NIS2-21.2.E",
+    "title": "Secure acquisition, development and maintenance; vulnerability handling",
+    "provision": "Directive (EU) 2022/2555, Art. 21(2)(e)",
+    "nis2_article": "21(2)(e)",
+    "quote": "security in network and information systems acquisition, development and maintenance, including vulnerability handling and disclosure",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-VUL-001"
+    ],
+    "reason": "failed: CHK-VUL-001"
+  },
+  {
+    "requirement_id": "REQ-NIS2-21.2.F",
+    "title": "Assessing the effectiveness of risk-management measures",
+    "provision": "Directive (EU) 2022/2555, Art. 21(2)(f)",
+    "nis2_article": "21(2)(f)",
+    "quote": "policies and procedures to assess the effectiveness of cybersecurity risk-management measures",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-NIS2-21.2.G",
+    "title": "Cyber hygiene and training",
+    "provision": "Directive (EU) 2022/2555, Art. 21(2)(g)",
+    "nis2_article": "21(2)(g)",
+    "quote": "basic cyber hygiene practices and cybersecurity training",
+    "testability": "organisational",
+    "review_status": "reviewed",
+    "verdict": "not_assessed",
+    "check_ids": [],
+    "reason": "organisational requirement: needs audit, not automated checks"
+  },
+  {
+    "requirement_id": "REQ-NIS2-21.2.H",
+    "title": "Cryptography and encryption",
+    "provision": "Directive (EU) 2022/2555, Art. 21(2)(h)",
+    "nis2_article": "21(2)(h)",
+    "quote": "policies and procedures regarding the use of cryptography and, where appropriate, encryption",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-TLS-001",
+      "CHK-TLS-002",
+      "CHK-TLS-003"
+    ],
+    "reason": "failed: CHK-TLS-001, CHK-TLS-002, CHK-TLS-003"
+  },
+  {
+    "requirement_id": "REQ-NIS2-21.2.I",
+    "title": "HR security, access control and asset management",
+    "provision": "Directive (EU) 2022/2555, Art. 21(2)(i)",
+    "nis2_article": "21(2)(i)",
+    "quote": "human resources security, access control policies and asset management",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-IDP-002",
+      "CHK-IDP-003",
+      "CHK-IDP-004",
+      "CHK-AST-001",
+      "CHK-SSH-001",
+      "CHK-SSH-002",
+      "CHK-SSH-003"
+    ],
+    "reason": "failed: CHK-AST-001, CHK-IDP-002, CHK-IDP-003, CHK-IDP-004, CHK-SSH-001, CHK-SSH-002, CHK-SSH-003"
+  },
+  {
+    "requirement_id": "REQ-NIS2-21.2.J",
+    "title": "Multi-factor or continuous authentication",
+    "provision": "Directive (EU) 2022/2555, Art. 21(2)(j)",
+    "nis2_article": "21(2)(j)",
+    "quote": "the use of multi-factor authentication or continuous authentication solutions, secured voice, video and text communications and secured emergency communication systems within the entity, where appropriate.",
+    "testability": "technical",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-IDP-001"
+    ],
+    "reason": "failed: CHK-IDP-001"
+  },
+  {
+    "requirement_id": "REQ-NIS2-23.4",
+    "title": "Staged reporting of significant incidents to the CSIRT",
+    "provision": "Directive (EU) 2022/2555, Art. 23(4)(a), (b) and (d)",
+    "nis2_article": "23(4)",
+    "quote": "without undue delay and in any event within 24 hours of becoming aware of the significant incident, an early warning",
+    "testability": "documentary",
+    "review_status": "reviewed",
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-DOC-001"
+    ],
+    "reason": "failed: CHK-DOC-001"
+  }
+]

@@ -1,0 +1,97 @@
+{
+  "tool": "nis2scan 0.1.0",
+  "target": "nordmsp-lab",
+  "started_at": "2026-09-26T01:32:48.747857+00:00",
+  "profile_sha256": "3ff459e2e0235cee7a4cb33f341754de058a92c2a528f5fbcf8ae7b4e481a11d",
+  "evidence_sha256": {
+    "asset_inventory/documents": "7f2c19482bc42772b6d882f0d8e439ad37f802cd9efd820f081ab54b55d6d1df",
+    "backup_detect/borg": "e2393525484d1cac47a64c9594707af2e72378f27981f3e6911b647c7f5d3a89",
+    "backup_detect/restic": "a6cf8c1cee252eac234366d4c2c6c4ef5a64fa57bd6f94e01c8d476228985ddd",
+    "backup_snapshots/borg": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
+    "backup_snapshots/restic": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
+    "docker_services/nis2lab": "a462a5b9bd8f07c4e688b0b84670dfa3c17a0b8fbaa8dff845a14514dc314936",
+    "http_probe/portal": "53607204b297969a330358addd2b798475599e0b04a8b27fe6f1f7daf3cffd42",
+    "idp_config/keycloak": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
+    "idp_default_admin/keycloak": "b64983c1f90d4970603a35c5eadc86624a70404c397dbd9b4e9027c14461b161",
+    "idp_detect/keycloak": "56271461d2a7a6c26336df77892719553d6bc84ffa17fb6b9a7315b95861ec3b",
+    "image_vulnerabilities/nis2lab": "968b16cc7cc4c11fcfb7c33799017334855250cbde4468facbdfa191f2b67d94",
+    "ir_plan/documents": "9d3a771cb13df2ccf89a87a0212a3a77489ea462736d8a534ac1d58dc9b671d4",
+    "log_retention/elasticsearch": "0d15065516bd6ab6dda648514c340fc8d19a784e90f38e2c27298c0d13865fca",
+    "log_retention/loki": "a984ff30cfc662a0d278aeb0814bdada06bbb1afa2a393b3aa69ebca89f7937d",
+    "logs_detect/elasticsearch": "6bc17419c630781ac60c9f190c4a3baa7f1667b9419496b4818df5856b71a4ad",
+    "logs_detect/loki": "7e9b8c1399fb5cab2853f7bd9485f06b174bafd722f084da5c07edf45267a802",
+    "ssh_auth_methods/app-host": "8955b652b3097d37fd6310d4092c424495f51bffff2a679958ba0e891a5345bf",
+    "sshd_effective_config/app-host": "f02487f0c2a27fb704e186637f447b31b859e673c57826e5723711e09860eb0e",
+    "tls_probe/portal": "be5974de9996ae09896627cff985b4e53b74d58e6f04a9d4137ac3d33cd57818"
+  },
+  "assets": [
+    {
+      "section": "web",
+      "name": "portal",
+      "product": null
+    },
+    {
+      "section": "ssh",
+      "name": "app-host",
+      "product": null
+    },
+    {
+      "section": "idp",
+      "name": "keycloak",
+      "product": "keycloak",
+      "label": "Keycloak",
+      "method": "OpenID configuration",
+      "detail": "issuer http://127.0.0.1:18081/realms/nordmsp"
+    },
+    {
+      "section": "logs",
+      "name": "loki",
+      "product": "loki",
+      "label": "Grafana Loki",
+      "method": "build-info endpoint (Loki 3.7.8)",
+      "detail": ""
+    },
+    {
+      "section": "logs",
+      "name": "elasticsearch",
+      "product": "elasticsearch",
+      "label": "Elasticsearch",
+      "method": "authentication error (security_exception)",
+      "detail": ""
+    },
+    {
+      "section": "backup",
+      "name": "restic",
+      "product": "restic",
+      "label": "restic",
+      "method": "restic 0.19.1 found in container nis2lab-backup-1",
+      "detail": ""
+    },
+    {
+      "section": "backup",
+      "name": "borg",
+      "product": "borg",
+      "label": "BorgBackup",
+      "method": "borg 1.4.4 found in container nis2lab-backup-borg-1",
+      "detail": ""
+    },
+    {
+      "section": "docker",
+      "name": "nis2lab",
+      "product": null
+    },
+    {
+      "section": "documents",
+      "name": "documents",
+      "product": null
+    }
+  ],
+  "engagement": {
+    "client": "NordMSP AS (fictional lab)",
+    "authorised_by": "Lab owner",
+    "authorised_on": "2026-09-01",
+    "valid_until": "2027-12-31",
+    "active_tests": true,
+    "notes": ""
+  }
+}

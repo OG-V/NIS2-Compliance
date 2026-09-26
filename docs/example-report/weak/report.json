@@ -1,0 +1,3918 @@
+{
+  "target": "nordmsp-lab",
+  "started_at": "2026-09-26T01:31:57.863818+00:00",
+  "tool": "nis2scan 0.1.0",
+  "profile_sha256": "3ff459e2e0235cee7a4cb33f341754de058a92c2a528f5fbcf8ae7b4e481a11d",
+  "check_counts": {
+    "pass": 0,
+    "fail": 17,
+    "error": 0,
+    "not_applicable": 0
+  },
+  "verdict_counts": {
+    "evidenced": 0,
+    "partially_evidenced": 0,
+    "not_satisfied": 21,
+    "not_assessed": 64
+  },
+  "articles": [
+    {
+      "point": "21(2)(a)",
+      "title": "Risk analysis and information system security policies",
+      "verdict": "not_assessed",
+      "detailed": 2,
+      "detailed_not_satisfied": 0,
+      "detailed_assessed": 0,
+      "short_title": "Risk analysis and security policies",
+      "icon": "policy"
+    },
+    {
+      "point": "21(2)(b)",
+      "title": "Incident handling",
+      "verdict": "not_satisfied",
+      "detailed": 22,
+      "detailed_not_satisfied": 1,
+      "detailed_assessed": 1,
+      "short_title": "Incident handling",
+      "icon": "incident"
+    },
+    {
+      "point": "21(2)(c)",
+      "title": "Business continuity and backup management",
+      "verdict": "not_satisfied",
+      "detailed": 10,
+      "detailed_not_satisfied": 2,
+      "detailed_assessed": 2,
+      "short_title": "Business continuity and backups",
+      "icon": "backup"
+    },
+    {
+      "point": "21(2)(d)",
+      "title": "Supply chain security",
+      "verdict": "not_assessed",
+      "detailed": 0,
+      "detailed_not_satisfied": 0,
+      "detailed_assessed": 0,
+      "short_title": "Supply chain security",
+      "icon": "supply"
+    },
+    {
+      "point": "21(2)(e)",
+      "title": "Secure acquisition, development and maintenance; vulnerability handling",
+      "verdict": "not_satisfied",
+      "detailed": 15,
+      "detailed_not_satisfied": 3,
+      "detailed_assessed": 3,
+      "short_title": "Secure development and vulnerability handling",
+      "icon": "code"
+    },
+    {
+      "point": "21(2)(f)",
+      "title": "Assessing the effectiveness of risk-management measures",
+      "verdict": "not_assessed",
+      "detailed": 2,
+      "detailed_not_satisfied": 0,
+      "detailed_assessed": 0,
+      "short_title": "Checking that the measures work",
+      "icon": "gauge"
+    },
+    {
+      "point": "21(2)(g)",
+      "title": "Cyber hygiene and training",
+      "verdict": "not_assessed",
+      "detailed": 0,
+      "detailed_not_satisfied": 0,
+      "detailed_assessed": 0,
+      "short_title": "Cyber hygiene and training",
+      "icon": "training"
+    },
+    {
+      "point": "21(2)(h)",
+      "title": "Cryptography and encryption",
+      "verdict": "not_satisfied",
+      "detailed": 3,
+      "detailed_not_satisfied": 0,
+      "detailed_assessed": 0,
+      "short_title": "Cryptography and encryption",
+      "icon": "lock"
+    },
+    {
+      "point": "21(2)(i)",
+      "title": "HR security, access control and asset management",
+      "verdict": "not_satisfied",
+      "detailed": 20,
+      "detailed_not_satisfied": 8,
+      "detailed_assessed": 8,
+      "short_title": "Access control and asset management",
+      "icon": "access"
+    },
+    {
+      "point": "21(2)(j)",
+      "title": "Multi-factor or continuous authentication",
+      "verdict": "not_satisfied",
+      "detailed": 18,
+      "detailed_not_satisfied": 7,
+      "detailed_assessed": 7,
+      "short_title": "Multi-factor authentication",
+      "icon": "mfa"
+    },
+    {
+      "point": "23(4)",
+      "title": "Staged reporting of significant incidents to the CSIRT",
+      "verdict": "not_satisfied",
+      "detailed": 0,
+      "detailed_not_satisfied": 0,
+      "detailed_assessed": 0,
+      "short_title": "Reporting incidents to the CSIRT",
+      "icon": "report"
+    }
+  ],
+  "gaps": [
+    {
+      "finding_id": "CHK-IDP-004",
+      "title": "Default admin credentials are rejected",
+      "severity": "critical",
+      "message": "Admin console accepts admin/admin",
+      "observed": {
+        "username_tried": "admin",
+        "result": "HTTP 200"
+      },
+      "expected": {
+        "accepted": false
+      },
+      "evidence_ref": "evidence/idp_default_admin/keycloak.json",
+      "evidence_sha256": "55cc9154d2795fe32e0bb7bf128261411c086a0e2a51388a5a4c756f0ea50b3b",
+      "action": "Change the default admin password",
+      "effort": "quick",
+      "why": "Default admin credentials give anyone full control of every staff identity.",
+      "found": "The admin console accepted the default username \u201cadmin\u201d with its default password.",
+      "should": "The default login is refused.",
+      "topic": "Access control and asset management",
+      "asset": "keycloak",
+      "asset_kind": "identity providers",
+      "assets": [
+        {
+          "asset": "keycloak",
+          "status": "fail",
+          "message": "Admin console accepts admin/admin",
+          "observed": {
+            "username_tried": "admin",
+            "result": "HTTP 200"
+          },
+          "expected": {
+            "accepted": false
+          },
+          "evidence_ref": "evidence/idp_default_admin/keycloak.json",
+          "evidence_sha256": "55cc9154d2795fe32e0bb7bf128261411c086a0e2a51388a5a4c756f0ea50b3b",
+          "found": "The admin console accepted the default username \u201cadmin\u201d with its default password.",
+          "should": "The default login is refused."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.I",
+          "title": "HR security, access control and asset management",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(i)",
+          "nis2_article": "21(2)(i)",
+          "quote": "human resources security, access control policies and asset management"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-11.6.2-03",
+          "title": "Credential change at defined triggers",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+          "nis2_article": "21(2)(i), (j)",
+          "quote": "require the change of authentication credentials initially, at predefined intervals and upon suspicion that the credentials were compromised"
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-BAK-001",
+      "title": "A recent backup snapshot exists",
+      "severity": "high",
+      "message": "Newest backup is 559 days old",
+      "observed": {
+        "snapshots": 1,
+        "newest": "2025-03-15T03:00:00+00:00",
+        "age_hours": 13438.5
+      },
+      "expected": {
+        "max_age_hours": 26
+      },
+      "evidence_ref": "evidence/backup_snapshots/borg.json",
+      "evidence_sha256": "2fecceaab5dc7070461763fd6eece9dbdc24f0f01e3e447d6e86b8f939c27e1d",
+      "action": "Restart automatic backups",
+      "effort": "change",
+      "why": "Without recent backups, ransomware or failure causes permanent data loss.",
+      "found": "The newest backup was taken on 15 March 2025, 559 days ago.",
+      "should": "A backup no older than 26 hours.",
+      "topic": "Business continuity and backups",
+      "asset": "borg",
+      "asset_kind": "backup repositories",
+      "assets": [
+        {
+          "asset": "borg",
+          "status": "fail",
+          "message": "Newest backup is 559 days old",
+          "observed": {
+            "snapshots": 1,
+            "newest": "2025-03-15T03:00:00+00:00",
+            "age_hours": 13438.5
+          },
+          "expected": {
+            "max_age_hours": 26
+          },
+          "evidence_ref": "evidence/backup_snapshots/borg.json",
+          "evidence_sha256": "2fecceaab5dc7070461763fd6eece9dbdc24f0f01e3e447d6e86b8f939c27e1d",
+          "found": "The newest backup was taken on 15 March 2025, 559 days ago.",
+          "should": "A backup no older than 26 hours."
+        },
+        {
+          "asset": "restic",
+          "status": "fail",
+          "message": "Newest backup is 481 days old",
+          "observed": {
+            "snapshots": 1,
+            "newest": "2025-06-01T02:00:00+00:00",
+            "age_hours": 11567.5
+          },
+          "expected": {
+            "max_age_hours": 26
+          },
+          "evidence_ref": "evidence/backup_snapshots/restic.json",
+          "evidence_sha256": "cf800ed1454ce69752db0fcca5f9db4c1ec7a230d749ce5641ef3beeee733dd6",
+          "found": "The newest backup was taken on 1 June 2025, 481 days ago.",
+          "should": "A backup no older than 26 hours."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.C",
+          "title": "Business continuity and backup management",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(c)",
+          "nis2_article": "21(2)(c)",
+          "quote": "business continuity, such as backup management and disaster recovery, and crisis management"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-4.2.1-01",
+          "title": "Maintain backup copies of data",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.1",
+          "nis2_article": "21(2)(c)",
+          "quote": "The relevant entities shall maintain backup copies of data"
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-IDP-001",
+      "title": "Every staff account has MFA enrolled or is forced to enrol",
+      "severity": "high",
+      "message": "2 account(s) without MFA: kari.admin, ola.tech; new accounts are not required to enrol a second factor",
+      "observed": {
+        "new_users_must_enrol_mfa": false,
+        "users_without_mfa": [
+          "kari.admin",
+          "ola.tech"
+        ]
+      },
+      "expected": {
+        "new_users_must_enrol_mfa": true,
+        "users_without_mfa": []
+      },
+      "evidence_ref": "evidence/idp_config/keycloak.json",
+      "evidence_sha256": "66c7e01f5bccbaa4f7846444c24bef6b9700af4f3aa47dc4de7c232549515280",
+      "action": "Turn on two-factor login for every account",
+      "effort": "change",
+      "why": "Staff accounts reach customer systems; a stolen password alone must not be enough.",
+      "found": "Accounts that log in with a password alone: kari.admin and ola.tech. New accounts are not asked to set up two-factor login.",
+      "should": "Every account uses two-factor login, and new accounts must set it up.",
+      "topic": "Multi-factor authentication",
+      "asset": "keycloak",
+      "asset_kind": "identity providers",
+      "assets": [
+        {
+          "asset": "keycloak",
+          "status": "fail",
+          "message": "2 account(s) without MFA: kari.admin, ola.tech; new accounts are not required to enrol a second factor",
+          "observed": {
+            "new_users_must_enrol_mfa": false,
+            "users_without_mfa": [
+              "kari.admin",
+              "ola.tech"
+            ]
+          },
+          "expected": {
+            "new_users_must_enrol_mfa": true,
+            "users_without_mfa": []
+          },
+          "evidence_ref": "evidence/idp_config/keycloak.json",
+          "evidence_sha256": "66c7e01f5bccbaa4f7846444c24bef6b9700af4f3aa47dc4de7c232549515280",
+          "found": "Accounts that log in with a password alone: kari.admin and ola.tech. New accounts are not asked to set up two-factor login.",
+          "should": "Every account uses two-factor login, and new accounts must set it up."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.J",
+          "title": "Multi-factor or continuous authentication",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(j)",
+          "nis2_article": "21(2)(j)",
+          "quote": "the use of multi-factor authentication or continuous authentication solutions, secured voice, video and text communications and secured emergency communication systems within the entity, where appropriate."
+        },
+        {
+          "requirement_id": "REQ-CIR2690-11.3.2-01",
+          "title": "Strong authentication for privileged accounts",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2",
+          "nis2_article": "21(2)(i), (j)",
+          "quote": "establish strong identification, authentication such as multi-factor authentication, and authorisation procedures for privileged accounts and system administration accounts;"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-11.7.1-01",
+          "title": "Multi-factor or continuous authentication for access",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.7.1",
+          "nis2_article": "21(2)(i), (j)",
+          "quote": "The relevant entities shall ensure that users are authenticated by multiple authentication factors or continuous authentication mechanisms for accessing the relevant entities\u2019 network and information systems, where appropriate, in accordance with the classification of the asset to be accessed."
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-SSH-001",
+      "title": "SSH does not offer password authentication",
+      "severity": "high",
+      "message": "Server offers password authentication",
+      "observed": {
+        "auth_methods_offered": [
+          "password",
+          "publickey"
+        ]
+      },
+      "expected": {
+        "not_offered": [
+          "password",
+          "keyboard-interactive",
+          "none"
+        ]
+      },
+      "evidence_ref": "evidence/ssh_auth_methods/app-host.json",
+      "evidence_sha256": "4aed10bcbea333ec8f1e87e605dc6a79cb47568f247041dbdbadcd6255f8373d",
+      "action": "Allow only key-based server logins, not passwords",
+      "effort": "quick",
+      "why": "Password logins on an admin host can be brute-forced or phished.",
+      "found": "The server accepts password logins, which can be guessed or bypassed.",
+      "should": "Only key-based logins (public key) are accepted.",
+      "topic": "Access control and asset management",
+      "asset": "app-host",
+      "asset_kind": "SSH hosts",
+      "assets": [
+        {
+          "asset": "app-host",
+          "status": "fail",
+          "message": "Server offers password authentication",
+          "observed": {
+            "auth_methods_offered": [
+              "password",
+              "publickey"
+            ]
+          },
+          "expected": {
+            "not_offered": [
+              "password",
+              "keyboard-interactive",
+              "none"
+            ]
+          },
+          "evidence_ref": "evidence/ssh_auth_methods/app-host.json",
+          "evidence_sha256": "4aed10bcbea333ec8f1e87e605dc6a79cb47568f247041dbdbadcd6255f8373d",
+          "found": "The server accepts password logins, which can be guessed or bypassed.",
+          "should": "Only key-based logins (public key) are accepted."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.I",
+          "title": "HR security, access control and asset management",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(i)",
+          "nis2_article": "21(2)(i)",
+          "quote": "human resources security, access control policies and asset management"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-11.6.2-01",
+          "title": "Authentication strength matched to asset classification",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+          "nis2_article": "21(2)(i), (j)",
+          "quote": "ensure the strength of authentication is appropriate to the classification of the asset to be accessed"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-11.7.2-01",
+          "title": "Authentication strength matched to asset classification",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.7.2",
+          "nis2_article": "21(2)(i), (j)",
+          "quote": "The relevant entities shall ensure that the strength of authentication is appropriate for the classification of the asset to be accessed."
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-SSH-002",
+      "title": "Direct root login over SSH is disabled",
+      "severity": "high",
+      "message": "PermitRootLogin is 'yes'",
+      "observed": {
+        "permitrootlogin": "yes"
+      },
+      "expected": {
+        "permitrootlogin": "no"
+      },
+      "evidence_ref": "evidence/sshd_effective_config/app-host.json",
+      "evidence_sha256": "2c22468e076bce4eca67579bd8795f310dd74a6b9cf02637417fcecb63e43f88",
+      "action": "Stop direct administrator (root) logins to the server",
+      "effort": "quick",
+      "why": "Shared root logins remove individual accountability and give an attacker full control.",
+      "found": "Anyone with the root password can log straight in as administrator (PermitRootLogin yes).",
+      "should": "Direct root login is switched off. Administrators log in as themselves first.",
+      "topic": "Access control and asset management",
+      "asset": "app-host",
+      "asset_kind": "SSH hosts",
+      "assets": [
+        {
+          "asset": "app-host",
+          "status": "fail",
+          "message": "PermitRootLogin is 'yes'",
+          "observed": {
+            "permitrootlogin": "yes"
+          },
+          "expected": {
+            "permitrootlogin": "no"
+          },
+          "evidence_ref": "evidence/sshd_effective_config/app-host.json",
+          "evidence_sha256": "2c22468e076bce4eca67579bd8795f310dd74a6b9cf02637417fcecb63e43f88",
+          "found": "Anyone with the root password can log straight in as administrator (PermitRootLogin yes).",
+          "should": "Direct root login is switched off. Administrators log in as themselves first."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.I",
+          "title": "HR security, access control and asset management",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(i)",
+          "nis2_article": "21(2)(i)",
+          "quote": "human resources security, access control policies and asset management"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-11.3.2-03",
+          "title": "Individualised and restricted administration privileges",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2",
+          "nis2_article": "21(2)(i), (j)",
+          "quote": "individualise and restrict system administration privileges to the highest extent possible,"
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-TLS-001",
+      "title": "TLS versions below the profile minimum are refused",
+      "severity": "high",
+      "message": "Server accepts TLSv1, TLSv1.1",
+      "observed": {
+        "accepted_versions": [
+          "TLSv1",
+          "TLSv1.1",
+          "TLSv1.2"
+        ]
+      },
+      "expected": {
+        "min_version": "TLSv1.2"
+      },
+      "evidence_ref": "evidence/tls_probe/portal.json",
+      "evidence_sha256": "7629ba9359a270cf1cad2111ebf5ebd3414f7ac317732e3a8d6be6c5f6fff0ff",
+      "action": "Switch off outdated encryption versions on the website",
+      "effort": "quick",
+      "why": "Legacy TLS allows downgrade attacks on traffic to a public service.",
+      "found": "The website still accepts TLSv1 and TLSv1.1, which are outdated and can be attacked.",
+      "should": "Only TLSv1.2 or newer is accepted.",
+      "topic": "Cryptography and encryption",
+      "asset": "portal",
+      "asset_kind": "web endpoints",
+      "assets": [
+        {
+          "asset": "portal",
+          "status": "fail",
+          "message": "Server accepts TLSv1, TLSv1.1",
+          "observed": {
+            "accepted_versions": [
+              "TLSv1",
+              "TLSv1.1",
+              "TLSv1.2"
+            ]
+          },
+          "expected": {
+            "min_version": "TLSv1.2"
+          },
+          "evidence_ref": "evidence/tls_probe/portal.json",
+          "evidence_sha256": "7629ba9359a270cf1cad2111ebf5ebd3414f7ac317732e3a8d6be6c5f6fff0ff",
+          "found": "The website still accepts TLSv1 and TLSv1.1, which are outdated and can be attacked.",
+          "should": "Only TLSv1.2 or newer is accepted."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.H",
+          "title": "Cryptography and encryption",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(h)",
+          "nis2_article": "21(2)(h)",
+          "quote": "policies and procedures regarding the use of cryptography and, where appropriate, encryption"
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-VUL-001",
+      "title": "No unaccepted, fixable vulnerability at the failing severity in running images",
+      "severity": "high",
+      "message": "Fixable CRITICAL vulnerabilities in nginx:1.20 (17), quay.io/keycloak/keycloak:26.3 (5), elasticsearch:8.19.10 (3), nis2lab-backup (3), grafana/loki:3.5.1 (2)",
+      "observed": {
+        "images_scanned": 8,
+        "failing": {
+          "elasticsearch:8.19.10": [
+            "CVE-2025-14813",
+            "CVE-2026-75595",
+            "CVE-2026-8763"
+          ],
+          "grafana/loki:3.5.1": [
+            "CVE-2025-68121",
+            "CVE-2026-33186"
+          ],
+          "nginx:1.20": [
+            "CVE-2021-22945",
+            "CVE-2021-46848",
+            "CVE-2022-1586",
+            "CVE-2022-1587",
+            "CVE-2022-1664",
+            "CVE-2022-27404",
+            "CVE-2022-29155",
+            "CVE-2022-32207",
+            "CVE-2022-32221",
+            "CVE-2022-37434",
+            "CVE-2023-38545",
+            "CVE-2024-37371",
+            "CVE-2024-45491",
+            "CVE-2024-45492",
+            "CVE-2024-56171",
+            "CVE-2026-33845",
+            "CVE-2026-42010"
+          ],
+          "nis2lab-backup": [
+            "CVE-2025-68121",
+            "CVE-2026-31789",
+            "CVE-2026-33186"
+          ],
+          "quay.io/keycloak/keycloak:26.3": [
+            "CVE-2025-14813",
+            "CVE-2026-18963",
+            "CVE-2026-75595",
+            "CVE-2026-84939",
+            "CVE-2026-8763"
+          ]
+        },
+        "accepted_risks": [],
+        "os_end_of_support": [
+          "nginx:1.20"
+        ]
+      },
+      "expected": {
+        "severities": [
+          "CRITICAL"
+        ],
+        "only_with_fix": true
+      },
+      "evidence_ref": "evidence/image_vulnerabilities/nis2lab.json",
+      "evidence_sha256": "f0c7960f737e64a41823bdcd13527cab5dbf9034cdbabf2425cee12a1aaf19a0",
+      "action": "Update software that has known critical flaws",
+      "effort": "project",
+      "why": "Known, fixable critical vulnerabilities are the most common way in.",
+      "found": "30 known critical flaws with an available fix, in 5 components: elasticsearch:8.19.10 (3), grafana/loki:3.5.1 (2), nginx:1.20 (17), nis2lab-backup (3) and quay.io/keycloak/keycloak:26.3 (5). nginx:1.20 runs on an operating system that no longer gets updates.",
+      "should": "No fixable critical flaws, unless a documented risk exception covers them.",
+      "topic": "Secure development and vulnerability handling",
+      "asset": "nis2lab",
+      "asset_kind": "Docker projects",
+      "assets": [
+        {
+          "asset": "nis2lab",
+          "status": "fail",
+          "message": "Fixable CRITICAL vulnerabilities in nginx:1.20 (17), quay.io/keycloak/keycloak:26.3 (5), elasticsearch:8.19.10 (3), nis2lab-backup (3), grafana/loki:3.5.1 (2)",
+          "observed": {
+            "images_scanned": 8,
+            "failing": {
+              "elasticsearch:8.19.10": [
+                "CVE-2025-14813",
+                "CVE-2026-75595",
+                "CVE-2026-8763"
+              ],
+              "grafana/loki:3.5.1": [
+                "CVE-2025-68121",
+                "CVE-2026-33186"
+              ],
+              "nginx:1.20": [
+                "CVE-2021-22945",
+                "CVE-2021-46848",
+                "CVE-2022-1586",
+                "CVE-2022-1587",
+                "CVE-2022-1664",
+                "CVE-2022-27404",
+                "CVE-2022-29155",
+                "CVE-2022-32207",
+                "CVE-2022-32221",
+                "CVE-2022-37434",
+                "CVE-2023-38545",
+                "CVE-2024-37371",
+                "CVE-2024-45491",
+                "CVE-2024-45492",
+                "CVE-2024-56171",
+                "CVE-2026-33845",
+                "CVE-2026-42010"
+              ],
+              "nis2lab-backup": [
+                "CVE-2025-68121",
+                "CVE-2026-31789",
+                "CVE-2026-33186"
+              ],
+              "quay.io/keycloak/keycloak:26.3": [
+                "CVE-2025-14813",
+                "CVE-2026-18963",
+                "CVE-2026-75595",
+                "CVE-2026-84939",
+                "CVE-2026-8763"
+              ]
+            },
+            "accepted_risks": [],
+            "os_end_of_support": [
+              "nginx:1.20"
+            ]
+          },
+          "expected": {
+            "severities": [
+              "CRITICAL"
+            ],
+            "only_with_fix": true
+          },
+          "evidence_ref": "evidence/image_vulnerabilities/nis2lab.json",
+          "evidence_sha256": "f0c7960f737e64a41823bdcd13527cab5dbf9034cdbabf2425cee12a1aaf19a0",
+          "found": "30 known critical flaws with an available fix, in 5 components: elasticsearch:8.19.10 (3), grafana/loki:3.5.1 (2), nginx:1.20 (17), nis2lab-backup (3) and quay.io/keycloak/keycloak:26.3 (5). nginx:1.20 runs on an operating system that no longer gets updates.",
+          "should": "No fixable critical flaws, unless a documented risk exception covers them."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.E",
+          "title": "Secure acquisition, development and maintenance; vulnerability handling",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(e)",
+          "nis2_article": "21(2)(e)",
+          "quote": "security in network and information systems acquisition, development and maintenance, including vulnerability handling and disclosure"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-6.10.1-03",
+          "title": "Take measures to manage vulnerabilities",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1",
+          "nis2_article": "21(2)(e)",
+          "quote": "take appropriate measures to manage the vulnerabilities"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-6.10.2-03",
+          "title": "Address critical vulnerabilities without undue delay",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2",
+          "nis2_article": "21(2)(e)",
+          "quote": "address, without undue delay, vulnerabilities identified by the relevant entities as critical to their operations"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-6.6.1-02",
+          "title": "Apply patches within reasonable time",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1",
+          "nis2_article": "21(2)(e)",
+          "quote": "security patches are applied within a reasonable time after they become available;"
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-AST-001",
+      "title": "Every running service is in the asset inventory",
+      "severity": "medium",
+      "message": "Not in the inventory: backup, backup-borg, legacy-web, logs, search",
+      "observed": {
+        "undeclared_services": [
+          "backup",
+          "backup-borg",
+          "legacy-web",
+          "logs",
+          "search"
+        ],
+        "running": [
+          "backup",
+          "backup-borg",
+          "host",
+          "idp",
+          "legacy-web",
+          "logs",
+          "search",
+          "web"
+        ]
+      },
+      "expected": {
+        "undeclared_services": []
+      },
+      "evidence_ref": "evidence/asset_inventory/documents.json",
+      "evidence_sha256": "b85610a7cc6f55e2f10c90905b72ca9fbbc0bf03118b83a06d1531781591302f",
+      "action": "Add every running service to the asset inventory",
+      "effort": "quick",
+      "why": "Unknown services go unpatched and unmonitored.",
+      "found": "Running but missing from the asset inventory: backup, backup-borg, legacy-web, logs and search.",
+      "should": "Every running service is listed in the asset inventory.",
+      "topic": "Access control and asset management",
+      "asset": "documents",
+      "asset_kind": "document sets",
+      "assets": [
+        {
+          "asset": "documents",
+          "status": "fail",
+          "message": "Not in the inventory: backup, backup-borg, legacy-web, logs, search",
+          "observed": {
+            "undeclared_services": [
+              "backup",
+              "backup-borg",
+              "legacy-web",
+              "logs",
+              "search"
+            ],
+            "running": [
+              "backup",
+              "backup-borg",
+              "host",
+              "idp",
+              "legacy-web",
+              "logs",
+              "search",
+              "web"
+            ]
+          },
+          "expected": {
+            "undeclared_services": []
+          },
+          "evidence_ref": "evidence/asset_inventory/documents.json",
+          "evidence_sha256": "b85610a7cc6f55e2f10c90905b72ca9fbbc0bf03118b83a06d1531781591302f",
+          "found": "Running but missing from the asset inventory: backup, backup-borg, legacy-web, logs and search.",
+          "should": "Every running service is listed in the asset inventory."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.I",
+          "title": "HR security, access control and asset management",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(i)",
+          "nis2_article": "21(2)(i)",
+          "quote": "human resources security, access control policies and asset management"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-12.4.1-01",
+          "title": "Maintain complete asset inventory",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 12.4.1",
+          "nis2_article": "21(2)(i)",
+          "quote": "The relevant entities shall develop and maintain a complete, accurate, up-to-date and consistent inventory of their assets."
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-BAK-002",
+      "title": "Backup copies are encrypted",
+      "severity": "medium",
+      "message": "The backups are not encrypted",
+      "observed": {
+        "unencrypted_sets": [
+          "repository"
+        ],
+        "sets": 1
+      },
+      "expected": {
+        "unencrypted_sets": []
+      },
+      "evidence_ref": "evidence/backup_snapshots/borg.json",
+      "evidence_sha256": "2fecceaab5dc7070461763fd6eece9dbdc24f0f01e3e447d6e86b8f939c27e1d",
+      "action": "Encrypt the backups",
+      "effort": "change",
+      "why": "Unencrypted backups hand a full copy of the data to anyone who reaches the backup storage, bypassing every access control on the live systems.",
+      "found": "The backups are stored without encryption.",
+      "should": "Every backup copy is encrypted, with the key kept apart from the backups.",
+      "topic": "Business continuity and backups",
+      "asset": "borg",
+      "asset_kind": "backup repositories",
+      "assets": [
+        {
+          "asset": "borg",
+          "status": "fail",
+          "message": "The backups are not encrypted",
+          "observed": {
+            "unencrypted_sets": [
+              "repository"
+            ],
+            "sets": 1
+          },
+          "expected": {
+            "unencrypted_sets": []
+          },
+          "evidence_ref": "evidence/backup_snapshots/borg.json",
+          "evidence_sha256": "2fecceaab5dc7070461763fd6eece9dbdc24f0f01e3e447d6e86b8f939c27e1d",
+          "found": "The backups are stored without encryption.",
+          "should": "Every backup copy is encrypted, with the key kept apart from the backups."
+        },
+        {
+          "asset": "restic",
+          "status": "pass",
+          "message": "The backups are encrypted",
+          "observed": {
+            "unencrypted_sets": [],
+            "sets": 1
+          },
+          "expected": {
+            "unencrypted_sets": []
+          },
+          "evidence_ref": "evidence/backup_snapshots/restic.json",
+          "evidence_sha256": "cf800ed1454ce69752db0fcca5f9db4c1ec7a230d749ce5641ef3beeee733dd6",
+          "found": null,
+          "should": null
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.C",
+          "title": "Business continuity and backup management",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(c)",
+          "nis2_article": "21(2)(c)",
+          "quote": "business continuity, such as backup management and disaster recovery, and crisis management"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-4.2.2-05",
+          "title": "Access controls to backup copies",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+          "nis2_article": "21(2)(c)",
+          "quote": "(d) appropriate physical and logical access controls to backup copies, in accordance with the asset classification level;"
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-DOC-001",
+      "title": "Incident response plan covers the NIS2 reporting stages",
+      "severity": "medium",
+      "message": "Plan does not mention: 24h early warning, 72h incident notification, one-month final report, CSIRT contact",
+      "observed": {
+        "document": "incident-response.md",
+        "missing": [
+          "24h early warning",
+          "72h incident notification",
+          "one-month final report",
+          "CSIRT contact"
+        ]
+      },
+      "expected": {
+        "mentions": [
+          "24h early warning",
+          "72h incident notification",
+          "one-month final report",
+          "CSIRT contact"
+        ]
+      },
+      "evidence_ref": "evidence/ir_plan/documents.json",
+      "evidence_sha256": "8e77d719a43a6034e40765876943566f1b64c5e025ae8d3fe6f1970ced9dad8a",
+      "action": "Add the NIS2 reporting deadlines and the CSIRT contact to the incident plan",
+      "effort": "change",
+      "why": "Missing a reporting deadline is itself a breach of Art. 23, separate from the incident.",
+      "found": "The incident plan does not cover: 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
+      "should": "The plan covers 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
+      "topic": "Reporting incidents to the CSIRT",
+      "asset": "documents",
+      "asset_kind": "document sets",
+      "assets": [
+        {
+          "asset": "documents",
+          "status": "fail",
+          "message": "Plan does not mention: 24h early warning, 72h incident notification, one-month final report, CSIRT contact",
+          "observed": {
+            "document": "incident-response.md",
+            "missing": [
+              "24h early warning",
+              "72h incident notification",
+              "one-month final report",
+              "CSIRT contact"
+            ]
+          },
+          "expected": {
+            "mentions": [
+              "24h early warning",
+              "72h incident notification",
+              "one-month final report",
+              "CSIRT contact"
+            ]
+          },
+          "evidence_ref": "evidence/ir_plan/documents.json",
+          "evidence_sha256": "8e77d719a43a6034e40765876943566f1b64c5e025ae8d3fe6f1970ced9dad8a",
+          "found": "The incident plan does not cover: 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
+          "should": "The plan covers 24h early warning, 72h incident notification, one-month final report and CSIRT contact."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-23.4",
+          "title": "Staged reporting of significant incidents to the CSIRT",
+          "provision": "Directive (EU) 2022/2555, Art. 23(4)(a), (b) and (d)",
+          "nis2_article": "23(4)",
+          "quote": "without undue delay and in any event within 24 hours of becoming aware of the significant incident, an early warning"
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-IDP-002",
+      "title": "Accounts are locked after repeated failed logins",
+      "severity": "medium",
+      "message": "Accounts are never locked after failed logins",
+      "observed": {
+        "lockout_enabled": false,
+        "max_attempts": null
+      },
+      "expected": {
+        "lockout_enabled": true
+      },
+      "evidence_ref": "evidence/idp_config/keycloak.json",
+      "evidence_sha256": "66c7e01f5bccbaa4f7846444c24bef6b9700af4f3aa47dc4de7c232549515280",
+      "action": "Turn on protection against password guessing",
+      "effort": "quick",
+      "why": "Limits online password guessing against staff accounts.",
+      "found": "Nothing stops someone from guessing passwords over and over.",
+      "should": "Accounts are locked for a while after repeated failed logins.",
+      "topic": "Access control and asset management",
+      "asset": "keycloak",
+      "asset_kind": "identity providers",
+      "assets": [
+        {
+          "asset": "keycloak",
+          "status": "fail",
+          "message": "Accounts are never locked after failed logins",
+          "observed": {
+            "lockout_enabled": false,
+            "max_attempts": null
+          },
+          "expected": {
+            "lockout_enabled": true
+          },
+          "evidence_ref": "evidence/idp_config/keycloak.json",
+          "evidence_sha256": "66c7e01f5bccbaa4f7846444c24bef6b9700af4f3aa47dc4de7c232549515280",
+          "found": "Nothing stops someone from guessing passwords over and over.",
+          "should": "Accounts are locked for a while after repeated failed logins."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.I",
+          "title": "HR security, access control and asset management",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(i)",
+          "nis2_article": "21(2)(i)",
+          "quote": "human resources security, access control policies and asset management"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-11.6.2-04",
+          "title": "Credential reset and blocking after failed logins",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+          "nis2_article": "21(2)(i), (j)",
+          "quote": "require the reset of authentication credentials and the blocking of users after a predefined number of unsuccessful log-in attempts"
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-IDP-003",
+      "title": "Password policy enforces the profile's minimum length",
+      "severity": "medium",
+      "message": "Password policy: no minimum length is set",
+      "observed": {
+        "password_policy": "no password policy",
+        "min_length": 0
+      },
+      "expected": {
+        "min_length_at_least": 12
+      },
+      "evidence_ref": "evidence/idp_config/keycloak.json",
+      "evidence_sha256": "66c7e01f5bccbaa4f7846444c24bef6b9700af4f3aa47dc4de7c232549515280",
+      "action": "Set a minimum password length",
+      "effort": "quick",
+      "why": "Short passwords weaken the first factor even when MFA is in place.",
+      "found": "No minimum password length is set.",
+      "should": "Passwords have at least 12 characters.",
+      "topic": "Access control and asset management",
+      "asset": "keycloak",
+      "asset_kind": "identity providers",
+      "assets": [
+        {
+          "asset": "keycloak",
+          "status": "fail",
+          "message": "Password policy: no minimum length is set",
+          "observed": {
+            "password_policy": "no password policy",
+            "min_length": 0
+          },
+          "expected": {
+            "min_length_at_least": 12
+          },
+          "evidence_ref": "evidence/idp_config/keycloak.json",
+          "evidence_sha256": "66c7e01f5bccbaa4f7846444c24bef6b9700af4f3aa47dc4de7c232549515280",
+          "found": "No minimum password length is set.",
+          "should": "Passwords have at least 12 characters."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.I",
+          "title": "HR security, access control and asset management",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(i)",
+          "nis2_article": "21(2)(i)",
+          "quote": "human resources security, access control policies and asset management"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-11.6.2-01",
+          "title": "Authentication strength matched to asset classification",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+          "nis2_article": "21(2)(i), (j)",
+          "quote": "ensure the strength of authentication is appropriate to the classification of the asset to be accessed"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-11.7.2-01",
+          "title": "Authentication strength matched to asset classification",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.7.2",
+          "nis2_article": "21(2)(i), (j)",
+          "quote": "The relevant entities shall ensure that the strength of authentication is appropriate for the classification of the asset to be accessed."
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-LOG-001",
+      "title": "Central logs are kept at least as long as the profile requires",
+      "severity": "medium",
+      "message": "Logs are deleted after 7 days",
+      "observed": {
+        "retention_days": 7,
+        "source": "ILM policy logs-7d deletes after 7d"
+      },
+      "expected": {
+        "min_retention_days": 90
+      },
+      "evidence_ref": "evidence/log_retention/elasticsearch.json",
+      "evidence_sha256": "60ad10e7fd5dfaea1b802e9eaba61fee7270b08f396e45c85f5bde9e1b3d0017",
+      "action": "Keep logs for as long as the policy requires",
+      "effort": "quick",
+      "why": "Logs deleted too early make an incident impossible to investigate or report.",
+      "found": "Logs are deleted after 7 days.",
+      "should": "Logs are kept for at least 90 days.",
+      "topic": "Incident handling",
+      "asset": "elasticsearch",
+      "asset_kind": "log stores",
+      "assets": [
+        {
+          "asset": "elasticsearch",
+          "status": "fail",
+          "message": "Logs are deleted after 7 days",
+          "observed": {
+            "retention_days": 7,
+            "source": "ILM policy logs-7d deletes after 7d"
+          },
+          "expected": {
+            "min_retention_days": 90
+          },
+          "evidence_ref": "evidence/log_retention/elasticsearch.json",
+          "evidence_sha256": "60ad10e7fd5dfaea1b802e9eaba61fee7270b08f396e45c85f5bde9e1b3d0017",
+          "found": "Logs are deleted after 7 days.",
+          "should": "Logs are kept for at least 90 days."
+        },
+        {
+          "asset": "loki",
+          "status": "fail",
+          "message": "Logs are deleted after 7 days",
+          "observed": {
+            "retention_days": 7,
+            "source": "limits_config.retention_period 1w"
+          },
+          "expected": {
+            "min_retention_days": 90
+          },
+          "evidence_ref": "evidence/log_retention/loki.json",
+          "evidence_sha256": "73a9376aec13458fe4ccd9289baed4b53a2f31f17e668ee4e3a4b0a35c77e8a3",
+          "found": "Logs are deleted after 7 days.",
+          "should": "Logs are kept for at least 90 days."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.B",
+          "title": "Incident handling",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(b)",
+          "nis2_article": "21(2)(b)",
+          "quote": "incident handling"
+        },
+        {
+          "requirement_id": "REQ-CIR2690-3.2.5-01",
+          "title": "Maintain and back up logs",
+          "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.5",
+          "nis2_article": "21(2)(b)",
+          "quote": "The relevant entities shall maintain and back up logs for a predefined period"
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-TLS-002",
+      "title": "Certificate is valid and not about to expire",
+      "severity": "medium",
+      "message": "Certificate expired on 2025-01-01",
+      "observed": {
+        "not_before": "2024-01-01T00:00:00+00:00",
+        "not_after": "2025-01-01T00:00:00+00:00",
+        "days_left": -634
+      },
+      "expected": {
+        "min_days_remaining": 14
+      },
+      "evidence_ref": "evidence/tls_probe/portal.json",
+      "evidence_sha256": "7629ba9359a270cf1cad2111ebf5ebd3414f7ac317732e3a8d6be6c5f6fff0ff",
+      "action": "Renew the website's certificate",
+      "effort": "quick",
+      "why": "An invalid certificate trains users to click through warnings, which makes interception easier.",
+      "found": "The website's certificate expired on 1 January 2025.",
+      "should": "A valid certificate with at least 14 days left.",
+      "topic": "Cryptography and encryption",
+      "asset": "portal",
+      "asset_kind": "web endpoints",
+      "assets": [
+        {
+          "asset": "portal",
+          "status": "fail",
+          "message": "Certificate expired on 2025-01-01",
+          "observed": {
+            "not_before": "2024-01-01T00:00:00+00:00",
+            "not_after": "2025-01-01T00:00:00+00:00",
+            "days_left": -634
+          },
+          "expected": {
+            "min_days_remaining": 14
+          },
+          "evidence_ref": "evidence/tls_probe/portal.json",
+          "evidence_sha256": "7629ba9359a270cf1cad2111ebf5ebd3414f7ac317732e3a8d6be6c5f6fff0ff",
+          "found": "The website's certificate expired on 1 January 2025.",
+          "should": "A valid certificate with at least 14 days left."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.H",
+          "title": "Cryptography and encryption",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(h)",
+          "nis2_article": "21(2)(h)",
+          "quote": "policies and procedures regarding the use of cryptography and, where appropriate, encryption"
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-TLS-003",
+      "title": "Plain HTTP redirects to HTTPS and HSTS is set",
+      "severity": "medium",
+      "message": "HTTP does not redirect to HTTPS; no Strict-Transport-Security header",
+      "observed": {
+        "http_status": 200,
+        "location": null,
+        "hsts": null
+      },
+      "expected": {
+        "http_redirects_to_https": true,
+        "hsts": true
+      },
+      "evidence_ref": "evidence/http_probe/portal.json",
+      "evidence_sha256": "fb1a885fffcf0933c9f87de9aaf4c04fa6b88282fd0c3c0d3f049c6f3e82fc48",
+      "action": "Send all website traffic over HTTPS",
+      "effort": "quick",
+      "why": "Without a redirect and HSTS, users can be kept on unencrypted HTTP.",
+      "found": "Visitors who type http:// stay on the unencrypted site; browsers are not told to always use the encrypted site.",
+      "should": "Visitors on http:// are sent to https://, and browsers are told to always use it.",
+      "topic": "Cryptography and encryption",
+      "asset": "portal",
+      "asset_kind": "web endpoints",
+      "assets": [
+        {
+          "asset": "portal",
+          "status": "fail",
+          "message": "HTTP does not redirect to HTTPS; no Strict-Transport-Security header",
+          "observed": {
+            "http_status": 200,
+            "location": null,
+            "hsts": null
+          },
+          "expected": {
+            "http_redirects_to_https": true,
+            "hsts": true
+          },
+          "evidence_ref": "evidence/http_probe/portal.json",
+          "evidence_sha256": "fb1a885fffcf0933c9f87de9aaf4c04fa6b88282fd0c3c0d3f049c6f3e82fc48",
+          "found": "Visitors who type http:// stay on the unencrypted site; browsers are not told to always use the encrypted site.",
+          "should": "Visitors on http:// are sent to https://, and browsers are told to always use it."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.H",
+          "title": "Cryptography and encryption",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(h)",
+          "nis2_article": "21(2)(h)",
+          "quote": "policies and procedures regarding the use of cryptography and, where appropriate, encryption"
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-DOC-002",
+      "title": "Incident response plan has been reviewed recently",
+      "severity": "low",
+      "message": "Plan was last reviewed 1320 days ago",
+      "observed": {
+        "document": "incident-response.md",
+        "last_reviewed": "2023-02-14",
+        "age_days": 1320
+      },
+      "expected": {
+        "max_review_age_days": 365
+      },
+      "evidence_ref": "evidence/ir_plan/documents.json",
+      "evidence_sha256": "8e77d719a43a6034e40765876943566f1b64c5e025ae8d3fe6f1970ced9dad8a",
+      "action": "Review the incident response plan and record the review date",
+      "effort": "change",
+      "why": "A stale plan lists wrong contacts and outdated systems when it is needed.",
+      "found": "The incident plan was last reviewed on 14 February 2023, 1320 days ago.",
+      "should": "The plan is reviewed at least every 365 days.",
+      "topic": "Incident handling",
+      "asset": "documents",
+      "asset_kind": "document sets",
+      "assets": [
+        {
+          "asset": "documents",
+          "status": "fail",
+          "message": "Plan was last reviewed 1320 days ago",
+          "observed": {
+            "document": "incident-response.md",
+            "last_reviewed": "2023-02-14",
+            "age_days": 1320
+          },
+          "expected": {
+            "max_review_age_days": 365
+          },
+          "evidence_ref": "evidence/ir_plan/documents.json",
+          "evidence_sha256": "8e77d719a43a6034e40765876943566f1b64c5e025ae8d3fe6f1970ced9dad8a",
+          "found": "The incident plan was last reviewed on 14 February 2023, 1320 days ago.",
+          "should": "The plan is reviewed at least every 365 days."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.B",
+          "title": "Incident handling",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(b)",
+          "nis2_article": "21(2)(b)",
+          "quote": "incident handling"
+        }
+      ]
+    },
+    {
+      "finding_id": "CHK-SSH-003",
+      "title": "SSH limits authentication attempts per connection",
+      "severity": "low",
+      "message": "MaxAuthTries is 10",
+      "observed": {
+        "maxauthtries": 10
+      },
+      "expected": {
+        "maxauthtries_at_most": 4
+      },
+      "evidence_ref": "evidence/sshd_effective_config/app-host.json",
+      "evidence_sha256": "2c22468e076bce4eca67579bd8795f310dd74a6b9cf02637417fcecb63e43f88",
+      "action": "Limit login attempts per connection to the server",
+      "effort": "quick",
+      "why": "Slows guessing, but is a minor control compared with key-only auth.",
+      "found": "Each connection allows 10 login attempts.",
+      "should": "At most 4 attempts per connection.",
+      "topic": "Access control and asset management",
+      "asset": "app-host",
+      "asset_kind": "SSH hosts",
+      "assets": [
+        {
+          "asset": "app-host",
+          "status": "fail",
+          "message": "MaxAuthTries is 10",
+          "observed": {
+            "maxauthtries": 10
+          },
+          "expected": {
+            "maxauthtries_at_most": 4
+          },
+          "evidence_ref": "evidence/sshd_effective_config/app-host.json",
+          "evidence_sha256": "2c22468e076bce4eca67579bd8795f310dd74a6b9cf02637417fcecb63e43f88",
+          "found": "Each connection allows 10 login attempts.",
+          "should": "At most 4 attempts per connection."
+        }
+      ],
+      "breaches": [
+        {
+          "requirement_id": "REQ-NIS2-21.2.I",
+          "title": "HR security, access control and asset management",
+          "provision": "Directive (EU) 2022/2555, Art. 21(2)(i)",
+          "nis2_article": "21(2)(i)",
+          "quote": "human resources security, access control policies and asset management"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "check_id": "CHK-AST-001",
+      "target": "nordmsp-lab",
+      "asset": "documents",
+      "status": "fail",
+      "observed": {
+        "undeclared_services": [
+          "backup",
+          "backup-borg",
+          "legacy-web",
+          "logs",
+          "search"
+        ],
+        "running": [
+          "backup",
+          "backup-borg",
+          "host",
+          "idp",
+          "legacy-web",
+          "logs",
+          "search",
+          "web"
+        ]
+      },
+      "expected": {
+        "undeclared_services": []
+      },
+      "evidence_ref": "evidence/asset_inventory/documents.json",
+      "message": "Not in the inventory: backup, backup-borg, legacy-web, logs, search",
+      "collected_at": "2026-09-26T01:31:57.973908Z",
+      "finding_id": "CHK-AST-001",
+      "title": "Every running service is in the asset inventory",
+      "severity": "medium",
+      "evidence_sha256": "b85610a7cc6f55e2f10c90905b72ca9fbbc0bf03118b83a06d1531781591302f",
+      "action": "Add every running service to the asset inventory",
+      "effort": "quick",
+      "why": "Unknown services go unpatched and unmonitored.",
+      "found": "Running but missing from the asset inventory: backup, backup-borg, legacy-web, logs and search.",
+      "should": "Every running service is listed in the asset inventory.",
+      "topic": "Access control and asset management",
+      "asset_kind": "document sets",
+      "assets": [
+        {
+          "asset": "documents",
+          "status": "fail",
+          "message": "Not in the inventory: backup, backup-borg, legacy-web, logs, search",
+          "observed": {
+            "undeclared_services": [
+              "backup",
+              "backup-borg",
+              "legacy-web",
+              "logs",
+              "search"
+            ],
+            "running": [
+              "backup",
+              "backup-borg",
+              "host",
+              "idp",
+              "legacy-web",
+              "logs",
+              "search",
+              "web"
+            ]
+          },
+          "expected": {
+            "undeclared_services": []
+          },
+          "evidence_ref": "evidence/asset_inventory/documents.json",
+          "evidence_sha256": "b85610a7cc6f55e2f10c90905b72ca9fbbc0bf03118b83a06d1531781591302f",
+          "found": "Running but missing from the asset inventory: backup, backup-borg, legacy-web, logs and search.",
+          "should": "Every running service is listed in the asset inventory."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-BAK-001",
+      "target": "nordmsp-lab",
+      "asset": "borg",
+      "status": "fail",
+      "observed": {
+        "snapshots": 1,
+        "newest": "2025-03-15T03:00:00+00:00",
+        "age_hours": 13438.5
+      },
+      "expected": {
+        "max_age_hours": 26
+      },
+      "evidence_ref": "evidence/backup_snapshots/borg.json",
+      "message": "Newest backup is 559 days old",
+      "collected_at": "2026-09-26T01:31:59.311599Z",
+      "finding_id": "CHK-BAK-001",
+      "title": "A recent backup snapshot exists",
+      "severity": "high",
+      "evidence_sha256": "2fecceaab5dc7070461763fd6eece9dbdc24f0f01e3e447d6e86b8f939c27e1d",
+      "action": "Restart automatic backups",
+      "effort": "change",
+      "why": "Without recent backups, ransomware or failure causes permanent data loss.",
+      "found": "The newest backup was taken on 15 March 2025, 559 days ago.",
+      "should": "A backup no older than 26 hours.",
+      "topic": "Business continuity and backups",
+      "asset_kind": "backup repositories",
+      "assets": [
+        {
+          "asset": "borg",
+          "status": "fail",
+          "message": "Newest backup is 559 days old",
+          "observed": {
+            "snapshots": 1,
+            "newest": "2025-03-15T03:00:00+00:00",
+            "age_hours": 13438.5
+          },
+          "expected": {
+            "max_age_hours": 26
+          },
+          "evidence_ref": "evidence/backup_snapshots/borg.json",
+          "evidence_sha256": "2fecceaab5dc7070461763fd6eece9dbdc24f0f01e3e447d6e86b8f939c27e1d",
+          "found": "The newest backup was taken on 15 March 2025, 559 days ago.",
+          "should": "A backup no older than 26 hours."
+        },
+        {
+          "asset": "restic",
+          "status": "fail",
+          "message": "Newest backup is 481 days old",
+          "observed": {
+            "snapshots": 1,
+            "newest": "2025-06-01T02:00:00+00:00",
+            "age_hours": 11567.5
+          },
+          "expected": {
+            "max_age_hours": 26
+          },
+          "evidence_ref": "evidence/backup_snapshots/restic.json",
+          "evidence_sha256": "cf800ed1454ce69752db0fcca5f9db4c1ec7a230d749ce5641ef3beeee733dd6",
+          "found": "The newest backup was taken on 1 June 2025, 481 days ago.",
+          "should": "A backup no older than 26 hours."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-BAK-001",
+      "target": "nordmsp-lab",
+      "asset": "restic",
+      "status": "fail",
+      "observed": {
+        "snapshots": 1,
+        "newest": "2025-06-01T02:00:00+00:00",
+        "age_hours": 11567.5
+      },
+      "expected": {
+        "max_age_hours": 26
+      },
+      "evidence_ref": "evidence/backup_snapshots/restic.json",
+      "message": "Newest backup is 481 days old",
+      "collected_at": "2026-09-26T01:31:58.774320Z",
+      "finding_id": "CHK-BAK-001",
+      "title": "A recent backup snapshot exists",
+      "severity": "high",
+      "evidence_sha256": "cf800ed1454ce69752db0fcca5f9db4c1ec7a230d749ce5641ef3beeee733dd6",
+      "action": "Restart automatic backups",
+      "effort": "change",
+      "why": "Without recent backups, ransomware or failure causes permanent data loss.",
+      "found": "The newest backup was taken on 1 June 2025, 481 days ago.",
+      "should": "A backup no older than 26 hours.",
+      "topic": "Business continuity and backups",
+      "asset_kind": "backup repositories",
+      "assets": [
+        {
+          "asset": "borg",
+          "status": "fail",
+          "message": "Newest backup is 559 days old",
+          "observed": {
+            "snapshots": 1,
+            "newest": "2025-03-15T03:00:00+00:00",
+            "age_hours": 13438.5
+          },
+          "expected": {
+            "max_age_hours": 26
+          },
+          "evidence_ref": "evidence/backup_snapshots/borg.json",
+          "evidence_sha256": "2fecceaab5dc7070461763fd6eece9dbdc24f0f01e3e447d6e86b8f939c27e1d",
+          "found": "The newest backup was taken on 15 March 2025, 559 days ago.",
+          "should": "A backup no older than 26 hours."
+        },
+        {
+          "asset": "restic",
+          "status": "fail",
+          "message": "Newest backup is 481 days old",
+          "observed": {
+            "snapshots": 1,
+            "newest": "2025-06-01T02:00:00+00:00",
+            "age_hours": 11567.5
+          },
+          "expected": {
+            "max_age_hours": 26
+          },
+          "evidence_ref": "evidence/backup_snapshots/restic.json",
+          "evidence_sha256": "cf800ed1454ce69752db0fcca5f9db4c1ec7a230d749ce5641ef3beeee733dd6",
+          "found": "The newest backup was taken on 1 June 2025, 481 days ago.",
+          "should": "A backup no older than 26 hours."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-BAK-002",
+      "target": "nordmsp-lab",
+      "asset": "borg",
+      "status": "fail",
+      "observed": {
+        "unencrypted_sets": [
+          "repository"
+        ],
+        "sets": 1
+      },
+      "expected": {
+        "unencrypted_sets": []
+      },
+      "evidence_ref": "evidence/backup_snapshots/borg.json",
+      "message": "The backups are not encrypted",
+      "collected_at": "2026-09-26T01:31:59.311599Z",
+      "finding_id": "CHK-BAK-002",
+      "title": "Backup copies are encrypted",
+      "severity": "medium",
+      "evidence_sha256": "2fecceaab5dc7070461763fd6eece9dbdc24f0f01e3e447d6e86b8f939c27e1d",
+      "action": "Encrypt the backups",
+      "effort": "change",
+      "why": "Unencrypted backups hand a full copy of the data to anyone who reaches the backup storage, bypassing every access control on the live systems.",
+      "found": "The backups are stored without encryption.",
+      "should": "Every backup copy is encrypted, with the key kept apart from the backups.",
+      "topic": "Business continuity and backups",
+      "asset_kind": "backup repositories",
+      "assets": [
+        {
+          "asset": "borg",
+          "status": "fail",
+          "message": "The backups are not encrypted",
+          "observed": {
+            "unencrypted_sets": [
+              "repository"
+            ],
+            "sets": 1
+          },
+          "expected": {
+            "unencrypted_sets": []
+          },
+          "evidence_ref": "evidence/backup_snapshots/borg.json",
+          "evidence_sha256": "2fecceaab5dc7070461763fd6eece9dbdc24f0f01e3e447d6e86b8f939c27e1d",
+          "found": "The backups are stored without encryption.",
+          "should": "Every backup copy is encrypted, with the key kept apart from the backups."
+        },
+        {
+          "asset": "restic",
+          "status": "pass",
+          "message": "The backups are encrypted",
+          "observed": {
+            "unencrypted_sets": [],
+            "sets": 1
+          },
+          "expected": {
+            "unencrypted_sets": []
+          },
+          "evidence_ref": "evidence/backup_snapshots/restic.json",
+          "evidence_sha256": "cf800ed1454ce69752db0fcca5f9db4c1ec7a230d749ce5641ef3beeee733dd6",
+          "found": null,
+          "should": null
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-BAK-002",
+      "target": "nordmsp-lab",
+      "asset": "restic",
+      "status": "pass",
+      "observed": {
+        "unencrypted_sets": [],
+        "sets": 1
+      },
+      "expected": {
+        "unencrypted_sets": []
+      },
+      "evidence_ref": "evidence/backup_snapshots/restic.json",
+      "message": "The backups are encrypted",
+      "collected_at": "2026-09-26T01:31:58.774320Z",
+      "finding_id": "CHK-BAK-002",
+      "title": "Backup copies are encrypted",
+      "severity": "medium",
+      "evidence_sha256": "cf800ed1454ce69752db0fcca5f9db4c1ec7a230d749ce5641ef3beeee733dd6",
+      "action": "Encrypt the backups",
+      "effort": "change",
+      "why": "Unencrypted backups hand a full copy of the data to anyone who reaches the backup storage, bypassing every access control on the live systems.",
+      "found": null,
+      "should": null,
+      "topic": "Business continuity and backups",
+      "asset_kind": "backup repositories",
+      "assets": [
+        {
+          "asset": "borg",
+          "status": "fail",
+          "message": "The backups are not encrypted",
+          "observed": {
+            "unencrypted_sets": [
+              "repository"
+            ],
+            "sets": 1
+          },
+          "expected": {
+            "unencrypted_sets": []
+          },
+          "evidence_ref": "evidence/backup_snapshots/borg.json",
+          "evidence_sha256": "2fecceaab5dc7070461763fd6eece9dbdc24f0f01e3e447d6e86b8f939c27e1d",
+          "found": "The backups are stored without encryption.",
+          "should": "Every backup copy is encrypted, with the key kept apart from the backups."
+        },
+        {
+          "asset": "restic",
+          "status": "pass",
+          "message": "The backups are encrypted",
+          "observed": {
+            "unencrypted_sets": [],
+            "sets": 1
+          },
+          "expected": {
+            "unencrypted_sets": []
+          },
+          "evidence_ref": "evidence/backup_snapshots/restic.json",
+          "evidence_sha256": "cf800ed1454ce69752db0fcca5f9db4c1ec7a230d749ce5641ef3beeee733dd6",
+          "found": null,
+          "should": null
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-DOC-001",
+      "target": "nordmsp-lab",
+      "asset": "documents",
+      "status": "fail",
+      "observed": {
+        "document": "incident-response.md",
+        "missing": [
+          "24h early warning",
+          "72h incident notification",
+          "one-month final report",
+          "CSIRT contact"
+        ]
+      },
+      "expected": {
+        "mentions": [
+          "24h early warning",
+          "72h incident notification",
+          "one-month final report",
+          "CSIRT contact"
+        ]
+      },
+      "evidence_ref": "evidence/ir_plan/documents.json",
+      "message": "Plan does not mention: 24h early warning, 72h incident notification, one-month final report, CSIRT contact",
+      "collected_at": "2026-09-26T01:31:59.311775Z",
+      "finding_id": "CHK-DOC-001",
+      "title": "Incident response plan covers the NIS2 reporting stages",
+      "severity": "medium",
+      "evidence_sha256": "8e77d719a43a6034e40765876943566f1b64c5e025ae8d3fe6f1970ced9dad8a",
+      "action": "Add the NIS2 reporting deadlines and the CSIRT contact to the incident plan",
+      "effort": "change",
+      "why": "Missing a reporting deadline is itself a breach of Art. 23, separate from the incident.",
+      "found": "The incident plan does not cover: 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
+      "should": "The plan covers 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
+      "topic": "Reporting incidents to the CSIRT",
+      "asset_kind": "document sets",
+      "assets": [
+        {
+          "asset": "documents",
+          "status": "fail",
+          "message": "Plan does not mention: 24h early warning, 72h incident notification, one-month final report, CSIRT contact",
+          "observed": {
+            "document": "incident-response.md",
+            "missing": [
+              "24h early warning",
+              "72h incident notification",
+              "one-month final report",
+              "CSIRT contact"
+            ]
+          },
+          "expected": {
+            "mentions": [
+              "24h early warning",
+              "72h incident notification",
+              "one-month final report",
+              "CSIRT contact"
+            ]
+          },
+          "evidence_ref": "evidence/ir_plan/documents.json",
+          "evidence_sha256": "8e77d719a43a6034e40765876943566f1b64c5e025ae8d3fe6f1970ced9dad8a",
+          "found": "The incident plan does not cover: 24h early warning, 72h incident notification, one-month final report and CSIRT contact.",
+          "should": "The plan covers 24h early warning, 72h incident notification, one-month final report and CSIRT contact."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-DOC-002",
+      "target": "nordmsp-lab",
+      "asset": "documents",
+      "status": "fail",
+      "observed": {
+        "document": "incident-response.md",
+        "last_reviewed": "2023-02-14",
+        "age_days": 1320
+      },
+      "expected": {
+        "max_review_age_days": 365
+      },
+      "evidence_ref": "evidence/ir_plan/documents.json",
+      "message": "Plan was last reviewed 1320 days ago",
+      "collected_at": "2026-09-26T01:31:59.311775Z",
+      "finding_id": "CHK-DOC-002",
+      "title": "Incident response plan has been reviewed recently",
+      "severity": "low",
+      "evidence_sha256": "8e77d719a43a6034e40765876943566f1b64c5e025ae8d3fe6f1970ced9dad8a",
+      "action": "Review the incident response plan and record the review date",
+      "effort": "change",
+      "why": "A stale plan lists wrong contacts and outdated systems when it is needed.",
+      "found": "The incident plan was last reviewed on 14 February 2023, 1320 days ago.",
+      "should": "The plan is reviewed at least every 365 days.",
+      "topic": "Incident handling",
+      "asset_kind": "document sets",
+      "assets": [
+        {
+          "asset": "documents",
+          "status": "fail",
+          "message": "Plan was last reviewed 1320 days ago",
+          "observed": {
+            "document": "incident-response.md",
+            "last_reviewed": "2023-02-14",
+            "age_days": 1320
+          },
+          "expected": {
+            "max_review_age_days": 365
+          },
+          "evidence_ref": "evidence/ir_plan/documents.json",
+          "evidence_sha256": "8e77d719a43a6034e40765876943566f1b64c5e025ae8d3fe6f1970ced9dad8a",
+          "found": "The incident plan was last reviewed on 14 February 2023, 1320 days ago.",
+          "should": "The plan is reviewed at least every 365 days."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-IDP-001",
+      "target": "nordmsp-lab",
+      "asset": "keycloak",
+      "status": "fail",
+      "observed": {
+        "new_users_must_enrol_mfa": false,
+        "users_without_mfa": [
+          "kari.admin",
+          "ola.tech"
+        ]
+      },
+      "expected": {
+        "new_users_must_enrol_mfa": true,
+        "users_without_mfa": []
+      },
+      "evidence_ref": "evidence/idp_config/keycloak.json",
+      "message": "2 account(s) without MFA: kari.admin, ola.tech; new accounts are not required to enrol a second factor",
+      "collected_at": "2026-09-26T01:31:59.485945Z",
+      "finding_id": "CHK-IDP-001",
+      "title": "Every staff account has MFA enrolled or is forced to enrol",
+      "severity": "high",
+      "evidence_sha256": "66c7e01f5bccbaa4f7846444c24bef6b9700af4f3aa47dc4de7c232549515280",
+      "action": "Turn on two-factor login for every account",
+      "effort": "change",
+      "why": "Staff accounts reach customer systems; a stolen password alone must not be enough.",
+      "found": "Accounts that log in with a password alone: kari.admin and ola.tech. New accounts are not asked to set up two-factor login.",
+      "should": "Every account uses two-factor login, and new accounts must set it up.",
+      "topic": "Multi-factor authentication",
+      "asset_kind": "identity providers",
+      "assets": [
+        {
+          "asset": "keycloak",
+          "status": "fail",
+          "message": "2 account(s) without MFA: kari.admin, ola.tech; new accounts are not required to enrol a second factor",
+          "observed": {
+            "new_users_must_enrol_mfa": false,
+            "users_without_mfa": [
+              "kari.admin",
+              "ola.tech"
+            ]
+          },
+          "expected": {
+            "new_users_must_enrol_mfa": true,
+            "users_without_mfa": []
+          },
+          "evidence_ref": "evidence/idp_config/keycloak.json",
+          "evidence_sha256": "66c7e01f5bccbaa4f7846444c24bef6b9700af4f3aa47dc4de7c232549515280",
+          "found": "Accounts that log in with a password alone: kari.admin and ola.tech. New accounts are not asked to set up two-factor login.",
+          "should": "Every account uses two-factor login, and new accounts must set it up."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-IDP-002",
+      "target": "nordmsp-lab",
+      "asset": "keycloak",
+      "status": "fail",
+      "observed": {
+        "lockout_enabled": false,
+        "max_attempts": null
+      },
+      "expected": {
+        "lockout_enabled": true
+      },
+      "evidence_ref": "evidence/idp_config/keycloak.json",
+      "message": "Accounts are never locked after failed logins",
+      "collected_at": "2026-09-26T01:31:59.485945Z",
+      "finding_id": "CHK-IDP-002",
+      "title": "Accounts are locked after repeated failed logins",
+      "severity": "medium",
+      "evidence_sha256": "66c7e01f5bccbaa4f7846444c24bef6b9700af4f3aa47dc4de7c232549515280",
+      "action": "Turn on protection against password guessing",
+      "effort": "quick",
+      "why": "Limits online password guessing against staff accounts.",
+      "found": "Nothing stops someone from guessing passwords over and over.",
+      "should": "Accounts are locked for a while after repeated failed logins.",
+      "topic": "Access control and asset management",
+      "asset_kind": "identity providers",
+      "assets": [
+        {
+          "asset": "keycloak",
+          "status": "fail",
+          "message": "Accounts are never locked after failed logins",
+          "observed": {
+            "lockout_enabled": false,
+            "max_attempts": null
+          },
+          "expected": {
+            "lockout_enabled": true
+          },
+          "evidence_ref": "evidence/idp_config/keycloak.json",
+          "evidence_sha256": "66c7e01f5bccbaa4f7846444c24bef6b9700af4f3aa47dc4de7c232549515280",
+          "found": "Nothing stops someone from guessing passwords over and over.",
+          "should": "Accounts are locked for a while after repeated failed logins."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-IDP-003",
+      "target": "nordmsp-lab",
+      "asset": "keycloak",
+      "status": "fail",
+      "observed": {
+        "password_policy": "no password policy",
+        "min_length": 0
+      },
+      "expected": {
+        "min_length_at_least": 12
+      },
+      "evidence_ref": "evidence/idp_config/keycloak.json",
+      "message": "Password policy: no minimum length is set",
+      "collected_at": "2026-09-26T01:31:59.485945Z",
+      "finding_id": "CHK-IDP-003",
+      "title": "Password policy enforces the profile's minimum length",
+      "severity": "medium",
+      "evidence_sha256": "66c7e01f5bccbaa4f7846444c24bef6b9700af4f3aa47dc4de7c232549515280",
+      "action": "Set a minimum password length",
+      "effort": "quick",
+      "why": "Short passwords weaken the first factor even when MFA is in place.",
+      "found": "No minimum password length is set.",
+      "should": "Passwords have at least 12 characters.",
+      "topic": "Access control and asset management",
+      "asset_kind": "identity providers",
+      "assets": [
+        {
+          "asset": "keycloak",
+          "status": "fail",
+          "message": "Password policy: no minimum length is set",
+          "observed": {
+            "password_policy": "no password policy",
+            "min_length": 0
+          },
+          "expected": {
+            "min_length_at_least": 12
+          },
+          "evidence_ref": "evidence/idp_config/keycloak.json",
+          "evidence_sha256": "66c7e01f5bccbaa4f7846444c24bef6b9700af4f3aa47dc4de7c232549515280",
+          "found": "No minimum password length is set.",
+          "should": "Passwords have at least 12 characters."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-IDP-004",
+      "target": "nordmsp-lab",
+      "asset": "keycloak",
+      "status": "fail",
+      "observed": {
+        "username_tried": "admin",
+        "result": "HTTP 200"
+      },
+      "expected": {
+        "accepted": false
+      },
+      "evidence_ref": "evidence/idp_default_admin/keycloak.json",
+      "message": "Admin console accepts admin/admin",
+      "collected_at": "2026-09-26T01:31:59.518507Z",
+      "finding_id": "CHK-IDP-004",
+      "title": "Default admin credentials are rejected",
+      "severity": "critical",
+      "evidence_sha256": "55cc9154d2795fe32e0bb7bf128261411c086a0e2a51388a5a4c756f0ea50b3b",
+      "action": "Change the default admin password",
+      "effort": "quick",
+      "why": "Default admin credentials give anyone full control of every staff identity.",
+      "found": "The admin console accepted the default username \u201cadmin\u201d with its default password.",
+      "should": "The default login is refused.",
+      "topic": "Access control and asset management",
+      "asset_kind": "identity providers",
+      "assets": [
+        {
+          "asset": "keycloak",
+          "status": "fail",
+          "message": "Admin console accepts admin/admin",
+          "observed": {
+            "username_tried": "admin",
+            "result": "HTTP 200"
+          },
+          "expected": {
+            "accepted": false
+          },
+          "evidence_ref": "evidence/idp_default_admin/keycloak.json",
+          "evidence_sha256": "55cc9154d2795fe32e0bb7bf128261411c086a0e2a51388a5a4c756f0ea50b3b",
+          "found": "The admin console accepted the default username \u201cadmin\u201d with its default password.",
+          "should": "The default login is refused."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-LOG-001",
+      "target": "nordmsp-lab",
+      "asset": "elasticsearch",
+      "status": "fail",
+      "observed": {
+        "retention_days": 7,
+        "source": "ILM policy logs-7d deletes after 7d"
+      },
+      "expected": {
+        "min_retention_days": 90
+      },
+      "evidence_ref": "evidence/log_retention/elasticsearch.json",
+      "message": "Logs are deleted after 7 days",
+      "collected_at": "2026-09-26T01:31:59.671432Z",
+      "finding_id": "CHK-LOG-001",
+      "title": "Central logs are kept at least as long as the profile requires",
+      "severity": "medium",
+      "evidence_sha256": "60ad10e7fd5dfaea1b802e9eaba61fee7270b08f396e45c85f5bde9e1b3d0017",
+      "action": "Keep logs for as long as the policy requires",
+      "effort": "quick",
+      "why": "Logs deleted too early make an incident impossible to investigate or report.",
+      "found": "Logs are deleted after 7 days.",
+      "should": "Logs are kept for at least 90 days.",
+      "topic": "Incident handling",
+      "asset_kind": "log stores",
+      "assets": [
+        {
+          "asset": "elasticsearch",
+          "status": "fail",
+          "message": "Logs are deleted after 7 days",
+          "observed": {
+            "retention_days": 7,
+            "source": "ILM policy logs-7d deletes after 7d"
+          },
+          "expected": {
+            "min_retention_days": 90
+          },
+          "evidence_ref": "evidence/log_retention/elasticsearch.json",
+          "evidence_sha256": "60ad10e7fd5dfaea1b802e9eaba61fee7270b08f396e45c85f5bde9e1b3d0017",
+          "found": "Logs are deleted after 7 days.",
+          "should": "Logs are kept for at least 90 days."
+        },
+        {
+          "asset": "loki",
+          "status": "fail",
+          "message": "Logs are deleted after 7 days",
+          "observed": {
+            "retention_days": 7,
+            "source": "limits_config.retention_period 1w"
+          },
+          "expected": {
+            "min_retention_days": 90
+          },
+          "evidence_ref": "evidence/log_retention/loki.json",
+          "evidence_sha256": "73a9376aec13458fe4ccd9289baed4b53a2f31f17e668ee4e3a4b0a35c77e8a3",
+          "found": "Logs are deleted after 7 days.",
+          "should": "Logs are kept for at least 90 days."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-LOG-001",
+      "target": "nordmsp-lab",
+      "asset": "loki",
+      "status": "fail",
+      "observed": {
+        "retention_days": 7,
+        "source": "limits_config.retention_period 1w"
+      },
+      "expected": {
+        "min_retention_days": 90
+      },
+      "evidence_ref": "evidence/log_retention/loki.json",
+      "message": "Logs are deleted after 7 days",
+      "collected_at": "2026-09-26T01:31:59.628874Z",
+      "finding_id": "CHK-LOG-001",
+      "title": "Central logs are kept at least as long as the profile requires",
+      "severity": "medium",
+      "evidence_sha256": "73a9376aec13458fe4ccd9289baed4b53a2f31f17e668ee4e3a4b0a35c77e8a3",
+      "action": "Keep logs for as long as the policy requires",
+      "effort": "quick",
+      "why": "Logs deleted too early make an incident impossible to investigate or report.",
+      "found": "Logs are deleted after 7 days.",
+      "should": "Logs are kept for at least 90 days.",
+      "topic": "Incident handling",
+      "asset_kind": "log stores",
+      "assets": [
+        {
+          "asset": "elasticsearch",
+          "status": "fail",
+          "message": "Logs are deleted after 7 days",
+          "observed": {
+            "retention_days": 7,
+            "source": "ILM policy logs-7d deletes after 7d"
+          },
+          "expected": {
+            "min_retention_days": 90
+          },
+          "evidence_ref": "evidence/log_retention/elasticsearch.json",
+          "evidence_sha256": "60ad10e7fd5dfaea1b802e9eaba61fee7270b08f396e45c85f5bde9e1b3d0017",
+          "found": "Logs are deleted after 7 days.",
+          "should": "Logs are kept for at least 90 days."
+        },
+        {
+          "asset": "loki",
+          "status": "fail",
+          "message": "Logs are deleted after 7 days",
+          "observed": {
+            "retention_days": 7,
+            "source": "limits_config.retention_period 1w"
+          },
+          "expected": {
+            "min_retention_days": 90
+          },
+          "evidence_ref": "evidence/log_retention/loki.json",
+          "evidence_sha256": "73a9376aec13458fe4ccd9289baed4b53a2f31f17e668ee4e3a4b0a35c77e8a3",
+          "found": "Logs are deleted after 7 days.",
+          "should": "Logs are kept for at least 90 days."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-SSH-001",
+      "target": "nordmsp-lab",
+      "asset": "app-host",
+      "status": "fail",
+      "observed": {
+        "auth_methods_offered": [
+          "password",
+          "publickey"
+        ]
+      },
+      "expected": {
+        "not_offered": [
+          "password",
+          "keyboard-interactive",
+          "none"
+        ]
+      },
+      "evidence_ref": "evidence/ssh_auth_methods/app-host.json",
+      "message": "Server offers password authentication",
+      "collected_at": "2026-09-26T01:31:59.729780Z",
+      "finding_id": "CHK-SSH-001",
+      "title": "SSH does not offer password authentication",
+      "severity": "high",
+      "evidence_sha256": "4aed10bcbea333ec8f1e87e605dc6a79cb47568f247041dbdbadcd6255f8373d",
+      "action": "Allow only key-based server logins, not passwords",
+      "effort": "quick",
+      "why": "Password logins on an admin host can be brute-forced or phished.",
+      "found": "The server accepts password logins, which can be guessed or bypassed.",
+      "should": "Only key-based logins (public key) are accepted.",
+      "topic": "Access control and asset management",
+      "asset_kind": "SSH hosts",
+      "assets": [
+        {
+          "asset": "app-host",
+          "status": "fail",
+          "message": "Server offers password authentication",
+          "observed": {
+            "auth_methods_offered": [
+              "password",
+              "publickey"
+            ]
+          },
+          "expected": {
+            "not_offered": [
+              "password",
+              "keyboard-interactive",
+              "none"
+            ]
+          },
+          "evidence_ref": "evidence/ssh_auth_methods/app-host.json",
+          "evidence_sha256": "4aed10bcbea333ec8f1e87e605dc6a79cb47568f247041dbdbadcd6255f8373d",
+          "found": "The server accepts password logins, which can be guessed or bypassed.",
+          "should": "Only key-based logins (public key) are accepted."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-SSH-002",
+      "target": "nordmsp-lab",
+      "asset": "app-host",
+      "status": "fail",
+      "observed": {
+        "permitrootlogin": "yes"
+      },
+      "expected": {
+        "permitrootlogin": "no"
+      },
+      "evidence_ref": "evidence/sshd_effective_config/app-host.json",
+      "message": "PermitRootLogin is 'yes'",
+      "collected_at": "2026-09-26T01:31:59.804076Z",
+      "finding_id": "CHK-SSH-002",
+      "title": "Direct root login over SSH is disabled",
+      "severity": "high",
+      "evidence_sha256": "2c22468e076bce4eca67579bd8795f310dd74a6b9cf02637417fcecb63e43f88",
+      "action": "Stop direct administrator (root) logins to the server",
+      "effort": "quick",
+      "why": "Shared root logins remove individual accountability and give an attacker full control.",
+      "found": "Anyone with the root password can log straight in as administrator (PermitRootLogin yes).",
+      "should": "Direct root login is switched off. Administrators log in as themselves first.",
+      "topic": "Access control and asset management",
+      "asset_kind": "SSH hosts",
+      "assets": [
+        {
+          "asset": "app-host",
+          "status": "fail",
+          "message": "PermitRootLogin is 'yes'",
+          "observed": {
+            "permitrootlogin": "yes"
+          },
+          "expected": {
+            "permitrootlogin": "no"
+          },
+          "evidence_ref": "evidence/sshd_effective_config/app-host.json",
+          "evidence_sha256": "2c22468e076bce4eca67579bd8795f310dd74a6b9cf02637417fcecb63e43f88",
+          "found": "Anyone with the root password can log straight in as administrator (PermitRootLogin yes).",
+          "should": "Direct root login is switched off. Administrators log in as themselves first."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-SSH-003",
+      "target": "nordmsp-lab",
+      "asset": "app-host",
+      "status": "fail",
+      "observed": {
+        "maxauthtries": 10
+      },
+      "expected": {
+        "maxauthtries_at_most": 4
+      },
+      "evidence_ref": "evidence/sshd_effective_config/app-host.json",
+      "message": "MaxAuthTries is 10",
+      "collected_at": "2026-09-26T01:31:59.804076Z",
+      "finding_id": "CHK-SSH-003",
+      "title": "SSH limits authentication attempts per connection",
+      "severity": "low",
+      "evidence_sha256": "2c22468e076bce4eca67579bd8795f310dd74a6b9cf02637417fcecb63e43f88",
+      "action": "Limit login attempts per connection to the server",
+      "effort": "quick",
+      "why": "Slows guessing, but is a minor control compared with key-only auth.",
+      "found": "Each connection allows 10 login attempts.",
+      "should": "At most 4 attempts per connection.",
+      "topic": "Access control and asset management",
+      "asset_kind": "SSH hosts",
+      "assets": [
+        {
+          "asset": "app-host",
+          "status": "fail",
+          "message": "MaxAuthTries is 10",
+          "observed": {
+            "maxauthtries": 10
+          },
+          "expected": {
+            "maxauthtries_at_most": 4
+          },
+          "evidence_ref": "evidence/sshd_effective_config/app-host.json",
+          "evidence_sha256": "2c22468e076bce4eca67579bd8795f310dd74a6b9cf02637417fcecb63e43f88",
+          "found": "Each connection allows 10 login attempts.",
+          "should": "At most 4 attempts per connection."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-TLS-001",
+      "target": "nordmsp-lab",
+      "asset": "portal",
+      "status": "fail",
+      "observed": {
+        "accepted_versions": [
+          "TLSv1",
+          "TLSv1.1",
+          "TLSv1.2"
+        ]
+      },
+      "expected": {
+        "min_version": "TLSv1.2"
+      },
+      "evidence_ref": "evidence/tls_probe/portal.json",
+      "message": "Server accepts TLSv1, TLSv1.1",
+      "collected_at": "2026-09-26T01:31:59.812327Z",
+      "finding_id": "CHK-TLS-001",
+      "title": "TLS versions below the profile minimum are refused",
+      "severity": "high",
+      "evidence_sha256": "7629ba9359a270cf1cad2111ebf5ebd3414f7ac317732e3a8d6be6c5f6fff0ff",
+      "action": "Switch off outdated encryption versions on the website",
+      "effort": "quick",
+      "why": "Legacy TLS allows downgrade attacks on traffic to a public service.",
+      "found": "The website still accepts TLSv1 and TLSv1.1, which are outdated and can be attacked.",
+      "should": "Only TLSv1.2 or newer is accepted.",
+      "topic": "Cryptography and encryption",
+      "asset_kind": "web endpoints",
+      "assets": [
+        {
+          "asset": "portal",
+          "status": "fail",
+          "message": "Server accepts TLSv1, TLSv1.1",
+          "observed": {
+            "accepted_versions": [
+              "TLSv1",
+              "TLSv1.1",
+              "TLSv1.2"
+            ]
+          },
+          "expected": {
+            "min_version": "TLSv1.2"
+          },
+          "evidence_ref": "evidence/tls_probe/portal.json",
+          "evidence_sha256": "7629ba9359a270cf1cad2111ebf5ebd3414f7ac317732e3a8d6be6c5f6fff0ff",
+          "found": "The website still accepts TLSv1 and TLSv1.1, which are outdated and can be attacked.",
+          "should": "Only TLSv1.2 or newer is accepted."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-TLS-002",
+      "target": "nordmsp-lab",
+      "asset": "portal",
+      "status": "fail",
+      "observed": {
+        "not_before": "2024-01-01T00:00:00+00:00",
+        "not_after": "2025-01-01T00:00:00+00:00",
+        "days_left": -634
+      },
+      "expected": {
+        "min_days_remaining": 14
+      },
+      "evidence_ref": "evidence/tls_probe/portal.json",
+      "message": "Certificate expired on 2025-01-01",
+      "collected_at": "2026-09-26T01:31:59.812327Z",
+      "finding_id": "CHK-TLS-002",
+      "title": "Certificate is valid and not about to expire",
+      "severity": "medium",
+      "evidence_sha256": "7629ba9359a270cf1cad2111ebf5ebd3414f7ac317732e3a8d6be6c5f6fff0ff",
+      "action": "Renew the website's certificate",
+      "effort": "quick",
+      "why": "An invalid certificate trains users to click through warnings, which makes interception easier.",
+      "found": "The website's certificate expired on 1 January 2025.",
+      "should": "A valid certificate with at least 14 days left.",
+      "topic": "Cryptography and encryption",
+      "asset_kind": "web endpoints",
+      "assets": [
+        {
+          "asset": "portal",
+          "status": "fail",
+          "message": "Certificate expired on 2025-01-01",
+          "observed": {
+            "not_before": "2024-01-01T00:00:00+00:00",
+            "not_after": "2025-01-01T00:00:00+00:00",
+            "days_left": -634
+          },
+          "expected": {
+            "min_days_remaining": 14
+          },
+          "evidence_ref": "evidence/tls_probe/portal.json",
+          "evidence_sha256": "7629ba9359a270cf1cad2111ebf5ebd3414f7ac317732e3a8d6be6c5f6fff0ff",
+          "found": "The website's certificate expired on 1 January 2025.",
+          "should": "A valid certificate with at least 14 days left."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-TLS-003",
+      "target": "nordmsp-lab",
+      "asset": "portal",
+      "status": "fail",
+      "observed": {
+        "http_status": 200,
+        "location": null,
+        "hsts": null
+      },
+      "expected": {
+        "http_redirects_to_https": true,
+        "hsts": true
+      },
+      "evidence_ref": "evidence/http_probe/portal.json",
+      "message": "HTTP does not redirect to HTTPS; no Strict-Transport-Security header",
+      "collected_at": "2026-09-26T01:31:59.815799Z",
+      "finding_id": "CHK-TLS-003",
+      "title": "Plain HTTP redirects to HTTPS and HSTS is set",
+      "severity": "medium",
+      "evidence_sha256": "fb1a885fffcf0933c9f87de9aaf4c04fa6b88282fd0c3c0d3f049c6f3e82fc48",
+      "action": "Send all website traffic over HTTPS",
+      "effort": "quick",
+      "why": "Without a redirect and HSTS, users can be kept on unencrypted HTTP.",
+      "found": "Visitors who type http:// stay on the unencrypted site; browsers are not told to always use the encrypted site.",
+      "should": "Visitors on http:// are sent to https://, and browsers are told to always use it.",
+      "topic": "Cryptography and encryption",
+      "asset_kind": "web endpoints",
+      "assets": [
+        {
+          "asset": "portal",
+          "status": "fail",
+          "message": "HTTP does not redirect to HTTPS; no Strict-Transport-Security header",
+          "observed": {
+            "http_status": 200,
+            "location": null,
+            "hsts": null
+          },
+          "expected": {
+            "http_redirects_to_https": true,
+            "hsts": true
+          },
+          "evidence_ref": "evidence/http_probe/portal.json",
+          "evidence_sha256": "fb1a885fffcf0933c9f87de9aaf4c04fa6b88282fd0c3c0d3f049c6f3e82fc48",
+          "found": "Visitors who type http:// stay on the unencrypted site; browsers are not told to always use the encrypted site.",
+          "should": "Visitors on http:// are sent to https://, and browsers are told to always use it."
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-VUL-001",
+      "target": "nordmsp-lab",
+      "asset": "nis2lab",
+      "status": "fail",
+      "observed": {
+        "images_scanned": 8,
+        "failing": {
+          "elasticsearch:8.19.10": [
+            "CVE-2025-14813",
+            "CVE-2026-75595",
+            "CVE-2026-8763"
+          ],
+          "grafana/loki:3.5.1": [
+            "CVE-2025-68121",
+            "CVE-2026-33186"
+          ],
+          "nginx:1.20": [
+            "CVE-2021-22945",
+            "CVE-2021-46848",
+            "CVE-2022-1586",
+            "CVE-2022-1587",
+            "CVE-2022-1664",
+            "CVE-2022-27404",
+            "CVE-2022-29155",
+            "CVE-2022-32207",
+            "CVE-2022-32221",
+            "CVE-2022-37434",
+            "CVE-2023-38545",
+            "CVE-2024-37371",
+            "CVE-2024-45491",
+            "CVE-2024-45492",
+            "CVE-2024-56171",
+            "CVE-2026-33845",
+            "CVE-2026-42010"
+          ],
+          "nis2lab-backup": [
+            "CVE-2025-68121",
+            "CVE-2026-31789",
+            "CVE-2026-33186"
+          ],
+          "quay.io/keycloak/keycloak:26.3": [
+            "CVE-2025-14813",
+            "CVE-2026-18963",
+            "CVE-2026-75595",
+            "CVE-2026-84939",
+            "CVE-2026-8763"
+          ]
+        },
+        "accepted_risks": [],
+        "os_end_of_support": [
+          "nginx:1.20"
+        ]
+      },
+      "expected": {
+        "severities": [
+          "CRITICAL"
+        ],
+        "only_with_fix": true
+      },
+      "evidence_ref": "evidence/image_vulnerabilities/nis2lab.json",
+      "message": "Fixable CRITICAL vulnerabilities in nginx:1.20 (17), quay.io/keycloak/keycloak:26.3 (5), elasticsearch:8.19.10 (3), nis2lab-backup (3), grafana/loki:3.5.1 (2)",
+      "collected_at": "2026-09-26T01:32:08.151013Z",
+      "finding_id": "CHK-VUL-001",
+      "title": "No unaccepted, fixable vulnerability at the failing severity in running images",
+      "severity": "high",
+      "evidence_sha256": "f0c7960f737e64a41823bdcd13527cab5dbf9034cdbabf2425cee12a1aaf19a0",
+      "action": "Update software that has known critical flaws",
+      "effort": "project",
+      "why": "Known, fixable critical vulnerabilities are the most common way in.",
+      "found": "30 known critical flaws with an available fix, in 5 components: elasticsearch:8.19.10 (3), grafana/loki:3.5.1 (2), nginx:1.20 (17), nis2lab-backup (3) and quay.io/keycloak/keycloak:26.3 (5). nginx:1.20 runs on an operating system that no longer gets updates.",
+      "should": "No fixable critical flaws, unless a documented risk exception covers them.",
+      "topic": "Secure development and vulnerability handling",
+      "asset_kind": "Docker projects",
+      "assets": [
+        {
+          "asset": "nis2lab",
+          "status": "fail",
+          "message": "Fixable CRITICAL vulnerabilities in nginx:1.20 (17), quay.io/keycloak/keycloak:26.3 (5), elasticsearch:8.19.10 (3), nis2lab-backup (3), grafana/loki:3.5.1 (2)",
+          "observed": {
+            "images_scanned": 8,
+            "failing": {
+              "elasticsearch:8.19.10": [
+                "CVE-2025-14813",
+                "CVE-2026-75595",
+                "CVE-2026-8763"
+              ],
+              "grafana/loki:3.5.1": [
+                "CVE-2025-68121",
+                "CVE-2026-33186"
+              ],
+              "nginx:1.20": [
+                "CVE-2021-22945",
+                "CVE-2021-46848",
+                "CVE-2022-1586",
+                "CVE-2022-1587",
+                "CVE-2022-1664",
+                "CVE-2022-27404",
+                "CVE-2022-29155",
+                "CVE-2022-32207",
+                "CVE-2022-32221",
+                "CVE-2022-37434",
+                "CVE-2023-38545",
+                "CVE-2024-37371",
+                "CVE-2024-45491",
+                "CVE-2024-45492",
+                "CVE-2024-56171",
+                "CVE-2026-33845",
+                "CVE-2026-42010"
+              ],
+              "nis2lab-backup": [
+                "CVE-2025-68121",
+                "CVE-2026-31789",
+                "CVE-2026-33186"
+              ],
+              "quay.io/keycloak/keycloak:26.3": [
+                "CVE-2025-14813",
+                "CVE-2026-18963",
+                "CVE-2026-75595",
+                "CVE-2026-84939",
+                "CVE-2026-8763"
+              ]
+            },
+            "accepted_risks": [],
+            "os_end_of_support": [
+              "nginx:1.20"
+            ]
+          },
+          "expected": {
+            "severities": [
+              "CRITICAL"
+            ],
+            "only_with_fix": true
+          },
+          "evidence_ref": "evidence/image_vulnerabilities/nis2lab.json",
+          "evidence_sha256": "f0c7960f737e64a41823bdcd13527cab5dbf9034cdbabf2425cee12a1aaf19a0",
+          "found": "30 known critical flaws with an available fix, in 5 components: elasticsearch:8.19.10 (3), grafana/loki:3.5.1 (2), nginx:1.20 (17), nis2lab-backup (3) and quay.io/keycloak/keycloak:26.3 (5). nginx:1.20 runs on an operating system that no longer gets updates.",
+          "should": "No fixable critical flaws, unless a documented risk exception covers them."
+        }
+      ],
+      "breaches": []
+    }
+  ],
+  "verdicts": [
+    {
+      "requirement_id": "REQ-CIR2690-11.3.2-01",
+      "title": "Strong authentication for privileged accounts",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "establish strong identification, authentication such as multi-factor authentication, and authorisation procedures for privileged accounts and system administration accounts;",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-IDP-001"
+      ],
+      "reason": "failed: CHK-IDP-001"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.3.2-03",
+      "title": "Individualised and restricted administration privileges",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "individualise and restrict system administration privileges to the highest extent possible,",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-SSH-002"
+      ],
+      "reason": "failed: CHK-SSH-002"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.6.2-01",
+      "title": "Authentication strength matched to asset classification",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "ensure the strength of authentication is appropriate to the classification of the asset to be accessed",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-IDP-003",
+        "CHK-SSH-001"
+      ],
+      "reason": "failed: CHK-IDP-003, CHK-SSH-001"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.6.2-03",
+      "title": "Credential change at defined triggers",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "require the change of authentication credentials initially, at predefined intervals and upon suspicion that the credentials were compromised",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-IDP-004"
+      ],
+      "reason": "failed: CHK-IDP-004"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.6.2-04",
+      "title": "Credential reset and blocking after failed logins",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "require the reset of authentication credentials and the blocking of users after a predefined number of unsuccessful log-in attempts",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-IDP-002"
+      ],
+      "reason": "failed: CHK-IDP-002"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.7.1-01",
+      "title": "Multi-factor or continuous authentication for access",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.7.1",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "The relevant entities shall ensure that users are authenticated by multiple authentication factors or continuous authentication mechanisms for accessing the relevant entities\u2019 network and information systems, where appropriate, in accordance with the classification of the asset to be accessed.",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-IDP-001"
+      ],
+      "reason": "failed: CHK-IDP-001"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.7.2-01",
+      "title": "Authentication strength matched to asset classification",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.7.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "The relevant entities shall ensure that the strength of authentication is appropriate for the classification of the asset to be accessed.",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-IDP-003",
+        "CHK-SSH-001"
+      ],
+      "reason": "failed: CHK-IDP-003, CHK-SSH-001"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-12.4.1-01",
+      "title": "Maintain complete asset inventory",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 12.4.1",
+      "nis2_article": "21(2)(i)",
+      "quote": "The relevant entities shall develop and maintain a complete, accurate, up-to-date and consistent inventory of their assets.",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-AST-001"
+      ],
+      "reason": "failed: CHK-AST-001"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.5-01",
+      "title": "Maintain and back up logs",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.5",
+      "nis2_article": "21(2)(b)",
+      "quote": "The relevant entities shall maintain and back up logs for a predefined period",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-LOG-001"
+      ],
+      "reason": "failed: CHK-LOG-001 on loki, CHK-LOG-001 on elasticsearch"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.1-01",
+      "title": "Maintain backup copies of data",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.1",
+      "nis2_article": "21(2)(c)",
+      "quote": "The relevant entities shall maintain backup copies of data",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-BAK-001"
+      ],
+      "reason": "failed: CHK-BAK-001 on restic, CHK-BAK-001 on borg"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-05",
+      "title": "Access controls to backup copies",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+      "nis2_article": "21(2)(c)",
+      "quote": "(d) appropriate physical and logical access controls to backup copies, in accordance with the asset classification level;",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-BAK-002"
+      ],
+      "reason": "failed: CHK-BAK-002 on borg"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.10.1-03",
+      "title": "Take measures to manage vulnerabilities",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1",
+      "nis2_article": "21(2)(e)",
+      "quote": "take appropriate measures to manage the vulnerabilities",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-VUL-001"
+      ],
+      "reason": "failed: CHK-VUL-001"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.10.2-03",
+      "title": "Address critical vulnerabilities without undue delay",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2",
+      "nis2_article": "21(2)(e)",
+      "quote": "address, without undue delay, vulnerabilities identified by the relevant entities as critical to their operations",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-VUL-001"
+      ],
+      "reason": "failed: CHK-VUL-001"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.6.1-02",
+      "title": "Apply patches within reasonable time",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1",
+      "nis2_article": "21(2)(e)",
+      "quote": "security patches are applied within a reasonable time after they become available;",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-VUL-001"
+      ],
+      "reason": "failed: CHK-VUL-001"
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.B",
+      "title": "Incident handling",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(b)",
+      "nis2_article": "21(2)(b)",
+      "quote": "incident handling",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-DOC-002",
+        "CHK-LOG-001"
+      ],
+      "reason": "failed: CHK-DOC-002, CHK-LOG-001 on loki, CHK-LOG-001 on elasticsearch"
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.C",
+      "title": "Business continuity and backup management",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(c)",
+      "nis2_article": "21(2)(c)",
+      "quote": "business continuity, such as backup management and disaster recovery, and crisis management",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-BAK-001",
+        "CHK-BAK-002"
+      ],
+      "reason": "failed: CHK-BAK-001 on restic, CHK-BAK-001 on borg, CHK-BAK-002 on borg"
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.E",
+      "title": "Secure acquisition, development and maintenance; vulnerability handling",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(e)",
+      "nis2_article": "21(2)(e)",
+      "quote": "security in network and information systems acquisition, development and maintenance, including vulnerability handling and disclosure",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-VUL-001"
+      ],
+      "reason": "failed: CHK-VUL-001"
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.H",
+      "title": "Cryptography and encryption",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(h)",
+      "nis2_article": "21(2)(h)",
+      "quote": "policies and procedures regarding the use of cryptography and, where appropriate, encryption",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-TLS-001",
+        "CHK-TLS-002",
+        "CHK-TLS-003"
+      ],
+      "reason": "failed: CHK-TLS-001, CHK-TLS-002, CHK-TLS-003"
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.I",
+      "title": "HR security, access control and asset management",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(i)",
+      "nis2_article": "21(2)(i)",
+      "quote": "human resources security, access control policies and asset management",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-IDP-002",
+        "CHK-IDP-003",
+        "CHK-IDP-004",
+        "CHK-AST-001",
+        "CHK-SSH-001",
+        "CHK-SSH-002",
+        "CHK-SSH-003"
+      ],
+      "reason": "failed: CHK-AST-001, CHK-IDP-002, CHK-IDP-003, CHK-IDP-004, CHK-SSH-001, CHK-SSH-002, CHK-SSH-003"
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.J",
+      "title": "Multi-factor or continuous authentication",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(j)",
+      "nis2_article": "21(2)(j)",
+      "quote": "the use of multi-factor authentication or continuous authentication solutions, secured voice, video and text communications and secured emergency communication systems within the entity, where appropriate.",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-IDP-001"
+      ],
+      "reason": "failed: CHK-IDP-001"
+    },
+    {
+      "requirement_id": "REQ-NIS2-23.4",
+      "title": "Staged reporting of significant incidents to the CSIRT",
+      "provision": "Directive (EU) 2022/2555, Art. 23(4)(a), (b) and (d)",
+      "nis2_article": "23(4)",
+      "quote": "without undue delay and in any event within 24 hours of becoming aware of the significant incident, an early warning",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_satisfied",
+      "check_ids": [
+        "CHK-DOC-001"
+      ],
+      "reason": "failed: CHK-DOC-001"
+    }
+  ],
+  "not_assessed": [
+    {
+      "requirement_id": "REQ-CIR2690-1.1.2-01",
+      "title": "Annual and event-driven policy review by management",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2",
+      "nis2_article": "21(2)(a)",
+      "quote": "The network and information system security policy shall be reviewed and, where appropriate, updated by management bodies at least annually and when significant incidents or significant changes to operations or risks occur.",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-1.1.2-02",
+      "title": "Documentation of review results",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 1.1.2",
+      "nis2_article": "21(2)(a)",
+      "quote": "The result of the reviews shall be documented.",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.2.2-01",
+      "title": "Assign and revoke access rights on principles",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "assign and revoke access rights based on the principles of need-to-know, least privilege and separation of duties",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.2.2-02",
+      "title": "Modify access rights on employment change",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "ensure that access rights are modified accordingly upon termination or change of employment",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.2.2-03",
+      "title": "Authorisation of access by relevant persons",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "ensure that access to network and information systems is authorised by the relevant persons",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.2.2-04",
+      "title": "Control third-party access rights",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "ensure that access rights appropriately address third-party access, such as visitors, suppliers and service providers, in particular by limiting access rights in scope and in duration",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.2.2-05",
+      "title": "Maintain register of granted access rights",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "maintain a register of access rights granted",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.2.2-06",
+      "title": "Log access rights management",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.2.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "apply logging to the management of access rights",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.3.2-02",
+      "title": "Dedicated system administration accounts",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "set up specific accounts to be used for system administration operations exclusively, such as installation, configuration, management or maintenance;",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.3.2-04",
+      "title": "Administration accounts limited to administration systems",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.3.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "provide that system administration accounts are only used to connect to system administration systems.",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.6.2-02",
+      "title": "Controlled allocation of secret authentication information",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "control the allocation to users and management of secret authentication information by a process that ensures the confidentiality of the information, including advising personnel on appropriate handling of authentication information",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.6.2-05",
+      "title": "Termination of inactive sessions",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "terminate inactive sessions after a predefined period of inactivity",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-11.6.2-06",
+      "title": "Separate credentials for privileged accounts",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 11.6.2",
+      "nis2_article": "21(2)(i), (j)",
+      "quote": "require separate credentials to access privileged access or administrative accounts",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-12.4.1-02",
+      "title": "Traceable recording of inventory changes",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 12.4.1",
+      "nis2_article": "21(2)(i)",
+      "quote": "They shall record changes to the entries in the inventory in a traceable manner.",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.1-01",
+      "title": "Monitoring and logging procedures and tools",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.1",
+      "nis2_article": "21(2)(b)",
+      "quote": "The relevant entities shall lay down procedures and use tools to monitor and log activities on their network and information systems to detect events that could be considered as incidents",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.1-02",
+      "title": "Respond to detected events",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.1",
+      "nis2_article": "21(2)(b)",
+      "quote": "respond accordingly to mitigate the impact",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-01",
+      "title": "Maintain, document and review logs",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "Based on the procedures referred to in point 3.2.1, the relevant entities shall maintain, document, and review logs.",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-02",
+      "title": "List of assets subject to logging",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "The relevant entities shall establish a list of assets to be subject to logging based on the results of the risk assessment carried out pursuant to point 2.1.",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-03",
+      "title": "Log network traffic",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "relevant outbound and inbound network traffic",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-04",
+      "title": "Log user account and permission changes",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "creation, modification or deletion of users of the relevant entities\u2019 network and information systems and extension of the permissions",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-05",
+      "title": "Log system and application access",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "access to systems and applications",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-06",
+      "title": "Log authentication-related events",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "authentication-related events",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-07",
+      "title": "Log privileged and administrative access",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "all privileged access to systems and applications, and activities performed by administrative accounts",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-08",
+      "title": "Log critical configuration and backup file access",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "access or changes to critical configuration and backup files",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-09",
+      "title": "Log security tool events",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "event logs and logs from security tools, such as antivirus, intrusion detection systems or firewalls",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-10",
+      "title": "Log system resource use and performance",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "use of system resources, as well as their performance",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-11",
+      "title": "Log physical access to facilities",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "physical access to facilities",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-12",
+      "title": "Log network equipment and device access",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "access to and use of their network equipment and devices",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-13",
+      "title": "Log logging service state changes",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "activation, stopping and pausing of the various logs",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.3-14",
+      "title": "Log environmental events",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.3",
+      "nis2_article": "21(2)(b)",
+      "quote": "environmental events",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.4-01",
+      "title": "Regular log review for unusual trends",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4",
+      "nis2_article": "21(2)(b)",
+      "quote": "The logs shall be regularly reviewed for any unusual or unwanted trends.",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.4-02",
+      "title": "Alarm thresholds defined where appropriate",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4",
+      "nis2_article": "21(2)(b)",
+      "quote": "Where appropriate, the relevant entities shall lay down appropriate values for alarm thresholds.",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.4-03",
+      "title": "Alarm triggered on threshold exceedance",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4",
+      "nis2_article": "21(2)(b)",
+      "quote": "If the laid down values for alarm threshold are exceeded, an alarm shall be triggered, where appropriate, automatically.",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.4-04",
+      "title": "Timely qualified response to alarms",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.4",
+      "nis2_article": "21(2)(b)",
+      "quote": "The relevant entities shall ensure that, in case of an alarm, a qualified and appropriate response is initiated in a timely manner.",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-3.2.5-02",
+      "title": "Protect logs from unauthorised access or changes",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 3.2.5",
+      "nis2_article": "21(2)(b)",
+      "quote": "shall protect them from unauthorised access or changes",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.1-02",
+      "title": "Sufficient resources for redundancy",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.1",
+      "nis2_article": "21(2)(c)",
+      "quote": "provide sufficient available resources, including facilities, network and information systems and staff, to ensure an appropriate level of redundancy",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-01",
+      "title": "Establish backup plans",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+      "nis2_article": "21(2)(c)",
+      "quote": "Based on the results of the risk assessment carried out pursuant to point 2.1 and the business continuity plan, the relevant entities shall lay down backup plans which include the following:",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-02",
+      "title": "Recovery times in backup plans",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+      "nis2_article": "21(2)(c)",
+      "quote": "(a) recovery times;",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-03",
+      "title": "Completeness and accuracy of backups",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+      "nis2_article": "21(2)(c)",
+      "quote": "(b) assurance that backup copies are complete and accurate, including configuration data and data stored in cloud computing service environment;",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-04",
+      "title": "Safe offsite storage of backups",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+      "nis2_article": "21(2)(c)",
+      "quote": "(c) storing backup copies (online or offline) in a safe location or locations, which are not in the same network as the system, and are at sufficient distance to escape any damage from a disaster at the main site;",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-06",
+      "title": "Restoring data from backups",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+      "nis2_article": "21(2)(c)",
+      "quote": "(e) restoring data from backup copies;",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.2-07",
+      "title": "Backup retention periods",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+      "nis2_article": "21(2)(c)",
+      "quote": "(f) retention periods based on business and regulatory requirements.",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-4.2.3-01",
+      "title": "Regular backup integrity checks",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.3",
+      "nis2_article": "21(2)(c)",
+      "quote": "The relevant entities shall perform regular integrity checks on the backup copies.",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.10.1-01",
+      "title": "Obtain technical vulnerability information",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1",
+      "nis2_article": "21(2)(e)",
+      "quote": "obtain information about technical vulnerabilities in their network and information systems",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.10.1-02",
+      "title": "Evaluate exposure to vulnerabilities",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1",
+      "nis2_article": "21(2)(e)",
+      "quote": "evaluate their exposure to such vulnerabilities",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.10.2-01",
+      "title": "Monitor vulnerability information through appropriate channels",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2",
+      "nis2_article": "21(2)(e)",
+      "quote": "monitor information about vulnerabilities through appropriate channels, such as announcements of CSIRTs, competent authorities or information provided by suppliers or service providers",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.10.2-02",
+      "title": "Vulnerability scans at planned intervals",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2",
+      "nis2_article": "21(2)(e)",
+      "quote": "perform, where appropriate, vulnerability scans, and record evidence of the results of the scans, at planned intervals",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.10.2-04",
+      "title": "Compatibility with related management procedures",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2",
+      "nis2_article": "21(2)(e)",
+      "quote": "ensure that their vulnerability handling is compatible with their change management, security patch management, risk management and incident management procedures",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.10.2-05",
+      "title": "Vulnerability disclosure procedure",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.2",
+      "nis2_article": "21(2)(e)",
+      "quote": "lay down a procedure for disclosing vulnerabilities in accordance with the applicable national coordinated vulnerability disclosure policy",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.6.1-01",
+      "title": "Establish coherent security patch procedures",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1",
+      "nis2_article": "21(2)(e)",
+      "quote": "The relevant entities shall specify and apply procedures, coherent with the change management procedures referred to in point 6.4.1 as well as with vulnerability management, risk management and other relevant management procedures, for ensuring that:",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.6.1-03",
+      "title": "Test patches before production deployment",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1",
+      "nis2_article": "21(2)(e)",
+      "quote": "security patches are tested before being applied in production systems;",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.6.1-04",
+      "title": "Trusted sources and integrity checking",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1",
+      "nis2_article": "21(2)(e)",
+      "quote": "security patches come from trusted sources and are checked for integrity;",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.6.1-05",
+      "title": "Compensating measures when patch unavailable",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.1",
+      "nis2_article": "21(2)(e)",
+      "quote": "additional measures are implemented and residual risks are accepted in cases where a patch is not available or not applied pursuant to point 6.6.2.",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.6.2-01",
+      "title": "Non-application of patches only when justified",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.2",
+      "nis2_article": "21(2)(e)",
+      "quote": "the relevant entities may choose not to apply security patches when the disadvantages of applying the security patches outweigh the cybersecurity benefits",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-6.6.2-02",
+      "title": "Document reasons for not patching",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.6.2",
+      "nis2_article": "21(2)(e)",
+      "quote": "The relevant entities shall duly document and substantiate the reasons for any such decision.",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-7.3-01",
+      "title": "Review policy and procedures at planned intervals",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 7.3",
+      "nis2_article": "21(2)(f)",
+      "quote": "The relevant entities shall review and, where appropriate, update the policy and procedures at planned intervals and when significant incidents or significant changes to operations or risks.",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-7.3-02",
+      "title": "Update policy and procedures where appropriate",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 7.3",
+      "nis2_article": "21(2)(f)",
+      "quote": "update the policy and procedures at planned intervals and when significant incidents or significant changes to operations or risks",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-9.2-01",
+      "title": "Define cryptographic measures per asset classification",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2",
+      "nis2_article": "21(2)(h)",
+      "quote": "in accordance with the relevant entities\u2019 classification of assets, the type, strength and quality of the cryptographic measures required to protect the relevant entities\u2019 assets, including data at rest and data in transit",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-9.2-02",
+      "title": "Approve protocols, algorithms and usage practices",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2",
+      "nis2_article": "21(2)(h)",
+      "quote": "based on point (a), the protocols or families of protocols to be adopted, as well as cryptographic algorithms, cipher strength, cryptographic solutions and usage practices to be approved and required for use in the relevant entities, following, where appropriate, a cryptographic agility approach",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-CIR2690-9.2-03",
+      "title": "Establish key management approach",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 9.2",
+      "nis2_article": "21(2)(h)",
+      "quote": "the relevant entities\u2019 approach to key management, including, where appropriate, methods for the following:",
+      "testability": "documentary",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "no checks implemented yet"
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.A",
+      "title": "Risk analysis and information system security policies",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(a)",
+      "nis2_article": "21(2)(a)",
+      "quote": "policies on risk analysis and information system security",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.D",
+      "title": "Supply chain security",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(d)",
+      "nis2_article": "21(2)(d)",
+      "quote": "supply chain security, including security-related aspects concerning the relationships between each entity and its direct suppliers or service providers",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.F",
+      "title": "Assessing the effectiveness of risk-management measures",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(f)",
+      "nis2_article": "21(2)(f)",
+      "quote": "policies and procedures to assess the effectiveness of cybersecurity risk-management measures",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    },
+    {
+      "requirement_id": "REQ-NIS2-21.2.G",
+      "title": "Cyber hygiene and training",
+      "provision": "Directive (EU) 2022/2555, Art. 21(2)(g)",
+      "nis2_article": "21(2)(g)",
+      "quote": "basic cyber hygiene practices and cybersecurity training",
+      "testability": "organisational",
+      "review_status": "reviewed",
+      "verdict": "not_assessed",
+      "check_ids": [],
+      "reason": "organisational requirement: needs audit, not automated checks"
+    }
+  ],
+  "multi_asset": true,
+  "assets": [
+    {
+      "section": "web",
+      "name": "portal",
+      "product": null
+    },
+    {
+      "section": "ssh",
+      "name": "app-host",
+      "product": null
+    },
+    {
+      "section": "idp",
+      "name": "keycloak",
+      "product": "keycloak",
+      "label": "Keycloak",
+      "method": "OpenID configuration",
+      "detail": "issuer http://127.0.0.1:18081/realms/nordmsp"
+    },
+    {
+      "section": "logs",
+      "name": "loki",
+      "product": "loki",
+      "label": "Grafana Loki",
+      "method": "build-info endpoint (Loki 3.5.1)",
+      "detail": ""
+    },
+    {
+      "section": "logs",
+      "name": "elasticsearch",
+      "product": "elasticsearch",
+      "label": "Elasticsearch",
+      "method": "authentication error (security_exception)",
+      "detail": ""
+    },
+    {
+      "section": "backup",
+      "name": "restic",
+      "product": "restic",
+      "label": "restic",
+      "method": "restic 0.18.0 found in container nis2lab-backup-1",
+      "detail": ""
+    },
+    {
+      "section": "backup",
+      "name": "borg",
+      "product": "borg",
+      "label": "BorgBackup",
+      "method": "borg 1.4.4 found in container nis2lab-backup-borg-1",
+      "detail": ""
+    },
+    {
+      "section": "docker",
+      "name": "nis2lab",
+      "product": null
+    },
+    {
+      "section": "documents",
+      "name": "documents",
+      "product": null
+    }
+  ],
+  "engagement": {
+    "client": "NordMSP AS (fictional lab)",
+    "authorised_by": "Lab owner",
+    "authorised_on": "2026-09-01",
+    "valid_until": "2027-12-31",
+    "active_tests": true,
+    "notes": ""
+  },
+  "narrative": {
+    "status": "accepted",
+    "model": "claude-opus-5-5",
+    "effort": "medium",
+    "prompt_version": "2026-09-25.2",
+    "created_at": "2026-09-26T01:35:47.845658+00:00",
+    "attempts": 2,
+    "violations": [],
+    "narrative": {
+      "executive_summary": "The scan found gaps across every area it tested: all 17 checks failed, 21 requirements were not satisfied and 64 could not be assessed by this scan. The most serious gap is that the admin console accepts the default admin/admin login, which could give anyone full control. Other urgent gaps: the newest backups are 559 and 481 days old, two staff accounts lack multi-factor authentication, SSH allows password and direct root login, the web server still accepts outdated TLS versions, and running software contains fixable critical vulnerabilities.",
+      "executive_summary_finding_ids": [
+        "CHK-IDP-004",
+        "CHK-BAK-001",
+        "CHK-IDP-001",
+        "CHK-SSH-001",
+        "CHK-SSH-002",
+        "CHK-TLS-001",
+        "CHK-VUL-001"
+      ],
+      "gaps": [
+        {
+          "finding_id": "CHK-IDP-004",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.I",
+            "REQ-CIR2690-11.6.2-03"
+          ],
+          "why_it_matters": "The rules require access control policies and require that login credentials are changed initially. The scan logged into the admin console with the username admin and password admin and was let in. Default credentials are widely known, so anyone who can reach the console could take full administrative control of the system.",
+          "remediation": [
+            "Change the admin console password immediately to a unique, strong secret.",
+            "Ensure the default admin/admin combination is rejected, then re-run the check to confirm the login is refused.",
+            "Review console activity for signs that the default login was already misused."
+          ]
+        },
+        {
+          "finding_id": "CHK-BAK-001",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.C",
+            "REQ-CIR2690-4.2.1-01"
+          ],
+          "why_it_matters": "The rules require backup management and that backup copies of data are maintained. Each backup system holds a single snapshot: the newest borg backup is 559 days old and the newest restic backup is 481 days old, far beyond the maximum age the profile allows. If data were lost now, most recent work could not be restored.",
+          "remediation": [
+            "Find out why scheduled backups for borg and restic stopped running and fix the cause.",
+            "Restore a regular backup schedule so the newest snapshot always stays within the profile's maximum age.",
+            "Set up an alert when backups stop, and re-run the check to confirm fresh snapshots exist."
+          ]
+        },
+        {
+          "finding_id": "CHK-IDP-001",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.J",
+            "REQ-CIR2690-11.3.2-01",
+            "REQ-CIR2690-11.7.1-01"
+          ],
+          "why_it_matters": "The rules call for multi-factor authentication, especially for privileged and administration accounts. The accounts kari.admin and ola.tech have no second factor, and new accounts are not required to enrol one. A single stolen password would be enough to access these accounts, one of which appears to be an administrator.",
+          "remediation": [
+            "Enrol a second factor for kari.admin and ola.tech.",
+            "Turn on the identity provider setting that forces new users to enrol multi-factor authentication.",
+            "Re-run the check to confirm no accounts remain without multi-factor authentication."
+          ]
+        },
+        {
+          "finding_id": "CHK-SSH-001",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.I",
+            "REQ-CIR2690-11.6.2-01",
+            "REQ-CIR2690-11.7.2-01"
+          ],
+          "why_it_matters": "The rules require that the strength of authentication matches the importance of what is being accessed. The SSH server, used for remote administration, accepts plain passwords alongside keys. Passwords can be guessed or stolen, which weakens protection of a sensitive entry point.",
+          "remediation": [
+            "Configure the SSH server to stop offering password, keyboard-interactive and none authentication, keeping only public key login.",
+            "Make sure all administrators have working keys before the change.",
+            "Re-run the check to confirm password authentication is no longer offered."
+          ]
+        },
+        {
+          "finding_id": "CHK-SSH-002",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.I",
+            "REQ-CIR2690-11.3.2-03"
+          ],
+          "why_it_matters": "The rules require administration privileges to be individualised and restricted. SSH currently allows direct login as root (PermitRootLogin is 'yes'). This means attackers can target the most powerful account directly, and actions cannot be traced to an individual person.",
+          "remediation": [
+            "Set PermitRootLogin to 'no' in the SSH server configuration.",
+            "Have administrators log in with personal accounts and raise privileges only when needed.",
+            "Re-run the check to confirm root login is disabled."
+          ]
+        },
+        {
+          "finding_id": "CHK-TLS-001",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.H"
+          ],
+          "why_it_matters": "The rules require policies on the use of cryptography. The server still accepts the outdated TLSv1 and TLSv1.1 versions in addition to TLSv1.2. Older versions have known weaknesses, so connections could be downgraded and traffic exposed.",
+          "remediation": [
+            "Configure the server to refuse TLSv1 and TLSv1.1, keeping TLSv1.2 as the minimum.",
+            "Re-run the check to confirm only permitted versions are accepted."
+          ]
+        },
+        {
+          "finding_id": "CHK-VUL-001",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.E",
+            "REQ-CIR2690-6.10.1-03",
+            "REQ-CIR2690-6.10.2-03",
+            "REQ-CIR2690-6.6.1-02"
+          ],
+          "why_it_matters": "The rules require vulnerability handling, addressing critical vulnerabilities without undue delay, and applying security patches within a reasonable time. Of 8 running images scanned, several contain critical vulnerabilities for which fixes exist: nginx:1.20 (17), quay.io/keycloak/keycloak:26.3 (5), elasticsearch:8.19.10 (3), nis2lab-backup (3) and grafana/loki:3.5.1 (2). No risks have been formally accepted, and nginx:1.20 runs on an operating system that is no longer supported. Known, fixable flaws are a common route for attackers.",
+          "remediation": [
+            "Update each listed image to a release that contains the available fixes and redeploy.",
+            "Replace nginx:1.20 with an image whose operating system is still supported.",
+            "Where a fix cannot be applied yet, record a formal risk acceptance.",
+            "Re-run the scan to confirm no fixable critical vulnerabilities remain."
+          ]
+        },
+        {
+          "finding_id": "CHK-AST-001",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.I",
+            "REQ-CIR2690-12.4.1-01"
+          ],
+          "why_it_matters": "The rules require a complete, accurate and up-to-date asset inventory. Five running services are missing from it: backup, backup-borg, legacy-web, logs and search. Services that are not inventoried tend to be forgotten, left unpatched and unmonitored.",
+          "remediation": [
+            "Add backup, backup-borg, legacy-web, logs and search to the asset inventory with an owner, or shut down any that are no longer needed.",
+            "Re-run the check to confirm no undeclared services remain."
+          ]
+        },
+        {
+          "finding_id": "CHK-BAK-002",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.C",
+            "REQ-CIR2690-4.2.2-05"
+          ],
+          "why_it_matters": "The rules require appropriate access controls on backup copies. The borg backup repository is not encrypted. Anyone who obtains a copy of the backups could read all the data in them.",
+          "remediation": [
+            "Create an encrypted borg repository and move backups into it.",
+            "Store the encryption key securely and separately from the backups.",
+            "Re-run the check to confirm no unencrypted backup sets remain."
+          ]
+        },
+        {
+          "finding_id": "CHK-DOC-001",
+          "requirement_ids": [
+            "REQ-NIS2-23.4"
+          ],
+          "why_it_matters": "The law requires staged reporting of significant incidents to the CSIRT, starting with an early warning within 24 hours. The incident response plan (incident-response.md) does not mention the 24h early warning, the 72h incident notification, the one-month final report or the CSIRT contact. During an incident staff may miss mandatory reporting steps.",
+          "remediation": [
+            "Add the 24h early warning, 72h incident notification and one-month final report stages to incident-response.md.",
+            "Add the CSIRT contact details to the plan.",
+            "Re-run the check to confirm all stages are mentioned."
+          ]
+        },
+        {
+          "finding_id": "CHK-IDP-002",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.I",
+            "REQ-CIR2690-11.6.2-04"
+          ],
+          "why_it_matters": "The rules require blocking users after a predefined number of unsuccessful log-in attempts. Account lockout is disabled, so attackers can try unlimited passwords against any account.",
+          "remediation": [
+            "Enable account lockout in the identity provider and set a maximum number of failed attempts.",
+            "Re-run the check to confirm lockout is enabled."
+          ]
+        },
+        {
+          "finding_id": "CHK-IDP-003",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.I",
+            "REQ-CIR2690-11.6.2-01",
+            "REQ-CIR2690-11.7.2-01"
+          ],
+          "why_it_matters": "The rules require authentication strength that fits the asset being accessed. There is no password policy and no minimum length, while the profile expects a minimum length of at least 12. Very short passwords are easy to guess.",
+          "remediation": [
+            "Create a password policy in the identity provider with a minimum length of at least 12.",
+            "Re-run the check to confirm the policy is enforced."
+          ]
+        },
+        {
+          "finding_id": "CHK-LOG-001",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.B",
+            "REQ-CIR2690-3.2.5-01"
+          ],
+          "why_it_matters": "The rules require incident handling and keeping logs for a predefined period. Both elasticsearch (ILM policy logs-7d) and loki (retention_period 1w) delete logs after 7 days, while the profile expects at least 90 days. Incidents are often found late, and the evidence needed to investigate would already be gone.",
+          "remediation": [
+            "Change the elasticsearch ILM policy so logs are kept at least 90 days.",
+            "Change the loki retention_period setting so logs are kept at least 90 days.",
+            "Re-run the check to confirm the new retention on both systems."
+          ]
+        },
+        {
+          "finding_id": "CHK-TLS-002",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.H"
+          ],
+          "why_it_matters": "The rules require policies on the use of cryptography. The server's certificate expired on 2025-01-01. Users see security warnings and learn to ignore them, and encrypted connections can no longer be properly trusted.",
+          "remediation": [
+            "Replace the expired certificate with a valid one.",
+            "Set up automatic renewal or expiry alerts so the certificate is renewed well before it expires.",
+            "Re-run the check to confirm the certificate is valid."
+          ]
+        },
+        {
+          "finding_id": "CHK-TLS-003",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.H"
+          ],
+          "why_it_matters": "The rules require policies on the use of encryption. The website answers over plain, unencrypted HTTP without redirecting to HTTPS, and sends no Strict-Transport-Security header. Visitors may use an unencrypted connection that can be read or altered.",
+          "remediation": [
+            "Configure the web server to redirect all plain HTTP requests to HTTPS.",
+            "Add the Strict-Transport-Security header to HTTPS responses.",
+            "Re-run the check to confirm both settings."
+          ]
+        },
+        {
+          "finding_id": "CHK-DOC-002",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.B"
+          ],
+          "why_it_matters": "The rules require incident handling. The incident response plan was last reviewed on 2023-02-14, 1320 days ago, while the profile expects a review at least every 365 days. An outdated plan may list wrong contacts, systems or steps.",
+          "remediation": [
+            "Review and update incident-response.md and record the new review date.",
+            "Schedule reviews so the plan is never older than 365 days."
+          ]
+        },
+        {
+          "finding_id": "CHK-SSH-003",
+          "requirement_ids": [
+            "REQ-NIS2-21.2.I"
+          ],
+          "why_it_matters": "The rules require access control policies. SSH allows 10 authentication attempts per connection, while the profile expects at most 4. More attempts per connection make password-guessing easier.",
+          "remediation": [
+            "Set MaxAuthTries to 4 or lower in the SSH server configuration.",
+            "Re-run the check to confirm the new value."
+          ]
+        }
+      ]
+    }
+  }
+}

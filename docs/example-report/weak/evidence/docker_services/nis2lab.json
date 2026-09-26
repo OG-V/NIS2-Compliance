@@ -1,0 +1,54 @@
+{
+  "_collected_at": "2026-09-26T01:31:57.973887+00:00",
+  "compose_project": "nis2lab",
+  "services": [
+    {
+      "container": "nis2lab-backup-1",
+      "image": "nis2lab-backup",
+      "image_id": "sha256:1618c1d9cc7733894a3156d15ce6c672f9446c99b3b4dff72e809035c7dd45e1",
+      "service": "backup"
+    },
+    {
+      "container": "nis2lab-backup-borg-1",
+      "image": "nis2lab-backup-borg",
+      "image_id": "sha256:f66f4f6465bd7883986e03c6cad4a2359168352f9392566cfc09980d68c7dfd6",
+      "service": "backup-borg"
+    },
+    {
+      "container": "nis2lab-host-1",
+      "image": "nis2lab-host",
+      "image_id": "sha256:0c9ab247cced73785d0d7d502cbe7cb8f1598a7dea5cd52a41c70e7db0f42c46",
+      "service": "host"
+    },
+    {
+      "container": "nis2lab-idp-1",
+      "image": "quay.io/keycloak/keycloak:26.3",
+      "image_id": "sha256:357829ec7c4693397533035092ad13b0644bcc95ded311f33a3738c4d9e9bdba",
+      "service": "idp"
+    },
+    {
+      "container": "nis2lab-legacy-web-1",
+      "image": "busybox:1.37",
+      "image_id": "sha256:bdf57e528e45e4433820e045b29b4597825a1c9e38353532d90a01445013f82e",
+      "service": "legacy-web"
+    },
+    {
+      "container": "nis2lab-logs-1",
+      "image": "grafana/loki:3.5.1",
+      "image_id": "sha256:a74594532eec4cc313401beedc4dd2708c43674c032084b1aeb87c14a5be1745",
+      "service": "logs"
+    },
+    {
+      "container": "nis2lab-search-1",
+      "image": "elasticsearch:8.19.10",
+      "image_id": "sha256:c874f965dd6fac82e185f871bbeaa1a51d65e2e6b97d71fe3201dfdd242fa77f",
+      "service": "search"
+    },
+    {
+      "container": "nis2lab-web-1",
+      "image": "nginx:1.20",
+      "image_id": "sha256:38f8c1d9613f3f42e7969c3b1dd5c3277e635d4576713e6453c6193e66270a6d",
+      "service": "web"
+    }
+  ]
+}
