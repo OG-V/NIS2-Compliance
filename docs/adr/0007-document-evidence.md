@@ -32,5 +32,15 @@ document hashes. The AI narrative still explains only the failing checks.
 **Consequences:** Most of an engagement's findings can now appear in one report, with the
 difference between technical evidence and human judgement kept visible. The quality of a
 document verdict is the reviewer's responsibility; the tool makes it traceable and
-dated, not correct. A model could later suggest which requirements a document may cover,
-for the reviewer to confirm, but the decision stays with the reviewer.
+dated, not correct.
+
+**Addendum (2026-09-26): suggestions.** `nis2scan suggest` asks a model which unchecked
+requirements a document may bear on. It is a single structured request per document,
+not an agent: the input and output are bounded, so the result can be verified and
+scored. Code accepts a suggestion only if its ID is an unchecked catalog requirement
+and its excerpt appears verbatim in the document; the rest are kept with a reason.
+Accepted suggestions are printed as commented-out register entries marked "not
+reviewed", with the verdict, reviewer and date left empty, so the register refuses
+them until a person completes them. The model saves the reviewer the search, never
+the judgement. `nis2scan evaluate-suggestions` scores a run against
+`eval/gold-suggestions.yaml` (precision and recall, mechanically).

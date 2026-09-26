@@ -36,7 +36,8 @@ them, and the result is a gap report that non-engineers can read.
    organisation's documents and records the decision in an evidence register. The tool
    hashes the documents, requires a reviewer, date and rationale, and never lets a review
    overrule a check or outlive its validity ([ADR 0007](docs/adr/0007-document-evidence.md)).
-   `nis2scan evidence-template` starts the register from the catalog.
+   `nis2scan evidence-template` starts the register from the catalog, and
+   `nis2scan suggest` drafts entries for a document, with no verdict, for the reviewer.
 6. **Shows progress between scans.** `nis2scan diff` compares two scans of the same target:
    what was fixed, what is still open and what is new
    ([example](docs/example-report/#example-reports)).
@@ -67,6 +68,7 @@ and a model comparison.
 | Extraction (offline) | Drafts requirements from one Annex provision at a time | A schema-validated output. Quotes are checked verbatim against the cited provision. A "stated" value must appear in the text. A human reviews every record. Reviewed work is never re-extracted. |
 | Verdicts (runtime) | Nothing | [ADR 0001](docs/adr/0001-no-llm-in-verdict-path.md). A test fails if the checks package imports an LLM client. |
 | Narrative (runtime) | Explains each failing check and suggests remediation | It sees only the gap data. A deterministic validator checks coverage, citations, per-gap grounding of numbers and standards, and bans compliance claims ([ADR 0005](docs/adr/0005-deterministic-evaluation.md)). |
+| Evidence suggestions (optional) | Points to passages in a client document that bear on requirements no check covers | Only unchecked catalog IDs are accepted, and each excerpt must appear verbatim in the document. The output is a commented-out register entry with no verdict, which the register refuses until a named reviewer completes it. Scored against a gold set. |
 | Evaluation | Nothing | The gold set and metrics are mechanical rules. No LLM grades an LLM. |
 
 ```
@@ -95,6 +97,7 @@ The AI features are optional and need an Anthropic API key (`pip install -e '.[l
 nis2scan report out/<run> --narrate     # add the validated AI narrative
 nis2scan extract --provision 11.7.1        # draft requirements from an Annex point
 nis2scan evaluate eval/runs/<run>          # score extractions against the gold set
+nis2scan suggest org/evidence/*.md --base org   # draft register entries for documents
 ```
 
 Drafted requirements go to `catalog/requirements/cir-2024-2690/`, and scans ignore them
