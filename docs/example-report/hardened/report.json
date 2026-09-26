@@ -1,19 +1,19 @@
 {
   "target": "nordmsp-lab",
-  "started_at": "2026-09-25T01:04:47.891787+00:00",
+  "started_at": "2026-09-26T01:32:48.747857+00:00",
   "tool": "nis2scan 0.1.0",
   "profile_sha256": "3ff459e2e0235cee7a4cb33f341754de058a92c2a528f5fbcf8ae7b4e481a11d",
   "check_counts": {
-    "pass": 16,
+    "pass": 17,
     "fail": 0,
     "error": 0,
     "not_applicable": 0
   },
   "verdict_counts": {
     "evidenced": 0,
-    "partially_evidenced": 20,
+    "partially_evidenced": 21,
     "not_satisfied": 0,
-    "not_assessed": 65
+    "not_assessed": 64
   },
   "articles": [
     {
@@ -42,7 +42,7 @@
       "verdict": "partially_evidenced",
       "detailed": 10,
       "detailed_not_satisfied": 0,
-      "detailed_assessed": 1,
+      "detailed_assessed": 2,
       "short_title": "Business continuity and backups",
       "icon": "backup"
     },
@@ -132,28 +132,30 @@
     {
       "check_id": "CHK-AST-001",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "documents",
       "status": "pass",
       "observed": {
         "undeclared_services": [],
         "running": [
           "backup",
+          "backup-borg",
           "host",
           "idp",
           "logs",
+          "search",
           "web"
         ]
       },
       "expected": {
         "undeclared_services": []
       },
-      "evidence_ref": "evidence/asset_inventory.json",
-      "message": "All 5 running services are inventoried",
-      "collected_at": "2026-09-25T01:04:48.066159Z",
+      "evidence_ref": "evidence/asset_inventory/documents.json",
+      "message": "All 7 running services are inventoried",
+      "collected_at": "2026-09-26T01:32:48.849335Z",
       "finding_id": "CHK-AST-001",
       "title": "Every running service is in the asset inventory",
       "severity": "medium",
-      "evidence_sha256": "354150ebf13d5f812db05d9bbb36fa2eee634c7cf3106ac52a9d99a6f4046c4d",
+      "evidence_sha256": "7f2c19482bc42772b6d882f0d8e439ad37f802cd9efd820f081ab54b55d6d1df",
       "action": "Add every running service to the asset inventory",
       "effort": "quick",
       "why": "Unknown services go unpatched and unmonitored.",
@@ -161,29 +163,54 @@
       "should": null,
       "topic": "Access control and asset management",
       "asset_kind": "document sets",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "documents",
+          "status": "pass",
+          "message": "All 7 running services are inventoried",
+          "observed": {
+            "undeclared_services": [],
+            "running": [
+              "backup",
+              "backup-borg",
+              "host",
+              "idp",
+              "logs",
+              "search",
+              "web"
+            ]
+          },
+          "expected": {
+            "undeclared_services": []
+          },
+          "evidence_ref": "evidence/asset_inventory/documents.json",
+          "evidence_sha256": "7f2c19482bc42772b6d882f0d8e439ad37f802cd9efd820f081ab54b55d6d1df",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-BAK-001",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "borg",
       "status": "pass",
       "observed": {
         "snapshots": 1,
-        "newest": "2026-09-25T01:04:24.615856+00:00",
+        "newest": "2026-09-26T01:32:21+00:00",
         "age_hours": 0.0
       },
       "expected": {
         "max_age_hours": 26
       },
-      "evidence_ref": "evidence/restic_snapshots.json",
+      "evidence_ref": "evidence/backup_snapshots/borg.json",
       "message": "Newest backup is within the allowed age",
-      "collected_at": "2026-09-25T01:04:49.360553Z",
+      "collected_at": "2026-09-26T01:32:50.050427Z",
       "finding_id": "CHK-BAK-001",
       "title": "A recent backup snapshot exists",
       "severity": "high",
-      "evidence_sha256": "f23575f51312c9d14162b64020811536adde2a15f1d9ccad88b8c912b1969d88",
+      "evidence_sha256": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
       "action": "Restart automatic backups",
       "effort": "change",
       "why": "Without recent backups, ransomware or failure causes permanent data loss.",
@@ -191,13 +218,237 @@
       "should": null,
       "topic": "Business continuity and backups",
       "asset_kind": "backup repositories",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "borg",
+          "status": "pass",
+          "message": "Newest backup is within the allowed age",
+          "observed": {
+            "snapshots": 1,
+            "newest": "2026-09-26T01:32:21+00:00",
+            "age_hours": 0.0
+          },
+          "expected": {
+            "max_age_hours": 26
+          },
+          "evidence_ref": "evidence/backup_snapshots/borg.json",
+          "evidence_sha256": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
+          "found": null,
+          "should": null
+        },
+        {
+          "asset": "restic",
+          "status": "pass",
+          "message": "Newest backup is within the allowed age",
+          "observed": {
+            "snapshots": 1,
+            "newest": "2026-09-26T01:32:21.340426+00:00",
+            "age_hours": 0.0
+          },
+          "expected": {
+            "max_age_hours": 26
+          },
+          "evidence_ref": "evidence/backup_snapshots/restic.json",
+          "evidence_sha256": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
+          "found": null,
+          "should": null
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-BAK-001",
+      "target": "nordmsp-lab",
+      "asset": "restic",
+      "status": "pass",
+      "observed": {
+        "snapshots": 1,
+        "newest": "2026-09-26T01:32:21.340426+00:00",
+        "age_hours": 0.0
+      },
+      "expected": {
+        "max_age_hours": 26
+      },
+      "evidence_ref": "evidence/backup_snapshots/restic.json",
+      "message": "Newest backup is within the allowed age",
+      "collected_at": "2026-09-26T01:32:49.521665Z",
+      "finding_id": "CHK-BAK-001",
+      "title": "A recent backup snapshot exists",
+      "severity": "high",
+      "evidence_sha256": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
+      "action": "Restart automatic backups",
+      "effort": "change",
+      "why": "Without recent backups, ransomware or failure causes permanent data loss.",
+      "found": null,
+      "should": null,
+      "topic": "Business continuity and backups",
+      "asset_kind": "backup repositories",
+      "assets": [
+        {
+          "asset": "borg",
+          "status": "pass",
+          "message": "Newest backup is within the allowed age",
+          "observed": {
+            "snapshots": 1,
+            "newest": "2026-09-26T01:32:21+00:00",
+            "age_hours": 0.0
+          },
+          "expected": {
+            "max_age_hours": 26
+          },
+          "evidence_ref": "evidence/backup_snapshots/borg.json",
+          "evidence_sha256": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
+          "found": null,
+          "should": null
+        },
+        {
+          "asset": "restic",
+          "status": "pass",
+          "message": "Newest backup is within the allowed age",
+          "observed": {
+            "snapshots": 1,
+            "newest": "2026-09-26T01:32:21.340426+00:00",
+            "age_hours": 0.0
+          },
+          "expected": {
+            "max_age_hours": 26
+          },
+          "evidence_ref": "evidence/backup_snapshots/restic.json",
+          "evidence_sha256": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
+          "found": null,
+          "should": null
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-BAK-002",
+      "target": "nordmsp-lab",
+      "asset": "borg",
+      "status": "pass",
+      "observed": {
+        "unencrypted_sets": [],
+        "sets": 1
+      },
+      "expected": {
+        "unencrypted_sets": []
+      },
+      "evidence_ref": "evidence/backup_snapshots/borg.json",
+      "message": "The backups are encrypted",
+      "collected_at": "2026-09-26T01:32:50.050427Z",
+      "finding_id": "CHK-BAK-002",
+      "title": "Backup copies are encrypted",
+      "severity": "medium",
+      "evidence_sha256": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
+      "action": "Encrypt the backups",
+      "effort": "change",
+      "why": "Unencrypted backups hand a full copy of the data to anyone who reaches the backup storage, bypassing every access control on the live systems.",
+      "found": null,
+      "should": null,
+      "topic": "Business continuity and backups",
+      "asset_kind": "backup repositories",
+      "assets": [
+        {
+          "asset": "borg",
+          "status": "pass",
+          "message": "The backups are encrypted",
+          "observed": {
+            "unencrypted_sets": [],
+            "sets": 1
+          },
+          "expected": {
+            "unencrypted_sets": []
+          },
+          "evidence_ref": "evidence/backup_snapshots/borg.json",
+          "evidence_sha256": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
+          "found": null,
+          "should": null
+        },
+        {
+          "asset": "restic",
+          "status": "pass",
+          "message": "The backups are encrypted",
+          "observed": {
+            "unencrypted_sets": [],
+            "sets": 1
+          },
+          "expected": {
+            "unencrypted_sets": []
+          },
+          "evidence_ref": "evidence/backup_snapshots/restic.json",
+          "evidence_sha256": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
+          "found": null,
+          "should": null
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-BAK-002",
+      "target": "nordmsp-lab",
+      "asset": "restic",
+      "status": "pass",
+      "observed": {
+        "unencrypted_sets": [],
+        "sets": 1
+      },
+      "expected": {
+        "unencrypted_sets": []
+      },
+      "evidence_ref": "evidence/backup_snapshots/restic.json",
+      "message": "The backups are encrypted",
+      "collected_at": "2026-09-26T01:32:49.521665Z",
+      "finding_id": "CHK-BAK-002",
+      "title": "Backup copies are encrypted",
+      "severity": "medium",
+      "evidence_sha256": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
+      "action": "Encrypt the backups",
+      "effort": "change",
+      "why": "Unencrypted backups hand a full copy of the data to anyone who reaches the backup storage, bypassing every access control on the live systems.",
+      "found": null,
+      "should": null,
+      "topic": "Business continuity and backups",
+      "asset_kind": "backup repositories",
+      "assets": [
+        {
+          "asset": "borg",
+          "status": "pass",
+          "message": "The backups are encrypted",
+          "observed": {
+            "unencrypted_sets": [],
+            "sets": 1
+          },
+          "expected": {
+            "unencrypted_sets": []
+          },
+          "evidence_ref": "evidence/backup_snapshots/borg.json",
+          "evidence_sha256": "a4646fc20be84aa3e6aad8a41549b9ebe86bcf035cd3ba245d8c2e3bf74196d6",
+          "found": null,
+          "should": null
+        },
+        {
+          "asset": "restic",
+          "status": "pass",
+          "message": "The backups are encrypted",
+          "observed": {
+            "unencrypted_sets": [],
+            "sets": 1
+          },
+          "expected": {
+            "unencrypted_sets": []
+          },
+          "evidence_ref": "evidence/backup_snapshots/restic.json",
+          "evidence_sha256": "4dc3809f52ead3ccf63ccdf0be3f9a8d58820aebc85decf48857324f613e1bc1",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-DOC-001",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "documents",
       "status": "pass",
       "observed": {
         "document": "incident-response.md",
@@ -211,13 +462,13 @@
           "CSIRT contact"
         ]
       },
-      "evidence_ref": "evidence/ir_plan.json",
+      "evidence_ref": "evidence/ir_plan/documents.json",
       "message": "Plan mentions every reporting stage and the CSIRT",
-      "collected_at": "2026-09-25T01:04:49.360915Z",
+      "collected_at": "2026-09-26T01:32:50.050634Z",
       "finding_id": "CHK-DOC-001",
       "title": "Incident response plan covers the NIS2 reporting stages",
       "severity": "medium",
-      "evidence_sha256": "5805aedf0dc8f61dfac6dd3df48301fc28c40e0122c78137be300e559ecf507d",
+      "evidence_sha256": "9d3a771cb13df2ccf89a87a0212a3a77489ea462736d8a534ac1d58dc9b671d4",
       "action": "Add the NIS2 reporting deadlines and the CSIRT contact to the incident plan",
       "effort": "change",
       "why": "Missing a reporting deadline is itself a breach of Art. 23, separate from the incident.",
@@ -225,29 +476,51 @@
       "should": null,
       "topic": "Reporting incidents to the CSIRT",
       "asset_kind": "document sets",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "documents",
+          "status": "pass",
+          "message": "Plan mentions every reporting stage and the CSIRT",
+          "observed": {
+            "document": "incident-response.md",
+            "missing": []
+          },
+          "expected": {
+            "mentions": [
+              "24h early warning",
+              "72h incident notification",
+              "one-month final report",
+              "CSIRT contact"
+            ]
+          },
+          "evidence_ref": "evidence/ir_plan/documents.json",
+          "evidence_sha256": "9d3a771cb13df2ccf89a87a0212a3a77489ea462736d8a534ac1d58dc9b671d4",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-DOC-002",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "documents",
       "status": "pass",
       "observed": {
         "document": "incident-response.md",
         "last_reviewed": "2026-09-01",
-        "age_days": 24
+        "age_days": 25
       },
       "expected": {
         "max_review_age_days": 365
       },
-      "evidence_ref": "evidence/ir_plan.json",
-      "message": "Plan was reviewed 24 days ago",
-      "collected_at": "2026-09-25T01:04:49.360915Z",
+      "evidence_ref": "evidence/ir_plan/documents.json",
+      "message": "Plan was reviewed 25 days ago",
+      "collected_at": "2026-09-26T01:32:50.050634Z",
       "finding_id": "CHK-DOC-002",
       "title": "Incident response plan has been reviewed recently",
       "severity": "low",
-      "evidence_sha256": "5805aedf0dc8f61dfac6dd3df48301fc28c40e0122c78137be300e559ecf507d",
+      "evidence_sha256": "9d3a771cb13df2ccf89a87a0212a3a77489ea462736d8a534ac1d58dc9b671d4",
       "action": "Review the incident response plan and record the review date",
       "effort": "change",
       "why": "A stale plan lists wrong contacts and outdated systems when it is needed.",
@@ -255,29 +528,47 @@
       "should": null,
       "topic": "Incident handling",
       "asset_kind": "document sets",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "documents",
+          "status": "pass",
+          "message": "Plan was reviewed 25 days ago",
+          "observed": {
+            "document": "incident-response.md",
+            "last_reviewed": "2026-09-01",
+            "age_days": 25
+          },
+          "expected": {
+            "max_review_age_days": 365
+          },
+          "evidence_ref": "evidence/ir_plan/documents.json",
+          "evidence_sha256": "9d3a771cb13df2ccf89a87a0212a3a77489ea462736d8a534ac1d58dc9b671d4",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-IDP-001",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "keycloak",
       "status": "pass",
       "observed": {
-        "new_users_must_enrol_otp": true,
+        "new_users_must_enrol_mfa": true,
         "users_without_mfa": []
       },
       "expected": {
-        "new_users_must_enrol_otp": true,
+        "new_users_must_enrol_mfa": true,
         "users_without_mfa": []
       },
-      "evidence_ref": "evidence/keycloak_realm.json",
-      "message": "All 2 accounts have or must enrol OTP",
-      "collected_at": "2026-09-25T01:04:50.198491Z",
+      "evidence_ref": "evidence/idp_config/keycloak.json",
+      "message": "All 2 accounts have or must enrol MFA",
+      "collected_at": "2026-09-26T01:32:50.257880Z",
       "finding_id": "CHK-IDP-001",
       "title": "Every staff account has MFA enrolled or is forced to enrol",
       "severity": "high",
-      "evidence_sha256": "823d60906327741931d3ba5d6b542eec4d46d739da69dfc76d6f33f1527c339d",
+      "evidence_sha256": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
       "action": "Turn on two-factor login for every account",
       "effort": "change",
       "why": "Staff accounts reach customer systems; a stolen password alone must not be enough.",
@@ -285,28 +576,46 @@
       "should": null,
       "topic": "Multi-factor authentication",
       "asset_kind": "identity providers",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "keycloak",
+          "status": "pass",
+          "message": "All 2 accounts have or must enrol MFA",
+          "observed": {
+            "new_users_must_enrol_mfa": true,
+            "users_without_mfa": []
+          },
+          "expected": {
+            "new_users_must_enrol_mfa": true,
+            "users_without_mfa": []
+          },
+          "evidence_ref": "evidence/idp_config/keycloak.json",
+          "evidence_sha256": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-IDP-002",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "keycloak",
       "status": "pass",
       "observed": {
-        "bruteForceProtected": true,
-        "failureFactor": 5
+        "lockout_enabled": true,
+        "max_attempts": 5
       },
       "expected": {
-        "bruteForceProtected": true
+        "lockout_enabled": true
       },
-      "evidence_ref": "evidence/keycloak_realm.json",
-      "message": "Brute-force protection is on",
-      "collected_at": "2026-09-25T01:04:50.198491Z",
+      "evidence_ref": "evidence/idp_config/keycloak.json",
+      "message": "Accounts lock after 5 failed logins",
+      "collected_at": "2026-09-26T01:32:50.257880Z",
       "finding_id": "CHK-IDP-002",
       "title": "Accounts are locked after repeated failed logins",
       "severity": "medium",
-      "evidence_sha256": "823d60906327741931d3ba5d6b542eec4d46d739da69dfc76d6f33f1527c339d",
+      "evidence_sha256": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
       "action": "Turn on protection against password guessing",
       "effort": "quick",
       "why": "Limits online password guessing against staff accounts.",
@@ -314,28 +623,45 @@
       "should": null,
       "topic": "Access control and asset management",
       "asset_kind": "identity providers",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "keycloak",
+          "status": "pass",
+          "message": "Accounts lock after 5 failed logins",
+          "observed": {
+            "lockout_enabled": true,
+            "max_attempts": 5
+          },
+          "expected": {
+            "lockout_enabled": true
+          },
+          "evidence_ref": "evidence/idp_config/keycloak.json",
+          "evidence_sha256": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-IDP-003",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "keycloak",
       "status": "pass",
       "observed": {
-        "passwordPolicy": "length(12) and notUsername and passwordHistory(5)",
+        "password_policy": "length(12) and notUsername and passwordHistory(5)",
         "min_length": 12
       },
       "expected": {
         "min_length_at_least": 12
       },
-      "evidence_ref": "evidence/keycloak_realm.json",
+      "evidence_ref": "evidence/idp_config/keycloak.json",
       "message": "Password policy requires 12 characters",
-      "collected_at": "2026-09-25T01:04:50.198491Z",
+      "collected_at": "2026-09-26T01:32:50.257880Z",
       "finding_id": "CHK-IDP-003",
       "title": "Password policy enforces the profile's minimum length",
       "severity": "medium",
-      "evidence_sha256": "823d60906327741931d3ba5d6b542eec4d46d739da69dfc76d6f33f1527c339d",
+      "evidence_sha256": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
       "action": "Set a minimum password length",
       "effort": "quick",
       "why": "Short passwords weaken the first factor even when MFA is in place.",
@@ -343,28 +669,45 @@
       "should": null,
       "topic": "Access control and asset management",
       "asset_kind": "identity providers",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "keycloak",
+          "status": "pass",
+          "message": "Password policy requires 12 characters",
+          "observed": {
+            "password_policy": "length(12) and notUsername and passwordHistory(5)",
+            "min_length": 12
+          },
+          "expected": {
+            "min_length_at_least": 12
+          },
+          "evidence_ref": "evidence/idp_config/keycloak.json",
+          "evidence_sha256": "95765e66bfed4692dc141193e65c524f20ca1550f20b3e036ac80ef6b9ece375",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-IDP-004",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "keycloak",
       "status": "pass",
       "observed": {
         "username_tried": "admin",
-        "http_status": 400
+        "result": "HTTP 400"
       },
       "expected": {
         "accepted": false
       },
-      "evidence_ref": "evidence/keycloak_default_admin.json",
+      "evidence_ref": "evidence/idp_default_admin/keycloak.json",
       "message": "Default admin credentials are rejected",
-      "collected_at": "2026-09-25T01:04:50.269526Z",
+      "collected_at": "2026-09-26T01:32:50.287337Z",
       "finding_id": "CHK-IDP-004",
       "title": "Default admin credentials are rejected",
       "severity": "critical",
-      "evidence_sha256": "023d1f82eed93643010908362b4ebb9b3ca3e29fad9659c9209a271d75cb7432",
+      "evidence_sha256": "b64983c1f90d4970603a35c5eadc86624a70404c397dbd9b4e9027c14461b161",
       "action": "Change the default admin password",
       "effort": "quick",
       "why": "Default admin credentials give anyone full control of every staff identity.",
@@ -372,28 +715,45 @@
       "should": null,
       "topic": "Access control and asset management",
       "asset_kind": "identity providers",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "keycloak",
+          "status": "pass",
+          "message": "Default admin credentials are rejected",
+          "observed": {
+            "username_tried": "admin",
+            "result": "HTTP 400"
+          },
+          "expected": {
+            "accepted": false
+          },
+          "evidence_ref": "evidence/idp_default_admin/keycloak.json",
+          "evidence_sha256": "b64983c1f90d4970603a35c5eadc86624a70404c397dbd9b4e9027c14461b161",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-LOG-001",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "elasticsearch",
       "status": "pass",
       "observed": {
-        "retention_period": "180d",
-        "retention_days": 180
+        "retention_days": 180,
+        "source": "data stream lifecycle retains 180d"
       },
       "expected": {
         "min_retention_days": 90
       },
-      "evidence_ref": "evidence/loki_config.json",
+      "evidence_ref": "evidence/log_retention/elasticsearch.json",
       "message": "Logs are kept for 180 days",
-      "collected_at": "2026-09-25T01:04:50.560185Z",
+      "collected_at": "2026-09-26T01:32:50.445680Z",
       "finding_id": "CHK-LOG-001",
       "title": "Central logs are kept at least as long as the profile requires",
       "severity": "medium",
-      "evidence_sha256": "fb8aa00de39aedd373186d2fdf7134a7865ee0bd4d88cc07e604c0c239fee332",
+      "evidence_sha256": "0d15065516bd6ab6dda648514c340fc8d19a784e90f38e2c27298c0d13865fca",
       "action": "Keep logs for as long as the policy requires",
       "effort": "quick",
       "why": "Logs deleted too early make an incident impossible to investigate or report.",
@@ -401,13 +761,108 @@
       "should": null,
       "topic": "Incident handling",
       "asset_kind": "log stores",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "elasticsearch",
+          "status": "pass",
+          "message": "Logs are kept for 180 days",
+          "observed": {
+            "retention_days": 180,
+            "source": "data stream lifecycle retains 180d"
+          },
+          "expected": {
+            "min_retention_days": 90
+          },
+          "evidence_ref": "evidence/log_retention/elasticsearch.json",
+          "evidence_sha256": "0d15065516bd6ab6dda648514c340fc8d19a784e90f38e2c27298c0d13865fca",
+          "found": null,
+          "should": null
+        },
+        {
+          "asset": "loki",
+          "status": "pass",
+          "message": "Logs are kept for 180 days",
+          "observed": {
+            "retention_days": 180,
+            "source": "limits_config.retention_period 180d"
+          },
+          "expected": {
+            "min_retention_days": 90
+          },
+          "evidence_ref": "evidence/log_retention/loki.json",
+          "evidence_sha256": "a984ff30cfc662a0d278aeb0814bdada06bbb1afa2a393b3aa69ebca89f7937d",
+          "found": null,
+          "should": null
+        }
+      ],
+      "breaches": []
+    },
+    {
+      "check_id": "CHK-LOG-001",
+      "target": "nordmsp-lab",
+      "asset": "loki",
+      "status": "pass",
+      "observed": {
+        "retention_days": 180,
+        "source": "limits_config.retention_period 180d"
+      },
+      "expected": {
+        "min_retention_days": 90
+      },
+      "evidence_ref": "evidence/log_retention/loki.json",
+      "message": "Logs are kept for 180 days",
+      "collected_at": "2026-09-26T01:32:50.407533Z",
+      "finding_id": "CHK-LOG-001",
+      "title": "Central logs are kept at least as long as the profile requires",
+      "severity": "medium",
+      "evidence_sha256": "a984ff30cfc662a0d278aeb0814bdada06bbb1afa2a393b3aa69ebca89f7937d",
+      "action": "Keep logs for as long as the policy requires",
+      "effort": "quick",
+      "why": "Logs deleted too early make an incident impossible to investigate or report.",
+      "found": null,
+      "should": null,
+      "topic": "Incident handling",
+      "asset_kind": "log stores",
+      "assets": [
+        {
+          "asset": "elasticsearch",
+          "status": "pass",
+          "message": "Logs are kept for 180 days",
+          "observed": {
+            "retention_days": 180,
+            "source": "data stream lifecycle retains 180d"
+          },
+          "expected": {
+            "min_retention_days": 90
+          },
+          "evidence_ref": "evidence/log_retention/elasticsearch.json",
+          "evidence_sha256": "0d15065516bd6ab6dda648514c340fc8d19a784e90f38e2c27298c0d13865fca",
+          "found": null,
+          "should": null
+        },
+        {
+          "asset": "loki",
+          "status": "pass",
+          "message": "Logs are kept for 180 days",
+          "observed": {
+            "retention_days": 180,
+            "source": "limits_config.retention_period 180d"
+          },
+          "expected": {
+            "min_retention_days": 90
+          },
+          "evidence_ref": "evidence/log_retention/loki.json",
+          "evidence_sha256": "a984ff30cfc662a0d278aeb0814bdada06bbb1afa2a393b3aa69ebca89f7937d",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-SSH-001",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "app-host",
       "status": "pass",
       "observed": {
         "auth_methods_offered": [
@@ -421,13 +876,13 @@
           "none"
         ]
       },
-      "evidence_ref": "evidence/ssh_auth_methods.json",
+      "evidence_ref": "evidence/ssh_auth_methods/app-host.json",
       "message": "Server offers only publickey",
-      "collected_at": "2026-09-25T01:04:50.646438Z",
+      "collected_at": "2026-09-26T01:32:50.507228Z",
       "finding_id": "CHK-SSH-001",
       "title": "SSH does not offer password authentication",
       "severity": "high",
-      "evidence_sha256": "271bf8052a3326e49426a21c51485a87b5b1af2c8478f8e3aae8d96333655b1b",
+      "evidence_sha256": "8955b652b3097d37fd6310d4092c424495f51bffff2a679958ba0e891a5345bf",
       "action": "Allow only key-based server logins, not passwords",
       "effort": "quick",
       "why": "Password logins on an admin host can be brute-forced or phished.",
@@ -435,13 +890,35 @@
       "should": null,
       "topic": "Access control and asset management",
       "asset_kind": "SSH hosts",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "app-host",
+          "status": "pass",
+          "message": "Server offers only publickey",
+          "observed": {
+            "auth_methods_offered": [
+              "publickey"
+            ]
+          },
+          "expected": {
+            "not_offered": [
+              "password",
+              "keyboard-interactive",
+              "none"
+            ]
+          },
+          "evidence_ref": "evidence/ssh_auth_methods/app-host.json",
+          "evidence_sha256": "8955b652b3097d37fd6310d4092c424495f51bffff2a679958ba0e891a5345bf",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-SSH-002",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "app-host",
       "status": "pass",
       "observed": {
         "permitrootlogin": "no"
@@ -449,13 +926,13 @@
       "expected": {
         "permitrootlogin": "no"
       },
-      "evidence_ref": "evidence/sshd_effective_config.json",
+      "evidence_ref": "evidence/sshd_effective_config/app-host.json",
       "message": "PermitRootLogin is 'no'",
-      "collected_at": "2026-09-25T01:04:50.782243Z",
+      "collected_at": "2026-09-26T01:32:50.576216Z",
       "finding_id": "CHK-SSH-002",
       "title": "Direct root login over SSH is disabled",
       "severity": "high",
-      "evidence_sha256": "62e67a8ebe642c73499a1069b61d5ad856f9d2ba8475c42d02cb1aa5a9ec80be",
+      "evidence_sha256": "f02487f0c2a27fb704e186637f447b31b859e673c57826e5723711e09860eb0e",
       "action": "Stop direct administrator (root) logins to the server",
       "effort": "quick",
       "why": "Shared root logins remove individual accountability and give an attacker full control.",
@@ -463,13 +940,29 @@
       "should": null,
       "topic": "Access control and asset management",
       "asset_kind": "SSH hosts",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "app-host",
+          "status": "pass",
+          "message": "PermitRootLogin is 'no'",
+          "observed": {
+            "permitrootlogin": "no"
+          },
+          "expected": {
+            "permitrootlogin": "no"
+          },
+          "evidence_ref": "evidence/sshd_effective_config/app-host.json",
+          "evidence_sha256": "f02487f0c2a27fb704e186637f447b31b859e673c57826e5723711e09860eb0e",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-SSH-003",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "app-host",
       "status": "pass",
       "observed": {
         "maxauthtries": 3
@@ -477,13 +970,13 @@
       "expected": {
         "maxauthtries_at_most": 4
       },
-      "evidence_ref": "evidence/sshd_effective_config.json",
+      "evidence_ref": "evidence/sshd_effective_config/app-host.json",
       "message": "MaxAuthTries is 3",
-      "collected_at": "2026-09-25T01:04:50.782243Z",
+      "collected_at": "2026-09-26T01:32:50.576216Z",
       "finding_id": "CHK-SSH-003",
       "title": "SSH limits authentication attempts per connection",
       "severity": "low",
-      "evidence_sha256": "62e67a8ebe642c73499a1069b61d5ad856f9d2ba8475c42d02cb1aa5a9ec80be",
+      "evidence_sha256": "f02487f0c2a27fb704e186637f447b31b859e673c57826e5723711e09860eb0e",
       "action": "Limit login attempts per connection to the server",
       "effort": "quick",
       "why": "Slows guessing, but is a minor control compared with key-only auth.",
@@ -491,13 +984,29 @@
       "should": null,
       "topic": "Access control and asset management",
       "asset_kind": "SSH hosts",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "app-host",
+          "status": "pass",
+          "message": "MaxAuthTries is 3",
+          "observed": {
+            "maxauthtries": 3
+          },
+          "expected": {
+            "maxauthtries_at_most": 4
+          },
+          "evidence_ref": "evidence/sshd_effective_config/app-host.json",
+          "evidence_sha256": "f02487f0c2a27fb704e186637f447b31b859e673c57826e5723711e09860eb0e",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-TLS-001",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "portal",
       "status": "pass",
       "observed": {
         "accepted_versions": [
@@ -508,13 +1017,13 @@
       "expected": {
         "min_version": "TLSv1.2"
       },
-      "evidence_ref": "evidence/tls_probe.json",
+      "evidence_ref": "evidence/tls_probe/portal.json",
       "message": "Server only accepts TLSv1.2, TLSv1.3",
-      "collected_at": "2026-09-25T01:04:50.795219Z",
+      "collected_at": "2026-09-26T01:32:50.583813Z",
       "finding_id": "CHK-TLS-001",
       "title": "TLS versions below the profile minimum are refused",
       "severity": "high",
-      "evidence_sha256": "a85ca5a7ab669ed6abe4153e437551b9390ef3ec7955f11e290f43556e5da83e",
+      "evidence_sha256": "be5974de9996ae09896627cff985b4e53b74d58e6f04a9d4137ac3d33cd57818",
       "action": "Switch off outdated encryption versions on the website",
       "effort": "quick",
       "why": "Legacy TLS allows downgrade attacks on traffic to a public service.",
@@ -522,29 +1031,48 @@
       "should": null,
       "topic": "Cryptography and encryption",
       "asset_kind": "web endpoints",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "portal",
+          "status": "pass",
+          "message": "Server only accepts TLSv1.2, TLSv1.3",
+          "observed": {
+            "accepted_versions": [
+              "TLSv1.2",
+              "TLSv1.3"
+            ]
+          },
+          "expected": {
+            "min_version": "TLSv1.2"
+          },
+          "evidence_ref": "evidence/tls_probe/portal.json",
+          "evidence_sha256": "be5974de9996ae09896627cff985b4e53b74d58e6f04a9d4137ac3d33cd57818",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-TLS-002",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "portal",
       "status": "pass",
       "observed": {
-        "not_before": "2026-09-25T01:04:21+00:00",
-        "not_after": "2027-09-25T01:04:21+00:00",
+        "not_before": "2026-09-26T01:32:20+00:00",
+        "not_after": "2027-09-26T01:32:20+00:00",
         "days_left": 364
       },
       "expected": {
         "min_days_remaining": 14
       },
-      "evidence_ref": "evidence/tls_probe.json",
+      "evidence_ref": "evidence/tls_probe/portal.json",
       "message": "Certificate valid for 364 more days",
-      "collected_at": "2026-09-25T01:04:50.795219Z",
+      "collected_at": "2026-09-26T01:32:50.583813Z",
       "finding_id": "CHK-TLS-002",
       "title": "Certificate is valid and not about to expire",
       "severity": "medium",
-      "evidence_sha256": "a85ca5a7ab669ed6abe4153e437551b9390ef3ec7955f11e290f43556e5da83e",
+      "evidence_sha256": "be5974de9996ae09896627cff985b4e53b74d58e6f04a9d4137ac3d33cd57818",
       "action": "Renew the website's certificate",
       "effort": "quick",
       "why": "An invalid certificate trains users to click through warnings, which makes interception easier.",
@@ -552,13 +1080,31 @@
       "should": null,
       "topic": "Cryptography and encryption",
       "asset_kind": "web endpoints",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "portal",
+          "status": "pass",
+          "message": "Certificate valid for 364 more days",
+          "observed": {
+            "not_before": "2026-09-26T01:32:20+00:00",
+            "not_after": "2027-09-26T01:32:20+00:00",
+            "days_left": 364
+          },
+          "expected": {
+            "min_days_remaining": 14
+          },
+          "evidence_ref": "evidence/tls_probe/portal.json",
+          "evidence_sha256": "be5974de9996ae09896627cff985b4e53b74d58e6f04a9d4137ac3d33cd57818",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-TLS-003",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "portal",
       "status": "pass",
       "observed": {
         "http_status": 301,
@@ -569,13 +1115,13 @@
         "http_redirects_to_https": true,
         "hsts": true
       },
-      "evidence_ref": "evidence/http_probe.json",
+      "evidence_ref": "evidence/http_probe/portal.json",
       "message": "HTTP redirects to HTTPS and HSTS is set",
-      "collected_at": "2026-09-25T01:04:50.800066Z",
+      "collected_at": "2026-09-26T01:32:50.586980Z",
       "finding_id": "CHK-TLS-003",
       "title": "Plain HTTP redirects to HTTPS and HSTS is set",
       "severity": "medium",
-      "evidence_sha256": "c6909c3747b66cfadaef29c8b59521b2d0f00311a5116715f1958cd87295ee65",
+      "evidence_sha256": "53607204b297969a330358addd2b798475599e0b04a8b27fe6f1f7daf3cffd42",
       "action": "Send all website traffic over HTTPS",
       "effort": "quick",
       "why": "Without a redirect and HSTS, users can be kept on unencrypted HTTP.",
@@ -583,19 +1129,39 @@
       "should": null,
       "topic": "Cryptography and encryption",
       "asset_kind": "web endpoints",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "portal",
+          "status": "pass",
+          "message": "HTTP redirects to HTTPS and HSTS is set",
+          "observed": {
+            "http_status": 301,
+            "location": "https://127.0.0.1/",
+            "hsts": "max-age=31536000"
+          },
+          "expected": {
+            "http_redirects_to_https": true,
+            "hsts": true
+          },
+          "evidence_ref": "evidence/http_probe/portal.json",
+          "evidence_sha256": "53607204b297969a330358addd2b798475599e0b04a8b27fe6f1f7daf3cffd42",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     },
     {
       "check_id": "CHK-VUL-001",
       "target": "nordmsp-lab",
-      "asset": null,
+      "asset": "nis2lab",
       "status": "pass",
       "observed": {
-        "images_scanned": 5,
+        "images_scanned": 7,
         "failing": {},
         "accepted_risks": [
           "CVE-2026-75595",
+          "CVE-2026-84939",
           "CVE-2026-8763"
         ]
       },
@@ -605,13 +1171,13 @@
         ],
         "only_with_fix": true
       },
-      "evidence_ref": "evidence/image_vulnerabilities.json",
-      "message": "No unaccepted fixable CRITICAL vulnerabilities, 2 covered by accepted risk exceptions",
-      "collected_at": "2026-09-25T01:04:59.314974Z",
+      "evidence_ref": "evidence/image_vulnerabilities/nis2lab.json",
+      "message": "No unaccepted fixable CRITICAL vulnerabilities, 3 covered by accepted risk exceptions",
+      "collected_at": "2026-09-26T01:33:10.557326Z",
       "finding_id": "CHK-VUL-001",
       "title": "No unaccepted, fixable vulnerability at the failing severity in running images",
       "severity": "high",
-      "evidence_sha256": "120bddfd2e1723d45fe234ae4badac53e9433a9beaebdffb111e13c7b88d85c3",
+      "evidence_sha256": "968b16cc7cc4c11fcfb7c33799017334855250cbde4468facbdfa191f2b67d94",
       "action": "Update software that has known critical flaws",
       "effort": "project",
       "why": "Known, fixable critical vulnerabilities are the most common way in.",
@@ -619,7 +1185,32 @@
       "should": null,
       "topic": "Secure development and vulnerability handling",
       "asset_kind": "Docker projects",
-      "assets": [],
+      "assets": [
+        {
+          "asset": "nis2lab",
+          "status": "pass",
+          "message": "No unaccepted fixable CRITICAL vulnerabilities, 3 covered by accepted risk exceptions",
+          "observed": {
+            "images_scanned": 7,
+            "failing": {},
+            "accepted_risks": [
+              "CVE-2026-75595",
+              "CVE-2026-84939",
+              "CVE-2026-8763"
+            ]
+          },
+          "expected": {
+            "severities": [
+              "CRITICAL"
+            ],
+            "only_with_fix": true
+          },
+          "evidence_ref": "evidence/image_vulnerabilities/nis2lab.json",
+          "evidence_sha256": "968b16cc7cc4c11fcfb7c33799017334855250cbde4468facbdfa191f2b67d94",
+          "found": null,
+          "should": null
+        }
+      ],
       "breaches": []
     }
   ],
@@ -767,6 +1358,20 @@
       "reason": "all checks passed, but together they cover only part of the requirement"
     },
     {
+      "requirement_id": "REQ-CIR2690-4.2.2-05",
+      "title": "Access controls to backup copies",
+      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
+      "nis2_article": "21(2)(c)",
+      "quote": "(d) appropriate physical and logical access controls to backup copies, in accordance with the asset classification level;",
+      "testability": "technical",
+      "review_status": "reviewed",
+      "verdict": "partially_evidenced",
+      "check_ids": [
+        "CHK-BAK-002"
+      ],
+      "reason": "all checks passed, but together they cover only part of the requirement"
+    },
+    {
       "requirement_id": "REQ-CIR2690-6.10.1-03",
       "title": "Take measures to manage vulnerabilities",
       "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 6.10.1",
@@ -833,7 +1438,8 @@
       "review_status": "reviewed",
       "verdict": "partially_evidenced",
       "check_ids": [
-        "CHK-BAK-001"
+        "CHK-BAK-001",
+        "CHK-BAK-002"
       ],
       "reason": "all checks passed, but together they cover only part of the requirement"
     },
@@ -1398,18 +2004,6 @@
       "reason": "no checks implemented yet"
     },
     {
-      "requirement_id": "REQ-CIR2690-4.2.2-05",
-      "title": "Access controls to backup copies",
-      "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
-      "nis2_article": "21(2)(c)",
-      "quote": "(d) appropriate physical and logical access controls to backup copies, in accordance with the asset classification level;",
-      "testability": "technical",
-      "review_status": "reviewed",
-      "verdict": "not_assessed",
-      "check_ids": [],
-      "reason": "no checks implemented yet"
-    },
-    {
       "requirement_id": "REQ-CIR2690-4.2.2-06",
       "title": "Restoring data from backups",
       "provision": "Commission Implementing Regulation (EU) 2024/2690, Annex, point 4.2.2",
@@ -1698,8 +2292,76 @@
       "reason": "organisational requirement: needs audit, not automated checks"
     }
   ],
-  "multi_asset": false,
-  "assets": [],
-  "engagement": null,
+  "multi_asset": true,
+  "assets": [
+    {
+      "section": "web",
+      "name": "portal",
+      "product": null
+    },
+    {
+      "section": "ssh",
+      "name": "app-host",
+      "product": null
+    },
+    {
+      "section": "idp",
+      "name": "keycloak",
+      "product": "keycloak",
+      "label": "Keycloak",
+      "method": "OpenID configuration",
+      "detail": "issuer http://127.0.0.1:18081/realms/nordmsp"
+    },
+    {
+      "section": "logs",
+      "name": "loki",
+      "product": "loki",
+      "label": "Grafana Loki",
+      "method": "build-info endpoint (Loki 3.7.8)",
+      "detail": ""
+    },
+    {
+      "section": "logs",
+      "name": "elasticsearch",
+      "product": "elasticsearch",
+      "label": "Elasticsearch",
+      "method": "authentication error (security_exception)",
+      "detail": ""
+    },
+    {
+      "section": "backup",
+      "name": "restic",
+      "product": "restic",
+      "label": "restic",
+      "method": "restic 0.19.1 found in container nis2lab-backup-1",
+      "detail": ""
+    },
+    {
+      "section": "backup",
+      "name": "borg",
+      "product": "borg",
+      "label": "BorgBackup",
+      "method": "borg 1.4.4 found in container nis2lab-backup-borg-1",
+      "detail": ""
+    },
+    {
+      "section": "docker",
+      "name": "nis2lab",
+      "product": null
+    },
+    {
+      "section": "documents",
+      "name": "documents",
+      "product": null
+    }
+  ],
+  "engagement": {
+    "client": "NordMSP AS (fictional lab)",
+    "authorised_by": "Lab owner",
+    "authorised_on": "2026-09-01",
+    "valid_until": "2027-12-31",
+    "active_tests": true,
+    "notes": ""
+  },
   "narrative": null
 }

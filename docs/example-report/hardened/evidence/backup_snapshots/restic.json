@@ -1,0 +1,36 @@
+{
+  "_collected_at": "2026-09-26T01:32:49.521665+00:00",
+  "backup": {
+    "repository": "restic snapshots (docker exec nis2lab-backup-1)",
+    "sets": [
+      {
+        "encrypted": true,
+        "name": "nordmsp:/data",
+        "snapshots": [
+          {
+            "host": "nordmsp",
+            "name": "6d34234e",
+            "paths": [
+              "/data"
+            ],
+            "time": "2026-09-26T01:32:21.340426Z"
+          }
+        ]
+      }
+    ]
+  },
+  "product": "restic",
+  "raw": {
+    "snapshots": [
+      {
+        "hostname": "nordmsp",
+        "paths": [
+          "/data"
+        ],
+        "short_id": "6d34234e",
+        "time": "2026-09-26T01:32:21.340426241Z"
+      }
+    ],
+    "source": "restic snapshots (docker exec nis2lab-backup-1)"
+  }
+}

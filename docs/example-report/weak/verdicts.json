@@ -533,7 +533,7 @@
     "check_ids": [
       "CHK-LOG-001"
     ],
-    "reason": "failed: CHK-LOG-001"
+    "reason": "failed: CHK-LOG-001 on loki, CHK-LOG-001 on elasticsearch"
   },
   {
     "requirement_id": "REQ-CIR2690-3.2.5-02",
@@ -559,7 +559,7 @@
     "check_ids": [
       "CHK-BAK-001"
     ],
-    "reason": "failed: CHK-BAK-001"
+    "reason": "failed: CHK-BAK-001 on restic, CHK-BAK-001 on borg"
   },
   {
     "requirement_id": "REQ-CIR2690-4.2.1-02",
@@ -629,9 +629,11 @@
     "quote": "(d) appropriate physical and logical access controls to backup copies, in accordance with the asset classification level;",
     "testability": "technical",
     "review_status": "reviewed",
-    "verdict": "not_assessed",
-    "check_ids": [],
-    "reason": "no checks implemented yet"
+    "verdict": "not_satisfied",
+    "check_ids": [
+      "CHK-BAK-002"
+    ],
+    "reason": "failed: CHK-BAK-002 on borg"
   },
   {
     "requirement_id": "REQ-CIR2690-4.2.2-06",
@@ -940,7 +942,7 @@
       "CHK-DOC-002",
       "CHK-LOG-001"
     ],
-    "reason": "failed: CHK-DOC-002, CHK-LOG-001"
+    "reason": "failed: CHK-DOC-002, CHK-LOG-001 on loki, CHK-LOG-001 on elasticsearch"
   },
   {
     "requirement_id": "REQ-NIS2-21.2.C",
@@ -952,9 +954,10 @@
     "review_status": "reviewed",
     "verdict": "not_satisfied",
     "check_ids": [
-      "CHK-BAK-001"
+      "CHK-BAK-001",
+      "CHK-BAK-002"
     ],
-    "reason": "failed: CHK-BAK-001"
+    "reason": "failed: CHK-BAK-001 on restic, CHK-BAK-001 on borg, CHK-BAK-002 on borg"
   },
   {
     "requirement_id": "REQ-NIS2-21.2.D",

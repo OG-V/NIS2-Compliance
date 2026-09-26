@@ -629,9 +629,11 @@
     "quote": "(d) appropriate physical and logical access controls to backup copies, in accordance with the asset classification level;",
     "testability": "technical",
     "review_status": "reviewed",
-    "verdict": "not_assessed",
-    "check_ids": [],
-    "reason": "no checks implemented yet"
+    "verdict": "partially_evidenced",
+    "check_ids": [
+      "CHK-BAK-002"
+    ],
+    "reason": "all checks passed, but together they cover only part of the requirement"
   },
   {
     "requirement_id": "REQ-CIR2690-4.2.2-06",
@@ -952,7 +954,8 @@
     "review_status": "reviewed",
     "verdict": "partially_evidenced",
     "check_ids": [
-      "CHK-BAK-001"
+      "CHK-BAK-001",
+      "CHK-BAK-002"
     ],
     "reason": "all checks passed, but together they cover only part of the requirement"
   },

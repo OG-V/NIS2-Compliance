@@ -1,23 +1,23 @@
 {
   "target": "nordmsp-lab",
-  "before_started_at": "2026-09-25T00:36:23.166005+00:00",
-  "after_started_at": "2026-09-25T01:04:47.891787+00:00",
+  "before_started_at": "2026-09-26T01:31:57.863818+00:00",
+  "after_started_at": "2026-09-26T01:32:48.747857+00:00",
   "before_verdicts": {
     "evidenced": 0,
     "partially_evidenced": 0,
-    "not_satisfied": 20,
-    "not_assessed": 65
+    "not_satisfied": 21,
+    "not_assessed": 64
   },
   "after_verdicts": {
     "evidenced": 0,
-    "partially_evidenced": 20,
+    "partially_evidenced": 21,
     "not_satisfied": 0,
-    "not_assessed": 65
+    "not_assessed": 64
   },
   "before_severities": {
     "critical": 1,
-    "high": 6,
-    "medium": 7,
+    "high": 7,
+    "medium": 9,
     "low": 2
   },
   "after_severities": {
@@ -26,12 +26,12 @@
     "medium": 0,
     "low": 0
   },
-  "before_failing": 16,
-  "multi_asset": false,
+  "before_failing": 19,
+  "multi_asset": true,
   "fixed": [
     {
       "check_id": "CHK-IDP-004",
-      "asset": null,
+      "asset": "keycloak",
       "title": "Default admin credentials are rejected",
       "severity": "critical",
       "action": "Change the default admin password",
@@ -44,7 +44,7 @@
     },
     {
       "check_id": "CHK-BAK-001",
-      "asset": null,
+      "asset": "borg",
       "title": "A recent backup snapshot exists",
       "severity": "high",
       "action": "Restart automatic backups",
@@ -52,12 +52,25 @@
       "topic": "Business continuity and backups",
       "before": "fail",
       "after": "pass",
-      "before_text": "The newest backup was taken on 1 June 2025, 480 days ago.",
+      "before_text": "The newest backup was taken on 15 March 2025, 559 days ago.",
+      "after_text": "Newest backup is within the allowed age"
+    },
+    {
+      "check_id": "CHK-BAK-001",
+      "asset": "restic",
+      "title": "A recent backup snapshot exists",
+      "severity": "high",
+      "action": "Restart automatic backups",
+      "effort": "change",
+      "topic": "Business continuity and backups",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "The newest backup was taken on 1 June 2025, 481 days ago.",
       "after_text": "Newest backup is within the allowed age"
     },
     {
       "check_id": "CHK-IDP-001",
-      "asset": null,
+      "asset": "keycloak",
       "title": "Every staff account has MFA enrolled or is forced to enrol",
       "severity": "high",
       "action": "Turn on two-factor login for every account",
@@ -66,11 +79,11 @@
       "before": "fail",
       "after": "pass",
       "before_text": "Accounts that log in with a password alone: kari.admin and ola.tech. New accounts are not asked to set up two-factor login.",
-      "after_text": "All 2 accounts have or must enrol OTP"
+      "after_text": "All 2 accounts have or must enrol MFA"
     },
     {
       "check_id": "CHK-SSH-001",
-      "asset": null,
+      "asset": "app-host",
       "title": "SSH does not offer password authentication",
       "severity": "high",
       "action": "Allow only key-based server logins, not passwords",
@@ -83,7 +96,7 @@
     },
     {
       "check_id": "CHK-SSH-002",
-      "asset": null,
+      "asset": "app-host",
       "title": "Direct root login over SSH is disabled",
       "severity": "high",
       "action": "Stop direct administrator (root) logins to the server",
@@ -96,7 +109,7 @@
     },
     {
       "check_id": "CHK-TLS-001",
-      "asset": null,
+      "asset": "portal",
       "title": "TLS versions below the profile minimum are refused",
       "severity": "high",
       "action": "Switch off outdated encryption versions on the website",
@@ -109,7 +122,7 @@
     },
     {
       "check_id": "CHK-VUL-001",
-      "asset": null,
+      "asset": "nis2lab",
       "title": "No unaccepted, fixable vulnerability at the failing severity in running images",
       "severity": "high",
       "action": "Update software that has known critical flaws",
@@ -117,12 +130,12 @@
       "topic": "Secure development and vulnerability handling",
       "before": "fail",
       "after": "pass",
-      "before_text": "26 known critical flaws with an available fix, in 4 components: grafana/loki:3.5.1 (2), nginx:1.20 (17), nis2lab-backup (3) and quay.io/keycloak/keycloak:26.3 (4). nginx:1.20 runs on an operating system that no longer gets updates.",
-      "after_text": "No unaccepted fixable CRITICAL vulnerabilities, 2 covered by accepted risk exceptions"
+      "before_text": "30 known critical flaws with an available fix, in 5 components: elasticsearch:8.19.10 (3), grafana/loki:3.5.1 (2), nginx:1.20 (17), nis2lab-backup (3) and quay.io/keycloak/keycloak:26.3 (5). nginx:1.20 runs on an operating system that no longer gets updates.",
+      "after_text": "No unaccepted fixable CRITICAL vulnerabilities, 3 covered by accepted risk exceptions"
     },
     {
       "check_id": "CHK-AST-001",
-      "asset": null,
+      "asset": "documents",
       "title": "Every running service is in the asset inventory",
       "severity": "medium",
       "action": "Add every running service to the asset inventory",
@@ -130,12 +143,25 @@
       "topic": "Access control and asset management",
       "before": "fail",
       "after": "pass",
-      "before_text": "Running but missing from the asset inventory: backup, legacy-web and logs.",
-      "after_text": "All 5 running services are inventoried"
+      "before_text": "Running but missing from the asset inventory: backup, backup-borg, legacy-web, logs and search.",
+      "after_text": "All 7 running services are inventoried"
+    },
+    {
+      "check_id": "CHK-BAK-002",
+      "asset": "borg",
+      "title": "Backup copies are encrypted",
+      "severity": "medium",
+      "action": "Encrypt the backups",
+      "effort": "change",
+      "topic": "Business continuity and backups",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "The backups are stored without encryption.",
+      "after_text": "The backups are encrypted"
     },
     {
       "check_id": "CHK-DOC-001",
-      "asset": null,
+      "asset": "documents",
       "title": "Incident response plan covers the NIS2 reporting stages",
       "severity": "medium",
       "action": "Add the NIS2 reporting deadlines and the CSIRT contact to the incident plan",
@@ -148,7 +174,7 @@
     },
     {
       "check_id": "CHK-IDP-002",
-      "asset": null,
+      "asset": "keycloak",
       "title": "Accounts are locked after repeated failed logins",
       "severity": "medium",
       "action": "Turn on protection against password guessing",
@@ -157,11 +183,11 @@
       "before": "fail",
       "after": "pass",
       "before_text": "Nothing stops someone from guessing passwords over and over.",
-      "after_text": "Brute-force protection is on"
+      "after_text": "Accounts lock after 5 failed logins"
     },
     {
       "check_id": "CHK-IDP-003",
-      "asset": null,
+      "asset": "keycloak",
       "title": "Password policy enforces the profile's minimum length",
       "severity": "medium",
       "action": "Set a minimum password length",
@@ -174,7 +200,20 @@
     },
     {
       "check_id": "CHK-LOG-001",
-      "asset": null,
+      "asset": "elasticsearch",
+      "title": "Central logs are kept at least as long as the profile requires",
+      "severity": "medium",
+      "action": "Keep logs for as long as the policy requires",
+      "effort": "quick",
+      "topic": "Incident handling",
+      "before": "fail",
+      "after": "pass",
+      "before_text": "Logs are deleted after 7 days.",
+      "after_text": "Logs are kept for 180 days"
+    },
+    {
+      "check_id": "CHK-LOG-001",
+      "asset": "loki",
       "title": "Central logs are kept at least as long as the profile requires",
       "severity": "medium",
       "action": "Keep logs for as long as the policy requires",
@@ -187,7 +226,7 @@
     },
     {
       "check_id": "CHK-TLS-002",
-      "asset": null,
+      "asset": "portal",
       "title": "Certificate is valid and not about to expire",
       "severity": "medium",
       "action": "Renew the website's certificate",
@@ -200,7 +239,7 @@
     },
     {
       "check_id": "CHK-TLS-003",
-      "asset": null,
+      "asset": "portal",
       "title": "Plain HTTP redirects to HTTPS and HSTS is set",
       "severity": "medium",
       "action": "Send all website traffic over HTTPS",
@@ -213,7 +252,7 @@
     },
     {
       "check_id": "CHK-DOC-002",
-      "asset": null,
+      "asset": "documents",
       "title": "Incident response plan has been reviewed recently",
       "severity": "low",
       "action": "Review the incident response plan and record the review date",
@@ -221,12 +260,12 @@
       "topic": "Incident handling",
       "before": "fail",
       "after": "pass",
-      "before_text": "The incident plan was last reviewed on 14 February 2023, 1319 days ago.",
-      "after_text": "Plan was reviewed 24 days ago"
+      "before_text": "The incident plan was last reviewed on 14 February 2023, 1320 days ago.",
+      "after_text": "Plan was reviewed 25 days ago"
     },
     {
       "check_id": "CHK-SSH-003",
-      "asset": null,
+      "asset": "app-host",
       "title": "SSH limits authentication attempts per connection",
       "severity": "low",
       "action": "Limit login attempts per connection to the server",
@@ -241,7 +280,7 @@
   "still_open": [],
   "new": [],
   "unresolved": [],
-  "still_passing": 0,
+  "still_passing": 1,
   "measures": [
     {
       "point": "21(2)(a)",
@@ -267,7 +306,7 @@
       "icon": "backup",
       "before": "not_satisfied",
       "after": "partially_evidenced",
-      "before_not_satisfied": 1,
+      "before_not_satisfied": 2,
       "after_not_satisfied": 0
     },
     {

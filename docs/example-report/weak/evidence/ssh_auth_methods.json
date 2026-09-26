@@ -1,9 +1,0 @@
-{
-  "_collected_at": "2026-09-25T00:36:24.729691+00:00",
-  "auth_methods_offered": [
-    "password",
-    "publickey"
-  ],
-  "endpoint": "127.0.0.1:12222",
-  "server_version": "SSH-2.0-OpenSSH_10.0p2 Debian-7+deb13u4"
-}
