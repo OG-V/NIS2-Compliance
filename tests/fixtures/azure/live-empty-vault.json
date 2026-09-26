@@ -1,0 +1,12 @@
+{
+  "_source": "Recorded from a live Azure subscription on 2026-09-26 with the nis2scan Azure Backup adapter: one Recovery Services vault, nothing protected yet. Subscription ID replaced.",
+  "subscription": "00000000-0000-0000-0000-000000000002",
+  "vaults": [
+    {
+      "name": "rsv-nis2scan",
+      "location": "norwayeast",
+      "encryption": null,
+      "items": []
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "_source": "Built from the Azure REST API reference (Subscriptions - Get, Vaults - List By Subscription Id, Backup Protected Items - List). Not recorded from a live subscription.",
+  "subscription": {"subscriptionId": "00000000-0000-0000-0000-00000000aaaa", "displayName": "Contoso production", "state": "Enabled"},
+  "vaults": [
+    {"id": "/subscriptions/00000000-0000-0000-0000-00000000aaaa/resourceGroups/rg-backup/providers/Microsoft.RecoveryServices/vaults/rsv-prod", "name": "rsv-prod", "location": "norwayeast",
+     "properties": {"encryption": {"keyVaultProperties": {"keyUri": "https://kv.vault.azure.net/keys/k"}, "infrastructureEncryption": "Enabled"}}},
+    {"id": "/subscriptions/00000000-0000-0000-0000-00000000aaaa/resourceGroups/rg-backup/providers/Microsoft.RecoveryServices/vaults/rsv-files", "name": "rsv-files", "location": "norwayeast", "properties": {}}
+  ],
+  "items": {
+    "rsv-prod": [
+      {"name": "VM;iaasvmcontainerv2;rg-app;vm-app01", "properties": {"friendlyName": "vm-app01", "protectedItemType": "Microsoft.Compute/virtualMachines", "protectionState": "Protected", "lastBackupStatus": "Healthy", "lastBackupTime": "2026-09-26T00:31:12.4412345Z", "lastRecoveryPoint": "2026-09-26T00:31:16.7254218Z"}},
+      {"name": "VM;iaasvmcontainerv2;rg-app;vm-legacy", "properties": {"friendlyName": "vm-legacy", "protectedItemType": "Microsoft.Compute/virtualMachines", "protectionState": "ProtectionStopped", "lastBackupStatus": "Healthy", "lastBackupTime": "2025-11-02T00:30:00Z", "lastRecoveryPoint": "2025-11-02T00:30:05Z"}}
+    ],
+    "rsv-files": [
+      {"name": "AzureFileShare;share-docs", "properties": {"friendlyName": "share-docs", "protectedItemType": "AzureFileShareProtectedItem", "protectionState": "Protected", "lastBackupStatus": "Completed", "lastBackupTime": "2026-09-25T22:00:00Z"}},
+      {"name": "AzureFileShare;share-hr", "properties": {"friendlyName": "share-hr", "protectedItemType": "AzureFileShareProtectedItem", "protectionState": "Protected", "lastBackupStatus": "Failed", "lastBackupTime": "2026-09-25T22:00:00Z"}}
+    ]
+  }
+}

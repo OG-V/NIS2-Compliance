@@ -215,8 +215,13 @@ already configured with its repository, or on the scanning host with the reposit
 a password from the secrets (passed in the environment, never on the command line). Veeam
 is read through its REST API with a Backup Viewer account, trusting the server's own
 certificate when it is self-signed; there is no option to skip certificate checks.
+Cloud backups are read the same way: AWS Backup through the AWS CLI (verified on a live
+account with a DynamoDB backup) and Azure Backup through Azure Resource Manager with an
+Entra app registration holding Backup Reader (sign-in, permission and vault listing
+verified on a live subscription; protected items tested on documented responses only).
 A repository or server holds backup sets (restic: per host and paths; Veeam: per backup
-job). Every set must have a recent backup and be encrypted; the worst set decides.
+job; cloud: per protected resource). Every set must have a recent backup and be
+encrypted; the worst set decides.
 
 **Planned but not built:** checks that logs are actually shipped centrally and that
 authentication events are logged. The lab's Loki instance receives no logs, so only

@@ -41,7 +41,8 @@ from __future__ import annotations
 from typing import Any
 from urllib.parse import urlparse
 
-from nis2scan.adapters._http import HttpError, get_json, get_odata, request
+from nis2scan.adapters._azure import GRAPH_SCOPE, client_credentials_token
+from nis2scan.adapters._http import HttpError, get_json, get_odata
 from nis2scan.adapters.identity import IdentityAdapter, IdentityEvidence, IdentityUser, adapter
 from nis2scan.config import IdpTarget
 from nis2scan.registry import CollectorError
@@ -72,16 +73,9 @@ def method_type(method: dict) -> str:
 
 
 def _token(idp: IdpTarget, secret) -> str:
-    body, _ = request(
-        f"https://login.microsoftonline.com/{tenant_of(idp)}/oauth2/v2.0/token",
-        data={
-            "grant_type": "client_credentials",
-            "client_id": idp.client_id,
-            "client_secret": secret(idp.client_secret_env),
-            "scope": "https://graph.microsoft.com/.default",
-        },
+    return client_credentials_token(
+        tenant_of(idp), idp.client_id, secret(idp.client_secret_env), GRAPH_SCOPE
     )
-    return body["access_token"]
 
 
 def enforces_mfa_for_everyone(policy: dict) -> bool:

@@ -1,0 +1,17 @@
+{
+  "_source": "Recorded from a live AWS account on 2026-09-26 with the nis2scan AWS Backup adapter: an on-demand backup of a small DynamoDB table in the Default vault. Account ID replaced.",
+  "region": "eu-north-1",
+  "vaults": [
+    "Default"
+  ],
+  "recovery_points": [
+    {
+      "BackupVaultName": "Default",
+      "ResourceArn": "arn:aws:dynamodb:eu-north-1:111122223333:table/nis2scan-test",
+      "ResourceType": "DynamoDB",
+      "CreationDate": "2026-09-26T02:30:57.426000+02:00",
+      "Status": "COMPLETED",
+      "IsEncrypted": true
+    }
+  ]
+}

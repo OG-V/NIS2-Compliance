@@ -111,7 +111,9 @@ def backups_encrypted(ev: dict, profile: Profile, now: datetime):
     if unencrypted:
         what = "The backups are" if len(repo.sets) == 1 else f"{len(unencrypted)} backup set(s) are"
         return failed(f"{what} not encrypted", observed, expected)
-    if unknown or not repo.sets:
+    if not repo.sets:
+        return Result(CheckStatus.ERROR, "No backup sets were found", observed, expected)
+    if unknown:
         return Result(
             CheckStatus.ERROR,
             "The backup tool does not report whether the backups are encrypted",

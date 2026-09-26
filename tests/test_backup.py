@@ -119,7 +119,7 @@ def test_local_runs_need_the_tool_installed(monkeypatch):
 
 
 def test_a_backup_asset_needs_a_way_in():
-    with pytest.raises(ValueError, match="needs container, repository or url"):
+    with pytest.raises(ValueError, match="needs container, repository, url, region"):
         BackupTarget()
 
 

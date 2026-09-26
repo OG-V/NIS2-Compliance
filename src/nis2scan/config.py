@@ -105,15 +105,34 @@ class BackupTarget(Asset):
     username: str | None = None  # for a backup server's API
     ca_file: Path | None = None  # certificate to trust for a self-signed server
     api_version: str = "1.1-rev0"  # Veeam REST API version header (VBR 12.0 and later)
+    # AWS Backup: a region, and either a named AWS CLI profile or access keys in secrets.
+    region: str | None = None
+    aws_profile: str | None = None
+    access_key_id_env: str | None = None
+    secret_access_key_env: str | None = None
+    # Azure Backup: a subscription, read with an Entra app registration.
+    subscription: str | None = None
+    tenant: str | None = None
+    client_id: str | None = None
+    client_secret_env: str | None = None
 
     @model_validator(mode="after")
     def _one_way_in(self):
-        if not (self.container or self.repository or self.url):
-            raise ValueError("a backup asset needs container, repository or url")
+        if not (self.container or self.repository or self.url or self.region or self.subscription):
+            raise ValueError(
+                "a backup asset needs container, repository, url, region (AWS) "
+                "or subscription (Azure)"
+            )
         return self
 
     def _default_name(self) -> str:
-        return self.container or self.repository or urlparse(self.url).hostname or self.url
+        if self.url:
+            return urlparse(self.url).hostname or self.url
+        if self.region:
+            return f"aws-backup-{self.region}"
+        if self.subscription:
+            return f"azure-backup-{self.subscription[:8]}"
+        return self.container or self.repository
 
 
 class DockerTarget(Asset):
